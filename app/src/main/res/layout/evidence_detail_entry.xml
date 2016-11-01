@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="6dip" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:contentDescription="AppIcon"
+        android:src="@mipmap/icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/firstLine" />
+
+    <ImageView
+        android:id="@+id/statusIcon"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:contentDescription="StatusIcon"
+        android:src="@mipmap/icon_quest"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/detail"
+        android:layout_alignEnd="@+id/detail" />
+
+    <TextView
+        android:id="@+id/firstLine"
+        android:layout_width="fill_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toEndOf="@id/icon"
+        android:layout_toStartOf="@id/statusIcon"
+        android:gravity="center_vertical"
+        android:text="App Name and Vendor"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/detail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/loremIpsum"
+        android:textSize="12sp"
+        android:layout_below="@+id/icon"
+        android:layout_alignParentEnd="true"
+        android:ellipsize="end"
+        android:maxLines="10"
+        android:singleLine="false" />
+
+
+
+</RelativeLayout> 
