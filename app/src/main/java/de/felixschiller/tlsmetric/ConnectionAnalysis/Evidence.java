@@ -36,7 +36,7 @@
  */
 
 
-package de.felixschiller.tlsmetric.PacketProcessing;
+package de.felixschiller.tlsmetric.ConnectionAnalysis;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -63,8 +63,8 @@ import de.felixschiller.tlsmetric.Assistant.Const;
 import de.felixschiller.tlsmetric.Assistant.ContextSingleton;
 import de.felixschiller.tlsmetric.Assistant.ExecuteCommand;
 import de.felixschiller.tlsmetric.Assistant.ToolBox;
-import de.felixschiller.tlsmetric.PacketProcessing.Filter.Empty;
-import de.felixschiller.tlsmetric.PacketProcessing.Filter.Filter;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Filter.Empty;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Filter.Filter;
 import de.felixschiller.tlsmetric.R;
 
 /**

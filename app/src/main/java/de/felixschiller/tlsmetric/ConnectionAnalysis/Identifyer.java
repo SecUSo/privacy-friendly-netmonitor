@@ -35,7 +35,7 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.PacketProcessing;
+package de.felixschiller.tlsmetric.ConnectionAnalysis;
 
 import android.util.Log;
 
@@ -46,9 +46,9 @@ import java.util.Deque;
 import de.felixschiller.tlsmetric.Assistant.Const;
 import de.felixschiller.tlsmetric.Assistant.ContextSingleton;
 import de.felixschiller.tlsmetric.Assistant.ToolBox;
-import de.felixschiller.tlsmetric.PacketProcessing.Filter.Filter;
-import de.felixschiller.tlsmetric.PacketProcessing.Filter.Http;
-import de.felixschiller.tlsmetric.PacketProcessing.Filter.Tls;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Filter.Filter;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Filter.Http;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Filter.Tls;
 import de.felixschiller.tlsmetric.R;
 
 

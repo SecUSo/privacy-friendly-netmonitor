@@ -46,8 +46,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
-import de.felixschiller.tlsmetric.PacketProcessing.AnalyserService;
-
 /**
  * All the litte helpers, used by more than one layer
  */

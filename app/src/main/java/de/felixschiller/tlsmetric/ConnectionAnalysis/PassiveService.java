@@ -35,7 +35,7 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.PacketProcessing;
+package de.felixschiller.tlsmetric.ConnectionAnalysis;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -51,39 +51,22 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.voytechs.jnetstream.codec.Decoder;
-import com.voytechs.jnetstream.codec.Packet;
-import com.voytechs.jnetstream.io.EOPacketStream;
-import com.voytechs.jnetstream.io.RawformatInputStream;
-import com.voytechs.jnetstream.io.StreamFormatException;
-import com.voytechs.jnetstream.npl.SyntaxError;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import de.felixschiller.tlsmetric.Activities.EvidenceActivity;
 import de.felixschiller.tlsmetric.Activities.MainActivity;
 import de.felixschiller.tlsmetric.Assistant.Const;
-import de.felixschiller.tlsmetric.Assistant.ContextSingleton;
 import de.felixschiller.tlsmetric.R;
-import de.felixschiller.tlsmetric.DumpHandler.DumpHandler;
 
 
 /**
- * Packet Analyzer Service. Working with VPN- or Dump-core, set by boolean.
+ * Connection Analyzer Service. Identifies active connections on the device and invokes data
+ * gatheriung and report compilation off available information.
  *
- * Each packet captured by a dump-core is checked for protocol filters.
  */
-public class AnalyserService extends Service {
+public class PassiveService extends Service {
 
     public static boolean mInterrupt;
     private Thread mThread;
-    private RawformatInputStream mRawIn;
-    private Decoder mDecoder;
-    private File mDumpFile;
-    private long mBufferPosition;
-    private boolean mIsFileEmpty;
     private boolean isVpn;
     private Evidence mEvidence = new Evidence();
 
@@ -104,17 +87,13 @@ public class AnalyserService extends Service {
     public void onCreate() {
         mInterrupt = false;
         isVpn = false;
-        mBufferPosition = 0;
         mNotificationCount = 0;
         loadNotificationBitmaps();
 
         showAppNotification();
 
-        if(!isVpn){
-            mDumpFile = new File(ContextSingleton.getContext().getFilesDir() + File.separator + Const.FILE_DUMP);
-            initDecoderWithDumpfile();
-        } else {
-            //VPN branch : Init mDecoder set to CloneBuffer
+        if(isVpn){
+            //VPN branch : Not implemented yet
             Log.i(Const.LOG_TAG,"VPN core not yet implemented");
         }
     }
@@ -138,27 +117,17 @@ public class AnalyserService extends Service {
             mThread.interrupt();
         }
 
-        //Analyzer working thread
+        //Connection analyzer working thread
         mThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Packet packet;
                     while (!mInterrupt) {
-                        packet = dumpNext();
-                        if(packet != null){
-                            if(mEvidence.processPacket(packet)){
-                                checkForNotifications();
-                            }
-                            Thread.sleep(50);
-                        } else {
-                            Thread.sleep(1000);
-                            if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Reinitialize dumpfile");
-                            initDecoderWithDumpfile();
-                        }
+
+                        //TODO: Check for Changes else sleep 500ms
                         checkForNotifications();
                     }
-                } catch (SyntaxError | IOException | InterruptedException e) {
+                } catch (Error e) {
                     e.printStackTrace();
                 }
                 if(mInterrupt)mThread.interrupt();
@@ -174,7 +143,7 @@ public class AnalyserService extends Service {
     @Override
     public void onDestroy() {
         showNoNotification();
-        DumpHandler.deleteDumpFile();
+        //TODO: Stop whatever service is doing
         Toast.makeText(this, "TLSMetric service stopped", Toast.LENGTH_SHORT).show();
     }
 
@@ -187,57 +156,8 @@ public class AnalyserService extends Service {
     * Returns the dumped Packet or null. Null means no packet is availiable and thread will sleep.
     * If the dumpfile is empty a new initialization attempt will be made.
     */
-    private Packet dumpNext() throws IOException, SyntaxError {
 
-        if (!isVpn && !mIsFileEmpty) {
-            try {
-                return mDecoder.nextPacket();
-            } catch (StreamFormatException e) {
-                if (Const.IS_DEBUG)
-                    Log.d(Const.LOG_TAG, "No complete Packet in file, taking a little break...");
-                e.printStackTrace();
-                return null;
-            }
-        } else if (mIsFileEmpty) {
-            //if (Const.IS_DEBUG) Log.d(Const.LOG_TAG, "File is Empty. Reinitialize.");
-            initDecoderWithDumpfile();
-            return null;
-        } else if (isVpn) {
-            // VPN branch - read from CloneBuffer
-            Log.i(Const.LOG_TAG,"VPN core not yet implemented");
-            return null;
-        }
-        return null;
-    }
 
-    //File empty?
-    private void checkEmptyFile(File file) {
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            int b = fis.read();
-            mIsFileEmpty = b == -1;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Fill decoder of the framework
-    private void initDecoderWithDumpfile() {
-        try {
-            if (mDumpFile.exists()) {
-                checkEmptyFile(mDumpFile);
-                if(!mIsFileEmpty) {
-                    mRawIn = new RawformatInputStream(mDumpFile.getAbsolutePath());
-                    mRawIn.skip(mBufferPosition);
-                    mDecoder = new Decoder(mRawIn);
-                }
-            } else{
-                Log.e(Const.LOG_TAG, "Could not find raw Dump file " + mDumpFile.getAbsolutePath());
-            }
-        } catch (IOException | SyntaxError | EOPacketStream | StreamFormatException e) {
-            e.printStackTrace();
-        }
-    }
     private void checkForNotifications(){
         if(Evidence.newWarnings != mNotificationCount) {
             mNotificationCount = Evidence.newWarnings;
@@ -317,8 +237,8 @@ public class AnalyserService extends Service {
 
     //For future IPC implementations
     public class AnalyzerBinder extends Binder {
-        AnalyserService getService() {
-            return AnalyserService.this;
+        PassiveService getService() {
+            return PassiveService.this;
         }
     }
 

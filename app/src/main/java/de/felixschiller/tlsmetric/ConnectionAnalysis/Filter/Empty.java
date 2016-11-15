@@ -35,27 +35,13 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.PacketProcessing.Filter;
+package de.felixschiller.tlsmetric.ConnectionAnalysis.Filter;
 
 /**
- * Protocol filter for all TLS versions. Can hold a message type identifier.
+ * Dummy protocol Filter.
  */
-public class Tls extends Filter {
-
-    public TlsProtocol mSubProtocol;
-    public int mVersion;
-
-    public Tls(Protocol protocol, int severity, String description, TlsProtocol subProtocol, int version) {
+public class Empty extends Filter{
+    public Empty(Protocol protocol, int severity, String description) {
         super(protocol, severity, description);
-        checkCypher = true;
-        mSubProtocol = subProtocol;
-        mVersion = version;
-    }
-
-    public enum TlsProtocol {
-        HANDSHAKE,
-        CHANGE_CYPHER,
-        ALERT,
-        APP_DATA
     }
 }

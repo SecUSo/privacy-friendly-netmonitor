@@ -60,9 +60,9 @@ import java.util.ArrayList;
 
 import de.felixschiller.tlsmetric.Assistant.Const;
 import de.felixschiller.tlsmetric.Assistant.ContextSingleton;
-import de.felixschiller.tlsmetric.PacketProcessing.Report;
-import de.felixschiller.tlsmetric.PacketProcessing.Evidence;
-import de.felixschiller.tlsmetric.PacketProcessing.PackageInformation;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Report;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Evidence;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.PackageInformation;
 import de.felixschiller.tlsmetric.R;
 
 /**
