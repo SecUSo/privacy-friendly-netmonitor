@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.felixschiller.tlsmetric" >
+    package="org.secuso.privacyfriendlytlsmetric" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -26,7 +26,7 @@
             android:parentActivityName=".Activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.felixschiller.tlsmetric.Activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
         </activity>
         <activity
             android:name=".Activities.EvidenceDetailActivity"
@@ -34,7 +34,7 @@
             android:parentActivityName=".Activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.felixschiller.tlsmetric.Activities.EvidenceActivity" />
+                android:value="org.secuso.privacyfriendlytlsmetric.Activities.EvidenceActivity" />
         </activity>
 
 <!--  Service is not in use in this implementation

@@ -74,7 +74,7 @@ public class EvidenceActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evidence);
+        setContentView(R.layout.activity_evidence.xml);
         ContextSingleton.setContext(this);
         Evidence.newWarnings = 0;
 
