@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "de.felixschiller.tlsmetric"
-        minSdkVersion 16
+        applicationId "org.secuso.privacyfriendlytlsmetric"
+        minSdkVersion 17
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "1.1 - PFE"
 
     }
 
@@ -31,12 +31,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
-    compile files('libs/RootTools.jar')
-    compile files('libs/JNetStream.jar')
-    compile files('libs/jnetpcap-1.0.jar')
-    compile files('libs/jnetstream-3.0a1.jar')
-    compile files('libs/JNetStreamProtocols.jar')
-    compile files('libs/commons-logging-1.1.1.jar')
-    compile files('libs/json_simple-1.1.jar')
-    compile files('libs/classes-dex2jar.jar')
 }
