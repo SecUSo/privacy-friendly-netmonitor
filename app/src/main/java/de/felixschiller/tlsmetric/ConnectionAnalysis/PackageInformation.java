@@ -35,33 +35,16 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.PacketProcessing.Filter;
+package de.felixschiller.tlsmetric.ConnectionAnalysis;
+
+import android.graphics.drawable.Drawable;
 
 /**
- * Interface for protocol filter
+ * Detail of an application
  */
-public abstract class Filter {
-    public Protocol protocol;
-    public int severity = 3;
-    public String description;
-    public boolean checkCypher;
-
-    public Filter(Protocol protocol, int severity, String description) {
-        this.protocol = protocol;
-        this.severity = severity;
-        this.description = description;
-    }
-
-    public enum Protocol {
-        UNKNOWN,
-        HTTP,
-        SSL1,
-        SSL2,
-        SSL3,
-        TLS10,
-        TLS11,
-        TLS12,
-
-    }
-
+public class PackageInformation {
+    public int pid;
+    public int uid;
+    public Drawable icon;
+    public String packageName;
 }

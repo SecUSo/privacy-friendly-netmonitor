@@ -3,7 +3,6 @@
     package="de.felixschiller.tlsmetric" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -38,18 +37,15 @@
                 android:value="de.felixschiller.tlsmetric.Activities.EvidenceActivity" />
         </activity>
 
-        <service
+<!--  Service is not in use in this implementation
+      <service
             android:name=".VpnCaptureService.VpnCaptureService"
             android:label=".VpnBypassService"
             android:permission="android.permission.BIND_VPN_SERVICE" >
             <intent-filter>
                 <action android:name="android.net.VpnService" />
             </intent-filter>
-        </service>
-        <service
-            android:name=".PacketProcessing.AnalyserService"
-            android:label="TLSMetricService" >
-        </service>
+        </service>-->
 
     </application>
 

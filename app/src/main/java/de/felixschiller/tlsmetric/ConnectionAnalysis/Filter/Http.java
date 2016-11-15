@@ -35,33 +35,15 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.PacketProcessing;
-
-
-import java.net.InetAddress;
-import java.sql.Timestamp;
-
-import de.felixschiller.tlsmetric.PacketProcessing.Filter.Filter;
+package de.felixschiller.tlsmetric.ConnectionAnalysis.Filter;
 
 /**
- * Evidence report
+ * HTTP protocol filter. Example for unencrypted traffic.
  */
-public class Report {
+public class Http extends Filter {
 
-    public InetAddress dstAddr;
-    public String url;
-    public int srcPort;
-    public int dstPort;
-    public Timestamp timestamp;
-
-    public int pid;
-    public int uid;
-
-    public Filter filter;
-
-    //Set current timestamp
-    public void touch(){
-        timestamp = new Timestamp(System.currentTimeMillis());
+    public Http(Protocol protocol, int severity, String description) {
+        super(protocol, severity, description);
+        checkCypher = false;
     }
-
 }

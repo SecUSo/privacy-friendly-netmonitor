@@ -35,13 +35,33 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.PacketProcessing.Filter;
+package de.felixschiller.tlsmetric.ConnectionAnalysis.Filter;
 
 /**
- * Dummy protocol Filter.
+ * Interface for protocol filter
  */
-public class Empty extends Filter{
-    public Empty(Protocol protocol, int severity, String description) {
-        super(protocol, severity, description);
+public abstract class Filter {
+    public Protocol protocol;
+    public int severity = 3;
+    public String description;
+    public boolean checkCypher;
+
+    public Filter(Protocol protocol, int severity, String description) {
+        this.protocol = protocol;
+        this.severity = severity;
+        this.description = description;
     }
+
+    public enum Protocol {
+        UNKNOWN,
+        HTTP,
+        SSL1,
+        SSL2,
+        SSL3,
+        TLS10,
+        TLS11,
+        TLS12,
+
+    }
+
 }

@@ -93,65 +93,6 @@ public class ExecuteCommand extends Thread {
         return res;
     }
 
-    //Execute a command as superuser. Test for su binary present required.
-    public static void sudo(String... strings) {
-
-        try {
-            Process su = Runtime.getRuntime().exec("su");
-            DataOutputStream outputStream = new DataOutputStream(su.getOutputStream());
-
-            for (String s : strings) {
-                if (Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Executing as SU: " + s);
-                outputStream.writeBytes(s + "\n");
-                outputStream.flush();
-            }
-
-            outputStream.writeBytes("exit\n");
-            outputStream.flush();
-            try {
-                su.waitFor();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //Execute a command as superuser and get the command output. Test for su binary present required.
-    public static String sudoForResult(String... strings) {
-        String res = "";
-        DataOutputStream outputStream = null;
-        InputStream response = null;
-        try {
-            Process su = Runtime.getRuntime().exec("su");
-
-            outputStream = new DataOutputStream(su.getOutputStream());
-            response = su.getInputStream();
-
-            for (String s : strings) {
-                if (Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Executing as SU: " + s);
-                outputStream.writeBytes(s + "\n");
-                outputStream.flush();
-            }
-
-            outputStream.writeBytes("exit\n");
-            outputStream.flush();
-            try {
-                su.waitFor();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            res = readFully(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            closeSilently(outputStream, response);
-        }
-        return res;
-    }
-
     //Read the command output and return an utf8 string.
     public static String readFully(InputStream is) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

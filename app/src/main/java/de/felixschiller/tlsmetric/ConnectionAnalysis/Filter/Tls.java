@@ -35,16 +35,27 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.PacketProcessing;
-
-import android.graphics.drawable.Drawable;
+package de.felixschiller.tlsmetric.ConnectionAnalysis.Filter;
 
 /**
- * Detail of an application
+ * Protocol filter for all TLS versions. Can hold a message type identifier.
  */
-public class PackageInformation {
-    public int pid;
-    public int uid;
-    public Drawable icon;
-    public String packageName;
+public class Tls extends Filter {
+
+    public TlsProtocol mSubProtocol;
+    public int mVersion;
+
+    public Tls(Protocol protocol, int severity, String description, TlsProtocol subProtocol, int version) {
+        super(protocol, severity, description);
+        checkCypher = true;
+        mSubProtocol = subProtocol;
+        mVersion = version;
+    }
+
+    public enum TlsProtocol {
+        HANDSHAKE,
+        CHANGE_CYPHER,
+        ALERT,
+        APP_DATA
+    }
 }

@@ -35,35 +35,33 @@
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
-package de.felixschiller.tlsmetric.DumpHandler;
+package de.felixschiller.tlsmetric.ConnectionAnalysis;
 
-import android.widget.Toast;
 
-import com.stericson.RootTools.RootTools;
+import java.net.InetAddress;
+import java.sql.Timestamp;
 
-import de.felixschiller.tlsmetric.Assistant.ContextSingleton;
+import de.felixschiller.tlsmetric.ConnectionAnalysis.Filter.Filter;
 
 /**
- * Checks for su and busybox dependecies. These apps are needed for root access based packet dumping.
- * Depreached, will be replaced by own methods to reduce framework load
+ * Evidence report
  */
-public class CheckDependencies {
+public class Report {
 
+    public InetAddress dstAddr;
+    public String url;
+    public int srcPort;
+    public int dstPort;
+    public Timestamp timestamp;
 
-    //Check for su and alert if not found on device
-    public static void checkSu(){
+    public int pid;
+    public int uid;
 
-        if (RootTools.isRootAvailable()) {
-            Toast toast = Toast.makeText(ContextSingleton.getActivity(), "Superuser is installed.", Toast.LENGTH_LONG);
-            toast.show();
-        } else {
-            Toast toast = Toast.makeText(ContextSingleton.getActivity(), "Superuser is NOT installed. \n" +
-                    "opening download screen", Toast.LENGTH_LONG);
-            toast.show();
-            //TODO: Remove RootTools API artefacts.
-            //RootTools.offerSuperUser(MainActivity.sActivity);
-        }
+    public Filter filter;
+
+    //Set current timestamp
+    public void touch(){
+        timestamp = new Timestamp(System.currentTimeMillis());
     }
-
 
 }
