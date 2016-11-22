@@ -51,6 +51,7 @@ import android.widget.Toast;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextSingleton;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 
@@ -69,10 +70,6 @@ public class MainActivity extends AppCompatActivity {
         //Fill the Singleton
         ContextSingleton.setContext(this);
 
-        //TODO: Change Sudo tests
-        // Test for Root Acces and Logging
-        CheckDependencies.checkSu();
-
         serviceIsRunning = ToolBox.isAnalyzerServiceRunning();
 
         final Button startStop = (Button) findViewById(R.id.startStop);
@@ -85,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
                     serviceIsRunning = true;
                     infoText.setText(R.string.info_starting);
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "begin start sequence.");
-                    DumpHandler.start();
+                    //TODO: change service start sequence
                     infoText.setText(R.string.info_waiting);
-                    DumpHandler.startAnalyzerService();
+                    //DumpHandler.startAnalyzerService();
                     infoText.setText(R.string.info_running);
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_on));
                     minimizeActivity();
@@ -96,8 +93,9 @@ public class MainActivity extends AppCompatActivity {
                     serviceIsRunning = false;
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "begin stop sequence.");
                     infoText.setText(R.string.info_stopping);
-                    DumpHandler.stopAnalyzerService();
-                    DumpHandler.stop();
+                    //TODO: change stop service sequence to non-root
+                    //DumpHandler.stopAnalyzerService();
+                    //DumpHandler.stop();
                     infoText.setText(R.string.info_handle);
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_off));
                 }
@@ -158,7 +156,8 @@ public class MainActivity extends AppCompatActivity {
     // Initiate VPN Capture Service
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            VpnCaptureService.start(this);
+            //TODO:start service
+            //PassiveService.start(this);
         }
     }
 

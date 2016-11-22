@@ -43,11 +43,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import com.voytechs.jnetstream.codec.Header;
-import com.voytechs.jnetstream.codec.Packet;
-import com.voytechs.jnetstream.primitive.address.Address;
-
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.BufferOverflowException;
@@ -118,6 +113,7 @@ public class Evidence {
         }
    }
 
+/*
     // Filter triggered? -> Generate Report
     public boolean processPacket(Packet pkt) {
         Filter filter = scanPacket(pkt);
@@ -131,6 +127,7 @@ public class Evidence {
         }
 
     }
+*/
 
     // Sort a Reports in the Lists
     private static void addEvidenceEntry(Report ann){
@@ -180,7 +177,7 @@ public class Evidence {
 
     //Scan a packet for TCP payload and initiate identification
     //TODO: Move alle detection methods in new module when new filter system is designed
-    private Filter scanPacket(Packet pkt) {
+/*    private Filter scanPacket(Packet pkt) {
 
         if (pkt.hasHeader("TCP") && pkt.hasDataHeader()) {
             byte[] b = pkt.getDataValue();
@@ -207,9 +204,9 @@ public class Evidence {
         } else {
             return null;
         }
-    }
+    }*/
 
-    // generate an evidence report.
+/*    // generate an evidence report.
     public static Report generateReport(Packet pkt, Filter filter) {
         Report ann = new Report();
         ann.filter = filter;
@@ -219,8 +216,8 @@ public class Evidence {
         ann.pid = getPidByPort(ann.srcPort);
         updatePackageInformationData(ann.pid, ann.uid);
         return ann;
-    }
-
+    }*/
+/*
     //Extract connection details from packet
     private static void fillConnectionData(Report ann, Packet pkt) {
         Header ipHeader;
@@ -263,7 +260,7 @@ public class Evidence {
             }
             if(ann.dstAddr != null)ann.url = ann.dstAddr.getHostName();
         }
-    }
+    }*/
 
     //Updates the PackageInformation hash map with new entries.
     private static void updatePackageInformationData(int pid, int uid) {

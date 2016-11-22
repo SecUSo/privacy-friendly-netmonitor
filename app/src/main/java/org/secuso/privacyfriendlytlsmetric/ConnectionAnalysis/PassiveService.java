@@ -108,6 +108,10 @@ public class PassiveService extends Service {
 
     }
 
+    public static void start(){
+        //TODO: well.. start it, right?
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
