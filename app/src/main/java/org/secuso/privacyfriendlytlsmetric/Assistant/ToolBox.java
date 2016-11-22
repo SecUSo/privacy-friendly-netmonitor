@@ -41,6 +41,8 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.util.Log;
 
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
+
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -129,7 +131,7 @@ public class ToolBox{
     public static boolean isAnalyzerServiceRunning() {
         ActivityManager manager = (ActivityManager)ContextSingleton.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (AnalyserService.class.getName().equals(service.service.getClassName())) {
+            if (PassiveService.class.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }
