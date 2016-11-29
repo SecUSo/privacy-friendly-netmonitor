@@ -58,7 +58,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextSingleton;
+import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PackageInformation;
@@ -73,7 +73,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evidence);
-        ContextSingleton.setContext(this);
+        ContextStorage.setContext(this);
 
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.evidence_toolbar);
@@ -112,7 +112,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
                 return true;
 
             case R.id.action_back:
-                    Intent intent = new Intent(ContextSingleton.getContext(), EvidenceActivity.class);
+                    Intent intent = new Intent(ContextStorage.getContext(), EvidenceActivity.class);
                     startActivity(intent);
                 return true;
 

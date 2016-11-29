@@ -129,7 +129,7 @@ public class ToolBox{
 
     //Test if service is active.
     public static boolean isAnalyzerServiceRunning() {
-        ActivityManager manager = (ActivityManager)ContextSingleton.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (PassiveService.class.getName().equals(service.service.getClassName())) {
                 return true;

@@ -58,6 +58,8 @@ import org.secuso.privacyfriendlytlsmetric.Activities.MainActivity;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.R;
 
+import static java.lang.Thread.sleep;
+
 
 /**
  * Connection Analyzer Service. Identifies active connections on the device and invokes data
@@ -71,7 +73,6 @@ public class PassiveService extends Service {
     private boolean isVpn;
     //private Evidence mEvidence = new Evidence();
     private final IBinder mBinder = new AnalyzerBinder();
-
 
     private int mNotificationCount;
     NotificationCompat.Builder mBuilder =
@@ -120,6 +121,7 @@ public class PassiveService extends Service {
 
     public static void start(){
         //TODO: well.. start it, right?
+        Log.d(Const.LOG_TAG, "start");
     }
 
     @Override
@@ -137,10 +139,9 @@ public class PassiveService extends Service {
             public void run() {
                 try {
                     while (!mInterrupt) {
-
                         //TODO: Check for Changes else sleep 500ms
                         Log.d(getString(R.string.app_name), "Service is running...");
-                        wait(500);
+                        sleep(500);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -158,7 +159,8 @@ public class PassiveService extends Service {
     @Override
     public void onDestroy() {
         showNoNotification();
-        //TODO: Stop whatever service is doing
+        //Stop the running service-thread
+        mInterrupt = true;
         Toast.makeText(this, "TLSMetric service stopped", Toast.LENGTH_SHORT).show();
     }
 

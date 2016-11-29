@@ -37,15 +37,11 @@
                 android:value="org.secuso.privacyfriendlytlsmetric.Activities.EvidenceActivity" />
         </activity>
 
-<!--  Service is not in use in this implementation
       <service
-            android:name=".VpnCaptureService.VpnCaptureService"
-            android:label=".VpnBypassService"
-            android:permission="android.permission.BIND_VPN_SERVICE" >
-            <intent-filter>
-                <action android:name="android.net.VpnService" />
-            </intent-filter>
-        </service>-->
+            android:name=".ConnectionAnalysis.PassiveService"
+            android:label=".TLSMetricPassiveService"
+            android:permission="android.permission.BIND_SERVICE" >
+        </service>
 
     </application>
 

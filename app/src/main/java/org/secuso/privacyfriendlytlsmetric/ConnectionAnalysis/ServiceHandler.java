@@ -17,11 +17,11 @@ import org.secuso.privacyfriendlytlsmetric.R;
 public class ServiceHandler {
 
     private PassiveService mPassiveService;
-    private boolean mIsBoundPassive;
+    public boolean mIsBoundPassive = false;
 
 
     //Passive service connection object
-    private ServiceConnection mPassiveServeiceConnection = new ServiceConnection() {
+    private ServiceConnection mPassiveServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been
             // established, giving us the service object we can use to
@@ -47,18 +47,21 @@ public class ServiceHandler {
     };
 
     //Bind the passive service to app  context
-    public void bindPassiveService() {
+    public void startPassiveService() {
         // Establish a connection with the service.
-        ContextStorage.getContext().bindService(new Intent(ContextStorage.getContext(),
-                PassiveService.class), mPassiveServeiceConnection, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent(ContextStorage.getContext(),
+                        PassiveService.class);
+        ContextStorage.getContext().bindService(intent, mPassiveServiceConnection, Context.BIND_AUTO_CREATE);
+        ContextStorage.getContext().startService(intent);
         mIsBoundPassive = true;
     }
 
     //Unbind the passive service to app  context
-    public void unbindPassiveService() {
+    public void stopPassiveService() {
         if (mIsBoundPassive) {
             // Detach our existing connection.
-            ContextStorage.getContext().unbindService(mPassiveServeiceConnection);
+            ContextStorage.getContext().stopService(new Intent(ContextStorage.getContext(), PassiveService.class));
+            ContextStorage.getContext().unbindService(mPassiveServiceConnection);
             mIsBoundPassive = false;
         }
     }

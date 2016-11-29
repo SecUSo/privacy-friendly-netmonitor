@@ -7,6 +7,11 @@
     <string name="info_waiting">Waiting for connection data</string>
     <string name="info_running">TLS Metric running</string>
     <string name="info_stopping">Stopping TLS Metric</string>
+    <string name="info_service_offline">TLS Metric service is not yet running</string>
+
+    <!-- Service Info Messages -->
+    <string name="passive_service_start">TLSMetric service has been started in passive mode.</string>
+    <string name="passive_service_stop">TLSMetric service has been stopped. Was in passive mode.</string>
 
     <!-- UI evidence text -->
     <string name="evidenceSecondLine">Severity:</string>
