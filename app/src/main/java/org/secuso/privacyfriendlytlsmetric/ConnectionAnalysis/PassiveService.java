@@ -71,7 +71,6 @@ public class PassiveService extends Service {
     public static boolean mInterrupt;
     private Thread mThread;
     private boolean isVpn;
-    //private Evidence mEvidence = new Evidence();
     private final IBinder mBinder = new AnalyzerBinder();
 
     private int mNotificationCount;
@@ -92,7 +91,6 @@ public class PassiveService extends Service {
             return PassiveService.this;
         }
     }
-
 
     @Override
     public void onCreate() {
@@ -115,14 +113,8 @@ public class PassiveService extends Service {
         mOk = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_ok);
         mWarnOrange = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_warn_orange);
         mWarnRed = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_warn_red);
-
-
     }
 
-    public static void start(){
-        //TODO: well.. start it, right?
-        Log.d(Const.LOG_TAG, "start");
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -139,9 +131,10 @@ public class PassiveService extends Service {
             public void run() {
                 try {
                     while (!mInterrupt) {
-                        //TODO: Check for Changes else sleep 500ms
+                        //TODO: Check for changes else sleep
+                        Detector.printParsedPorts();
                         Log.d(getString(R.string.app_name), "Service is running...");
-                        sleep(500);
+                        sleep(1000);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -170,7 +163,8 @@ public class PassiveService extends Service {
         return mBinder;
     }
 
-    private void checkForNotifications(){
+
+/*    private void checkForNotifications(){
         if(Evidence.newWarnings != mNotificationCount) {
             mNotificationCount = Evidence.newWarnings;
             if (mNotificationCount > 0) {
@@ -179,8 +173,7 @@ public class PassiveService extends Service {
                 showAppNotification();
             }
         }
-    }
-
+    }*/
     //BG notification. Standard Android version.
     private void showAppNotification(){
         mBuilder.setSmallIcon(R.mipmap.icon);
@@ -211,13 +204,13 @@ public class PassiveService extends Service {
     //Computes the need and severity of a notification.
     private void showWarningNotification(){
         //Set corresponding icon
-        if(Evidence.getMaxSeverity() > 2){
+        //if(Evidence.getMaxSeverity() > 2){
             mBuilder.setSmallIcon(R.mipmap.icon_warn_red);
             mBuilder.setLargeIcon(mWarnRed);
-        } else {
+        //} else {
             mBuilder.setSmallIcon(R.mipmap.icon_warn_orange);
             mBuilder.setLargeIcon(mWarnOrange);
-        }
+        //}
         mBuilder.setContentText(mNotificationCount + " new warnings encountered.");
 
         // Creates an explicit intent for an Activity in your app
