@@ -66,19 +66,14 @@ public class Evidence {
     public static ArrayList<Report> mEvidence;
     public static ArrayList<Report> mEvidenceDetail;
     public static HashMap<Integer, ArrayList<Report>> mEvidenceDetailMap;
-    public static HashMap<Integer, PackageInformation> mPacketInfoMap;
     public static int newWarnings;
 
-    //private Members
-    private static HashMap<Integer, Integer> mPortPidMap = new HashMap<>();
-    private static HashMap<Integer, Integer> mUidPidMap = new HashMap<>();
-    private static HashMap<Integer, Integer> mPortUidMap = new HashMap<>();
 
 
     public Evidence(){
         mEvidence = new ArrayList<>();
         mEvidenceDetailMap = new HashMap<>();
-        mPacketInfoMap = new HashMap<>();
+        //mPacketInfoMap = new HashMap<>();
         updateConnections();
         newWarnings = 0;
     }
@@ -87,10 +82,11 @@ public class Evidence {
     // Update currently active connection
     // TODO: UID/PID detection needs improvement. Unknown Apps exist
     public static void updateConnections(){
-        updatePortPidMap();
-        Set<Integer> ports = mPortPidMap.keySet();
+        //updatePortPidMap();
+        //Set<Integer> ports = mPortPidMap.keySet();
+        Set<Integer> ports = null;
             for(int i =0; i< mEvidence.size(); i++){
-                int con = mEvidence.get(i).srcPort;
+                int con = mEvidence.get(i).getLocalPort();
                 if (ports.contains(con)){
                     ports.remove(con);
                 }
@@ -99,11 +95,11 @@ public class Evidence {
             Report ann = new Report();
             ann.filter = new Empty(Filter.Protocol.UNKNOWN,-1,"SrcPort: " + port + "No data.");
             ann.touch();
-            ann.srcPort = port;
-            ann.pid = getPidByPort(port);
-            updatePackageInformationData(ann.pid, ann.uid);
+            ann.setLocalPort(port);
+            //ann.pid = getPidByPort(port);
+            //updatePackageInformationData(ann.pid, ann.uid);
             //TODO: parse url from /proc/net/tcp
-            ann.url = "unknown";
+            ann.setRemoteAddDec("unknown");
             addEvidenceEntry(ann);
         }
    }
@@ -131,10 +127,10 @@ public class Evidence {
 
         //Check and update existing connections with lesser filter severity (unknown (-1) or ok (0))
         for(int i =0; i< mEvidence.size(); i++){
-            if(mEvidence.get(i).srcPort == ann.srcPort){
+            if(mEvidence.get(i).getLocalPort() == ann.getLocalPort()){
                 updated = true;
                 if(mEvidence.get(i).filter.severity < ann.filter.severity){
-                    if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Replacing connection to " + ann.url + " in evidence list. Higher warning state.");
+                    if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Replacing connection to " + ann.getRemoteAdd() + " in evidence list. Higher warning state.");
                     mEvidence.set(i, ann);
                     //Set notification count +1
                     if(ann.filter.severity > 0){ newWarnings++;}
@@ -144,15 +140,15 @@ public class Evidence {
 
         //Add found filters if connection not yet exist
         if(!updated){
-            if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Adding connection " + ann.url + "to evidence list.");
+            if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Adding connection " + ann.getRemoteAdd() + "to evidence list.");
             mEvidence.add(ann);
             //Set notification count +1
             if(ann.filter.severity > 0){ newWarnings++;}
         }
 
         //Add found filters to detail list, if triggered filter not already exist.
-        if(mEvidenceDetailMap.containsKey(ann.srcPort)){
-            ArrayList<Report> detailList = mEvidenceDetailMap.get(ann.srcPort);
+        if(mEvidenceDetailMap.containsKey(ann.getLocalPort())){
+            ArrayList<Report> detailList = mEvidenceDetailMap.get(ann.getLocalPort());
             boolean hasFilter = false;
             for(Report exAnn : detailList){
                 if(exAnn.filter.getClass() == ann.filter.getClass()){
@@ -166,7 +162,7 @@ public class Evidence {
         } else {
             ArrayList<Report> newList = new ArrayList<>();
             newList.add(ann);
-            mEvidenceDetailMap.put(ann.srcPort, newList);
+            mEvidenceDetailMap.put(ann.getLocalPort(), newList);
         }
     }
 
@@ -257,158 +253,18 @@ public class Evidence {
         }
     }*/
 
-    //Updates the PackageInformation hash map with new entries.
-    private static void updatePackageInformationData(int pid, int uid) {
-        if (pid >= 0 && !mPacketInfoMap.containsKey(pid)){
-            PackageManager pm = ContextStorage.getContext().getPackageManager();
-            ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-            PackageInformation pi = generateDummy();
-            pi.pid = pid;
-            pi.uid = uid;
 
-            List<ActivityManager.RunningAppProcessInfo> pids = am.getRunningAppProcesses();
-            for (int i = 0; i < pids.size(); i++) {
-                ActivityManager.RunningAppProcessInfo info = pids.get(i);
-                if((info.pid == pid || info.uid == uid )&& !mPacketInfoMap.containsKey(pid)){
-                    try {
-                        String[] list = info.pkgList;
-                        if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Processing packet information of: " + list[0]);
-                        pi.packageName = list[0];
-                        pi.icon = pm.getApplicationIcon(pi.packageName);
-                        mPacketInfoMap.put(pid, pi);
-                        mPacketInfoMap.put(uid, pi);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        if(Const.IS_DEBUG)Log.e(Const.LOG_TAG, "Icon and/or package name not found. Using TLSMetric icon for unknown app.");
-                    }
-
-                }
-            }
-        }
-    }
 
     //Remove all reports of inactive connection
     public static void disposeInactiveEvidence(){
         for (int i = 0; i < mEvidence.size(); i++){
-            if(!Evidence.mPortUidMap.containsKey(mEvidence.get(i).srcPort)){
-                mEvidenceDetailMap.remove(mEvidence.get(i).srcPort);
-                mEvidence.remove(i);
-            }
+            //if(!Evidence.mPortUidMap.containsKey(mEvidence.get(i).srcPort)){
+            //   mEvidenceDetailMap.remove(mEvidence.get(i).srcPort);
+            //  mEvidence.remove(i);
+            //}
         }
     }
 
-    public static int getPidByPort(int port) {
-        if(!mPortPidMap.containsKey(port)){
-            updatePortPidMap();
-            if(mPortPidMap.containsKey(port)){
-                return mPortPidMap.get(port);
-            } else{
-                return -1;
-            }
-        } else {
-            return mPortPidMap.get(port);
-
-        }
-    }
-
-    public static int getUidByPort(int port) {
-        if(!mPortUidMap.containsKey(port)){
-            updatePortUidMap();
-            if(mPortUidMap.containsKey(port)){
-                return mPortUidMap.get(port);
-            } else{
-                return -1;
-            }
-        } else {
-            return mPortPidMap.get(port);
-
-        }
-    }
-
-    private static void updatePortUidMap(){
-        mPortUidMap = getPortMap();
-    }
-
-    //match pid and uid, accessiable by port
-    private static void updatePortPidMap() {
-        updateUidPidMap();
-        updatePortUidMap();
-        Set<Integer> ports = mPortUidMap.keySet();
-        for (int port :ports){
-            if(!mPortPidMap.containsKey(port) && mUidPidMap.containsKey(mPortUidMap.get(port))){
-                mPortPidMap.put(port, mUidPidMap.get(mPortUidMap.get(port)));
-                if(Const.IS_DEBUG)Log.d(Const.LOG_TAG,"mapping port to pid: " + port + " ->" + mUidPidMap.get(mPortUidMap.get(port)));
-            }
-        }
-    }
-
-    //match pids
-    public static void updateUidPidMap(){
-        ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> infos = am.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo info : infos) {
-            if(!mUidPidMap.containsKey(info.uid)){
-                mUidPidMap.put(info.uid, info.pid);
-                if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Adding uid/pid: " + info.uid + " -> " + info.pid);
-            }
-        }
-    }
-
-    //parse net output and scan for new conenctions, sort by port
-    public static HashMap<Integer, Integer> getPortMap() {
-        HashMap<Integer, Integer> result = new HashMap<>();
-        String commandTcp4 = "cat /proc/net/tcp";
-        String commandTcp6 = "cat /proc/net/tcp6";
-
-        parseNetOutput(ExecuteCommand.userForResult(commandTcp4), result);
-        parseNetOutput(ExecuteCommand.userForResult(commandTcp6), result);
-
-        return result;
-    }
-
-    //Parse output from /proc/net/tcp
-    public static void parseNetOutput(String readIn, HashMap<Integer, Integer> hashMap) {
-        String[] splitLines;
-        String[] splitTabs;
-
-        splitLines = readIn.split("\\n");
-        for (int i = 1; i < splitLines.length; i++) {
-            splitLines[i] = splitLines[i].trim();
-            while (splitLines[i].contains("  ")) {
-                splitLines[i] = splitLines[i].replace("  ", " ");
-            }
-            splitTabs = splitLines[i].split("\\s");
-            int pos = splitTabs[1].indexOf(":");
-            String port = splitTabs[1].substring(pos + 1, pos + 5);
-
-            ByteBuffer bb = ByteBuffer.allocate(4);
-            bb.position(2);
-            bb.put(ToolBox.hexStringToByteArray(port));
-            bb.position(0);
-            int srcPort = bb.getInt();
-            int uid = Integer.parseInt(splitTabs[7]);
-            hashMap.put(srcPort, uid);
-            if (Const.IS_DEBUG)Log.d(Const.LOG_TAG,"port to uid:" + srcPort + " -> " + uid);
-        }
-    }
-
-    // request PacketInformation
-    public static PackageInformation getPackageInformation(int pid,int uid) {
-        if(mPacketInfoMap.containsKey(pid)){
-            return mPacketInfoMap.get(pid);
-        } else if(mPacketInfoMap.containsKey(uid)) {
-            return mPacketInfoMap.get(uid);
-        }else {
-            updatePackageInformationData(pid, uid);
-            if(mPacketInfoMap.containsKey(pid)){
-                return mPacketInfoMap.get(pid);
-            } else if(mPacketInfoMap.containsKey(uid)) {
-                return mPacketInfoMap.get(uid);
-            }else {
-                return generateDummy();
-            }
-        }
-
-    }
 
     //Just a BubbleSort - order ArrayList<Report> in place by by severity, DESC
     private static void sortAnnList(ArrayList<Report> annList){
@@ -439,15 +295,7 @@ public class Evidence {
         mEvidenceDetail = mEvidenceDetailMap.get(key);
     }
 
-    //No UID/PID match? Go dummy!
-    private static PackageInformation generateDummy() {
-        PackageInformation pi = new PackageInformation();
-        pi.icon = ContextStorage.getContext().getResources().getDrawable(R.mipmap.unknown_app);
-        pi.packageName = "Unknown App";
-        pi.pid = -1;
-        pi.uid = -1;
-        return pi;
-    }
+
 
     // Get highest severity level in list
     public static int getMaxSeverity(){
