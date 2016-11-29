@@ -43,6 +43,7 @@ import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
@@ -60,7 +61,7 @@ import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
  * Connection Analyzer Service. Identifies active connections on the device and invokes data
- * gatheriung and report compilation off available information.
+ * gathering and report compilation procedures.
  *
  */
 public class PassiveService extends Service {
@@ -68,7 +69,9 @@ public class PassiveService extends Service {
     public static boolean mInterrupt;
     private Thread mThread;
     private boolean isVpn;
-    private Evidence mEvidence = new Evidence();
+    //private Evidence mEvidence = new Evidence();
+    private final IBinder mBinder = new AnalyzerBinder();
+
 
     private int mNotificationCount;
     NotificationCompat.Builder mBuilder =
@@ -81,6 +84,13 @@ public class PassiveService extends Service {
     private Bitmap mOk;
     private Bitmap mWarnOrange;
     private Bitmap mWarnRed;
+
+    //Class for Binders IPC connection
+    public class AnalyzerBinder extends Binder {
+        PassiveService getService() {
+            return PassiveService.this;
+        }
+    }
 
 
     @Override
@@ -129,9 +139,10 @@ public class PassiveService extends Service {
                     while (!mInterrupt) {
 
                         //TODO: Check for Changes else sleep 500ms
-                        checkForNotifications();
+                        Log.d(getString(R.string.app_name), "Service is running...");
+                        wait(500);
                     }
-                } catch (Error e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 if(mInterrupt)mThread.interrupt();
@@ -151,16 +162,11 @@ public class PassiveService extends Service {
         Toast.makeText(this, "TLSMetric service stopped", Toast.LENGTH_SHORT).show();
     }
 
+
     @Override
     public IBinder onBind(Intent intent) {
-        return new AnalyzerBinder();
+        return mBinder;
     }
-
-    /*
-    * Returns the dumped Packet or null. Null means no packet is availiable and thread will sleep.
-    * If the dumpfile is empty a new initialization attempt will be made.
-    */
-
 
     private void checkForNotifications(){
         if(Evidence.newWarnings != mNotificationCount) {
@@ -239,12 +245,7 @@ public class PassiveService extends Service {
         mNotificationManager.cancelAll();
     }
 
-    //For future IPC implementations
-    public class AnalyzerBinder extends Binder {
-        PassiveService getService() {
-            return PassiveService.this;
-        }
-    }
+
 
 
 }
