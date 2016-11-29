@@ -43,19 +43,14 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.BufferOverflowException;
-import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextSingleton;
+import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ExecuteCommand;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Empty;
@@ -265,8 +260,8 @@ public class Evidence {
     //Updates the PackageInformation hash map with new entries.
     private static void updatePackageInformationData(int pid, int uid) {
         if (pid >= 0 && !mPacketInfoMap.containsKey(pid)){
-            PackageManager pm = ContextSingleton.getContext().getPackageManager();
-            ActivityManager am = (ActivityManager) ContextSingleton.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+            PackageManager pm = ContextStorage.getContext().getPackageManager();
+            ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
             PackageInformation pi = generateDummy();
             pi.pid = pid;
             pi.uid = uid;
@@ -348,7 +343,7 @@ public class Evidence {
 
     //match pids
     public static void updateUidPidMap(){
-        ActivityManager am = (ActivityManager) ContextSingleton.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> infos = am.getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo info : infos) {
             if(!mUidPidMap.containsKey(info.uid)){
@@ -447,7 +442,7 @@ public class Evidence {
     //No UID/PID match? Go dummy!
     private static PackageInformation generateDummy() {
         PackageInformation pi = new PackageInformation();
-        pi.icon = ContextSingleton.getContext().getResources().getDrawable(R.mipmap.unknown_app);
+        pi.icon = ContextStorage.getContext().getResources().getDrawable(R.mipmap.unknown_app);
         pi.packageName = "Unknown App";
         pi.pid = -1;
         pi.uid = -1;

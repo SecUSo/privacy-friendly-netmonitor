@@ -41,13 +41,16 @@ package org.secuso.privacyfriendlytlsmetric.Assistant;
 import android.app.Activity;
 import android.content.Context;
 
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.ServiceHandler;
+
 /**
- * Singleton which holds the context of the current/last activity.
+ * Singleton-Like implementation which holds App-Context information and ServiceHandlers
  */
 
-public class ContextSingleton {
+public class ContextStorage {
 
         private static Activity gContext;
+        private static ServiceHandler gService;
 
         public static void setContext( Activity activity) {
             gContext = activity;
@@ -59,5 +62,12 @@ public class ContextSingleton {
 
         public static Context getContext() {
             return gContext;
+        }
+
+        public static ServiceHandler getServiceHandler() {
+            if (gService == null) {
+            gService = new ServiceHandler();
+            }
+            return gService;
         }
 }

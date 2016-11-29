@@ -59,7 +59,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextSingleton;
+import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PackageInformation;
@@ -75,7 +75,7 @@ public class EvidenceActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evidence);
-        ContextSingleton.setContext(this);
+        ContextStorage.setContext(this);
         Evidence.newWarnings = 0;
 
         //Toolbar
@@ -109,10 +109,10 @@ public class EvidenceActivity extends AppCompatActivity{
                             public void run() {
                                 if (ann.filter.severity != -1) {
                                     Evidence.setSortedEvidenceDetail(ann.srcPort);
-                                    Intent intent = new Intent(ContextSingleton.getContext(), EvidenceDetailActivity.class);
+                                    Intent intent = new Intent(ContextStorage.getContext(), EvidenceDetailActivity.class);
                                     startActivity(intent);
                                 } else {
-                                    Toast toast = Toast.makeText(ContextSingleton.getContext(), "No detail availiable for this connection", Toast.LENGTH_LONG);
+                                    Toast toast = Toast.makeText(ContextStorage.getContext(), "No detail availiable for this connection", Toast.LENGTH_LONG);
                                     toast.show();
                                 }
                             }
@@ -137,7 +137,7 @@ public class EvidenceActivity extends AppCompatActivity{
                 return true;
 
             case R.id.action_back:
-                Intent intent = new Intent(ContextSingleton.getContext(), MainActivity.class);
+                Intent intent = new Intent(ContextStorage.getContext(), MainActivity.class);
                 startActivity(intent);
                 return true;
 
@@ -145,7 +145,7 @@ public class EvidenceActivity extends AppCompatActivity{
                 Evidence.disposeInactiveEvidence();
                 Evidence.updateConnections();
                 ListView listview = (ListView) findViewById(android.R.id.list);
-                EvidenceAdapter adapter = new EvidenceAdapter(ContextSingleton.getContext(),
+                EvidenceAdapter adapter = new EvidenceAdapter(ContextStorage.getContext(),
                         copyArrayList(Evidence.getSortedEvidence()));
                 listview.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

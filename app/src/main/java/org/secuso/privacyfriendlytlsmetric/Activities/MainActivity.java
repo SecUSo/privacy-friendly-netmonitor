@@ -49,8 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextSingleton;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
+import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlytlsmetric.R;
 
@@ -60,43 +59,35 @@ import org.secuso.privacyfriendlytlsmetric.R;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private boolean serviceIsRunning;
+    private boolean mIsServiceBind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Fill the Singleton
-        ContextSingleton.setContext(this);
-
-        serviceIsRunning = ToolBox.isAnalyzerServiceRunning();
+        //Fill the ContextStore with activity, then init the Service Handler
+        ContextStorage.setContext(this);
+        mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
 
         final Button startStop = (Button) findViewById(R.id.startStop);
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TextView infoText = (TextView) findViewById(R.id.infoText);
-                if(!serviceIsRunning) {
+                if(!mIsServiceBind) {
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_working));
-                    serviceIsRunning = true;
-                    infoText.setText(R.string.info_starting);
-                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "begin start sequence.");
-                    //TODO: change service start sequence
-                    infoText.setText(R.string.info_waiting);
-                    //DumpHandler.startAnalyzerService();
-                    infoText.setText(R.string.info_running);
+                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Init service start.");
+                    ContextStorage.getServiceHandler().startPassiveService();
+                    mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_on));
-                    minimizeActivity();
+                    // TODO: Implement minimization later on.
+                    // minimizeActivity();
                 } else {
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_working));
-                    serviceIsRunning = false;
-                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "begin stop sequence.");
-                    infoText.setText(R.string.info_stopping);
-                    //TODO: change stop service sequence to non-root
-                    //DumpHandler.stopAnalyzerService();
-                    //DumpHandler.stop();
-                    infoText.setText(R.string.info_handle);
+                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Init service stop.");
+                    ContextStorage.getServiceHandler().stopPassiveService();
+                    mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_off));
                 }
             }
@@ -106,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
         gotoEvidence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(serviceIsRunning){
-                    Intent intent = new Intent(ContextSingleton.getContext(), EvidenceActivity.class);
+                if(mIsServiceBind){
+                    Intent intent = new Intent(ContextStorage.getContext(), EvidenceActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast toast = Toast.makeText(ContextSingleton.getContext(), "TLS Metric service is not yet running.", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(ContextStorage.getContext(), R.string.info_service_offline, Toast.LENGTH_LONG);
                     toast.show();
                 }
 
@@ -118,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        if(serviceIsRunning){
+        if(mIsServiceBind){
             startStop.setBackground(getResources().getDrawable(R.drawable.power_on));
         } else {
             startStop.setBackground(getResources().getDrawable(R.drawable.power_off));
@@ -143,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -153,13 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Initiate VPN Capture Service
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            //TODO:start service
-            //PassiveService.start(this);
-        }
-    }
 
     //Call this to minimize the activity
     private void minimizeActivity(){
