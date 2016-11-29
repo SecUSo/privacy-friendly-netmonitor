@@ -1,62 +1,37 @@
-/*
-    TLSMetric
-    - Copyright (2015, 2016) Felix Tsala Schiller
-
-    ###################################################################
-
-    This file is part of TLSMetric.
-
-    TLSMetric is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    TLSMetric is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with TLSMetric.  If not, see <http://www.gnu.org/licenses/>.
-
-    Diese Datei ist Teil von TLSMetric.
-
-    TLSMetric ist Freie Software: Sie können es unter den Bedingungen
-    der GNU General Public License, wie von der Free Software Foundation,
-    Version 3 der Lizenz oder (nach Ihrer Wahl) jeder späteren
-    veröffentlichten Version, weiterverbreiten und/oder modifizieren.
-
-    TLSMetric wird in der Hoffnung, dass es nützlich sein wird, aber
-    OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
-    Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
-    Siehe die GNU General Public License für weitere Details.
-
-    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
-    Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
- */
-
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
+import android.graphics.drawable.Drawable;
+
+import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Filter;
 
 import java.net.InetAddress;
 import java.sql.Timestamp;
 
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Filter;
-
 /**
- * Evidence report
+ * Information class for aquired connection data. Full report on available information from device.
  */
 public class Report {
 
-    public InetAddress dstAddr;
-    public String url;
-    public int srcPort;
-    public int dstPort;
+    private TLType type;
     public Timestamp timestamp;
 
-    public int pid;
-    public int uid;
+    private String localAddHex;
+    private String loaclAddDec;
+    private int localPort;
 
+    private String remoteAddHex;
+    private String remoteAddDec;
+    private InetAddress remoteAdd;
+    private int remotePort;
+
+    private int pid;
+    private int uid;
+
+    public Drawable icon;
+    private String packageName;
+
+    //Filters are not in use, yet
     public Filter filter;
 
     //Set current timestamp
@@ -64,4 +39,130 @@ public class Report {
         timestamp = new Timestamp(System.currentTimeMillis());
     }
 
+
+
+    // ------------------------
+    // Getters and setters here
+    // ------------------------
+    public Filter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getRemoteAddDec() {
+        return remoteAddDec;
+    }
+
+    public void setRemoteAddDec(String remoteAddDec) {
+        this.remoteAddDec = remoteAddDec;
+    }
+
+    public InetAddress getRemoteAdd() {
+        return remoteAdd;
+    }
+
+    public void setRemoteAdd(InetAddress remoteAdd) {
+        this.remoteAdd = remoteAdd;
+    }
+
+    public Drawable getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Drawable icon) {
+        this.icon = icon;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public TLType getType() {
+        return type;
+    }
+
+    public void setType(TLType type) {
+        this.type = type;
+    }
+
+    public String getLocalAddHex() {
+        return localAddHex;
+    }
+
+    public void setLocalAddHex(String localAddHex) {
+        this.localAddHex = localAddHex;
+    }
+
+    public String getLoaclAddDec() {
+        return loaclAddDec;
+    }
+
+    public void setLoaclAddDec(String loaclAddDec) {
+        this.loaclAddDec = loaclAddDec;
+    }
+
+    public int getLocalPort() {
+        return localPort;
+    }
+
+    public void setLocalPort(int localPort) {
+        this.localPort = localPort;
+    }
+
+    public String getRemoteAddHex() {
+        return remoteAddHex;
+    }
+
+    public void setRemoteAddHex(String remoteAddHex) {
+        this.remoteAddHex = remoteAddHex;
+    }
+
+    public String getRemoteAddDex() {
+        return remoteAddDec;
+    }
+
+    public void setRemoteAddDex(String remoteAddDex) {
+        this.remoteAddDec = remoteAddDex;
+    }
+
+    public int getRemotePort() {
+        return remotePort;
+    }
+
+    public void setRemotePort(int remotePort) {
+        this.remotePort = remotePort;
+    }
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 }
+
+
