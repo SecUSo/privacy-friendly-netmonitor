@@ -26,6 +26,66 @@ import java.util.Set;
 public class Detector {
 
     //private Members
+    private static HashMap<Integer, Report> sReportMap = new HashMap<>();
+
+    //Update the Report HashMap with current connections. Key = sourceport
+    //The int defines the update strategy:
+    // 0 = overwrite and append
+    // 1 = append
+    // 2 = detach old
+    public static void updateReportMap(int u){
+        LinkedList<Report> reportList = getCurrentConnections();
+
+        switch (u){
+            case 0:
+                for (Report r:reportList) {
+                    //Key = source-Port
+                    int key = r.getLocalPort();
+                    if(sReportMap.containsKey(key)){
+                        sReportMap.remove(key);
+                        sReportMap.put(key,r);
+                    } else{
+                        sReportMap.put(key,r);
+                    }
+                }
+                break;
+            case 1:
+                for (Report r:reportList) {
+                    //Key = source-Port
+                    int key = r.getLocalPort();
+                    if(!sReportMap.containsKey(key)){
+                        sReportMap.put(key,r);
+                    }
+                }
+                break;
+            case 2:
+                sReportMap = new HashMap<>();
+                for (Report r:reportList) {
+                    int key = r.getLocalPort();
+                    sReportMap.put(key,r);
+                }
+        }
+    }
+
+    public static LinkedList<Report> getCurrentConnections(){
+        LinkedList<Report> fullReportList = new LinkedList<Report>();
+
+        //Get commands for shell readin
+        String commandTcp = "cat /proc/net/tcp";
+        String commandTcp6 = "cat /proc/net/tcp6";
+        String commandUdp = "cat /proc/net/udp";
+        String commandUdp6 = "cat /proc/net/udp6";
+
+        //generate full report of all tcp/udp connections
+        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandTcp), TLType.tcp));
+        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandTcp6), TLType.tcp6));
+        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandUdp), TLType.udp));
+        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandUdp6), TLType.udp6));
+
+        return fullReportList;
+    }
+
+    //TODO: old implementation - remove at time
     private static HashMap<Integer, Integer> mPortPidMap = new HashMap<>();
     private static HashMap<Integer, Integer> mUidPidMap = new HashMap<>();
     private static HashMap<Integer, Integer> mPortUidMap = new HashMap<>();
@@ -39,15 +99,7 @@ public class Detector {
     //parse net output and scan for new conenctions, sort by port
     public static HashMap<Integer, Integer> getPortMap() {
         HashMap<Integer, Integer> result = new HashMap<>();
-        String commandTcp = "cat /proc/net/tcp";
-        String commandTcp6 = "cat /proc/net/tcp6";
-        String commandUdp = "cat /proc/net/udp";
-        String commandUdp6 = "cat /proc/net/udp6";
 
-        parseNetOutput(ExecuteCommand.userForResult(commandTcp), TLType.tcp);
-        parseNetOutput(ExecuteCommand.userForResult(commandTcp6), TLType.tcp6);
-        parseNetOutput(ExecuteCommand.userForResult(commandUdp), TLType.udp);
-        parseNetOutput(ExecuteCommand.userForResult(commandUdp6), TLType.udp6);
 
         return result;
     }
