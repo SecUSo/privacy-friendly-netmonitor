@@ -46,7 +46,12 @@ import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.nio.ByteBuffer;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * All the litte helpers, used by more than one layer
@@ -136,6 +141,89 @@ public class ToolBox{
             }
         }
         return false;
+    }
+
+
+    //Search for byte array in given byte array.
+    public static int searchByteArray(byte[] input, byte[] searchedFor) {
+        //convert byte[] to Byte[]
+        Byte[] searchedForB = new Byte[searchedFor.length];
+        for (int x = 0; x < searchedFor.length; x++) {
+            searchedForB[x] = searchedFor[x];
+        }
+
+        int idx = -1;
+        //search:
+        Deque<Byte> q = new ArrayDeque<>(input.length);
+        for (int i = 0; i < input.length; i++) {
+            if (q.size() == searchedForB.length) {
+                //here I can check
+                Byte[] cur = q.toArray(new Byte[]{});
+                if (Arrays.equals(cur, searchedForB)) {
+                    //found!
+                    idx = i - searchedForB.length;
+                    break;
+                } else {
+                    //not found
+                    q.pop();
+                    q.addLast(input[i]);
+                }
+            } else {
+                q.addLast(input[i]);
+            }
+        }
+        if (Const.IS_DEBUG && idx != -1)
+            Log.d(Const.LOG_TAG, ToolBox.printHexBinary(searchedFor) + " found at position " + idx);
+        return idx;
+    }
+    //Convert a Java long to a four byte array
+    public static byte[] longToFourBytes(long l){
+        ByteBuffer bb = ByteBuffer.allocate(8);
+        byte[] b = new byte[4];
+        bb.putLong(l);
+        bb.position(4);
+        bb.get(b);
+        return b;
+
+    }
+
+    //Convert a Java int to a two byte array
+    public static byte[] intToTwoBytes(int i){
+        ByteBuffer bb = ByteBuffer.allocate(4);
+        byte[] b = new byte[2];
+        bb.putInt(i);
+        bb.position(2);
+        bb.get(b);
+        return b;
+    }
+
+    //Convert four bytes to a Java Long
+    public static long fourBytesToLong(byte[] b){
+        ByteBuffer bb = ByteBuffer.allocate(8);
+        bb.position(4);
+        bb.put(b);
+        bb.position(0);
+        return bb.getLong();
+    }
+
+    //Convert two bytes to a Java int
+    public static int twoBytesToInt(byte[] b){
+        ByteBuffer bb = ByteBuffer.allocate(4);
+        bb.position(2);
+        bb.put(b);
+        bb.position(0);
+        return bb.getInt();
+    }
+
+    //Reverse the order in a Byte array
+    public static byte[] reverseByteArray(byte[] b){
+        byte[] b0 = new byte[b.length];
+        int j = 0;
+        for(int i=b.length-1; i >= 0; i--){
+            b0[j] = b[i];
+            j++;
+        }
+        return b0;
     }
 
 }

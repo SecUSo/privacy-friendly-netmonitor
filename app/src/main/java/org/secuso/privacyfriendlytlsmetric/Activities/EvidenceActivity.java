@@ -108,7 +108,7 @@ public class EvidenceActivity extends AppCompatActivity{
                             @Override
                             public void run() {
                                 if (ann.filter.severity != -1) {
-                                    Evidence.setSortedEvidenceDetail(ann.srcPort);
+                                    Evidence.setSortedEvidenceDetail(ann.getLocalPort());
                                     Intent intent = new Intent(ContextStorage.getContext(), EvidenceDetailActivity.class);
                                     startActivity(intent);
                                 } else {
@@ -173,11 +173,12 @@ public class EvidenceActivity extends AppCompatActivity{
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context
+         LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View rowView = inflater.inflate(R.layout.evidence_list_entry, parent, false);
-
+            //TODO: Implement IPC
+ /*
             //if unknown app (-1) try again to get pid by sourcePort;
             Report ann = anns[position];
             if(ann.pid == -1 && ann.uid == -1){
@@ -222,6 +223,8 @@ public class EvidenceActivity extends AppCompatActivity{
             TextView statusLine = (TextView) rowView.findViewById(R.id.statusLine);
             String status = "Level :" + severity;
             statusLine.setText(status);
+
+            */
             return rowView;
         }
 

@@ -40,7 +40,7 @@ package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 import android.graphics.drawable.Drawable;
 
 /**
- * Detail of an application
+ * Detail of an connection
  */
 public class PackageInformation {
     public int pid;

@@ -52,6 +52,7 @@ import java.util.Set;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ExecuteCommand;
+import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Empty;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Filter;
@@ -92,15 +93,16 @@ public class Evidence {
                 }
             }
         for (int port: ports) {
-            Report ann = new Report();
-            ann.filter = new Empty(Filter.Protocol.UNKNOWN,-1,"SrcPort: " + port + "No data.");
-            ann.touch();
-            ann.setLocalPort(port);
+            //Report ann = new Report();
+            //ann.filter = new Empty(Filter.Protocol.UNKNOWN,-1,"SrcPort: " + port + "No data.");
+            //ann.touch();
+            //ann.setLocalPort(port);
             //ann.pid = getPidByPort(port);
             //updatePackageInformationData(ann.pid, ann.uid);
             //TODO: parse url from /proc/net/tcp
-            ann.setRemoteAddDec("unknown");
-            addEvidenceEntry(ann);
+            //ann.setRe("unknown");
+            //ann.setRe("unknown");
+            //addEvidenceEntry(ann);
         }
    }
 
