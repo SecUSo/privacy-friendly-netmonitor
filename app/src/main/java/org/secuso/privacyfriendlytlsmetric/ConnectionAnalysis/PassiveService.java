@@ -62,7 +62,7 @@ import static java.lang.Thread.sleep;
 
 
 /**
- * Connection Analyzer Service. Identifies active connections on the device and invokes data
+ * Report Analyzer Service. Identifies active connections on the device and invokes data
  * gathering and report compilation procedures.
  *
  */
@@ -125,7 +125,7 @@ public class PassiveService extends Service {
             mThread.interrupt();
         }
 
-        //Connection analyzer working thread
+        //Report analyzer working thread
         mThread = new Thread(new Runnable() {
             @Override
             public void run() {
