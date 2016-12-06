@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Collector class collects data from the services and processes it for inter process communication
@@ -36,7 +37,8 @@ public class Collector {
     //pull records from detector and make a deep copy for frontend
     private static void pull() {
         ArrayList<Report> reportList = new ArrayList<>();
-        for(int i:Detector.sReportMap.keySet()){
+        Set<Integer> keySet = Detector.sReportMap.keySet();
+        for(int i : keySet){
             reportList.add(Detector.sReportMap.get(i));
         }
         mReportList = deepCloneReportList(reportList);
@@ -52,15 +54,14 @@ public class Collector {
     private static ArrayList<Report> deepCloneReportList(ArrayList<Report> reportList) {
         ArrayList<Report> cloneList = new ArrayList<>();
         try {
-            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-            ObjectOutputStream out = new ObjectOutputStream(byteOut);
-
-        for (Report r : reportList) {
-                out.writeObject(r);
+            for (int i = 0; i < reportList.size(); i++) {
+                ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+                ObjectOutputStream out = new ObjectOutputStream(byteOut);
+                out.writeObject(reportList.get(i));
                 out.flush();
-            ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteOut.toByteArray()));
+                ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteOut.toByteArray()));
                 cloneList.add(Report.class.cast(in.readObject()));
-        }
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
