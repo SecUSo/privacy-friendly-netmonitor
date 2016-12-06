@@ -60,16 +60,16 @@ import java.util.ArrayList;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Detector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PackageInformation;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
  * Lists a Report of each detected connection. Most critical if several reports exist.
  */
 public class EvidenceActivity extends AppCompatActivity{
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,37 +84,24 @@ public class EvidenceActivity extends AppCompatActivity{
         //toolbar.setLogo(R.mipmap.icon);
         toolbar.setLogoDescription(R.string.app_name);
 
-
         //EvidenceList
         final ListView listview = (ListView) findViewById(android.R.id.list);
-
         final EvidenceAdapter adapter;
-        if(Evidence.mEvidence != null){
-            adapter = new EvidenceAdapter(this, copyArrayList(Evidence.getSortedEvidence()));
-        } else {
-            if(Const.IS_DEBUG) Log.e(Const.LOG_TAG, "Evidence list not existing or empty!");
-            adapter = new EvidenceAdapter(this, new ArrayList<Report>());
-        }
-
+        adapter = new EvidenceAdapter(this, Collector.getReports());
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                final Report ann = (Report) parent.getItemAtPosition(position);
+                final Report report = (Report) parent.getItemAtPosition(position);
                 view.animate().setDuration(500).alpha((float)0.5)
                         .withEndAction(new Runnable() {
                             @Override
                             public void run() {
-                                if (ann.filter.severity != -1) {
-                                    Evidence.setSortedEvidenceDetail(ann.getLocalPort());
+                                    Evidence.setSortedEvidenceDetail(report.getLocalPort());
                                     Intent intent = new Intent(ContextStorage.getContext(), EvidenceDetailActivity.class);
                                     startActivity(intent);
-                                } else {
-                                    Toast toast = Toast.makeText(ContextStorage.getContext(), "No detail availiable for this connection", Toast.LENGTH_LONG);
-                                    toast.show();
-                                }
                             }
                         });
             }
@@ -142,13 +129,10 @@ public class EvidenceActivity extends AppCompatActivity{
                 return true;
 
             case R.id.action_refresh:
-                Evidence.disposeInactiveEvidence();
-                Evidence.updateConnections();
-                ListView listview = (ListView) findViewById(android.R.id.list);
-                EvidenceAdapter adapter = new EvidenceAdapter(ContextStorage.getContext(),
-                        copyArrayList(Evidence.getSortedEvidence()));
-                listview.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                int level = Detector.getmUpdateType();
+                Detector.setmUpdateType(0);
+                Detector.updateReportMap();
+                Detector.setmUpdateType(level);
                 return true;
 
             default:
@@ -159,16 +143,13 @@ public class EvidenceActivity extends AppCompatActivity{
     //Customised Adapter class for display of Evidence Reports
     private class EvidenceAdapter extends ArrayAdapter<Report> {
 
-        private Report[] anns;
         private final Context context;
+        private Report[] reports;
 
-        public EvidenceAdapter(Context context, ArrayList<Report> AnnList) {
-            super(context, R.layout.evidence_list_entry, AnnList);
+        public EvidenceAdapter(Context context, ArrayList<Report> reportList) {
+            super(context, R.layout.evidence_list_entry, reportList);
             this.context = context;
-            this.anns = new Report[AnnList.size()];
-            for(int i = 0; i < AnnList.size(); i++){
-                this.anns[i] = AnnList.get(i);
-            }
+            this.reports = (Report[])reportList.toArray();
         }
 
         @Override
@@ -177,71 +158,41 @@ public class EvidenceActivity extends AppCompatActivity{
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View rowView = inflater.inflate(R.layout.evidence_list_entry, parent, false);
-            //TODO: Implement IPC
- /*
-            //if unknown app (-1) try again to get pid by sourcePort;
-            Report ann = anns[position];
-            if(ann.pid == -1 && ann.uid == -1){
-                ann.pid = Evidence.getPidByPort(ann.srcPort);
-                ann.uid = Evidence.getUidByPort(ann.srcPort);
-                if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Rescan of pid and uid. srcPort: " +
-                        ann.srcPort + " new pid: " + ann.pid
-                        + " new uid: " + ann.uid);
-            }
 
-            PackageInformation pi = Evidence.getPackageInformation(ann.pid, ann.uid);
+            //Ger the report
+            Report report = reports[position];
+
             //First Line Text
             TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-            String first = pi.packageName;
+            String first = report.getType().toString();
             firstLine.setText(first);
 
             //second Line Text
             TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
-            String second = "Host: " + ann.url;
+            String second = "Host: " + report.getRemoteAdd().getHostAddress();
             secondLine.setText(second);
 
             //App icon
             ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            imageView.setImageDrawable(pi.icon);
+            imageView.setImageResource(R.mipmap.icon);
 
             //Status icon
             ImageView imageStatusView = (ImageView) rowView.findViewById(R.id.statusIcon);
-            int severity = ann.filter.severity;
-            if(severity == 3){
-                imageStatusView.setImageResource(R.mipmap.icon_warn_red);
-            } else if (severity == 2){
-                imageStatusView.setImageResource(R.mipmap.icon_warn_orange);
-            } else if (severity == 1) {
-                imageStatusView.setImageResource(R.mipmap.icon_warn_orange);
-            } else if (severity == 0){
-                imageStatusView.setImageResource(R.mipmap.icon_ok);
-            } else if (severity == -1) {
-                imageStatusView.setImageResource(R.mipmap.icon_quest);
-            }
+            imageStatusView.setImageResource(R.mipmap.icon_ok);
+
 
             //Status Text
             TextView statusLine = (TextView) rowView.findViewById(R.id.statusLine);
-            String status = "Level :" + severity;
+            String status = "Level :" + 0;
             statusLine.setText(status);
 
-            */
             return rowView;
         }
-
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
     }
-
-    public ArrayList<Report> copyArrayList(ArrayList<Report> anns){
-        ArrayList<Report> copy = new ArrayList<>();
-        for(Report ann: anns){
-            copy.add(ann);
-        }
-        return copy;
-    }
-
 
 }
