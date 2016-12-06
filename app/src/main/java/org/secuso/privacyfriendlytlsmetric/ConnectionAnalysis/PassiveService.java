@@ -132,8 +132,9 @@ public class PassiveService extends Service {
                 try {
                     while (!mInterrupt) {
                         //TODO: Check for changes else sleep
-                        Detector.printParsedPorts();
-                        Log.d(getString(R.string.app_name), "Service is running...");
+                        //Detector.printParsedPorts();
+                        Detector.updateReportMap();
+                        Collector.provideReports();
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {

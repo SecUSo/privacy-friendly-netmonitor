@@ -10,7 +10,6 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ExecuteCommand;
 import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
-import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.nio.ByteBuffer;
 import java.util.HashMap;
@@ -25,18 +24,20 @@ import java.util.Set;
 
 public class Detector {
 
-    //private Members
-    private static HashMap<Integer, Report> sReportMap = new HashMap<>();
+    //Members
+    public static HashMap<Integer, Report> sReportMap = new HashMap<>();
+
+    private static int mUpdateType = 0;
 
     //Update the Report HashMap with current connections. Key = sourceport
     //The int defines the update strategy:
     // 0 = overwrite and append
     // 1 = append
     // 2 = detach old
-    public static void updateReportMap(int u){
+    public static void updateReportMap(){
         LinkedList<Report> reportList = getCurrentConnections();
 
-        switch (u){
+        switch (mUpdateType){
             case 0:
                 for (Report r:reportList) {
                     //Key = source-Port
@@ -65,6 +66,14 @@ public class Detector {
                     sReportMap.put(key,r);
                 }
         }
+    }
+
+    public static int getmUpdateType() {
+        return mUpdateType;
+    }
+
+    public static void setmUpdateType(int mUpdateType) {
+        Detector.mUpdateType = mUpdateType;
     }
 
     public static LinkedList<Report> getCurrentConnections(){
@@ -99,7 +108,6 @@ public class Detector {
     //parse net output and scan for new conenctions, sort by port
     public static HashMap<Integer, Integer> getPortMap() {
         HashMap<Integer, Integer> result = new HashMap<>();
-
 
         return result;
     }

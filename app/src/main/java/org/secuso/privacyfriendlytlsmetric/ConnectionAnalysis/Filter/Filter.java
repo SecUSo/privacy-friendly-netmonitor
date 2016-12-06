@@ -37,10 +37,12 @@
 
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter;
 
+import java.io.Serializable;
+
 /**
  * Interface for protocol filter
  */
-public abstract class Filter {
+public abstract class Filter implements Serializable {
     public Protocol protocol;
     public int severity = 3;
     public String description;
