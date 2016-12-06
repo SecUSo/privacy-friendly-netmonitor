@@ -37,10 +37,12 @@
 
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter;
 
+import java.io.Serializable;
+
 /**
  * Protocol filter for all TLS versions. Can hold a message type identifier.
  */
-public class Tls extends Filter {
+public class Tls extends Filter implements Serializable {
 
     public TlsProtocol mSubProtocol;
     public int mVersion;

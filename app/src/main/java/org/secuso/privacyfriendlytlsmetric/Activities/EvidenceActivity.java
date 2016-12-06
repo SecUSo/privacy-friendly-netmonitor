@@ -60,6 +60,7 @@ import java.util.ArrayList;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Detector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
@@ -87,7 +88,7 @@ public class EvidenceActivity extends AppCompatActivity{
         //EvidenceList
         final ListView listview = (ListView) findViewById(android.R.id.list);
         final EvidenceAdapter adapter;
-        adapter = new EvidenceAdapter(this, Collector.getReports());
+        adapter = new EvidenceAdapter(this, Collector.mReportArray);
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -133,6 +134,9 @@ public class EvidenceActivity extends AppCompatActivity{
                 Detector.setmUpdateType(0);
                 Detector.updateReportMap();
                 Detector.setmUpdateType(level);
+                final ListView listView = (ListView) findViewById(android.R.id.list);
+                final EvidenceAdapter adapter = (EvidenceAdapter) listView.getAdapter();
+                adapter.notifyDataSetChanged();
                 return true;
 
             default:
@@ -146,11 +150,11 @@ public class EvidenceActivity extends AppCompatActivity{
         private final Context context;
         private Report[] reports;
 
-        public EvidenceAdapter(Context context, ArrayList<Report> reportList) {
-            super(context, R.layout.evidence_list_entry, reportList);
+        public EvidenceAdapter(Context context, Report[] reports) {
+            super(context, R.layout.evidence_list_entry, reports);
             this.context = context;
-            this.reports = (Report[])reportList.toArray();
-        }
+            this.reports = reports;
+            }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -164,12 +168,13 @@ public class EvidenceActivity extends AppCompatActivity{
 
             //First Line Text
             TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-            String first = report.getType().toString();
+            String first = "No PackageName yet";
+            //String first = report.getPackageName();
             firstLine.setText(first);
 
             //second Line Text
             TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
-            String second = "Host: " + report.getRemoteAdd().getHostAddress();
+            String second = "Host: " + ToolBox.printHexBinary(report.getRemoteAdd().getAddress());
             secondLine.setText(second);
 
             //App icon

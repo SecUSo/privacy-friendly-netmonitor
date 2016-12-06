@@ -8,6 +8,7 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Filter;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
@@ -18,7 +19,7 @@ import static java.lang.Math.abs;
 /**
  * Information class for aquired connection data. Full report on available information from device.
  */
-public class Report {
+public class Report implements Serializable {
 
     public Report(ByteBuffer bb , TLType type){
         touch();
@@ -120,9 +121,7 @@ public class Report {
         this.timestamp = timestamp;
     }
 
-    public InetAddress getRemoteAdd() {
-        return remoteAdd;
-    }
+    public InetAddress getRemoteAdd() { return remoteAdd; }
 
     public void setRemoteAdd(InetAddress remoteAdd) {
         this.remoteAdd = remoteAdd;

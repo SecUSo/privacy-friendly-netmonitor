@@ -37,10 +37,12 @@
 
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter;
 
+import java.io.Serializable;
+
 /**
  * HTTP protocol filter. Example for unencrypted traffic.
  */
-public class Http extends Filter {
+public class Http extends Filter implements Serializable {
 
     public Http(Protocol protocol, int severity, String description) {
         super(protocol, severity, description);
