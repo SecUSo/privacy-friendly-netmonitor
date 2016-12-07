@@ -135,8 +135,8 @@ public class EvidenceActivity extends AppCompatActivity{
                 Detector.updateReportMap();
                 Detector.setmUpdateType(level);
                 final ListView listView = (ListView) findViewById(android.R.id.list);
-                final EvidenceAdapter adapter = (EvidenceAdapter) listView.getAdapter();
-                adapter.notifyDataSetChanged();
+                final EvidenceAdapter adapter = new EvidenceAdapter(this, Collector.mReportArray);
+                listView.setAdapter(adapter);
                 return true;
 
             default:
@@ -164,17 +164,18 @@ public class EvidenceActivity extends AppCompatActivity{
             View rowView = inflater.inflate(R.layout.evidence_list_entry, parent, false);
 
             //Ger the report
-            Report report = reports[position];
+            Report r = reports[position];
 
             //First Line Text
             TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-            String first = "No PackageName yet";
+            String first = r.getPackageName();
             //String first = report.getPackageName();
             firstLine.setText(first);
 
             //second Line Text
             TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
-            String second = "Host: " + ToolBox.printHexBinary(report.getRemoteAdd().getAddress());
+            String second = "Host: " + r.getRemoteAdd().getHostAddress() + ":" + r.getRemotePort()
+                    + "SrcPort:" + r.getLocalPort() + "Pid: " + r.getPid() + "Uid: " + r.getUid();
             secondLine.setText(second);
 
             //App icon
@@ -182,8 +183,8 @@ public class EvidenceActivity extends AppCompatActivity{
             imageView.setImageResource(R.mipmap.icon);
 
             //Status icon
-            ImageView imageStatusView = (ImageView) rowView.findViewById(R.id.statusIcon);
-            imageStatusView.setImageResource(R.mipmap.icon_ok);
+            //ImageView imageStatusView = (ImageView) rowView.findViewById(R.id.statusIcon);
+            //imageStatusView.setImageResource(R.mipmap.icon_ok);
 
 
             //Status Text
