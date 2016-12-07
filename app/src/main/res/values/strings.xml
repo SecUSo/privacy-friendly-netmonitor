@@ -19,7 +19,7 @@
     <string name="action_back">Back to Main</string>
     <string name="action_refresh">refresh view</string>
     <string name="headline_evidence">Connections</string>
-
+    <string name="unknown_app">Unknown App</string>
     <!-- Toasts and Snacks -->
     <string name="startDump">TLS Metric with TCPDump.</string>
     <string name="stopDump">Stop TCPDump.</string>

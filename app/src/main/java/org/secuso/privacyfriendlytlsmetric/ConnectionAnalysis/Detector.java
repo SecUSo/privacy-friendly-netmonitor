@@ -11,7 +11,9 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.ExecuteCommand;
 import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,18 +37,18 @@ public class Detector {
     // 1 = append
     // 2 = detach old
     public static void updateReportMap(){
-        LinkedList<Report> reportList = getCurrentConnections();
+        ArrayList<Report> reportList = getCurrentConnections();
 
         switch (mUpdateType){
             case 0:
-                for (Report r:reportList) {
+                for (int i = 0; i < reportList.size(); i++) {
                     //Key = source-Port
-                    int key = r.getLocalPort();
+                    int key = reportList.get(i).getLocalPort();
                     if(sReportMap.containsKey(key)){
                         sReportMap.remove(key);
-                        sReportMap.put(key,r);
+                        sReportMap.put(key,reportList.get(i));
                     } else{
-                        sReportMap.put(key,r);
+                        sReportMap.put(key,reportList.get(i));
                     }
                 }
                 break;
@@ -76,8 +78,8 @@ public class Detector {
         Detector.mUpdateType = mUpdateType;
     }
 
-    public static LinkedList<Report> getCurrentConnections(){
-        LinkedList<Report> fullReportList = new LinkedList<Report>();
+    public static ArrayList<Report> getCurrentConnections(){
+        ArrayList<Report> fullReportList = new ArrayList<>();
 
         //Get commands for shell readin
         String commandTcp = "cat /proc/net/tcp";
@@ -98,12 +100,6 @@ public class Detector {
     private static HashMap<Integer, Integer> mPortPidMap = new HashMap<>();
     private static HashMap<Integer, Integer> mUidPidMap = new HashMap<>();
     private static HashMap<Integer, Integer> mPortUidMap = new HashMap<>();
-    public static HashMap<Integer, PackageInformation> mPacketInfoMap;
-
-    //TODO: This is Debug -remove later
-    public static void printParsedPorts(){
-        updatePortUidMap();
-    }
 
     //parse net output and scan for new conenctions, sort by port
     public static HashMap<Integer, Integer> getPortMap() {
@@ -112,37 +108,6 @@ public class Detector {
         return result;
     }
 
-    public static int getPidByPort(int port) {
-        if(!mPortPidMap.containsKey(port)){
-            updatePortPidMap();
-            if(mPortPidMap.containsKey(port)){
-                return mPortPidMap.get(port);
-            } else{
-                return -1;
-            }
-        } else {
-            return mPortPidMap.get(port);
-
-        }
-    }
-
-    public static int getUidByPort(int port) {
-        if(!mPortUidMap.containsKey(port)){
-            updatePortUidMap();
-            if(mPortUidMap.containsKey(port)){
-                return mPortUidMap.get(port);
-            } else{
-                return -1;
-            }
-        } else {
-            return mPortPidMap.get(port);
-
-        }
-    }
-
-    private static void updatePortUidMap(){
-        mPortUidMap = getPortMap();
-    }
 
     //match pids
     public static void updateUidPidMap(){
@@ -158,7 +123,6 @@ public class Detector {
 
     //match pid and uid, accessiable by port
     private static void updatePortPidMap() {
-        updatePortUidMap();
         updateUidPidMap();
         Set<Integer> ports = mPortUidMap.keySet();
         for (int port :ports){
@@ -268,32 +232,5 @@ public class Detector {
     }
 
 
-    //Updates the PackageInformation hash map with new entries.
-    private static void updatePackageInformationData(int pid, int uid) {
-        if (pid >= 0 && !mPacketInfoMap.containsKey(pid)){
-            PackageManager pm = ContextStorage.getContext().getPackageManager();
-            ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-            PackageInformation pi = new PackageInformation();
-            pi.pid = pid;
-            pi.uid = uid;
 
-            List<ActivityManager.RunningAppProcessInfo> pids = am.getRunningAppProcesses();
-            for (int i = 0; i < pids.size(); i++) {
-                ActivityManager.RunningAppProcessInfo info = pids.get(i);
-                if((info.pid == pid || info.uid == uid )&& !mPacketInfoMap.containsKey(pid)){
-                    try {
-                        String[] list = info.pkgList;
-                        if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Processing packet information of: " + list[0]);
-                        pi.packageName = list[0];
-                        pi.icon = pm.getApplicationIcon(pi.packageName);
-                        mPacketInfoMap.put(pid, pi);
-                        mPacketInfoMap.put(uid, pi);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        if(Const.IS_DEBUG)Log.e(Const.LOG_TAG, "Icon and/or package name not found. Using TLSMetric icon for unknown app.");
-                    }
-
-                }
-            }
-        }
-    }
 }

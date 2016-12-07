@@ -95,26 +95,37 @@ public class Collector {
     //Updates the PackageInformation hash map with new entries.
     private static void updatePackage(int uid) {
         if (!mUidPackageMap.containsKey(uid)){
-            PackageManager pm = ContextStorage.getContext().getPackageManager();
-            ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 
+            //Generate System PackageInformation
             PackageInformation pi = new PackageInformation();
-            pi.uid = uid;
+            if(uid == 0){
+                pi.uid = 0;
+                pi.pid = 0;
+                pi.packageName = "android.system";
+                //TODO: find icon for pi.icon
+                mUidPackageMap.put(uid, pi);
+            } else {
+                PackageManager pm = ContextStorage.getContext().getPackageManager();
+                ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 
-            List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
-            for (int i = 0; i < activeApps.size(); i++) {
-                ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
-                if(info.uid == uid ){
-                    try {
-                        String[] list = info.pkgList;
-                        pi.packageName = list[0];
-                        pi.pid = info.pid;
-                        pi.icon = pm.getApplicationIcon(pi.packageName);
-                        mUidPackageMap.put(uid, pi);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
+
+                pi.uid = uid;
+
+                List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
+                for (int i = 0; i < activeApps.size(); i++) {
+                    ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
+                    if (info.uid == uid) {
+                        try {
+                            String[] list = info.pkgList;
+                            pi.packageName = list[0];
+                            pi.pid = info.pid;
+                            pi.icon = pm.getApplicationIcon(pi.packageName);
+                            mUidPackageMap.put(uid, pi);
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
                     }
-
                 }
             }
         }
