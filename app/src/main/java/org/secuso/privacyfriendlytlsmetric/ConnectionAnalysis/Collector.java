@@ -3,10 +3,12 @@ package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -94,38 +96,52 @@ public class Collector {
 
     //Updates the PackageInformation hash map with new entries.
     private static void updatePackage(int uid) {
-        if (!mUidPackageMap.containsKey(uid)){
-
+        if (!mUidPackageMap.containsKey(uid)) {
             //Generate System PackageInformation
             PackageInformation pi = new PackageInformation();
-            if(uid == 0){
-                pi.uid = 0;
-                pi.pid = 0;
-                pi.packageName = "android.system";
-                //TODO: find icon for pi.icon
-                mUidPackageMap.put(uid, pi);
-            } else {
-                PackageManager pm = ContextStorage.getContext().getPackageManager();
-                ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+            PackageManager pm = ContextStorage.getContext().getPackageManager();
+            ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 
-
-                pi.uid = uid;
-
-                List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
-                for (int i = 0; i < activeApps.size(); i++) {
-                    ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
-                    if (info.uid == uid) {
-                        try {
-                            String[] list = info.pkgList;
-                            pi.packageName = list[0];
-                            pi.pid = info.pid;
-                            pi.icon = pm.getApplicationIcon(pi.packageName);
-                            mUidPackageMap.put(uid, pi);
-                        } catch (PackageManager.NameNotFoundException e) {
-                            e.printStackTrace();
-                        }
-
+            List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
+            for (int i = 0; i < activeApps.size(); i++) {
+                ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
+                if (info.uid == uid) {
+                    try {
+                        String[] list = info.pkgList;
+                        pi.packageName = list[0];
+                        pi.uid = uid;
+                        pi.pid = info.pid;
+                        pi.icon = pm.getApplicationIcon(pi.packageName);
+                        mUidPackageMap.put(uid, pi);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
                     }
+                } else {
+                    switch (uid) {
+                        case 0:
+                            pi.uid = uid;
+                            pi.pid = 0;
+                            pi.packageName = "android.system";
+                            //TODO: Change icons
+                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.unknown_app_web);
+                            break;
+
+                        case 1000:
+                            pi.uid = uid;
+                            pi.pid = 0;
+                            pi.packageName = "system.root";
+                            //TODO: Change icons
+                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.icon_on);
+                            break;
+                        default:
+                            pi.uid = -1;
+                            pi.pid = 0;
+                            pi.packageName = "Unknown App";
+                            //TODO: Change icons
+                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.unknown_app_web);
+                            break;
+                    }
+                    mUidPackageMap.put(uid, pi);
                 }
             }
         }

@@ -50,9 +50,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -61,25 +59,18 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PackageInformation;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
- * Evidence Detail Panel. List all reports of a connection, invoked by Evidence Panel (EvidenceActivity)
+ * Evidence Detail Panel. List all reports of a connection, invoked by Evidence Panel (ReportActivity)
  */
 public class EvidenceDetailActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evidence);
+        setContentView(R.layout.activity_report_content);
         ContextStorage.setContext(this);
-
-        //Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.evidence_toolbar);
-        setSupportActionBar(toolbar);
-        //toolbar.setLogo(R.mipmap.icon);
-        toolbar.setLogoDescription(R.string.app_name);
 
 
         //EvidenceList
@@ -97,14 +88,8 @@ public class EvidenceDetailActivity extends AppCompatActivity{
         listview.setAdapter(adapter);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_tlsmetric, menu);
-        return true;
-    }
-
-    //menu
+/*
+       //old menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -112,7 +97,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
                 return true;
 
             case R.id.action_back:
-                    Intent intent = new Intent(ContextStorage.getContext(), EvidenceActivity.class);
+                    Intent intent = new Intent(ContextStorage.getContext(), ReportActivity.class);
                     startActivity(intent);
                 return true;
 
@@ -128,6 +113,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
+*/
 
 
 

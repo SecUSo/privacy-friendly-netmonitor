@@ -40,9 +40,6 @@ package org.secuso.privacyfriendlytlsmetric.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,13 +51,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Detector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
@@ -70,20 +62,23 @@ import org.secuso.privacyfriendlytlsmetric.R;
 /**
  * Lists a Report of each detected connection. Most critical if several reports exist.
  */
-public class EvidenceActivity extends AppCompatActivity{
+public class ReportActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evidence);
+        setContentView(R.layout.activity_report);
+
         ContextStorage.setContext(this);
         Evidence.newWarnings = 0;
 
+        /*
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.evidence_toolbar);
         setSupportActionBar(toolbar);
         //toolbar.setLogo(R.mipmap.icon);
         toolbar.setLogoDescription(R.string.app_name);
+        */
 
         //EvidenceList
         final ListView listview = (ListView) findViewById(android.R.id.list);
@@ -110,14 +105,7 @@ public class EvidenceActivity extends AppCompatActivity{
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_tlsmetric, menu);
-        return true;
-    }
-
-    //menu
+ /*   //old menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -142,9 +130,14 @@ public class EvidenceActivity extends AppCompatActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }*/
+
+    @Override
+    protected int getNavigationDrawerID() {
+        return R.id.nav_report;
     }
 
-    //Customised Adapter class for display of Evidence Reports
+    //Customized Adapter class for display of Evidence Reports
     private class EvidenceAdapter extends ArrayAdapter<Report> {
 
         private final Context context;
@@ -196,9 +189,5 @@ public class EvidenceActivity extends AppCompatActivity{
         }
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-    }
 
 }

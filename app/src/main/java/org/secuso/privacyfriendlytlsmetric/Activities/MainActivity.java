@@ -1,63 +1,25 @@
-/*
-    TLSMetric
-    - Copyright (2015, 2016) Felix Tsala Schiller
-
-    ###################################################################
-
-    This file is part of TLSMetric.
-
-    TLSMetric is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    TLSMetric is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with TLSMetric.  If not, see <http://www.gnu.org/licenses/>.
-
-    Diese Datei ist Teil von TLSMetric.
-
-    TLSMetric ist Freie Software: Sie können es unter den Bedingungen
-    der GNU General Public License, wie von der Free Software Foundation,
-    Version 3 der Lizenz oder (nach Ihrer Wahl) jeder späteren
-    veröffentlichten Version, weiterverbreiten und/oder modifizieren.
-
-    TLSMetric wird in der Hoffnung, dass es nützlich sein wird, aber
-    OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
-    Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
-    Siehe die GNU General Public License für weitere Details.
-
-    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
-    Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
- */
-
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlytlsmetric.R;
 
+import static org.secuso.privacyfriendlytlsmetric.R.id.imageView;
 
-/**
- * Activity of the Main Panel. Start and stop everything from here.
- */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private boolean mIsServiceBind;
 
@@ -70,86 +32,86 @@ public class MainActivity extends AppCompatActivity {
         ContextStorage.setContext(this);
         mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
 
-        final Button startStop = (Button) findViewById(R.id.startStop);
+        final Button startStop = (Button) findViewById(R.id.main_button);
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView infoText = (TextView) findViewById(R.id.infoText);
                 if(!mIsServiceBind) {
-                    startStop.setBackground(getResources().getDrawable(R.drawable.power_working));
-                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Init service start.");
+                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_start));
                     ContextStorage.getServiceHandler().startPassiveService();
                     mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
-                    startStop.setBackground(getResources().getDrawable(R.drawable.power_on));
+                    ImageView imageView = (ImageView) findViewById(R.id.main_image_startstopp);
+                    imageView.setImageDrawable(getDrawable(R.drawable.icon_on));
+                    TextView textView = (TextView) findViewById(R.id.main_text_startstop);
+                    textView.setText(getResources().getString(R.string.main_text_started));
+                    startStop.setText(R.string.main_button_text_on);
                     // TODO: Implement minimization later on.
                     // minimizeActivity();
                 } else {
-                    startStop.setBackground(getResources().getDrawable(R.drawable.power_working));
-                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Init service stop.");
+                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_stop));
                     ContextStorage.getServiceHandler().stopPassiveService();
                     mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
-                    startStop.setBackground(getResources().getDrawable(R.drawable.power_off));
+                    ImageView imageView = (ImageView) findViewById(R.id.main_image_startstopp);
+                    imageView.setImageDrawable(getDrawable(R.drawable.icon_off));
+                    TextView textView = (TextView) findViewById(R.id.main_text_startstop);
+                    textView.setText(getResources().getString(R.string.main_text_stopped));
+                    startStop.setText(R.string.main_button_text_off);
                 }
             }
         });
 
-        Button gotoEvidence = (Button) findViewById(R.id.gotoEvidence);
-        gotoEvidence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(mIsServiceBind){
-                    Intent intent = new Intent(ContextStorage.getContext(), EvidenceActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast toast = Toast.makeText(ContextStorage.getContext(), R.string.info_service_offline, Toast.LENGTH_LONG);
-                    toast.show();
+        // Use the a button to display the welcome screen
+        Button b = (Button) findViewById(R.id.button_welcomedialog);
+        if(b != null) {
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    WelcomeDialog welcomeDialog = new WelcomeDialog();
+                    welcomeDialog.show(getFragmentManager(), "WelcomeDialog");
                 }
+            });
+        }
 
-            }
-        });
+        overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected int getNavigationDrawerID() {
+        return R.id.nav_main;
+    }
 
 
-        if(mIsServiceBind){
-            startStop.setBackground(getResources().getDrawable(R.drawable.power_on));
-        } else {
-            startStop.setBackground(getResources().getDrawable(R.drawable.power_off));
+    public static class WelcomeDialog extends DialogFragment {
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            LayoutInflater i = getActivity().getLayoutInflater();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(i.inflate(R.layout.welcome_dialog, null));
+            builder.setIcon(R.mipmap.icon);
+            builder.setTitle(getActivity().getString(R.string.welcome));
+            builder.setPositiveButton(getActivity().getString(R.string.okay), null);
+            builder.setNegativeButton(getActivity().getString(R.string.viewhelp), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ((MainActivity)getActivity()).goToNavigationItem(R.id.nav_help);
+                }
+            });
+
+            return builder.create();
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_tlsmetric, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public void onClick(View view) {
+        switch(view.getId()) {
+            // do something with all these buttons?
+            default:
         }
-        return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-
-    }
-
-
-    //Call this to minimize the activity
-    private void minimizeActivity(){
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(startMain);
-    }
-
 }
