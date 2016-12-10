@@ -141,8 +141,8 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
-            case R.id.nav_evidence:
-                intent = new Intent(this, EvidenceActivity.class);
+            case R.id.nav_report:
+                intent = new Intent(this, ReportActivity.class);
                 createBackStack(intent);
                 break;
             case R.id.nav_about:

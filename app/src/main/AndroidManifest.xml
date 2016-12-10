@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.EvidenceActivity"
+            android:name=".Activities.ReportActivity"
             android:label="@string/headline_evidence"
             android:parentActivityName=".Activities.MainActivity" >
             <meta-data
@@ -34,7 +34,36 @@
             android:parentActivityName=".Activities.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlytlsmetric.Activities.EvidenceActivity" />
+                android:value="org.secuso.privacyfriendlytlsmetric.Activities.ReportActivity" />
+        </activity>
+        <activity
+            android:name="org.secuso.privacyfriendlytlsmetric.Activities.AboutActivity"
+            android:label="@string/about"
+            android:parentActivityName="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.secuso.privacyfriendlytlsmetric.Activities.HelpActivity"
+            android:label="@string/help"
+            android:parentActivityName="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.secuso.privacyfriendlytlsmetric.Activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
         </activity>
 
       <service

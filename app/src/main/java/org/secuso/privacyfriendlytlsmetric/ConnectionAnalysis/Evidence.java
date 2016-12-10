@@ -69,8 +69,6 @@ public class Evidence {
     public static HashMap<Integer, ArrayList<Report>> mEvidenceDetailMap;
     public static int newWarnings;
 
-
-
     public Evidence(){
         mEvidence = new ArrayList<>();
         mEvidenceDetailMap = new HashMap<>();
@@ -78,7 +76,6 @@ public class Evidence {
         updateConnections();
         newWarnings = 0;
     }
-
 
     // Update currently active connection
     // TODO: UID/PID detection needs improvement. Unknown Apps exist

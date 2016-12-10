@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">Privacy Friendly TLSMetric</string>
+    <string name="app_name">TLSMetric</string>
+    <string name="app_name_long">Privacy Friendly TLSMetric</string>
+    <string name="app_prefix" translatable="false">Privacy Friendly</string>
+    <string name="about_author_names">Felix Tsala Schiller</string>
+    <string name="about_author_contributors">Contibutors</string>
+    <string name="privacy_friendly">This app belongs ...</string>
+
 
     <!-- UI main text -->
     <string name="info_handle">Press power button to start TLSMetric</string>
@@ -15,36 +21,105 @@
 
     <!-- UI evidence text -->
     <string name="evidenceSecondLine">Severity:</string>
-    <string name="title_activity_shifty">ShiftyActivity</string>
     <string name="action_back">Back to Main</string>
     <string name="action_refresh">refresh view</string>
     <string name="headline_evidence">Connections</string>
     <string name="unknown_app">Unknown App</string>
+
+    <!-- UI Evidence Detail text -->
+    <string name="headline_evidence_detail">Detail View</string>
+
     <!-- Toasts and Snacks -->
-    <string name="startDump">TLS Metric with TCPDump.</string>
+    <string name="startDump">Start TCPDump.</string>
     <string name="stopDump">Stop TCPDump.</string>
     <string name="gotoEvidence">inspect connections</string>
 
     <!-- Filter warning text -->
-    <string name="ALERT_HTTP">Unnencrypted HTTP connection detected!</string>
+    <string name="ALERT_HTTP">Unencrypted HTTP connection detected!</string>
     <string name="ALERT_TLS_10">Encrypted Connection - TLS 1.0</string>
     <string name="ALERT_SSL_3">Outdated encryption warning - SSL3</string>
     <string name="ALERT_TLS_12">Encrypted Connection - TLS 1.2</string>
     <string name="ALERT_TLS_11">Encrypted Connection - TLS 1.1</string>
-    <string name="action_settings">settings</string>
+    <string name="action_settings">Aettings</string>
 
     <!-- Testtext -->
-    <string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec
-        consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas
-        mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.
-        Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper
-        sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur
-        dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero
-        in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at
-        malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes,
-        nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis
-        semper ac in est.</string>
-    <string name="headline_evidence_detail">Detail View</string>
+<string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec
+    consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas
+    mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.
+    Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet,
+    consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper
+    sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur
+    dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero
+    in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at
+    malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes,
+    nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis
+    semper ac in est.</string>
+
+    <!-- Menu drawer -->
+    <string name="drawer_main">Start</string>
+    <string name="drawer_evidence">Reports</string>
+    <string name="drawer_settings">Setting</string>
+    <string name="drawer_help">Help</string>
+    <string name="drawer_about">About TLSMetric</string>
+    <string name="drawer_manual">Manual</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+
+
+    <!-- ###MAIN### -->
+    <string name="main_button_text_off">start TLSMetric</string>
+    <string name="main_button_text_on">stop TLSMetric</string>
+    <string name="main_button_active_text">TLSMetric stoppen</string>
+    <string name="main_button_disabled_text">Inactive Button</string>
+    <string name="main_button_1">1</string>
+    <string name="main_button_2">2</string>
+    <string name="main_button_3">3</string>
+    <string name="main_button_4">4</string>
+    <string name="main_button_5">5</string>
+    <string name="main_text_fullwithbutton_desc">A button that uses the full width of the screen looks like this:</string>
+    <string name="main_text_disabledbutton_desc">A disabled button looks like this (any size):</string>
+    <string name="main_text_title">With TLSMetric the network connections of all apps and the android system can be shown. This "Privacy Friendly" Version of TLSMetric uses minimal permissions and does not store or transmit any data. </string>
+    <string name="main_text_normalbutton_desc">On touch of the start button, TLSMetric starts a passive daemon which monitors all ongoing network connections. A background notification will inform you of the ongoing monitoring.</string>
+    <string name="main_button_welcomedialog_text">Use the button in the lower left corner to call the Welcome Dialog.</string>
+
+    <!-- About -->
+    <string name="version_number">2.0</string>
+    <string name="about_author">Author</string>
+    <string name="about_affiliation">In affiliation with</string>
+    <string name="more_info">More information can be found on:</string>
+    <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-app-example">Github-Repo</a></string>
+    <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
+
+    <!-- HELP -->
+    <string name="help">Help</string>
+    <string name="help_general_heading">Overview</string>
+    <string name="help_feature_heading">Features</string>
+    <string name="help_privacy_heading">Privacy</string>
+    <string name="help_whatis">What is Privacy Friendly App Example?</string>
+    <string name="help_whatis_answer">Privacy Friendly App Example is an app that demonstrates the design of a Privacy Friendly App.</string>
+    <string name="help_feature_one">Feature 1</string>
+    <string name="help_feature_one_answer">Description of first feature.</string>
+    <string name="help_privacy">What makes the app privacy-friendly?</string>
+    <string name="help_privacy_answer">Privacy Friendly App Example does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
+    <string name="help_permission">Which permissions requires the app?</string>
+    <string name="help_permission_answer">Privacy Friendly App Example does not require any permission.</string>
+
+    <!-- ###SETTINGS### -->
+    <string name="title_activity_settings">Settings</string>
+    <string name="pref_header_general">General</string>
+    <string name="pref_example_switch">Example Switch</string>
+    <string name="pref_example_switch_summary">Example Switch Summary</string>
+    <string name="pref_example_summary">Example Summary</string>
+
+    <!-- ### WELCOME DIALOG ### -->
+    <string name="welcome_text">This App serves as a guideline to see the basic design of Privacy Friendly Apps. The sourcecode is available at GitHub. For further explanations have a look at the Privacy Friendly App Guide.\n\nThe welcome screen should introduce the app and the key elements of the start page.</string>
+    <string name="welcome">Welcome</string>
+    <string name="okay">Okay</string>
+    <string name="viewhelp">View Help</string>
+    <string name="main_button_welcomedialog">Show Welcome</string>
+    <string name="main_text_stopped">TLSMetric not active ....</string>
+    <string name="main_text_started">TLSMetric active...</string>
+
+
 </resources>
