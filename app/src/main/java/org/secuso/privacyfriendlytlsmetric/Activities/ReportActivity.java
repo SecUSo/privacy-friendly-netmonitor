@@ -61,17 +61,19 @@ public class ReportActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
         ContextStorage.setContext(this);
         Evidence.newWarnings = 0;
 
-        HashMap<String, ArrayList<Report>> reportMap = Collector.provideReports();
+        HashMap<String, List<String>> reportMap = Collector.provideReports();
+        ArrayList<String> keyList = new ArrayList<String>(reportMap.keySet());
 
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.reportExpandableListView);
         final ExpandableReportAdapter reportAdapter;
-        reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
+        reportAdapter = new ExpandableReportAdapter(this, keyList, reportMap);
         expListView.setAdapter(reportAdapter);
 
         //TODO: Change OnClickListener to PFA Design

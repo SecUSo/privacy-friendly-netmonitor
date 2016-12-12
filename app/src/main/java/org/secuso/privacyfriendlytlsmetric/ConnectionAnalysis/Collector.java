@@ -31,11 +31,11 @@ public class Collector {
 
     //Data processing maps
     private static ArrayList<Report> mReportList;
-    private static HashMap<String, ArrayList<Report>> mReportsByApp;
+    private static HashMap<String, List<String>> mReportsByApp;
     private static HashMap<Integer, PackageInformation> mUidPackageMap = new HashMap<>();
 
     //Pushed the newest availiable information as deep copy.
-    public static HashMap<String, ArrayList<Report>> provideReports(){
+    public static HashMap<String, List<String>> provideReports(){
 
         //update reports
         pull();
@@ -64,9 +64,9 @@ public class Collector {
             Report r = mReportList.get(i);
 
             if (!mReportsByApp.containsKey(r.getPackageName())) {
-                mReportsByApp.put(r.getPackageName(), new ArrayList<Report>());
+                mReportsByApp.put(r.getPackageName(), new ArrayList<String>());
             }
-            mReportsByApp.get(r.getPackageName()).add(r);
+            mReportsByApp.get(r.getPackageName()).add("" + r.getRemoteAdd() + r.getRemotePort());
         }
 
     }

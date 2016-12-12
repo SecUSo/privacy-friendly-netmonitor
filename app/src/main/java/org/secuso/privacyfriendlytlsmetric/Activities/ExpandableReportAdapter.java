@@ -10,11 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,10 +20,10 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> reportListTitle;
-    private HashMap<String, ArrayList<Report>> reportListDetail;
+    private HashMap<String, List<String>> reportListDetail;
 
     public ExpandableReportAdapter(Context context, List<String> expandableListTitle,
-                                   HashMap<String, ArrayList<Report>> expandableListDetail) {
+                                   HashMap<String, List<String>> expandableListDetail) {
         this.context = context;
         this.reportListTitle = expandableListTitle;
         this.reportListDetail = expandableListDetail;
@@ -44,14 +41,14 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int listPosition, final int expandedListPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
-        //Build information from reports of one App (UID)
-        Report r = (Report) getChild(listPosition, expandedListPosition);
+    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild,
+                             View convertView, ViewGroup parent) {
 
-        final String text1 = "" +  + R.string.report_connections_found;
-        final String text2 = "" + r.getLocalAdd() + r.getRemotePort() + " -> " + r.getRemoteAdd() + r.getRemotePort();
-        final String text3 = "UID: " + r.getUid() + "PID: " + r.getPid();
+        //Build information from reports of one App (UID)
+
+        final String text1 = (String) getChild(listPosition, expandedListPosition);
+        //final String text2 = "" + r.getLocalAdd() + r.getRemotePort() + " -> " + r.getRemoteAdd() + r.getRemotePort();
+        //final String text3 = "UID: " + r.getUid() + "PID: " + r.getPid();
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -61,13 +58,13 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         TextView reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_1);
         reportTextView.setText(text1);
-        reportTextView = (TextView) convertView
+        /*reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_2);
         reportTextView.setText(text2);
         reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_3);
         reportTextView.setText(text3);
-
+        */
         return convertView;
     }
 
