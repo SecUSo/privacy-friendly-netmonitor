@@ -49,6 +49,8 @@ public class Report implements Serializable {
 
     private byte[] remoteAddHex;
     private InetAddress remoteAdd;
+
+    private boolean remoteResolved;
     private int remotePort;
 
     private int pid;
@@ -208,6 +210,10 @@ public class Report implements Serializable {
     public void setUid(int uid) {
         this.uid = uid;
     }
+
+    public boolean isRemoteResolved() { return remoteResolved; }
+
+    public void setRemoteResolved(boolean remoteResolved) { this.remoteResolved = remoteResolved; }
 }
 
 

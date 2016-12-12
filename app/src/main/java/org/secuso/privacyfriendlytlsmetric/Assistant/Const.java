@@ -43,7 +43,7 @@ package org.secuso.privacyfriendlytlsmetric.Assistant;
 
 public interface Const {
 
-    boolean IS_DEBUG = true;
+    boolean IS_DEBUG = false;
 
     int CHANNEL_TIMEOUT_UDP = 10000;
     int CHANNEL_TIMEOUT_TCP = 3800;

@@ -86,7 +86,7 @@ public class ExecuteCommand extends Thread {
             }
             res = readFully(response);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.i(Const.LOG_TAG, "IO operation unsuccessful while executing command: " + string );
         } finally {
             closeSilently(outputStream, response);
         }

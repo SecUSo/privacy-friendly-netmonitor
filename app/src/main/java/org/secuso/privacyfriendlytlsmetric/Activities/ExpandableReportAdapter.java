@@ -1,7 +1,9 @@
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +48,14 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
 
         //Build information from reports of one App (UID)
-
         Report r = (Report) getChild(listPosition, expandedListPosition);
-        final String text1 = "" + r.getRemoteAdd();
-        final String text2 = "<WARNING LEVEL = not implemented>";
-
+        final String text1;
+        if(r.isRemoteResolved()){
+            text1 = "" + r.getRemoteAdd().getHostName();
+        } else {
+            text1 = "" + r.getRemoteAdd().getHostAddress();
+        }
+        final String text2 = "<WARNING Level: 0>";
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -62,6 +67,8 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         reportTextView.setText(text1);
         reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_2);
+        //TODO: find suitable colours
+        reportTextView.setTextColor(Color.GREEN);
         reportTextView.setText(text2);
         return convertView;
     }
