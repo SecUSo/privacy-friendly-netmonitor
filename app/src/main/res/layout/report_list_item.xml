@@ -12,7 +12,7 @@
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
-        android:text="address:port"/>
+        android:text="address"/>
 
     <TextView
         android:id="@+id/report_item_2"
@@ -21,16 +21,6 @@
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
-        android:text="address:port"/>
-
-    <TextView
-        android:id="@+id/report_item_3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="5dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:text="address:port"/>
+        android:text=""/>
 
 </LinearLayout>
