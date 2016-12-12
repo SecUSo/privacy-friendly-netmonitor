@@ -105,8 +105,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         textView.setText(listTitle);
         textView = (TextView) convertView
                 .findViewById(R.id.reportGroupSubtitle);
-        //TODO: get full qualified package name??
-        textView.setText(listTitle);
+        textView.setText(Collector.mPackageMap.get(listTitle).packageName);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.reportGroupIcon);
         imgView.setImageDrawable(Collector.mPackageMap.get(listTitle).icon);
         return convertView;

@@ -14,8 +14,7 @@
         android:contentDescription="AppIcon"
         android:src="@mipmap/icon"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/firstLine" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/reportGroupTitle"
@@ -24,18 +23,22 @@
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textColor="@android:color/black"
         android:layout_toEndOf="@+id/reportGroupIcon"
-        android:text="App Name and Vendor"
+        android:text="App Name"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="5dp" />
 
     <TextView
         android:id="@+id/reportGroupSubtitle"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
-        android:layout_alignParentBottom="true"
         android:ellipsize="marquee"
-        android:text="Description"
+        android:text="full.qualified.package.name"
         android:textSize="12sp"
+        android:paddingTop="10dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+
         android:layout_toEndOf="@+id/reportGroupIcon" />
 
 </RelativeLayout>
