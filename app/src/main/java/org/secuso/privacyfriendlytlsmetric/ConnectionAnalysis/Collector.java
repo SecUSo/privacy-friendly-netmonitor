@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import static android.R.id.list;
+
 /**
  * Collector class collects data from the services and processes it for inter process communication
  * with the UI.
@@ -30,12 +32,36 @@ public class Collector {
 
     //Data processing maps
     private static ArrayList<Report> mReportList;
+    private static HashMap<String, List<Report>> mFilteredReportsByApp;
     private static HashMap<String, List<Report>> mReportsByApp;
     private static HashMap<Integer, PackageInformation> mUidPackageMap = new HashMap<>();
 
-    //Pushed the newest availiable information as deep copy.
-    public static HashMap<String, List<Report>> provideReports() {
 
+    //Pushed the newest availiable information as deep copy.
+    public static HashMap<String, List<Report>> provideReports(){
+        updateReports();
+        filterReports();
+        return mReportsByApp;
+        //return mFilteredReportsByApp;
+    }
+
+    public static HashMap<String, List<Report>> provideAdvancedReports() {
+        updateReports();
+        return mReportsByApp;
+    }
+
+    private static void filterReports() {
+        mFilteredReportsByApp = new HashMap<>();
+        for (String key:mReportsByApp.keySet()){
+            mFilteredReportsByApp.put(key, new ArrayList<Report>());
+            ArrayList<Report> list = (ArrayList) mReportsByApp.get(key);
+            for (int i = 0; i < list.size(); i++){
+                //TODO: address filtering
+            }
+        }
+    }
+
+    private static void updateReports(){
         //update reports
         pull();
         //process reports (passive mode)
@@ -46,8 +72,6 @@ public class Collector {
         sortReportsToMap();
         //update package info
         updatePI();
-
-        return mReportsByApp;
     }
 
     private static void updatePI() {
@@ -69,7 +93,6 @@ public class Collector {
             }
             mReportsByApp.get(r.getAppName()).add(r);
         }
-
     }
 
 
@@ -83,10 +106,16 @@ public class Collector {
         mReportList = deepCloneReportList(reportList);
     }
 
-
-
     private static void resolveHosts() {
-        //TODO: implement, use permission switch
+        for (Report r : mReportList){
+            try {
+                r.getRemoteAdd().getHostName();
+                r.setRemoteResolved(true);
+            } catch(RuntimeException e) {
+                r.setRemoteResolved(false);
+                Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
+            }
+        }
     }
 
     private static void fillPackageInformation() {
