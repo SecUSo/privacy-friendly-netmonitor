@@ -19,27 +19,27 @@ public class HelpActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        ExpandableListAdapter expandableListAdapter;
+        ExpandableListAdapter listAdapter;
         HelpDataDump helpDataDump = new HelpDataDump(this);
 
         ExpandableListView generalExpandableListView = (ExpandableListView) findViewById(R.id.generalExpandableListView);
 
         HashMap<String, List<String>> expandableListDetail = helpDataDump.getDataGeneral();
         List<String> expandableListTitleGeneral = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new ExpandableListAdapter(this, expandableListTitleGeneral, expandableListDetail);
-        generalExpandableListView.setAdapter(expandableListAdapter);
+        listAdapter = new ExpandableListAdapter(this, expandableListTitleGeneral, expandableListDetail);
+        generalExpandableListView.setAdapter(listAdapter);
 
         ExpandableListView featuresExpandableListView = (ExpandableListView) findViewById(R.id.featuresExpandableListView);
         expandableListDetail = helpDataDump.getDataFeatures();
         List<String> expandableListTitleFeatures = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new ExpandableListAdapter(this, expandableListTitleFeatures, expandableListDetail);
-        featuresExpandableListView.setAdapter(expandableListAdapter);
+        listAdapter = new ExpandableListAdapter(this, expandableListTitleFeatures, expandableListDetail);
+        featuresExpandableListView.setAdapter(listAdapter);
 
         ExpandableListView privacyExpandableListView = (ExpandableListView) findViewById(R.id.privacyExpandableListView);
         expandableListDetail = helpDataDump.getDataPrivacy();
         List<String> expandableListTitlePrivacy = new ArrayList<String>(expandableListDetail.keySet());
-        expandableListAdapter = new ExpandableListAdapter(this, expandableListTitlePrivacy, expandableListDetail);
-        privacyExpandableListView.setAdapter(expandableListAdapter);
+        listAdapter = new ExpandableListAdapter(this, expandableListTitlePrivacy, expandableListDetail);
+        privacyExpandableListView.setAdapter(listAdapter);
 
         overridePendingTransition(0, 0);
     }

@@ -8,8 +8,6 @@
     android:fitsSystemWindows="true"
     tools:context="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity">
 
-    <include layout="@layout/toolbar"/>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -31,5 +29,7 @@
         android:layout_margin="@dimen/fab_margin"/>
 
     <include layout="@layout/activity_content_main" />
+
+    <include layout="@layout/toolbar"/>
 
 </android.support.design.widget.CoordinatorLayout>
