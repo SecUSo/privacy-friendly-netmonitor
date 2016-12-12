@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Collector class collects data from the services and processes it for inter process communication
  * with the UI.
@@ -31,11 +33,11 @@ public class Collector {
 
     //Data processing maps
     private static ArrayList<Report> mReportList;
-    private static HashMap<String, List<String>> mReportsByApp;
+    private static HashMap<String, List<Report>> mReportsByApp;
     private static HashMap<Integer, PackageInformation> mUidPackageMap = new HashMap<>();
 
     //Pushed the newest availiable information as deep copy.
-    public static HashMap<String, List<String>> provideReports(){
+    public static HashMap<String, List<Report>> provideReports() {
 
         //update reports
         pull();
@@ -50,7 +52,7 @@ public class Collector {
     }
 
     private static void updatePI() {
-        for (Integer i : mUidPackageMap.keySet()){
+        for (Integer i : mUidPackageMap.keySet()) {
             PackageInformation pi = mUidPackageMap.get(i);
             mPackageMap.put(pi.packageName, pi);
         }
@@ -60,13 +62,13 @@ public class Collector {
     private static void sortReportsToMap() {
         mReportsByApp = new HashMap<>();
 
-        for(int i = 0; i < mReportList.size(); i++) {
+        for (int i = 0; i < mReportList.size(); i++) {
             Report r = mReportList.get(i);
 
             if (!mReportsByApp.containsKey(r.getPackageName())) {
-                mReportsByApp.put(r.getPackageName(), new ArrayList<String>());
+                mReportsByApp.put(r.getPackageName(), new ArrayList<Report>());
             }
-            mReportsByApp.get(r.getPackageName()).add("" + r.getRemoteAdd() + r.getRemotePort());
+            mReportsByApp.get(r.getPackageName()).add(r);
         }
 
     }
@@ -76,7 +78,7 @@ public class Collector {
     private static void pull() {
         ArrayList<Report> reportList = new ArrayList<>();
         Set<Integer> keySet = Detector.sReportMap.keySet();
-        for(int i : keySet){
+        for (int i : keySet) {
             reportList.add(Detector.sReportMap.get(i));
         }
         mReportList = deepCloneReportList(reportList);
@@ -92,9 +94,9 @@ public class Collector {
         //TODO: implement, use permission swich
     }
 
-    private static void fillPackageInformation(){
+    private static void fillPackageInformation() {
         //Get Package Information
-        for (int i = 0; i < mReportList.size(); i++){
+        for (int i = 0; i < mReportList.size(); i++) {
             Report report = mReportList.get(i);
             updatePackage(report.getUid());
             PackageInformation pi = mUidPackageMap.get(report.getUid());
@@ -127,6 +129,8 @@ public class Collector {
 
             //Generate system PackageInformation
             PackageInformation pi = new PackageInformation();
+            ;
+            pi.uid = -1;
             PackageManager pm = ContextStorage.getContext().getPackageManager();
             ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 
@@ -139,11 +143,7 @@ public class Collector {
                         pi.packageName = list[0];
                         // debug print of found package
                         if (Const.IS_DEBUG) {
-                            String pkg = "";
-                            for (int j = 0; j < list.length; j++) {
-                                pkg = pkg + list[j];
-                            }
-                            Log.d(Const.LOG_TAG, pkg);
+                            printAllPackages();
                         }
 
                         pi.uid = uid;
@@ -153,33 +153,47 @@ public class Collector {
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    switch (uid) {
-                        case 0:
-                            pi.uid = uid;
-                            pi.pid = 0;
-                            pi.packageName = "android.system";
-                            pi.icon = ContextStorage.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
-                            break;
-
-                        case 1000:
-                            pi.uid = uid;
-                            pi.pid = 0;
-                            pi.packageName = "system.root";
-                            //TODO: Change icons
-                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.unknown_app_web);
-                            break;
-                        default:
-                            pi.uid = -1;
-                            pi.pid = 0;
-                            pi.packageName = "Unknown App";
-                            //TODO: Change icons
-                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.unknown_app_web);
-                            break;
-                    }
-                    mUidPackageMap.put(uid, pi);
                 }
             }
+            if (pi.uid == -1) {
+                switch (uid) {
+                    case 0:
+                        pi.uid = uid;
+                        pi.pid = 0;
+                        pi.packageName = "android.system";
+                        pi.icon = ContextStorage.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
+                        break;
+
+                    default:
+                        pi.uid = -1;
+                        pi.pid = -1;
+                        pi.packageName = "Unknown App";
+                        pi.icon = ContextStorage.getContext().getDrawable(R.mipmap.unknown_app);
+                        break;
+                }
+                mUidPackageMap.put(uid, pi);
+            }
+        }
+
+    }
+
+    //degub print: Print all reachable active processes
+    private static void printAllPackages() {
+        PackageManager pm = ContextStorage.getContext().getPackageManager();
+        ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+
+        List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
+        for (int i = 0; i < activeApps.size(); i++) {
+            ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
+            Log.d(Const.LOG_TAG, "printAllPackages (" + activeApps.size() + "):");
+
+            String[] list = info.pkgList;
+            String pkg = " UID: " + info.uid + " PID: " + info.pid + " Name " + info.processName;
+
+            for (int j = 0; j < list.length; j++) {
+                pkg = pkg + list[j];
+            }
+            Log.d(Const.LOG_TAG, pkg);
         }
     }
 }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.util.HashMap;
@@ -20,10 +21,10 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<String> reportListTitle;
-    private HashMap<String, List<String>> reportListDetail;
+    private HashMap<String, List<Report>> reportListDetail;
 
     public ExpandableReportAdapter(Context context, List<String> expandableListTitle,
-                                   HashMap<String, List<String>> expandableListDetail) {
+                                   HashMap<String, List<Report>> expandableListDetail) {
         this.context = context;
         this.reportListTitle = expandableListTitle;
         this.reportListDetail = expandableListDetail;
@@ -46,9 +47,10 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         //Build information from reports of one App (UID)
 
-        final String text1 = (String) getChild(listPosition, expandedListPosition);
-        //final String text2 = "" + r.getLocalAdd() + r.getRemotePort() + " -> " + r.getRemoteAdd() + r.getRemotePort();
-        //final String text3 = "UID: " + r.getUid() + "PID: " + r.getPid();
+        Report r = (Report) getChild(listPosition, expandedListPosition);
+        final String text1 = r.getPackageName();
+        final String text2 = "" + r.getLocalAdd() + r.getRemotePort() + " -> " + r.getRemoteAdd() + r.getRemotePort();
+        final String text3 = "UID: " + r.getUid() + "PID: " + r.getPid();
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -58,13 +60,12 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         TextView reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_1);
         reportTextView.setText(text1);
-        /*reportTextView = (TextView) convertView
+        reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_2);
         reportTextView.setText(text2);
         reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_3);
         reportTextView.setText(text3);
-        */
         return convertView;
     }
 
