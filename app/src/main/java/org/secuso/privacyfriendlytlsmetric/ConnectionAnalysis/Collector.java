@@ -129,9 +129,11 @@ public class Collector {
           PackageInformation pi = getPackageInfo(uid);
           if (pi.uid == -1) {
               generateDefaultPackage(pi, uid);
-              mUidPackageMap.put(uid, pi);
           }
+            mUidPackageMap.put(uid, pi);
         }
+
+
 
     }
     //Generates a default package, if the app couldn't be found, or it's a system process (uid == 0)
