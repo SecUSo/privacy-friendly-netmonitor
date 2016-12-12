@@ -120,6 +120,8 @@
     <string name="main_button_welcomedialog">Show Welcome</string>
     <string name="main_text_stopped">TLSMetric not active ....</string>
     <string name="main_text_started">TLSMetric active...</string>
+    <string name="report_general_heading">Active Connections</string>
+    <string name="report_connections_found">connections by this App (UID)</string>
 
 
 </resources>

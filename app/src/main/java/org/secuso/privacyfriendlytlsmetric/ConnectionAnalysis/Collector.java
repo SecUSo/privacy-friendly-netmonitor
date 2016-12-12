@@ -26,27 +26,53 @@ import java.util.Set;
  */
 public class Collector {
 
-    public static Report[] mReportArray;
-    public static HashMap<Integer, PackageInformation> mUidPackageMap = new HashMap<>();
+    //public Member for collecting non-serializable packet information like icons
+    public static HashMap<String, PackageInformation> mPackageMap = new HashMap<>();
 
+    //Data processing maps
     private static ArrayList<Report> mReportList;
+    private static HashMap<String, ArrayList<Report>> mReportsByApp;
+    private static HashMap<Integer, PackageInformation> mUidPackageMap = new HashMap<>();
 
     //Pushed the newest availiable information as deep copy.
-    public static void provideReports(){
-        updateReportList();
+    public static HashMap<String, ArrayList<Report>> provideReports(){
 
-        mReportArray = new Report[mReportList.size()];
-        for (int i = 0; i < mReportList.size(); i++){
-            mReportArray[i] = mReportList.get(i);
+        //update reports
+        pull();
+        //process reports
+        processPassive();
+        //sorting
+        sortReportsToMap();
+        //update package info
+        updatePI();
+
+        return mReportsByApp;
+    }
+
+    private static void updatePI() {
+        for (Integer i : mUidPackageMap.keySet()){
+            PackageInformation pi = mUidPackageMap.get(i);
+            mPackageMap.put(pi.packageName, pi);
         }
     }
 
-    public static void updateReportList(){
-        pull();
-        processPassive();
+    //Sorts the reports by app package name to a HashMap
+    private static void sortReportsToMap() {
+        mReportsByApp = new HashMap<>();
+
+        for(int i = 0; i < mReportList.size(); i++) {
+            Report r = mReportList.get(i);
+
+            if (!mReportsByApp.containsKey(r.getPackageName())) {
+                mReportsByApp.put(r.getPackageName(), new ArrayList<Report>());
+            }
+            mReportsByApp.get(r.getPackageName()).add(r);
+        }
+
     }
 
-    //pull records from detector and make a deep copy for frontend
+
+    //pull records from detector and make a deep copy for frontend - usage
     private static void pull() {
         ArrayList<Report> reportList = new ArrayList<>();
         Set<Integer> keySet = Detector.sReportMap.keySet();
@@ -56,7 +82,7 @@ public class Collector {
         mReportList = deepCloneReportList(reportList);
     }
 
-    //Process all Records in the List, based on a passive service
+    //Process all Records in the List.
     private static void processPassive() {
         fillPackageInformation();
         resolveHosts();
@@ -76,6 +102,7 @@ public class Collector {
             report.setPackageName(pi.packageName);
         }
     }
+
     //Make a deep copy of the report list
     private static ArrayList<Report> deepCloneReportList(ArrayList<Report> reportList) {
         ArrayList<Report> cloneList = new ArrayList<>();
@@ -97,7 +124,8 @@ public class Collector {
     //Updates the PackageInformation hash map with new entries.
     private static void updatePackage(int uid) {
         if (!mUidPackageMap.containsKey(uid)) {
-            //Generate System PackageInformation
+
+            //Generate system PackageInformation
             PackageInformation pi = new PackageInformation();
             PackageManager pm = ContextStorage.getContext().getPackageManager();
             ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
@@ -109,6 +137,15 @@ public class Collector {
                     try {
                         String[] list = info.pkgList;
                         pi.packageName = list[0];
+                        // debug print of found package
+                        if (Const.IS_DEBUG) {
+                            String pkg = "";
+                            for (int j = 0; j < list.length; j++) {
+                                pkg = pkg + list[j];
+                            }
+                            Log.d(Const.LOG_TAG, pkg);
+                        }
+
                         pi.uid = uid;
                         pi.pid = info.pid;
                         pi.icon = pm.getApplicationIcon(pi.packageName);
@@ -122,8 +159,7 @@ public class Collector {
                             pi.uid = uid;
                             pi.pid = 0;
                             pi.packageName = "android.system";
-                            //TODO: Change icons
-                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.unknown_app_web);
+                            pi.icon = ContextStorage.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
                             break;
 
                         case 1000:
@@ -131,7 +167,7 @@ public class Collector {
                             pi.pid = 0;
                             pi.packageName = "system.root";
                             //TODO: Change icons
-                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.icon_on);
+                            pi.icon = ContextStorage.getContext().getDrawable(R.drawable.unknown_app_web);
                             break;
                         default:
                             pi.uid = -1;

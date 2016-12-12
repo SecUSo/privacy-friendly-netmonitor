@@ -14,14 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context="org.secuso.privacyfriendlyexample.MainActivity">
+        tools:context=".Activities.MainActivity">
 
-        <include layout="@layout/toolbar"/>
-        <include
-            layout="@layout/activity_report_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <include layout="@layout/toolbar" />
 
+        <include layout="@layout/activity_report_content" />
 
     </android.support.design.widget.CoordinatorLayout>
 
