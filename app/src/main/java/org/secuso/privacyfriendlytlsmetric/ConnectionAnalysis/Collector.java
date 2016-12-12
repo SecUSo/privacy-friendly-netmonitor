@@ -38,8 +38,10 @@ public class Collector {
 
         //update reports
         pull();
-        //process reports
-        processPassive();
+        //process reports (passive mode)
+        fillPackageInformation();
+        //resolve remote hosts (in cache or permission.INTERNET required)
+        resolveHosts();
         //sorting
         sortReportsToMap();
         //update package info
@@ -81,14 +83,10 @@ public class Collector {
         mReportList = deepCloneReportList(reportList);
     }
 
-    //Process all Records in the List.
-    private static void processPassive() {
-        fillPackageInformation();
-        resolveHosts();
-    }
+
 
     private static void resolveHosts() {
-        //TODO: implement, use permission swich
+        //TODO: implement, use permission switch
     }
 
     private static void fillPackageInformation() {
@@ -99,6 +97,7 @@ public class Collector {
             PackageInformation pi = mUidPackageMap.get(report.getUid());
             report.setPid(pi.pid);
             report.setAppName(pi.appName);
+            report.setPackageName(pi.packageName);
         }
     }
 
