@@ -48,9 +48,9 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         //Build information from reports of one App (UID)
 
         Report r = (Report) getChild(listPosition, expandedListPosition);
-        final String text1 = r.getAppName();
-        final String text2 = "" + r.getLocalAdd() + r.getRemotePort() + " -> " + r.getRemoteAdd() + r.getRemotePort();
-        final String text3 = "UID: " + r.getUid() + "PID: " + r.getPid();
+        final String text1 = "" + r.getRemoteAdd();
+        final String text2 = "<WARNING LEVEL = not implemented>";
+
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -63,9 +63,6 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_2);
         reportTextView.setText(text2);
-        reportTextView = (TextView) convertView
-                .findViewById(R.id.report_item_3);
-        reportTextView.setText(text3);
         return convertView;
     }
 
