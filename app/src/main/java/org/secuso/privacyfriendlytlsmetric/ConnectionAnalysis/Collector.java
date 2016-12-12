@@ -3,7 +3,6 @@ package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
@@ -19,8 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Collector class collects data from the services and processes it for inter process communication
@@ -54,7 +51,7 @@ public class Collector {
     private static void updatePI() {
         for (Integer i : mUidPackageMap.keySet()) {
             PackageInformation pi = mUidPackageMap.get(i);
-            mPackageMap.put(pi.packageName, pi);
+            mPackageMap.put(pi.appName, pi);
         }
     }
 
@@ -65,10 +62,10 @@ public class Collector {
         for (int i = 0; i < mReportList.size(); i++) {
             Report r = mReportList.get(i);
 
-            if (!mReportsByApp.containsKey(r.getPackageName())) {
-                mReportsByApp.put(r.getPackageName(), new ArrayList<Report>());
+            if (!mReportsByApp.containsKey(r.getAppName())) {
+                mReportsByApp.put(r.getAppName(), new ArrayList<Report>());
             }
-            mReportsByApp.get(r.getPackageName()).add(r);
+            mReportsByApp.get(r.getAppName()).add(r);
         }
 
     }
@@ -101,7 +98,7 @@ public class Collector {
             updatePackage(report.getUid());
             PackageInformation pi = mUidPackageMap.get(report.getUid());
             report.setPid(pi.pid);
-            report.setPackageName(pi.packageName);
+            report.setAppName(pi.appName);
         }
     }
 
@@ -125,61 +122,76 @@ public class Collector {
 
     //Updates the PackageInformation hash map with new entries.
     private static void updatePackage(int uid) {
+        // debug print of all packages
+        if (Const.IS_DEBUG) { printAllPackages(); }
+
+        //Get Package Info of running apps, if not already in Map
         if (!mUidPackageMap.containsKey(uid)) {
+          PackageInformation pi = getPackageInfo(uid);
+          if (pi.uid == -1) {
+              generateDefaultPackage(pi, uid);
+              mUidPackageMap.put(uid, pi);
+          }
+        }
 
-            //Generate system PackageInformation
-            PackageInformation pi = new PackageInformation();
-            ;
-            pi.uid = -1;
-            PackageManager pm = ContextStorage.getContext().getPackageManager();
-            ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+    }
+    //Generates a default package, if the app couldn't be found, or it's a system process (uid == 0)
+    private static void generateDefaultPackage(PackageInformation pi, int uid) {
 
-            List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
-            for (int i = 0; i < activeApps.size(); i++) {
-                ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
-                if (info.uid == uid) {
-                    try {
-                        String[] list = info.pkgList;
-                        pi.packageName = list[0];
-                        // debug print of found package
-                        if (Const.IS_DEBUG) {
-                            printAllPackages();
-                        }
+        switch (uid) {
+            case 0:
+                pi.uid = uid;
+                pi.pid = 0;
+                pi.appName = "system";
+                pi.packageName = "com.android.system";
+                pi.icon = ContextStorage.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
+                break;
 
-                        pi.uid = uid;
-                        pi.pid = info.pid;
-                        pi.icon = pm.getApplicationIcon(pi.packageName);
-                        mUidPackageMap.put(uid, pi);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            if (pi.uid == -1) {
-                switch (uid) {
-                    case 0:
-                        pi.uid = uid;
-                        pi.pid = 0;
-                        pi.packageName = "android.system";
-                        pi.icon = ContextStorage.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
-                        break;
-
-                    default:
-                        pi.uid = -1;
-                        pi.pid = -1;
-                        pi.packageName = "Unknown App";
-                        pi.icon = ContextStorage.getContext().getDrawable(R.mipmap.unknown_app);
-                        break;
-                }
-                mUidPackageMap.put(uid, pi);
-            }
+            default:
+                pi.uid = -1;
+                pi.pid = -1;
+                pi.appName = "Unknown App";
+                pi.packageName = "de.tlsmetric.unknown";
+                pi.icon = ContextStorage.getContext().getDrawable(R.mipmap.unknown_app);
+                break;
         }
 
     }
 
+    private static PackageInformation getPackageInfo(int uid) {
+        PackageInformation pi = new PackageInformation();
+        PackageManager pm = ContextStorage.getContext().getPackageManager();
+        ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
+        pi.uid = -1;
+
+        for (int i = 0; i < activeApps.size(); i++) {
+            ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
+            if (info.uid == uid) {
+                try {
+                    String[] list = info.pkgList;
+                    String pkgName = "";
+
+                    //fill package information
+                    pi.appName = list[0];
+                    for (int j = 0; j < list.length; j++){
+                        pkgName = pkgName + list[j];
+                    }
+                    pi.packageName = pkgName;
+                    pi.uid = uid;
+                    pi.pid = info.pid;
+                    pi.icon = pm.getApplicationIcon(pi.appName);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return pi;
+    }
+
     //degub print: Print all reachable active processes
     private static void printAllPackages() {
-        PackageManager pm = ContextStorage.getContext().getPackageManager();
         ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 
         List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();

@@ -142,7 +142,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
            /* PackageInformation pi = Evidence.getPackageInformation(anns[position].pid, anns[position].uid);
             //First Line Text
             TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-            String first = pi.packageName;
+            String first = pi.appName;
             firstLine.setText(first);
 
             //Detail Text Field
