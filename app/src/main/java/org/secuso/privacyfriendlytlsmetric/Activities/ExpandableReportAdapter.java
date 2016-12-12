@@ -48,7 +48,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         //Build information from reports of one App (UID)
 
         Report r = (Report) getChild(listPosition, expandedListPosition);
-        final String text1 = r.getPackageName();
+        final String text1 = r.getAppName();
         final String text2 = "" + r.getLocalAdd() + r.getRemotePort() + " -> " + r.getRemoteAdd() + r.getRemotePort();
         final String text3 = "UID: " + r.getUid() + "PID: " + r.getPid();
 
@@ -143,8 +143,8 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         //First Line Text
         TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-        String first = r.getPackageName();
-        //String first = report.getPackageName();
+        String first = r.getAppName();
+        //String first = report.getAppName();
         firstLine.setText(first);
 
         //second Line Text

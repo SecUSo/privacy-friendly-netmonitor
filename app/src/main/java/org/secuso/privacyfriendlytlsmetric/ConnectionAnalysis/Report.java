@@ -55,8 +55,11 @@ public class Report implements Serializable {
     private int uid;
 
     public Drawable icon;
-    private String packageName;
+    private String appName;
 
+
+
+    private String packageName;
     //TODO: Filters are not in use in passive anymore, implement suitable mechanism for passive scanning
     public Filter filter;
 
@@ -102,8 +105,7 @@ public class Report implements Serializable {
     }
 
 
-    // ------------------------
-    // Getters and setters here
+    // getters and setters
     // ------------------------
     public Filter getFilter() {
         return filter;
@@ -133,12 +135,12 @@ public class Report implements Serializable {
         this.icon = icon;
     }
 
-    public String getPackageName() {
-        return packageName;
+    public String getAppName() {
+        return appName;
     }
 
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 
     public TLType getType() {
@@ -181,7 +183,6 @@ public class Report implements Serializable {
         this.remoteAddHex = remoteAddHex;
     }
 
-
     public int getRemotePort() {
         return remotePort;
     }
@@ -198,9 +199,11 @@ public class Report implements Serializable {
         this.pid = pid;
     }
 
-    public int getUid() {
-        return uid;
-    }
+    public int getUid() { return uid; }
+
+    public String getPackageName() { return packageName; }
+
+    public void setPackageName(String packageName) { this.packageName = packageName; }
 
     public void setUid(int uid) {
         this.uid = uid;

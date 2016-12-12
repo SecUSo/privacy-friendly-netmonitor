@@ -43,5 +43,6 @@ public class PackageInformation {
     public int pid = -1;
     public int uid = -1;
     public Drawable icon;
-    public String packageName = ContextStorage.getContext().getString(R.string.unknown_app);
+    public String packageName = "";
+    public String appName = ContextStorage.getContext().getString(R.string.unknown_app);
 }
