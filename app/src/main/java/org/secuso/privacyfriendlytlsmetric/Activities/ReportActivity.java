@@ -68,7 +68,7 @@ public class ReportActivity extends BaseActivity{
         ContextStorage.setContext(this);
         Evidence.newWarnings = 0;
 
-        HashMap<String, List<String>> reportMap = Collector.provideReports();
+        HashMap<String, List<Report>> reportMap = Collector.provideReports();
         ArrayList<String> keyList = new ArrayList<String>(reportMap.keySet());
 
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.reportExpandableListView);
