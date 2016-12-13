@@ -190,7 +190,6 @@ public class Collector {
             } else {
                 return RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
             }
-
         }
         return mCacheIcon.get(uid);
     }
@@ -204,7 +203,6 @@ public class Collector {
             else {
                 return RunStore.getContext().getString(R.string.unknown_app);
             }
-
         }
         return mCacheLabel.get(uid);
     }

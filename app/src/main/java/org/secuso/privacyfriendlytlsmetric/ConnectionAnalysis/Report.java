@@ -24,6 +24,7 @@ public class Report implements Serializable {
 
     public Report(ByteBuffer bb , TLType type){
         touch();
+        setType(type);
         // Fill with bytebuffer data
         if (type == TLType.tcp || type == TLType.udp ){initIP4(bb); }
         else { initIP6(bb);}
