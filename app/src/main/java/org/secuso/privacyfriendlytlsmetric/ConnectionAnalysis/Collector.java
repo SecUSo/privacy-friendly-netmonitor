@@ -3,11 +3,13 @@ package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
+import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,8 +28,10 @@ import java.util.Set;
  */
 public class Collector {
 
-    //public member for collecting non-serializable packet information like icons
-    public static HashMap<Integer, PackageInfo> mUidPackageMap;
+    //application info caches
+    public static HashMap<Integer, PackageInfo> mCachePackage = new HashMap<>();
+    public static HashMap<Integer, Drawable> mCacheIcon = new HashMap<>();
+    public static HashMap<Integer, String> mCacheLabel = new HashMap<>();
 
     //Data processing maps
     private static ArrayList<Report> mReportList;
@@ -121,8 +125,8 @@ public class Collector {
         //Get Package Information
         for (Report r : mReportList) {
             updatePackageCache();
-            if(mUidPackageMap.containsKey(r.getUid())){
-                PackageInfo pi = mUidPackageMap.get(r.getUid());
+            if(mCachePackage.containsKey(r.getUid())){
+                PackageInfo pi = mCachePackage.get(r.getUid());
                 r.setAppName(pi.applicationInfo.name);
                 r.setPackageName(pi.packageName);
             } else {
@@ -152,13 +156,13 @@ public class Collector {
 
     //Updates the PkgInfo hash map with new entries.
     private static void updatePackageCache() {
-        mUidPackageMap = new HashMap();
+        mCachePackage = new HashMap();
 
         if(Const.IS_DEBUG){ printAllPackages(); }
         ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
         for (PackageInfo i : infoList) {
             if (i != null) {
-                mUidPackageMap.put(i.applicationInfo.uid, i);
+                mCachePackage.put(i.applicationInfo.uid, i);
             }
         }
     }
@@ -178,4 +182,38 @@ public class Collector {
             }
     }
 
+    public static Drawable getIcon(int uid){
+        if(!mCacheIcon.containsKey(uid)){
+            if(mCachePackage.containsKey(uid)){
+                mCacheIcon.put(uid, mCachePackage.get(uid).applicationInfo.
+                        loadIcon(RunStore.getContext().getPackageManager()));
+            } else {
+                return RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
+            }
+
+        }
+        return mCacheIcon.get(uid);
+    }
+
+    public static String getLabel(int uid){
+        if(!mCacheLabel.containsKey(uid)){
+            if(mCachePackage.containsKey(uid)){
+                mCacheLabel.put(uid, (String)mCachePackage.get(uid).applicationInfo.
+                        loadLabel(RunStore.getContext().getPackageManager()));
+            }
+            else {
+                return RunStore.getContext().getString(R.string.unknown_app);
+            }
+
+        }
+        return mCacheLabel.get(uid);
+    }
+
+    public static String getPackage(int uid) {
+        if(mCachePackage.containsKey(uid)) {
+            return mCachePackage.get(uid).packageName;
+        } else{
+            return RunStore.getContext().getString(R.string.unknown_package);
+        }
+    }
 }

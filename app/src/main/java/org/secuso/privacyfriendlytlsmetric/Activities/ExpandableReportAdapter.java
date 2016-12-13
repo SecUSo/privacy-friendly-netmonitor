@@ -108,17 +108,11 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         TextView textViewSubtitle = (TextView) convertView.findViewById(R.id.reportGroupSubtitle);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.reportGroupIcon);
 
-        if(Collector.mUidPackageMap.containsKey(uid)) {
-            PackageInfo pi = Collector.mUidPackageMap.get(uid);
-            textViewTitle.setText(pi.applicationInfo.loadLabel(context.getPackageManager())
-                    + " (" + reportListDetail.get(uid).size() +")");
-            textViewSubtitle.setText(pi.packageName);
-            imgView.setImageDrawable(pi.applicationInfo.loadIcon(context.getPackageManager()));
-        } else {
-            textViewTitle.setText(R.string.unknown_app);
-            textViewSubtitle.setText(R.string.unknown_package);
-            imgView.setImageDrawable(context.getDrawable(android.R.drawable.sym_def_app_icon));
-        }
+        textViewTitle.setText(Collector.getLabel(uid) +
+                " (" + reportListDetail.get(uid).size() +")");
+        textViewSubtitle.setText(Collector.getPackage(uid));
+        imgView.setImageDrawable(Collector.getIcon(uid));
+
         return convertView;
     }
 
