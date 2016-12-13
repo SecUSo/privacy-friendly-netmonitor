@@ -2,7 +2,6 @@ package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,24 +10,22 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
 
-import java.text.CollationElementIterator;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class ExpandableReportAdapter extends BaseExpandableListAdapter {
+class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<Integer> uidList;
     private HashMap<Integer, List<Report>> reportListDetail;
 
-    public ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
-                                   HashMap<Integer, List<Report>> expandableListDetail) {
+    ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
+                            HashMap<Integer, List<Report>> expandableListDetail) {
         this.context = context;
         this.uidList = expandableListTitle;
         this.reportListDetail = expandableListDetail;
@@ -112,13 +109,13 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         if(Collector.mUidPackageMap.containsKey(uid)) {
             PackageInfo pi = Collector.mUidPackageMap.get(uid);
-            textViewTitle.setText(pi.applicationInfo.name);
+            textViewTitle.setText(pi.applicationInfo.loadLabel(context.getPackageManager()));
             textViewSubtitle.setText(pi.packageName);
-            imgView.setImageDrawable(pi.applicationInfo.loadIcon(RunStore.getContext().getPackageManager()));
+            imgView.setImageDrawable(pi.applicationInfo.loadIcon(context.getPackageManager()));
         } else {
             textViewTitle.setText(R.string.unknown_app);
             textViewSubtitle.setText(R.string.unknown_package);
-            imgView.setImageDrawable(RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon));
+            imgView.setImageDrawable(context.getDrawable(android.R.drawable.sym_def_app_icon));
         }
         return convertView;
     }
