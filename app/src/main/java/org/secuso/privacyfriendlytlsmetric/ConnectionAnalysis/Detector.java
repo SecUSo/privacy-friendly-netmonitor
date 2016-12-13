@@ -5,8 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
+import org.secuso.privacyfriendlytlsmetric.Assistant.ExecCom;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ExecuteCommand;
 import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 
@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Detects active connections on the device and identifies port-uid-pid realation. Corresponding
@@ -86,14 +88,22 @@ public class Detector {
         String commandUdp6 = "cat /proc/net/udp6";
 
         //generate full report of all tcp/udp connections
-        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandTcp), TLType.tcp));
-        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandTcp6), TLType.tcp6));
-        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandUdp), TLType.udp));
-        fullReportList.addAll(parseNetOutput(ExecuteCommand.userForResult(commandUdp6), TLType.udp6));
+        fullReportList.addAll(parseNetOutput(ExecCom.userForResult(commandTcp), TLType.tcp));
+        fullReportList.addAll(parseNetOutput(ExecCom.userForResult(commandTcp6), TLType.tcp6));
+        fullReportList.addAll(parseNetOutput(ExecCom.userForResult(commandUdp), TLType.udp));
+        fullReportList.addAll(parseNetOutput(ExecCom.userForResult(commandUdp6), TLType.udp6));
 
         return fullReportList;
     }
 
+
+    public static void getPackageNames(List<Report> reportList){
+        for (Report r : reportList){
+            String pkgName = getPackageName(r.getUid());
+            Log.e(TAG, "getPackageNames: " + pkgName);
+            r.setPackageName(pkgName);
+        }
+    }
     //TODO: old implementation - remove at time
     private static HashMap<Integer, Integer> mPortPidMap = new HashMap<>();
     private static HashMap<Integer, Integer> mUidPidMap = new HashMap<>();
@@ -159,7 +169,6 @@ public class Detector {
             //Init IPv6 values
             return initReport6(splitTabs, type);
         }
-
     }
 
     //Init parsed data to IPv4 connection report
@@ -228,6 +237,14 @@ public class Detector {
 
         return new Report(bb, type);
     }
+
+    //resolve an UID to a package name
+    private static String getPackageName(int uid){
+        final String command = "dumpsys package | grep -A1 'userid=" + uid + "'";
+
+        return ExecCom.userForResult(command);
+    }
+
 
 
 

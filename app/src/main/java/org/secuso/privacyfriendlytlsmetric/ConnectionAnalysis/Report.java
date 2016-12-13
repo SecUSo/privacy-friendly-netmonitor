@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 
+import static android.R.attr.name;
 import static java.lang.Math.abs;
 
 /**
@@ -141,9 +142,7 @@ public class Report implements Serializable {
         return appName;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
-    }
+    public void setAppName(String appName) { this.appName = appName;}
 
     public TLType getType() {
         return type;

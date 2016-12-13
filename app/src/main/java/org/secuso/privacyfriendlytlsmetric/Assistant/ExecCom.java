@@ -48,7 +48,7 @@ import java.io.InputStream;
 /*
  * Handles the execution of shell commands.
  */
-public class ExecuteCommand extends Thread {
+public class ExecCom extends Thread {
 
     //Execute user commands.
     public static void user(String string) {

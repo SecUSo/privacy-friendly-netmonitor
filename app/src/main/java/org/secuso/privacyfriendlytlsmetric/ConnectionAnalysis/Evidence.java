@@ -330,7 +330,7 @@ public class Evidence {
         String[] split;
         for (int pid : pids) {
             String command = "cat /proc/" + pid + "/status";
-            String readIn = ExecuteCommand.userForResult(command);
+            String readIn = ExecCom.userForResult(command);
             int pos = readIn.indexOf("Uid:");
             try {
                 readIn = readIn.substring(pos, pos + 20);
