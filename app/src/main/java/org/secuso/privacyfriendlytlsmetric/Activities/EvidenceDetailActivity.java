@@ -134,7 +134,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
             View rowView = inflater.inflate(R.layout.evidence_detail_entry, parent, false);
 
             //TODO: Implement IPC
-           /* PackageInformation pi = Evidence.getPackageInformation(anns[position].pid, anns[position].uid);
+           /* PkgInfo pi = Evidence.getPackageInformation(anns[position].pid, anns[position].uid);
             //First Line Text
             TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
             String first = pi.appName;

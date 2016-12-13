@@ -97,9 +97,9 @@ public class ToolBox{
 
         String filePath = context.getFilesDir().getAbsolutePath() + File.separator + Const.FILE_IF_LIST;
         if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Try to get active interfaces to" + filePath);
-        ExecuteCommand.user("rm " + filePath);
-        ExecuteCommand.user("netcfg | grep UP -> " + filePath);
-        String result = ExecuteCommand.userForResult("cat " + filePath);
+        ExecCom.user("rm " + filePath);
+        ExecCom.user("netcfg | grep UP -> " + filePath);
+        String result = ExecCom.userForResult("cat " + filePath);
         return result;
     }
 

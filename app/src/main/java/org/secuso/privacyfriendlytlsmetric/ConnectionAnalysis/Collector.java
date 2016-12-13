@@ -2,6 +2,7 @@ package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
@@ -27,14 +28,12 @@ import java.util.Set;
 public class Collector {
 
     //public Member for collecting non-serializable packet information like icons
-    public static HashMap<String, PackageInformation> mPackageMap = new HashMap<>();
+    public static HashMap<String, PackageInfo> mPackageMap = new HashMap<>();
 
     //Data processing maps
     private static ArrayList<Report> mReportList;
-    private static HashMap<String, List<Report>> mFilteredReportsByApp;
     private static HashMap<String, List<Report>> mReportsByApp;
-    private static HashMap<Integer, PackageInformation> mUidPackageMap = new HashMap<>();
-
+    private static HashMap<Integer, PackageInfo> mUidPackageMap;
 
     //Pushed the newest availiable information as deep copy.
     public static HashMap<String, List<Report>> provideSimpleReports(){
@@ -51,12 +50,12 @@ public class Collector {
 
     //Generate an overview List, with only one report per remote address per app
     private static void filterReports() {
-        mFilteredReportsByApp = new HashMap<>();
+        HashMap<String, List<Report>> filteredReportsByApp = new HashMap<>();
 
         for (String key:mReportsByApp.keySet()){
-            mFilteredReportsByApp.put(key, new ArrayList<Report>());
+            filteredReportsByApp.put(key, new ArrayList<Report>());
             ArrayList<Report> list = (ArrayList<Report>) mReportsByApp.get(key);
-            ArrayList<Report> filteredList = (ArrayList<Report>) mFilteredReportsByApp.get(key);
+            ArrayList<Report> filteredList = (ArrayList<Report>) filteredReportsByApp.get(key);
             boolean isPresent = false;
 
             for (int i = 0; i < list.size(); i++){
@@ -87,9 +86,10 @@ public class Collector {
 
     private static void updatePI() {
         for (Integer i : mUidPackageMap.keySet()) {
-            PackageInformation pi = mUidPackageMap.get(i);
-            mPackageMap.put(pi.appName, pi);
+            PackageInfo pi = mUidPackageMap.get(i);
+            mPackageMap.put(pi.applicationInfo.name, pi);
         }
+
     }
 
     //Sorts the reports by app package name to a HashMap
@@ -120,7 +120,6 @@ public class Collector {
     //Make an async reverse DNS request
     public static void resolveHosts() {
         for (Report r : mReportList){
-            String tmp;
             try {
                 r.getRemoteAdd().getHostName();
                 r.setRemoteResolved(true);
@@ -134,13 +133,16 @@ public class Collector {
 
     private static void fillPackageInformation() {
         //Get Package Information
-        for (int i = 0; i < mReportList.size(); i++) {
-            Report report = mReportList.get(i);
-            updatePackage(report.getUid());
-            PackageInformation pi = mUidPackageMap.get(report.getUid());
-            report.setPid(pi.pid);
-            report.setAppName(pi.appName);
-            report.setPackageName(pi.packageName);
+        for (Report r : mReportList) {
+            updatePackageCache();
+            if(mUidPackageMap.containsKey(r.getUid())){
+                PackageInfo pi = mUidPackageMap.get(r.getUid());
+                r.setAppName(pi.applicationInfo.name);
+                r.setPackageName(pi.packageName);
+            } else {
+                r.setAppName("Unknown App");
+                r.setAppName("app.unknown");
+            }
         }
     }
 
@@ -162,94 +164,32 @@ public class Collector {
         return cloneList;
     }
 
-    //Updates the PackageInformation hash map with new entries.
-    private static void updatePackage(int uid) {
-        // debug print of all packages
-        if (Const.IS_DEBUG) { printAllPackages(); }
+    //Updates the PkgInfo hash map with new entries.
+    private static void updatePackageCache() {
+        mUidPackageMap = new HashMap();
 
-        //Get Package Info of running apps, if not already in Map
-        if (!mUidPackageMap.containsKey(uid)) {
-          PackageInformation pi = getPackageInfo(uid);
-          if (pi.uid == -1) {
-              generateDefaultPackage(pi, uid);
-          }
-            mUidPackageMap.put(uid, pi);
-        }
-
-
-
-    }
-    //Generates a default package, if the app couldn't be found, or it's a system process (uid == 0)
-    private static void generateDefaultPackage(PackageInformation pi, int uid) {
-
-        switch (uid) {
-            case 0:
-                pi.uid = uid;
-                pi.pid = 0;
-                pi.appName = "system";
-                pi.packageName = "com.android.system";
-                pi.icon = RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
-                break;
-
-            default:
-                pi.uid = -1;
-                pi.pid = -1;
-                pi.appName = "Unknown App";
-                pi.packageName = "de.tlsmetric.unknown";
-                pi.icon = RunStore.getContext().getDrawable(R.mipmap.unknown_app);
-                break;
-        }
-
-    }
-
-    private static PackageInformation getPackageInfo(int uid) {
-        PackageInformation pi = new PackageInformation();
-        PackageManager pm = RunStore.getContext().getPackageManager();
-        ActivityManager am = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
-        pi.uid = -1;
-
-        for (int i = 0; i < activeApps.size(); i++) {
-            ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
-            if (info.uid == uid) {
-                try {
-                    String[] list = info.pkgList;
-                    String pkgName = "";
-
-                    //fill package information
-                    pi.appName = list[0];
-                    for (int j = 0; j < list.length; j++){
-                        pkgName = pkgName + list[j];
-                    }
-                    pi.packageName = pkgName;
-                    pi.uid = uid;
-                    pi.pid = info.pid;
-                    pi.icon = pm.getApplicationIcon(pi.appName);
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
+        if(Const.IS_DEBUG){ printAllPackages(); }
+        ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
+        for (PackageInfo i : infoList) {
+            if (i != null) {
+                mUidPackageMap.put(i.applicationInfo.uid, i);
             }
         }
+    }
 
-        return pi;
+    private static List<PackageInfo> getPackages(Context context) {
+        synchronized (context.getApplicationContext()) {
+                PackageManager pm = context.getPackageManager();
+            return new ArrayList<>(pm.getInstalledPackages(0));
+        }
     }
 
     //degub print: Print all reachable active processes
     private static void printAllPackages() {
-        ActivityManager am = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-
-        List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
-        for (int i = 0; i < activeApps.size(); i++) {
-            ActivityManager.RunningAppProcessInfo info = activeApps.get(i);
-            Log.d(Const.LOG_TAG, "printAllPackages (" + activeApps.size() + "):");
-
-            String[] list = info.pkgList;
-            String pkg = " UID: " + info.uid + " PID: " + info.pid + " Name " + info.processName;
-
-            for (int j = 0; j < list.length; j++) {
-                pkg = pkg + list[j];
+            ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
+            for (PackageInfo i : infoList) {
+                Log.d(Const.LOG_TAG, i.packageName + " uid_" + i.applicationInfo.uid);
             }
-            Log.d(Const.LOG_TAG, pkg);
-        }
     }
+
 }

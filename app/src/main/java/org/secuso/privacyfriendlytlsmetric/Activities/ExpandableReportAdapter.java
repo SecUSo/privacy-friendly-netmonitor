@@ -10,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
@@ -54,7 +55,8 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         } else {
             text1 = "" + r.getRemoteAdd().getHostAddress();
         }
-        final String text2 = "<WARNING Level: 0>";
+        //TODO: MS4/4 - add some warning if necessary
+        final String text2 = "";
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -105,11 +107,16 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.reportGroupTitle);
         textView.setTypeface(null, Typeface.BOLD);
         textView.setText(listTitle);
-        textView = (TextView) convertView
-                .findViewById(R.id.reportGroupSubtitle);
-        textView.setText(Collector.mPackageMap.get(listTitle).packageName);
+        textView = (TextView) convertView.findViewById(R.id.reportGroupSubtitle);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.reportGroupIcon);
-        imgView.setImageDrawable(Collector.mPackageMap.get(listTitle).icon);
+        if(Collector.mPackageMap.containsKey(listTitle)) {
+            textView.setText(Collector.mPackageMap.get(listTitle).packageName);
+            imgView.setImageDrawable(RunStore.getContext().getDrawable(Collector.mPackageMap.get(listTitle).applicationInfo.icon));
+        }
+        else{
+            textView.setText(R.string.unknown_app);
+            imgView.setImageDrawable(RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon));
+        }
         return convertView;
     }
 
