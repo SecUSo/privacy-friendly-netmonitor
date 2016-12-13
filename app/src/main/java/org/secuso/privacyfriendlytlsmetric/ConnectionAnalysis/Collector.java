@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.io.ByteArrayInputStream;
@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
-import static android.R.id.list;
 
 /**
  * Collector class collects data from the services and processes it for inter process communication
@@ -38,25 +36,37 @@ public class Collector {
 
 
     //Pushed the newest availiable information as deep copy.
-    public static HashMap<String, List<Report>> provideReports(){
+    public static HashMap<String, List<Report>> provideSimpleReports(){
         updateReports();
         filterReports();
         return mReportsByApp;
         //return mFilteredReportsByApp;
     }
 
-    public static HashMap<String, List<Report>> provideAdvancedReports() {
+    public static HashMap<String, List<Report>> provideFullReports() {
         updateReports();
         return mReportsByApp;
     }
 
+    //Generate an overview List, with only one report per remote address per app
     private static void filterReports() {
         mFilteredReportsByApp = new HashMap<>();
+
         for (String key:mReportsByApp.keySet()){
             mFilteredReportsByApp.put(key, new ArrayList<Report>());
-            ArrayList<Report> list = (ArrayList) mReportsByApp.get(key);
+            ArrayList<Report> list = (ArrayList<Report>) mReportsByApp.get(key);
+            ArrayList<Report> filteredList = (ArrayList<Report>) mFilteredReportsByApp.get(key);
+            boolean isPresent = false;
+
             for (int i = 0; i < list.size(); i++){
-                //TODO: address filtering
+                String add = list.get(i).getRemoteAdd().getHostAddress();
+                for (int j = 0; j < filteredList.size(); j++){
+                    if(add.equals(filteredList.get(j).getRemoteAdd().getHostAddress())){
+                        isPresent = true;
+                    }
+                    break;
+                }
+                if (!isPresent) {filteredList.add(list.get(i));}
             }
         }
     }
@@ -174,7 +184,7 @@ public class Collector {
                 pi.pid = 0;
                 pi.appName = "system";
                 pi.packageName = "com.android.system";
-                pi.icon = ContextStorage.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
+                pi.icon = RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
                 break;
 
             default:
@@ -182,7 +192,7 @@ public class Collector {
                 pi.pid = -1;
                 pi.appName = "Unknown App";
                 pi.packageName = "de.tlsmetric.unknown";
-                pi.icon = ContextStorage.getContext().getDrawable(R.mipmap.unknown_app);
+                pi.icon = RunStore.getContext().getDrawable(R.mipmap.unknown_app);
                 break;
         }
 
@@ -190,8 +200,8 @@ public class Collector {
 
     private static PackageInformation getPackageInfo(int uid) {
         PackageInformation pi = new PackageInformation();
-        PackageManager pm = ContextStorage.getContext().getPackageManager();
-        ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        PackageManager pm = RunStore.getContext().getPackageManager();
+        ActivityManager am = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
         pi.uid = -1;
 
@@ -222,7 +232,7 @@ public class Collector {
 
     //degub print: Print all reachable active processes
     private static void printAllPackages() {
-        ActivityManager am = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
 
         List<ActivityManager.RunningAppProcessInfo> activeApps = am.getRunningAppProcesses();
         for (int i = 0; i < activeApps.size(); i++) {

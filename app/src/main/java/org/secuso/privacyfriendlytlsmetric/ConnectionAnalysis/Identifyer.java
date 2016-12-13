@@ -44,7 +44,7 @@ import java.util.Arrays;
 import java.util.Deque;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Filter;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Http;
@@ -71,22 +71,22 @@ public class Identifyer {
     public static Filter indent(byte[] ident) {
         Filter filter = null;
 
-        if (searchByteArray(ident, sHTTP) == 0) filter = new Http(Filter.Protocol.HTTP, 3, ContextStorage.getContext().getResources().getString(R.string.ALERT_HTTP));
+        if (searchByteArray(ident, sHTTP) == 0) filter = new Http(Filter.Protocol.HTTP, 3, RunStore.getContext().getResources().getString(R.string.ALERT_HTTP));
         else if (searchByteArray(ident, sSSL3) == 1 && fillSubProto(ident) != null)
             filter = new Tls(Filter.Protocol.SSL3, 1,
-                    ContextStorage.getContext().getResources().getString(R.string.ALERT_SSL_3),
+                    RunStore.getContext().getResources().getString(R.string.ALERT_SSL_3),
                     fillSubProto(ident), 10);
         else if (searchByteArray(ident, sTLS10) == 1 && fillSubProto(ident) != null)
             filter = new Tls(Filter.Protocol.TLS10, 0,
-                    ContextStorage.getContext().getResources().getString(R.string.ALERT_TLS_10),
+                    RunStore.getContext().getResources().getString(R.string.ALERT_TLS_10),
                     fillSubProto(ident), 10);
         else if (searchByteArray(ident, sTLS11) == 1 && fillSubProto(ident) != null)
             filter = new Tls(Filter.Protocol.TLS11, 0,
-                    ContextStorage.getContext().getResources().getString(R.string.ALERT_TLS_11),
+                    RunStore.getContext().getResources().getString(R.string.ALERT_TLS_11),
                     fillSubProto(ident), 11);
         else if (searchByteArray(ident, sTLS12) == 1 && fillSubProto(ident) != null)
             filter = new Tls(Filter.Protocol.TLS12, 0,
-                    ContextStorage.getContext().getResources().getString(R.string.ALERT_TLS_12),
+                    RunStore.getContext().getResources().getString(R.string.ALERT_TLS_12),
                     fillSubProto(ident), 12);
         return filter;
     }

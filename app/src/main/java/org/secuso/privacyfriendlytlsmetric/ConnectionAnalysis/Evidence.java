@@ -38,25 +38,13 @@
 
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.Log;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ExecuteCommand;
-import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Empty;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Filter.Filter;
-import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
  * Class for generating connection information (Evidence Reports) from packets, which has been

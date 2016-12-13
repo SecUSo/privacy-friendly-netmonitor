@@ -28,13 +28,10 @@
 
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
-
-import java.sql.ResultSet;
 
 /**
  *This class holds certain detail of a connection.
@@ -44,5 +41,5 @@ public class PackageInformation {
     public int uid = -1;
     public Drawable icon;
     public String packageName = "";
-    public String appName = ContextStorage.getContext().getString(R.string.unknown_app);
+    public String appName = RunStore.getContext().getString(R.string.unknown_app);
 }

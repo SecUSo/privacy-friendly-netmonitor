@@ -51,7 +51,6 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.Enumeration;
-import java.util.List;
 
 /**
  * All the litte helpers, used by more than one layer
@@ -134,7 +133,7 @@ public class ToolBox{
 
     //Test if service is active.
     public static boolean isAnalyzerServiceRunning() {
-        ActivityManager manager = (ActivityManager) ContextStorage.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (PassiveService.class.getName().equals(service.service.getClassName())) {
                 return true;

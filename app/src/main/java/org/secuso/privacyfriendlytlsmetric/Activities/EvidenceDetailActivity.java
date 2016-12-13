@@ -38,15 +38,10 @@
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -56,7 +51,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
 import org.secuso.privacyfriendlytlsmetric.R;
@@ -70,7 +65,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_content);
-        ContextStorage.setContext(this);
+        RunStore.setContext(this);
 
 
         //EvidenceList
@@ -97,7 +92,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
                 return true;
 
             case R.id.action_back:
-                    Intent intent = new Intent(ContextStorage.getContext(), ReportActivity.class);
+                    Intent intent = new Intent(RunStore.getContext(), ReportActivity.class);
                     startActivity(intent);
                 return true;
 

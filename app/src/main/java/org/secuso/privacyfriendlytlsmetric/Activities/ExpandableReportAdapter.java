@@ -3,7 +3,6 @@ package org.secuso.privacyfriendlytlsmetric.Activities;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,8 +66,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         reportTextView.setText(text1);
         reportTextView = (TextView) convertView
                 .findViewById(R.id.report_item_2);
-        //TODO: find suitable colours
-        reportTextView.setTextColor(Color.GREEN);
+        reportTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         reportTextView.setText(text2);
         return convertView;
     }
