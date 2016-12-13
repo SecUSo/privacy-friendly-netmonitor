@@ -5,16 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:paddingTop="@dimen/activity_vertical_margin"><![CDATA[
-    android:paddingBottom="@dimen/activity_vertical_margin">
-
-    ]]>
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
         android:id="@+id/reportGroupTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingLeft="@dimen/nav_header_vertical_spacing"
         android:textColor="@android:color/black"
         android:layout_toEndOf="@+id/reportGroupIcon"
         android:text="App Name"
@@ -26,20 +23,19 @@
         android:layout_width="fill_parent"
         android:layout_height="26dip"
         android:ellipsize="marquee"
-        android:text="full.qualified.package.name"
+        android:text="full.package.name"
         android:textSize="12sp"
         android:paddingTop="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingLeft="@dimen/nav_header_vertical_spacing"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-
         android:layout_toEndOf="@+id/reportGroupIcon" />
 
     <ImageView
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:id="@+id/reportGroupIcon"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:contentDescription="AppIcon"
         android:src="@mipmap/icon"
         android:layout_alignParentTop="true"
         android:cropToPadding="false"
