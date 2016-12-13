@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    >
 
     <TextView
         android:id="@+id/reportGroupTitle"
@@ -15,8 +15,8 @@
         android:textColor="@android:color/black"
         android:layout_toEndOf="@+id/reportGroupIcon"
         android:text="App Name"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp" />
+        android:paddingTop="12dp"
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/reportGroupSubtitle"
@@ -25,20 +25,22 @@
         android:ellipsize="marquee"
         android:text="full.package.name"
         android:textSize="12sp"
-        android:paddingTop="5dp"
         android:paddingLeft="@dimen/nav_header_vertical_spacing"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/reportGroupIcon" />
+        android:layout_toEndOf="@+id/reportGroupIcon"
+        android:layout_below="@+id/reportGroupTitle" />
 
     <ImageView
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:id="@+id/reportGroupIcon"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
+        android:foregroundGravity="center_vertical"
         android:src="@mipmap/icon"
-        android:layout_alignParentTop="true"
         android:cropToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:adjustViewBounds="true" />
 
 </RelativeLayout>
