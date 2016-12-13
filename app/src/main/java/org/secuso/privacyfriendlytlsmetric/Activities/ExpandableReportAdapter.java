@@ -54,7 +54,8 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         } else {
             text1 = "" + r.getRemoteAdd().getHostAddress();
         }
-        final String text2 = "";
+        //final String text2 = "<No Metric info yet>";
+        final String text2 = r.getRemoteAdd().getHostAddress();
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -68,6 +69,7 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.report_item_2);
         reportTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
         reportTextView.setText(text2);
+        reportTextView.setTextColor(context.getResources().getColor(R.color.middlegrey));
         return convertView;
     }
 

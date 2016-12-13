@@ -37,6 +37,7 @@
 
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -56,6 +57,8 @@ import org.secuso.privacyfriendlytlsmetric.Activities.ReportActivity;
 import org.secuso.privacyfriendlytlsmetric.Activities.MainActivity;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.R;
+
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -131,8 +134,7 @@ public class PassiveService extends Service {
                 try {
                     while (!mInterrupt) {
                         Detector.updateReportMap();
-                        //Collector.provideSimpleReports();
-                        sleep(1000);
+                        sleep(2000);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -236,8 +238,6 @@ public class PassiveService extends Service {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancelAll();
     }
-
-
 
 
 }

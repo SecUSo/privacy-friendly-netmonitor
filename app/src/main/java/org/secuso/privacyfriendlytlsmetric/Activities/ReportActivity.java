@@ -69,6 +69,7 @@ public class ReportActivity extends BaseActivity{
         final ExpandableReportAdapter reportAdapter;
         reportAdapter = new ExpandableReportAdapter(this, keyList, reportMap);
         expListView.setAdapter(reportAdapter);
+    }
 
         //TODO: Change OnClickListener to PFA Design
 /*        expListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,7 +89,7 @@ public class ReportActivity extends BaseActivity{
             }
 
         });*/
-    }
+
 
 
     @Override
@@ -96,5 +97,10 @@ public class ReportActivity extends BaseActivity{
         return R.id.nav_report;
     }
 
+    public void touchAdapter(){
+        final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.reportExpandableListView);
+        ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getAdapter();
+        adapter.notifyDataSetChanged();
+    }
 
 }
