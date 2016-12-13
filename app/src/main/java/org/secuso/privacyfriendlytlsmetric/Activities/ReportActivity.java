@@ -38,11 +38,14 @@
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
+import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.util.ArrayList;
@@ -52,23 +55,39 @@ import java.util.List;
 /**
  * Lists a Report of each detected connection. Most critical if several reports exist.
  */
-public class ReportActivity extends BaseActivity{
+public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private ExpandableListView expListView;
+    private HashMap<Integer, List<Report>> reportMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
-        Evidence.newWarnings = 0;
-
-        HashMap<Integer, List<Report>> reportMap = Collector.provideSimpleReports();
-        ArrayList<Integer> keyList = new ArrayList<>(reportMap.keySet());
-
-        final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.reportExpandableListView);
-        final ExpandableReportAdapter reportAdapter;
-        reportAdapter = new ExpandableReportAdapter(this, keyList, reportMap);
+        reportMap = Collector.provideSimpleReports();
+        expListView = (ExpandableListView) findViewById(R.id.list);
+        final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        swipeRefreshLayout.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+                                        refreshAdapter();
+                                    }
+                                }
+        );
     }
 
         //TODO: Change OnClickListener to PFA Design
@@ -97,10 +116,20 @@ public class ReportActivity extends BaseActivity{
         return R.id.nav_report;
     }
 
-    public void touchAdapter(){
-        final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.reportExpandableListView);
-        ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getAdapter();
-        adapter.notifyDataSetChanged();
+    //refresh the adapter-list
+    public void refreshAdapter(){
+        swipeRefreshLayout.setRefreshing(true);
+
+        reportMap = Collector.provideSimpleReports();
+        final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
+        expListView.setAdapter(reportAdapter);
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public void onRefresh(){
+        Log.e(Const.LOG_TAG, "onRefresh: triggered");
+        refreshAdapter();
+    }
 }
