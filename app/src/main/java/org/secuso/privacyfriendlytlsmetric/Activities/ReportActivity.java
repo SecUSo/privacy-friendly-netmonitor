@@ -62,8 +62,8 @@ public class ReportActivity extends BaseActivity{
 
         Evidence.newWarnings = 0;
 
-        HashMap<String, List<Report>> reportMap = Collector.provideSimpleReports();
-        ArrayList<String> keyList = new ArrayList<String>(reportMap.keySet());
+        HashMap<Integer, List<Report>> reportMap = Collector.provideSimpleReports();
+        ArrayList<Integer> keyList = new ArrayList<>(reportMap.keySet());
 
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.reportExpandableListView);
         final ExpandableReportAdapter reportAdapter;

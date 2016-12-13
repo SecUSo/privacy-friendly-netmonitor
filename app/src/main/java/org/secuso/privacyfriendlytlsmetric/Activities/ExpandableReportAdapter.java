@@ -1,6 +1,7 @@
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
 
+import java.text.CollationElementIterator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,19 +24,19 @@ import java.util.List;
 public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> reportListTitle;
-    private HashMap<String, List<Report>> reportListDetail;
+    private List<Integer> uidList;
+    private HashMap<Integer, List<Report>> reportListDetail;
 
-    public ExpandableReportAdapter(Context context, List<String> expandableListTitle,
-                                   HashMap<String, List<Report>> expandableListDetail) {
+    public ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
+                                   HashMap<Integer, List<Report>> expandableListDetail) {
         this.context = context;
-        this.reportListTitle = expandableListTitle;
+        this.uidList = expandableListTitle;
         this.reportListDetail = expandableListDetail;
     }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.reportListDetail.get(this.reportListTitle.get(listPosition))
+        return this.reportListDetail.get(this.uidList.get(listPosition))
                 .get(expandedListPosition);
     }
 
@@ -75,18 +77,18 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.reportListDetail.get(this.reportListTitle.get(listPosition))
+        return this.reportListDetail.get(this.uidList.get(listPosition))
                 .size();
     }
 
     @Override
     public Object getGroup(int listPosition) {
-        return this.reportListTitle.get(listPosition);
+        return this.uidList.get(listPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this.reportListTitle.size();
+        return this.uidList.size();
     }
 
     @Override
@@ -97,24 +99,25 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String listTitle = (String) getGroup(listPosition);
+        int uid = (int) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.report_list_group, null);
         }
-        TextView textView = (TextView) convertView
-                .findViewById(R.id.reportGroupTitle);
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(listTitle);
-        textView = (TextView) convertView.findViewById(R.id.reportGroupSubtitle);
+        TextView textViewTitle = (TextView) convertView.findViewById(R.id.reportGroupTitle);
+        textViewTitle.setTypeface(null, Typeface.BOLD);
+        TextView textViewSubtitle = (TextView) convertView.findViewById(R.id.reportGroupSubtitle);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.reportGroupIcon);
-        if(Collector.mPackageMap.containsKey(listTitle)) {
-            textView.setText(Collector.mPackageMap.get(listTitle).packageName);
-            imgView.setImageDrawable(RunStore.getContext().getDrawable(Collector.mPackageMap.get(listTitle).applicationInfo.icon));
-        }
-        else{
-            textView.setText(R.string.unknown_app);
+
+        if(Collector.mUidPackageMap.containsKey(uid)) {
+            PackageInfo pi = Collector.mUidPackageMap.get(uid);
+            textViewTitle.setText(pi.applicationInfo.name);
+            textViewSubtitle.setText(pi.packageName);
+            imgView.setImageDrawable(RunStore.getContext().getDrawable(pi.applicationInfo.icon));
+        } else {
+            textViewTitle.setText(R.string.unknown_app);
+            textViewSubtitle.setText(R.string.unknown_package);
             imgView.setImageDrawable(RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon));
         }
         return convertView;
