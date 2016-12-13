@@ -1,5 +1,6 @@
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +8,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
@@ -17,8 +18,16 @@ import org.secuso.privacyfriendlytlsmetric.R;
 public class ServiceHandler {
 
     private PassiveService mPassiveService;
-    public boolean mIsBoundPassive = false;
 
+    public boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Passive service connection object
     private ServiceConnection mPassiveServiceConnection = new ServiceConnection() {
@@ -31,7 +40,7 @@ public class ServiceHandler {
             mPassiveService = ((PassiveService.AnalyzerBinder)service).getService();
 
             // Tell the user about this for our demo.
-            Toast.makeText(ContextStorage.getContext(), R.string.passive_service_start,
+            Toast.makeText(RunStore.getContext(), R.string.passive_service_start,
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -41,28 +50,36 @@ public class ServiceHandler {
             // Because it is running in our same process, we should never
             // see this happen.
             mPassiveService = null;
-            Toast.makeText(ContextStorage.getContext(), R.string.passive_service_stop,
+            Toast.makeText(RunStore.getContext(), R.string.passive_service_stop,
                     Toast.LENGTH_SHORT).show();
         }
     };
 
-    //Bind the passive service to app  context
+    //start the service
     public void startPassiveService() {
         // Establish a connection with the service.
-        Intent intent = new Intent(ContextStorage.getContext(),
-                        PassiveService.class);
-        ContextStorage.getContext().bindService(intent, mPassiveServiceConnection, Context.BIND_AUTO_CREATE);
-        ContextStorage.getContext().startService(intent);
-        mIsBoundPassive = true;
+        Intent intent = new Intent(RunStore.getContext(),
+                PassiveService.class);
+        RunStore.getContext().startService(intent);
+    }
+
+    //stop the passive service
+    public void stopPassiveService() {
+        if (isServiceRunning(PassiveService.class)) {
+            RunStore.getContext().stopService(new Intent(RunStore.getContext(), PassiveService.class));
+        }
+    }
+
+    //Bind the passice service to the assigned context
+    public void bindPassiveService(Context context) {
+        Intent intent = new Intent(context,PassiveService.class);
+        RunStore.getContext().bindService(intent, mPassiveServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     //Unbind the passive service to app  context
-    public void stopPassiveService() {
-        if (mIsBoundPassive) {
-            // Detach our existing connection.
-            ContextStorage.getContext().stopService(new Intent(ContextStorage.getContext(), PassiveService.class));
-            ContextStorage.getContext().unbindService(mPassiveServiceConnection);
-            mIsBoundPassive = false;
+    public void unbindPassiveService(Context context) {
+        if (isServiceRunning(PassiveService.class)) {
+            context.unbindService(mPassiveServiceConnection);
         }
     }
 

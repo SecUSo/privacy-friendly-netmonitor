@@ -130,10 +130,8 @@ public class PassiveService extends Service {
             public void run() {
                 try {
                     while (!mInterrupt) {
-                        //TODO: Check for changes else sleep
-                        //Detector.printParsedPorts();
                         Detector.updateReportMap();
-                        Collector.provideReports();
+                        //Collector.provideSimpleReports();
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {
@@ -152,7 +150,6 @@ public class PassiveService extends Service {
     @Override
     public void onDestroy() {
         showNoNotification();
-        //Stop the running service-thread
         mInterrupt = true;
         Toast.makeText(this, "TLSMetric service stopped", Toast.LENGTH_SHORT).show();
     }

@@ -47,7 +47,7 @@ import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.ServiceHandler;
  * Singleton-Like implementation which holds App-Context information and ServiceHandlers
  */
 
-public class ContextStorage {
+public class RunStore {
 
         private static Activity gContext;
         private static ServiceHandler gService;

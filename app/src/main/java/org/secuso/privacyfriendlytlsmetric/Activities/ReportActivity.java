@@ -37,14 +37,9 @@
 
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
@@ -65,10 +60,9 @@ public class ReportActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
 
-        ContextStorage.setContext(this);
         Evidence.newWarnings = 0;
 
-        HashMap<String, List<Report>> reportMap = Collector.provideReports();
+        HashMap<String, List<Report>> reportMap = Collector.provideSimpleReports();
         ArrayList<String> keyList = new ArrayList<String>(reportMap.keySet());
 
         final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.reportExpandableListView);
@@ -87,7 +81,7 @@ public class ReportActivity extends BaseActivity{
                             @Override
                             public void run() {
                                     Evidence.setSortedEvidenceDetail(report.getLocalPort());
-                                    Intent intent = new Intent(ContextStorage.getContext(), EvidenceDetailActivity.class);
+                                    Intent intent = new Intent(RunStore.getContext(), EvidenceDetailActivity.class);
                                     startActivity(intent);
                             }
                         });

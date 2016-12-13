@@ -40,14 +40,13 @@ package org.secuso.privacyfriendlytlsmetric.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 
@@ -64,8 +63,8 @@ public class OldMainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         //Fill the ContextStore with activity, then init the Service Handler
-        ContextStorage.setContext(this);
-        mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
+        RunStore.setContext(this);
+        mIsServiceBind = RunStore.getServiceHandler().isServiceRunning(PassiveService.class);
 
         final Button startStop = (Button) findViewById(R.id.game_button_start);
         startStop.setOnClickListener(new View.OnClickListener() {
@@ -73,17 +72,18 @@ public class OldMainActivity extends BaseActivity {
             public void onClick(View view) {
                 if(!mIsServiceBind) {
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_working));
-                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Init service start.");
-                    ContextStorage.getServiceHandler().startPassiveService();
-                    mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
+                    if(Const.IS_DEBUG) Log.i(Const.LOG_TAG, "Init service start.");
+                    //RunStore.getServiceHandler().startPassiveService();
+                    RunStore.getServiceHandler().bindPassiveService(getApplicationContext());
+                    mIsServiceBind = RunStore.getServiceHandler().isServiceRunning(PassiveService.class);
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_on));
                     // TODO: Implement minimization later on.
                     // minimizeActivity();
                 } else {
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_working));
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Init service stop.");
-                    ContextStorage.getServiceHandler().stopPassiveService();
-                    mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
+                    RunStore.getServiceHandler().stopPassiveService();
+                    mIsServiceBind = RunStore.getServiceHandler().isServiceRunning(PassiveService.class);
                     startStop.setBackground(getResources().getDrawable(R.drawable.power_off));
                 }
             }
@@ -94,16 +94,15 @@ public class OldMainActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if(mIsServiceBind){
-                    Intent intent = new Intent(ContextStorage.getContext(), ReportActivity.class);
+                    Intent intent = new Intent(RunStore.getContext(), ReportActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast toast = Toast.makeText(ContextStorage.getContext(), R.string.info_service_offline, Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(RunStore.getContext(), R.string.info_service_offline, Toast.LENGTH_LONG);
                     toast.show();
                 }
 
             }
         });
-
 
         if(mIsServiceBind){
             startStop.setBackground(getResources().getDrawable(R.drawable.power_on));
@@ -119,9 +118,8 @@ public class OldMainActivity extends BaseActivity {
 
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-
     }
 
 

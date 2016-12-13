@@ -14,14 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
-import org.secuso.privacyfriendlytlsmetric.Assistant.ContextStorage;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlytlsmetric.R;
-
-import static org.secuso.privacyfriendlytlsmetric.R.id.imageView;
 
 public class MainActivity extends BaseActivity {
 
-    private boolean mIsServiceBind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +27,24 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         //Fill the ContextStore with activity, then init the Service Handler
-        ContextStorage.setContext(this);
-        mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
+        RunStore.setContext(this);
+
 
         final Button startStop = (Button) findViewById(R.id.main_button);
+        if(RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
+            ImageView imageView = (ImageView) findViewById(R.id.main_image_startstopp);
+            imageView.setImageDrawable(getDrawable(R.drawable.icon_on));
+            TextView textView = (TextView) findViewById(R.id.main_text_startstop);
+            textView.setText(R.string.main_text_started);
+            startStop.setText(R.string.main_button_text_on);
+        }
+
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mIsServiceBind) {
+                if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_start));
-                    ContextStorage.getServiceHandler().startPassiveService();
-                    mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
+                    RunStore.getServiceHandler().startPassiveService();
                     ImageView imageView = (ImageView) findViewById(R.id.main_image_startstopp);
                     imageView.setImageDrawable(getDrawable(R.drawable.icon_on));
                     TextView textView = (TextView) findViewById(R.id.main_text_startstop);
@@ -49,8 +54,7 @@ public class MainActivity extends BaseActivity {
                     // minimizeActivity();
                 } else {
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_stop));
-                    ContextStorage.getServiceHandler().stopPassiveService();
-                    mIsServiceBind = ContextStorage.getServiceHandler().mIsBoundPassive;
+                    RunStore.getServiceHandler().stopPassiveService();
                     ImageView imageView = (ImageView) findViewById(R.id.main_image_startstopp);
                     imageView.setImageDrawable(getDrawable(R.drawable.icon_off));
                     TextView textView = (TextView) findViewById(R.id.main_text_startstop);
@@ -71,7 +75,6 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
-
         overridePendingTransition(0, 0);
     }
 
@@ -79,7 +82,6 @@ public class MainActivity extends BaseActivity {
     protected int getNavigationDrawerID() {
         return R.id.nav_main;
     }
-
 
     public static class WelcomeDialog extends DialogFragment {
 
@@ -108,10 +110,21 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+
     public void onClick(View view) {
         switch(view.getId()) {
             // do something with all these buttons?
             default:
         }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        //Kill the service if main activity gets destroyed
+        /*
+        if(RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
+            RunStore.getServiceHandler().stopPassiveService();
+        }*/
     }
 }
