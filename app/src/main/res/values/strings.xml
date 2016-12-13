@@ -122,6 +122,7 @@
     <string name="main_text_started">TLSMetric active...</string>
     <string name="report_general_heading">Active Connections</string>
     <string name="report_connections_found">connections by this App (UID)</string>
+    <string name="unknown_package">app.android.unknown</string>
 
 
 </resources>

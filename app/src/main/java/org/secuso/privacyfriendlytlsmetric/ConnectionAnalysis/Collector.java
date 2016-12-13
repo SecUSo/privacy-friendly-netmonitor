@@ -1,6 +1,5 @@
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,7 +8,6 @@ import android.util.Log;
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
-import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,34 +25,33 @@ import java.util.Set;
  */
 public class Collector {
 
-    //public Member for collecting non-serializable packet information like icons
-    public static HashMap<String, PackageInfo> mPackageMap = new HashMap<>();
+    //public member for collecting non-serializable packet information like icons
+    public static HashMap<Integer, PackageInfo> mUidPackageMap;
 
     //Data processing maps
     private static ArrayList<Report> mReportList;
-    private static HashMap<String, List<Report>> mReportsByApp;
-    private static HashMap<Integer, PackageInfo> mUidPackageMap;
+    private static HashMap<Integer, List<Report>> mUidReportMap;
 
     //Pushed the newest availiable information as deep copy.
-    public static HashMap<String, List<Report>> provideSimpleReports(){
+    public static HashMap<Integer, List<Report>> provideSimpleReports(){
         updateReports();
         filterReports();
-        return mReportsByApp;
+        return mUidReportMap;
         //return mFilteredReportsByApp;
     }
 
-    public static HashMap<String, List<Report>> provideFullReports() {
+    public static HashMap<Integer, List<Report>> provideFullReports() {
         updateReports();
-        return mReportsByApp;
+        return mUidReportMap;
     }
 
     //Generate an overview List, with only one report per remote address per app
     private static void filterReports() {
-        HashMap<String, List<Report>> filteredReportsByApp = new HashMap<>();
+        HashMap<Integer, List<Report>> filteredReportsByApp = new HashMap<>();
 
-        for (String key:mReportsByApp.keySet()){
+        for (int key: mUidReportMap.keySet()){
             filteredReportsByApp.put(key, new ArrayList<Report>());
-            ArrayList<Report> list = (ArrayList<Report>) mReportsByApp.get(key);
+            ArrayList<Report> list = (ArrayList<Report>) mUidReportMap.get(key);
             ArrayList<Report> filteredList = (ArrayList<Report>) filteredReportsByApp.get(key);
             boolean isPresent = false;
 
@@ -80,29 +77,19 @@ public class Collector {
         new AsyncDNS().execute("");
         //sorting
         sortReportsToMap();
-        //update package info
-        updatePI();
-    }
-
-    private static void updatePI() {
-        for (Integer i : mUidPackageMap.keySet()) {
-            PackageInfo pi = mUidPackageMap.get(i);
-            mPackageMap.put(pi.applicationInfo.name, pi);
-        }
-
     }
 
     //Sorts the reports by app package name to a HashMap
     private static void sortReportsToMap() {
-        mReportsByApp = new HashMap<>();
+        mUidReportMap = new HashMap<>();
 
         for (int i = 0; i < mReportList.size(); i++) {
             Report r = mReportList.get(i);
 
-            if (!mReportsByApp.containsKey(r.getAppName())) {
-                mReportsByApp.put(r.getAppName(), new ArrayList<Report>());
+            if (!mUidReportMap.containsKey(r.getUid())) {
+                mUidReportMap.put(r.getUid(), new ArrayList<Report>());
             }
-            mReportsByApp.get(r.getAppName()).add(r);
+            mUidReportMap.get(r.getUid()).add(r);
         }
     }
 
