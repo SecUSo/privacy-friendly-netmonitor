@@ -54,7 +54,6 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         } else {
             text1 = "" + r.getRemoteAdd().getHostAddress();
         }
-        //TODO: MS4/4 - add some warning if necessary
         final String text2 = "";
 
         if (convertView == null) {
@@ -109,7 +108,8 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         if(Collector.mUidPackageMap.containsKey(uid)) {
             PackageInfo pi = Collector.mUidPackageMap.get(uid);
-            textViewTitle.setText(pi.applicationInfo.loadLabel(context.getPackageManager()));
+            textViewTitle.setText(pi.applicationInfo.loadLabel(context.getPackageManager())
+                    + " (" + reportListDetail.get(uid).size() +")");
             textViewSubtitle.setText(pi.packageName);
             imgView.setImageDrawable(pi.applicationInfo.loadIcon(context.getPackageManager()));
         } else {
