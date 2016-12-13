@@ -114,7 +114,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
             PackageInfo pi = Collector.mUidPackageMap.get(uid);
             textViewTitle.setText(pi.applicationInfo.name);
             textViewSubtitle.setText(pi.packageName);
-            imgView.setImageDrawable(RunStore.getContext().getDrawable(pi.applicationInfo.icon));
+            imgView.setImageDrawable(pi.applicationInfo.loadIcon(RunStore.getContext().getPackageManager()));
         } else {
             textViewTitle.setText(R.string.unknown_app);
             textViewSubtitle.setText(R.string.unknown_package);
