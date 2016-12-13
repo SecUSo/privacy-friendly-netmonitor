@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
@@ -77,7 +78,7 @@ public class Collector {
         //process reports (passive mode)
         fillPackageInformation();
         //resolve remote hosts (in cache or permission.INTERNET required)
-        resolveHosts();
+        new AsyncDNS().execute("");
         //sorting
         sortReportsToMap();
         //update package info
@@ -116,14 +117,17 @@ public class Collector {
         mReportList = deepCloneReportList(reportList);
     }
 
-    private static void resolveHosts() {
+    //Make an async reverse DNS request
+    public static void resolveHosts() {
         for (Report r : mReportList){
+            String tmp;
             try {
                 r.getRemoteAdd().getHostName();
                 r.setRemoteResolved(true);
             } catch(RuntimeException e) {
                 r.setRemoteResolved(false);
                 Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
+                e.printStackTrace();
             }
         }
     }
