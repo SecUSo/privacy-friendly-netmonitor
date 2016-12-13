@@ -20,6 +20,8 @@
 
         <include layout="@layout/activity_report_content" />
 
+
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
