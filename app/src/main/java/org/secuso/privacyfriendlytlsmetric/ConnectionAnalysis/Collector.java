@@ -16,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,9 +36,7 @@ public class Collector {
     //Pushed the newest availiable information as deep copy.
     public static HashMap<Integer, List<Report>> provideSimpleReports(){
         updateReports();
-        filterReports();
-        return mUidReportMap;
-        //return mFilteredReportsByApp;
+        return filterReports();
     }
 
     public static HashMap<Integer, List<Report>> provideFullReports() {
@@ -46,26 +45,26 @@ public class Collector {
     }
 
     //Generate an overview List, with only one report per remote address per app
-    private static void filterReports() {
+    private static HashMap<Integer, List<Report>> filterReports() {
         HashMap<Integer, List<Report>> filteredReportsByApp = new HashMap<>();
-
-        for (int key: mUidReportMap.keySet()){
+        HashSet<String> filterMap = new HashSet<>();
+        String address;
+        ArrayList<Report> list;
+        ArrayList<Report> filteredList;
+        for (int key : mUidReportMap.keySet()) {
             filteredReportsByApp.put(key, new ArrayList<Report>());
-            ArrayList<Report> list = (ArrayList<Report>) mUidReportMap.get(key);
-            ArrayList<Report> filteredList = (ArrayList<Report>) filteredReportsByApp.get(key);
-            boolean isPresent = false;
-
-            for (int i = 0; i < list.size(); i++){
-                String add = list.get(i).getRemoteAdd().getHostAddress();
-                for (int j = 0; j < filteredList.size(); j++){
-                    if(add.equals(filteredList.get(j).getRemoteAdd().getHostAddress())){
-                        isPresent = true;
-                    }
-                    break;
+            list = (ArrayList<Report>) mUidReportMap.get(key);
+            filteredList = (ArrayList<Report>) filteredReportsByApp.get(key);
+            filterMap.clear();
+            for (int i = 0; i < list.size(); i++) {
+                address = list.get(i).getRemoteAdd().getHostAddress();
+                if (!filterMap.contains(address)) {
+                    filteredList.add(list.get(i));
+                    filterMap.add(address);
                 }
-                if (!isPresent) {filteredList.add(list.get(i));}
             }
         }
+        return filteredReportsByApp;
     }
 
     private static void updateReports(){
