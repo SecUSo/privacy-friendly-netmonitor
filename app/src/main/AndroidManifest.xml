@@ -22,7 +22,8 @@
         <activity
             android:name=".Activities.ReportActivity"
             android:label="@string/headline_evidence"
-            android:parentActivityName=".Activities.MainActivity" >
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
@@ -30,7 +31,8 @@
         <activity
             android:name=".Activities.EvidenceDetailActivity"
             android:label="@string/headline_evidence_detail"
-            android:parentActivityName=".Activities.MainActivity" >
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlytlsmetric.Activities.ReportActivity" />
