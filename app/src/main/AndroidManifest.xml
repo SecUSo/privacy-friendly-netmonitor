@@ -29,7 +29,7 @@
                 android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.EvidenceDetailActivity"
+            android:name=".Activities.ReportDetailActivity"
             android:label="@string/headline_evidence_detail"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

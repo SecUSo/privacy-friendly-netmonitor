@@ -70,6 +70,7 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        RunStore.setContext(this);
         setContentView(R.layout.activity_report);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
 
@@ -103,7 +104,7 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
                         @Override
                         public void run() {
                             //TODO: Get Report, start smth
-                            //Intent intent = new Intent(RunStore.getContext(), EvidenceDetailActivity.class);
+                            //Intent intent = new Intent(RunStore.getContext(), ReportDetailActivity.class);
                             //startActivity(intent);
                         }
                     });

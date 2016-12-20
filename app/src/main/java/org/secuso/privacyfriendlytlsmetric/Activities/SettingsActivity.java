@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
@@ -94,6 +95,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RunStore.setContext(this);
 
         setContentView(R.layout.activity_settings);
         //setupActionBar();
