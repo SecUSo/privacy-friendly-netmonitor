@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuItem;
 
+import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
@@ -35,7 +38,7 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
-
+            Log.d(Const.LOG_TAG, stringValue);
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
@@ -53,6 +56,8 @@ public class SettingsActivity extends BaseActivity {
                 preference.setSummary(stringValue);
             }
             return true;
+
+
         }
     };
 
@@ -91,10 +96,7 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
-
         //setupActionBar();
-
-
         overridePendingTransition(0, 0);
     }
 

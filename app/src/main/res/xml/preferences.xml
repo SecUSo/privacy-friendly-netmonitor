@@ -3,18 +3,21 @@
 
     <PreferenceCategory
         android:title="TLSMetric Settings">
+
         <SwitchPreference
             android:id="@+id/pref_advanced_switch"
             android:key="pref_advanced_switch"
             android:title="@string/pref_advanced_switch"
             android:summary="@string/pref_advanced_switch_summary"
             android:defaultValue="false"/>
+
         <SwitchPreference
             android:id="@+id/pref_log_switch"
             android:key="pref_log_switch"
             android:title="@string/pref_log_switch"
             android:summary="@string/pref_log_switch_summary"
             android:defaultValue="false"/>
+
     </PreferenceCategory>
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
