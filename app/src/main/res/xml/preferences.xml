@@ -2,15 +2,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Example Category">
+        android:title="TLSMetric Settings">
         <SwitchPreference
-            android:id="@+id/pref_example_switch"
-            android:key="pref_example_switch"
-            android:title="@string/pref_example_switch"
-            android:summary="@string/pref_example_switch_summary"
+            android:id="@+id/pref_advanced_switch"
+            android:key="pref_advanced_switch"
+            android:title="@string/pref_advanced_switch"
+            android:summary="@string/pref_advanced_switch_summary"
             android:defaultValue="false"/>
-        <Preference android:title="Test Setting"
-            android:summary="Text Summary"/>
+        <SwitchPreference
+            android:id="@+id/pref_log_switch"
+            android:key="pref_log_switch"
+            android:title="@string/pref_log_switch"
+            android:summary="@string/pref_log_switch_summary"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
