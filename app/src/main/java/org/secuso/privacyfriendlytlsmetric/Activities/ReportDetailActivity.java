@@ -59,7 +59,7 @@ import org.secuso.privacyfriendlytlsmetric.R;
 /**
  * Evidence Detail Panel. List all reports of a connection, invoked by Evidence Panel (ReportActivity)
  */
-public class EvidenceDetailActivity extends AppCompatActivity{
+public class ReportDetailActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class EvidenceDetailActivity extends AppCompatActivity{
         } else {
             if(Const.IS_DEBUG) Log.e(Const.LOG_TAG, "Evidence list not existing or empty!");
             adapter = new DetailAdapter(this, new ArrayList<Report>());
-            Toast.makeText(EvidenceDetailActivity.this, "No connections availiable.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReportDetailActivity.this, "No connections availiable.", Toast.LENGTH_SHORT).show();
         }
 
         listview.setAdapter(adapter);

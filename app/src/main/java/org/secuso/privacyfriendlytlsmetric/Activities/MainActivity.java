@@ -25,8 +25,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Fill the ContextStore with activity, then init the Service Handler
         RunStore.setContext(this);
 
 

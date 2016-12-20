@@ -1,4 +1,5 @@
 package org.secuso.privacyfriendlytlsmetric.Activities;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class HelpActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+        RunStore.setContext(this);
 
         ExpandableListAdapter listAdapter;
         HelpDataDump helpDataDump = new HelpDataDump(this);
