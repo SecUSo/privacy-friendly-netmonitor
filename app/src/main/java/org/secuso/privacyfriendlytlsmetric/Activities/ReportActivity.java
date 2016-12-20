@@ -37,9 +37,12 @@
 
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -58,7 +61,7 @@ import java.util.List;
 public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private SwipeRefreshLayout swipeRefreshLayout;
-
+    private SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
     private ExpandableListView expListView;
     private HashMap<Integer, List<Report>> reportMap;
 
@@ -88,26 +91,32 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
                                     }
                                 }
         );
-    }
 
-        //TODO: Change OnClickListener to PFA Design
-/*        expListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final Report report = (Report) parent.getItemAtPosition(position);
-                view.animate().setDuration(500).alpha((float)0.5)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                    Evidence.setSortedEvidenceDetail(report.getLocalPort());
-                                    Intent intent = new Intent(RunStore.getContext(), EvidenceDetailActivity.class);
-                                    startActivity(intent);
-                            }
-                        });
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                if(sharedPref.getBoolean("pref_advanced_switch", true)) {
+                    view.animate().setDuration(500).alpha((float) 0.5)
+                    .withEndAction(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            //TODO: Get Report, start smth
+                            //Intent intent = new Intent(RunStore.getContext(), EvidenceDetailActivity.class);
+                            //startActivity(intent);
+                        }
+                    });
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
-        });*/
+
+        });
+    }
+
+
 
 
 
