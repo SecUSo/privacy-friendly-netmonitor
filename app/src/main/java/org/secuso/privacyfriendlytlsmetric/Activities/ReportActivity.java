@@ -47,6 +47,7 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
@@ -61,7 +62,7 @@ import java.util.List;
 public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    private SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
     private ExpandableListView expListView;
     private HashMap<Integer, List<Report>> reportMap;
 
