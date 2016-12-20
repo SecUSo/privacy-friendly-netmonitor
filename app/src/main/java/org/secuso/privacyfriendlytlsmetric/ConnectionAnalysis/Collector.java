@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Debug;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
@@ -122,9 +123,11 @@ public class Collector {
     }
 
     private static void fillPackageInformation() {
-        //Get Package Information
-        for (Report r : mReportList) {
-            updatePackageCache();
+        for (int i = 0; i < mReportList.size(); i++) {
+            Report r = mReportList.get(i);
+            if(!mCachePackage.containsKey(r.getUid())) {
+                updatePackageCache();
+            }
             if(mCachePackage.containsKey(r.getUid())){
                 PackageInfo pi = mCachePackage.get(r.getUid());
                 r.setAppName(pi.applicationInfo.name);
