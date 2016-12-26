@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-class ExpandableReportAdapter extends BaseExpandableListAdapter {
+public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<Integer> uidList;

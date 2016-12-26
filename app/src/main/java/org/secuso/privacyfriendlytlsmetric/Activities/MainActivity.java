@@ -5,7 +5,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,8 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlytlsmetric.R;
 
+import static org.secuso.privacyfriendlytlsmetric.R.id.imageView;
+
 public class MainActivity extends BaseActivity {
 
 
@@ -29,12 +34,14 @@ public class MainActivity extends BaseActivity {
 
 
         final Button startStop = (Button) findViewById(R.id.main_button);
+
         if(RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
             ImageView imageView = (ImageView) findViewById(R.id.main_image_startstopp);
             imageView.setImageDrawable(getDrawable(R.drawable.icon_on));
             TextView textView = (TextView) findViewById(R.id.main_text_startstop);
             textView.setText(R.string.main_text_started);
             startStop.setText(R.string.main_button_text_on);
+            setInspectButton();
         }
 
         startStop.setOnClickListener(new View.OnClickListener() {
@@ -59,22 +66,36 @@ public class MainActivity extends BaseActivity {
                     textView.setText(getResources().getString(R.string.main_text_stopped));
                     startStop.setText(R.string.main_button_text_off);
                 }
+                setInspectButton();
             }
         });
 
-        // Use the a button to display the welcome screen
-        Button b = (Button) findViewById(R.id.button_welcomedialog);
-        if(b != null) {
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    WelcomeDialog welcomeDialog = new WelcomeDialog();
-                    welcomeDialog.show(getFragmentManager(), "WelcomeDialog");
+
+
+        // on click functionality for inspect button
+        Button inspect = (Button) findViewById(R.id.button_inspect);
+        inspect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
+                    Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        TaskStackBuilder builder = TaskStackBuilder.create(getApplicationContext());
+                        builder.addNextIntentWithParentStack(intent);
+                        builder.startActivities();
+                    } else {
+                        startActivity(intent);
+                        finish();
+                    }
                 }
-            });
-        }
+            }
+        });
         overridePendingTransition(0, 0);
     }
+
+    //TODO: start welcomediag
+    //WelcomeDialog welcomeDialog = new WelcomeDialog();
+    //welcomeDialog.show(getFragmentManager(), "WelcomeDialog");
 
     @Override
     protected int getNavigationDrawerID() {
@@ -108,14 +129,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
-    public void onClick(View view) {
-        switch(view.getId()) {
-            // do something with all these buttons?
-            default:
-        }
-    }
-
     @Override
     public void onDestroy(){
         super.onDestroy();
@@ -125,4 +138,19 @@ public class MainActivity extends BaseActivity {
             RunStore.getServiceHandler().stopPassiveService();
         }*/
     }
+
+    // set the inspect button based on service status
+    private void setInspectButton(){
+        Button inspect = (Button) findViewById(R.id.button_inspect);
+        if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
+            inspect.setBackground(getDrawable(R.drawable.button_disabled));
+            TextView textView = (TextView) findViewById(R.id.main_text_inspect_info);
+            textView.setText(getString(R.string.main_text_desc_inspect_off));
+        } else {
+            inspect.setBackground(getDrawable(R.drawable.button_fullwidth));
+            TextView textView = (TextView) findViewById(R.id.main_text_inspect_info);
+            textView.setText(getString(R.string.main_text_desc_inspect_on));
+        }
+    }
+
 }
