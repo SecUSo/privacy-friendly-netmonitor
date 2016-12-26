@@ -155,8 +155,8 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
                 break;
             case R.id.nav_settings:
                 intent = new Intent(this, SettingsActivity.class);
-                //intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-                //intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
+                intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
+                intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
                 createBackStack(intent);
                 break;
             default:
