@@ -6,8 +6,10 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +22,6 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlytlsmetric.R;
-
-import static org.secuso.privacyfriendlytlsmetric.R.id.imageView;
 
 public class MainActivity extends BaseActivity {
 
@@ -55,8 +55,6 @@ public class MainActivity extends BaseActivity {
                     TextView textView = (TextView) findViewById(R.id.main_text_startstop);
                     textView.setText(getResources().getString(R.string.main_text_started));
                     startStop.setText(R.string.main_button_text_on);
-                    // TODO: Implement minimization later on.
-                    // minimizeActivity();
                 } else {
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_stop));
                     RunStore.getServiceHandler().stopPassiveService();
@@ -69,8 +67,6 @@ public class MainActivity extends BaseActivity {
                 setInspectButton();
             }
         });
-
-
 
         // on click functionality for inspect button
         Button inspect = (Button) findViewById(R.id.button_inspect);
@@ -90,12 +86,22 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+
+        //Show welcome dialog on first start
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isFirstStart = sharedPrefs.getBoolean("IsFirstStart", true);
+        if(isFirstStart){
+            WelcomeDialog welcomeDialog = new WelcomeDialog();
+            welcomeDialog.show(getFragmentManager(), "WelcomeDialog");
+            SharedPreferences.Editor edit = sharedPrefs.edit();
+            edit.putBoolean("IsFirstStart", false);
+            edit.apply();
+        }
+
         overridePendingTransition(0, 0);
     }
 
-    //TODO: start welcomediag
-    //WelcomeDialog welcomeDialog = new WelcomeDialog();
-    //welcomeDialog.show(getFragmentManager(), "WelcomeDialog");
+
 
     @Override
     protected int getNavigationDrawerID() {
