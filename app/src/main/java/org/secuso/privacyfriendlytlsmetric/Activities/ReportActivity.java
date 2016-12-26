@@ -140,7 +140,6 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh(){
-        Log.e(Const.LOG_TAG, "onRefresh: triggered");
         refreshAdapter();
     }
 }

@@ -72,7 +72,7 @@ public class Evidence {
         //Set<Integer> ports = mPortPidMap.keySet();
         Set<Integer> ports = null;
             for(int i =0; i< mEvidence.size(); i++){
-                int con = mEvidence.get(i).getLocalPort();
+                int con = mEvidence.get(i).localPort;
                 if (ports.contains(con)){
                     ports.remove(con);
                 }
@@ -107,14 +107,14 @@ public class Evidence {
     }
 */
 
-    // Sort a Reports in the Lists
+ /*   // Sort a Reports in the Lists
     private static void addEvidenceEntry(Report ann){
 
         boolean updated = false;
 
         //Check and update existing connections with lesser filter severity (unknown (-1) or ok (0))
         for(int i =0; i< mEvidence.size(); i++){
-            if(mEvidence.get(i).getLocalPort() == ann.getLocalPort()){
+            if(mEvidence.get(i).localPort == ann.getLocalPort()){
                 updated = true;
                 if(mEvidence.get(i).filter.severity < ann.filter.severity){
                     if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Replacing connection to " + ann.getRemoteAdd() + " in evidence list. Higher warning state.");
@@ -151,7 +151,7 @@ public class Evidence {
             newList.add(ann);
             mEvidenceDetailMap.put(ann.getLocalPort(), newList);
         }
-    }
+    }*/
 
     //Scan a packet for TCP payload and initiate identification
     //TODO: Move alle detection methods in new module when new filter system is designed
@@ -253,7 +253,7 @@ public class Evidence {
     }
 
 
-    //Just a BubbleSort - order ArrayList<Report> in place by by severity, DESC
+  /*  //Just a BubbleSort - order ArrayList<Report> in place by by severity, DESC
     private static void sortAnnList(ArrayList<Report> annList){
         int range = annList.size() - 1;
         while(range > 1){
@@ -267,8 +267,8 @@ public class Evidence {
             range --;
         }
     }
-
-    //Sort the report list and return it report
+*/
+   /* //Sort the report list and return it report
     //TODO: deep copy
     public static ArrayList<Report> getSortedEvidence(){
         sortAnnList(mEvidence);
@@ -293,7 +293,7 @@ public class Evidence {
             }
         }
         return severity;
-    }
+    }*/
 
     //For further use:
     //Example method for parsing /proc/pid/output

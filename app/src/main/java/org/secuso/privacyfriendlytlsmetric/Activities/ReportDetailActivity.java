@@ -171,44 +171,7 @@ public class ReportDetailActivity extends AppCompatActivity{
 
     //Generate detail information based ob the report.
     private String generateDetail(Report ann) {
-        String detail = ann.filter.description;
-        detail += " \n Severity: " + ann.filter.severity ;
-        switch (ann.filter.severity){
-            case -1:
-                detail += " - connection information.";
-                break;
-            case 0:
-                detail += " - secure connection.";
-                break;
-            case 1:
-                detail += " - minor warning.";
-                break;
-            case 2:
-                detail += " - major warning.";
-                break;
-            case 3:
-                detail += " - unencrypted connection.";
-                break;
-            default:
-                break;
-        }
-        detail += " \n Protocol: " + ann.filter.protocol;
-        detail += " \n Time: " + ann.timestamp.toString();
-        detail += " \n Target Host IP: " + ann.getRemoteAdd().getHostAddress();
-        detail += " \n Target Hostname: " + ann.getRemoteAdd().getHostName();
-        detail += " \n Source Port: " + ann.getLocalPort();
-        detail += " \n Destination Port: " + ann.getLocalPort();
-        if(ann.getPid() == -1){
-            detail += " \n App process ID: UNKNOWN";
-        } else {
-            detail += " \n App process ID (PID) : " + ann.getPid();
-        }
-        if(ann.getUid() == -1){
-            detail += " \n App user ID (UID) : UNKNOWN";
-        } else {
-            detail += " \n App process ID: " + ann.getUid();
-        }
-        return detail;
+        return "Well... implement it already!";
     }
 
     @Override

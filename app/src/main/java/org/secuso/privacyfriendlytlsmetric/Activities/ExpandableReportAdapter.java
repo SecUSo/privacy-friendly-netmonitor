@@ -50,14 +50,14 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         //Build information from reports of one App (UID)
         Report r = (Report) getChild(listPosition, expandedListPosition);
         final String text1;
-        if(r.isRemoteResolved()){
-            text1 = "" + r.getRemoteAdd().getHostName();
+        if(r.remoteResolved){
+            text1 = "" + r.remoteAdd.getHostName();
         } else {
-            text1 = "" + r.getRemoteAdd().getHostAddress();
+            text1 = "" + r.remoteAdd.getHostAddress();
         }
         //final String text2 = "<No Metric info yet>";
-        final String text2 = r.getType() + " " + r.getRemoteAdd().getHostAddress()
-                + ":" + r.getRemotePort();
+        final String text2 = r.type + " " + r.remoteAdd.getHostAddress()
+                + ":" + r.remotePort;
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context

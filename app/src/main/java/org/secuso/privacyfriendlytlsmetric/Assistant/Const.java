@@ -43,13 +43,20 @@ package org.secuso.privacyfriendlytlsmetric.Assistant;
 
 public interface Const {
 
+    //App constants
     boolean IS_DEBUG = false;
-
-    int CHANNEL_TIMEOUT_UDP = 10000;
-    int CHANNEL_TIMEOUT_TCP = 3800;
-
     String LOG_TAG = "TLSMetric";
     String FILE_IF_LIST = "iflist";
+
+
+    int ANNOUNCEMENT_TIMEOUT = 1;
+
+    //Detector constants
+    int REPORT_TTL_DEFAULT = 15000;
+
+    //SharedPrefs identifiers
+    String REPORT_TTL = "REPORT_TTL";
+
 
     //File info for AnalyzerService
     String FILE_TCPDUMP = "tcpdump";
@@ -57,5 +64,4 @@ public interface Const {
     String FILE_FILTER = "filter.ini";
     String PARAMS = "-w";
     Object FILE_RESOLVE_PID = "resolve";
-    int ANNOUNCEMENT_TIMEOUT = 1;
 }

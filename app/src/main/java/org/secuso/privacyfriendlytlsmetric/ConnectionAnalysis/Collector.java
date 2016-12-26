@@ -62,7 +62,7 @@ public class Collector {
             filteredList = (ArrayList<Report>) filteredReportsByApp.get(key);
             filterMap.clear();
             for (int i = 0; i < list.size(); i++) {
-                address = list.get(i).getRemoteAdd().getHostAddress();
+                address = list.get(i).remoteAdd.getHostAddress();
                 if (!filterMap.contains(address)) {
                     filteredList.add(list.get(i));
                     filterMap.add(address);
@@ -90,10 +90,10 @@ public class Collector {
         for (int i = 0; i < mReportList.size(); i++) {
             Report r = mReportList.get(i);
 
-            if (!mUidReportMap.containsKey(r.getUid())) {
-                mUidReportMap.put(r.getUid(), new ArrayList<Report>());
+            if (!mUidReportMap.containsKey(r.uid)) {
+                mUidReportMap.put(r.uid, new ArrayList<Report>());
             }
-            mUidReportMap.get(r.getUid()).add(r);
+            mUidReportMap.get(r.uid).add(r);
         }
     }
 
@@ -112,10 +112,10 @@ public class Collector {
     public static void resolveHosts() {
         for (Report r : mReportList){
             try {
-                r.getRemoteAdd().getHostName();
-                r.setRemoteResolved(true);
+                r.remoteAdd.getHostName();
+                r.remoteResolved = true;
             } catch(RuntimeException e) {
-                r.setRemoteResolved(false);
+                r.remoteResolved = false;
                 Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
                 e.printStackTrace();
             }
@@ -125,16 +125,16 @@ public class Collector {
     private static void fillPackageInformation() {
         for (int i = 0; i < mReportList.size(); i++) {
             Report r = mReportList.get(i);
-            if(!mCachePackage.containsKey(r.getUid())) {
+            if(!mCachePackage.containsKey(r.uid)) {
                 updatePackageCache();
             }
-            if(mCachePackage.containsKey(r.getUid())){
-                PackageInfo pi = mCachePackage.get(r.getUid());
-                r.setAppName(pi.applicationInfo.name);
-                r.setPackageName(pi.packageName);
+            if(mCachePackage.containsKey(r.uid)){
+                PackageInfo pi = mCachePackage.get(r.uid);
+                r.appName = pi.applicationInfo.name;
+                r.packageName = pi.packageName;
             } else {
-                r.setAppName("Unknown App");
-                r.setAppName("app.unknown");
+                r.appName = "Unknown App";
+                r.appName = "app.unknown";
             }
         }
     }
