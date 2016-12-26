@@ -64,7 +64,7 @@ public class ReportDetailActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report_content);
+        setContentView(R.layout.activity_report_detail);
         RunStore.setContext(this);
 
 
@@ -118,7 +118,7 @@ public class ReportDetailActivity extends AppCompatActivity{
         private final Context context;
 
         public DetailAdapter(Context context, ArrayList<Report> AnnList) {
-            super(context, R.layout.evidence_detail_entry, AnnList);
+            super(context, R.layout.report_detail_item, AnnList);
             this.context = context;
             this.anns = new Report[AnnList.size()];
             for(int i = 0; i < AnnList.size(); i++){
@@ -131,7 +131,7 @@ public class ReportDetailActivity extends AppCompatActivity{
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View rowView = inflater.inflate(R.layout.evidence_detail_entry, parent, false);
+            View rowView = inflater.inflate(R.layout.report_detail_item, parent, false);
 
             //TODO: Implement IPC
            /* PkgInfo pi = Evidence.getPackageInformation(anns[position].pid, anns[position].uid);

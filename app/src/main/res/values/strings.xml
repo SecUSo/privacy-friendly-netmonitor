@@ -130,6 +130,7 @@
     <string name="pref_log_switch_summary">Keep closed connections</string>
     <string name="main_button_inspect_reports">Inspect Connections</string>
     <string name="main_text_desc_inspect_on">Tocuh button to inspect connections.</string>
+    <string name="report_detail_heading">Connection Detail</string>
 
 
 </resources>
