@@ -1,10 +1,7 @@
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ExecCom;
@@ -19,9 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Detects active connections on the device and identifies port-uid-pid realation. Corresponding
@@ -91,45 +85,8 @@ class Detector {
         return fullReportList;
     }
 
-    //TODO: old implementation - remove at time
-    private static HashMap<Integer, Integer> mPortPidMap = new HashMap<>();
-    private static HashMap<Integer, Integer> mUidPidMap = new HashMap<>();
-    private static HashMap<Integer, Integer> mPortUidMap = new HashMap<>();
-
-    //parse net output and scan for new conenctions, sort by port
-    public static HashMap<Integer, Integer> getPortMap() {
-        HashMap<Integer, Integer> result = new HashMap<>();
-
-        return result;
-    }
-
-
-    //match pids
-    public static void updateUidPidMap(){
-        ActivityManager am = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> infos = am.getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo info : infos) {
-            if(!mUidPidMap.containsKey(info.uid)){
-                mUidPidMap.put(info.uid, info.pid);
-                if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Adding uid/pid: " + info.uid + " -> " + info.pid);
-            }
-        }
-    }
-
-    //match pid and uid, accessible by port
-    private static void updatePortPidMap() {
-        updateUidPidMap();
-        Set<Integer> ports = mPortUidMap.keySet();
-        for (int port :ports){
-            if(!mPortPidMap.containsKey(port) && mUidPidMap.containsKey(mPortUidMap.get(port))){
-                mPortPidMap.put(port, mUidPidMap.get(mPortUidMap.get(port)));
-                if(Const.IS_DEBUG) Log.d(Const.LOG_TAG,"mapping port to pid: " + port + " ->" + mUidPidMap.get(mPortUidMap.get(port)));
-            }
-        }
-    }
-
     //Parse output from /proc/net/tcp and udp files (ip4/6)
-    public static List<Report> parseNetOutput(String readIn, TLType type) {
+    private static List<Report> parseNetOutput(String readIn, TLType type) {
         String[] splitLines;
         LinkedList<Report> reportList = new LinkedList<>();
 
@@ -141,7 +98,7 @@ class Detector {
         return reportList;
     }
 
-    public static Report initReport(String splitLine, TLType type){
+    private static Report initReport(String splitLine, TLType type){
         String splitTabs[];
         while (splitLine.contains("  ")) {
             splitLine = splitLine.replace("  ", " ");
@@ -230,15 +187,4 @@ class Detector {
 
         return new Report(bb, type);
     }
-
-    //resolve an UID to a package name
-    private static String getPackageName(int uid){
-        final String command = "dumpsys package | grep -A1 'userid=" + uid + "'";
-
-        return ExecCom.userForResult(command);
-    }
-
-
-
-
 }
