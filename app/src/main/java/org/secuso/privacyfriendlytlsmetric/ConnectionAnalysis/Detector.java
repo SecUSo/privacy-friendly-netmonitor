@@ -2,6 +2,8 @@ package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
@@ -11,8 +13,10 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -24,68 +28,59 @@ import static android.content.ContentValues.TAG;
  * Apps are identified.
  */
 
-public class Detector {
+class Detector {
 
     //Members
-    public static HashMap<Integer, Report> sReportMap = new HashMap<>();
+    //Get commands for shell readin
+    private static final String commandTcp = "cat /proc/net/tcp";
+    private static final String commandTcp6 = "cat /proc/net/tcp6";
+    private static final String commandUdp = "cat /proc/net/udp";
+    private static final String commandUdp6 = "cat /proc/net/udp6";
 
-    private static int mUpdateType = 0;
+    static HashMap<Integer, Report> sReportMap = new HashMap<>();
+    static boolean mIsLog = false;
 
     //Update the Report HashMap with current connections. Key = sourceport
-    //The int defines the update strategy:
-    // 0 = overwrite and append
-    // 1 = append
-    // 2 = detach old
-    public static void updateReportMap(){
-        ArrayList<Report> reportList = getCurrentConnections();
+    // Update strategies:
+    // false = update and detach old
+    // true = keep old
+    static void updateReportMap(){
+        updateOrAdd(getCurrentConnections());
+        if (!mIsLog){ removeOldReports(); }
+    }
 
-        switch (mUpdateType){
-            case 0:
-                for (int i = 0; i < reportList.size(); i++) {
-                    //Key = source-Port
-                    int key = reportList.get(i).getLocalPort();
-                    if(sReportMap.containsKey(key)){
-                        sReportMap.remove(key);
-                        sReportMap.put(key,reportList.get(i));
-                    } else{
-                        sReportMap.put(key,reportList.get(i));
-                    }
-                }
-                break;
-            case 1:
-                for (Report r:reportList) {
-                    //Key = source-Port
-                    int key = r.getLocalPort();
-                    if(!sReportMap.containsKey(key)){
-                        sReportMap.put(key,r);
-                    }
-                }
-                break;
-            case 2:
-                sReportMap = new HashMap<>();
-                for (Report r:reportList) {
-                    int key = r.getLocalPort();
-                    sReportMap.put(key,r);
-                }
+    //Update existing or add new reports
+    private static void updateOrAdd(ArrayList<Report> reportList){
+        for (int i = 0; i < reportList.size(); i++) {
+            //Key = source-Port
+            int key = reportList.get(i).localPort;
+            if(sReportMap.containsKey(key)){
+                Report r = sReportMap.get(key);
+                r.touch();
+                r.state = reportList.get(i).state;
+            } else{
+                sReportMap.put(key,reportList.get(i));
+            }
         }
     }
 
-    public static int getmUpdateType() {
-        return mUpdateType;
+    //Remove timed-out connection-reports
+    private static void removeOldReports() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
+        final int reportTTL =  prefs.getInt(Const.REPORT_TTL, Const.REPORT_TTL_DEFAULT);
+        Timestamp thresh = new Timestamp(System.currentTimeMillis() - reportTTL) ;
+
+        HashSet<Integer> keySet = new HashSet<>(sReportMap.keySet());
+        for (int key:keySet) {
+            if(sReportMap.get(key).timestamp.compareTo(thresh) < 0){
+                sReportMap.remove(key);
+            }
+        }
     }
 
-    public static void setmUpdateType(int mUpdateType) {
-        Detector.mUpdateType = mUpdateType;
-    }
-
-    public static ArrayList<Report> getCurrentConnections(){
+    // read the current connections off the designated files
+    private static ArrayList<Report> getCurrentConnections(){
         ArrayList<Report> fullReportList = new ArrayList<>();
-
-        //Get commands for shell readin
-        String commandTcp = "cat /proc/net/tcp";
-        String commandTcp6 = "cat /proc/net/tcp6";
-        String commandUdp = "cat /proc/net/udp";
-        String commandUdp6 = "cat /proc/net/udp6";
 
         //generate full report of all tcp/udp connections
         fullReportList.addAll(parseNetOutput(ExecCom.userForResult(commandTcp), TLType.tcp));
@@ -96,14 +91,6 @@ public class Detector {
         return fullReportList;
     }
 
-
-    public static void getPackageNames(List<Report> reportList){
-        for (Report r : reportList){
-            String pkgName = getPackageName(r.getUid());
-            Log.e(TAG, "getPackageNames: " + pkgName);
-            r.setPackageName(pkgName);
-        }
-    }
     //TODO: old implementation - remove at time
     private static HashMap<Integer, Integer> mPortPidMap = new HashMap<>();
     private static HashMap<Integer, Integer> mUidPidMap = new HashMap<>();
@@ -129,7 +116,7 @@ public class Detector {
         }
     }
 
-    //match pid and uid, accessiable by port
+    //match pid and uid, accessible by port
     private static void updatePortPidMap() {
         updateUidPidMap();
         Set<Integer> ports = mPortUidMap.keySet();
@@ -176,7 +163,7 @@ public class Detector {
         int pos;
         pos = 0;
         //Allocating buffer for 4 Bytes add and 2 bytes port each + 2 bytes UID
-        ByteBuffer bb = ByteBuffer.allocate(14);
+        ByteBuffer bb = ByteBuffer.allocate(15);
         bb.position(0);
 
         //local address
@@ -201,6 +188,9 @@ public class Detector {
         //UID
         bb.putShort(Short.parseShort(splitTabs[7]));
 
+        //state
+        bb.put(ToolBox.hexStringToByteArray(splitTabs[3]));
+
         return new Report(bb, type);
     }
 
@@ -209,7 +199,7 @@ public class Detector {
         int pos;
         pos = 0;
         //Allocating buffer for 16 Bytes add and 2 bytes port each + 2 bytes UID
-        ByteBuffer bb = ByteBuffer.allocate(38);
+        ByteBuffer bb = ByteBuffer.allocate(39);
         bb.position(0);
 
         //local address
@@ -234,6 +224,9 @@ public class Detector {
         //UID
         short a = Short.parseShort(splitTabs[7]);
         bb.putShort(a);
+
+        //state
+        bb.put(ToolBox.hexStringToByteArray(splitTabs[3]));
 
         return new Report(bb, type);
     }
