@@ -104,9 +104,14 @@ class DetailAdapter extends ArrayAdapter<String[]> {
         String[] detail = getItem(position);
 
         TextView type = (TextView) v.findViewById(R.id.report_detail_item_type);
-        type.setText(detail[0]);
         TextView value = (TextView) v.findViewById(R.id.report_detail_item_value);
-        value.setText(detail[1]);
+        if(detail[0] != null && detail[1] != null){
+            type.setText(detail[0]);
+            value.setText(detail[1]);
+        }else{
+            type.setText("type");
+            value.setText("null");
+        }
 
         return v;
     }
