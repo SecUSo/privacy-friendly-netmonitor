@@ -40,20 +40,18 @@ package org.secuso.privacyfriendlytlsmetric.Activities;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
-import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Evidence;
+
 import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
@@ -67,127 +65,50 @@ public class ReportDetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_report_detail);
         RunStore.setContext(this);
 
-
-        //EvidenceList
         final ListView listview = (ListView) findViewById(android.R.id.list);
 
         final DetailAdapter adapter;
-        if(Evidence.mEvidence != null){
-            adapter = new DetailAdapter(this, copyArrayList(Evidence.mEvidenceDetail));
-        } else {
-            if(Const.IS_DEBUG) Log.e(Const.LOG_TAG, "Evidence list not existing or empty!");
-            adapter = new DetailAdapter(this, new ArrayList<Report>());
-            Toast.makeText(ReportDetailActivity.this, "No connections availiable.", Toast.LENGTH_SHORT).show();
-        }
-
+        adapter = new DetailAdapter(this, R.layout.report_detail_item, new ArrayList<String[]>());
         listview.setAdapter(adapter);
     }
 
-/*
-       //old menu
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-
-            case R.id.action_back:
-                    Intent intent = new Intent(RunStore.getContext(), ReportActivity.class);
-                    startActivity(intent);
-                return true;
-
-            case R.id.action_refresh:
-                Evidence.disposeInactiveEvidence();
-                Evidence.updateConnections();
-                ListView listview = (ListView) findViewById(android.R.id.list);
-                DetailAdapter adapter = (DetailAdapter)listview.getAdapter();
-                adapter.notifyDataSetChanged();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-*/
-
-
-
-    private class DetailAdapter extends ArrayAdapter<Report> {
-
-        private final Report[] anns;
-        private final Context context;
-
-        public DetailAdapter(Context context, ArrayList<Report> AnnList) {
-            super(context, R.layout.report_detail_item, AnnList);
-            this.context = context;
-            this.anns = new Report[AnnList.size()];
-            for(int i = 0; i < AnnList.size(); i++){
-                this.anns[i] = AnnList.get(i);
-            }
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            View rowView = inflater.inflate(R.layout.report_detail_item, parent, false);
-
-            //TODO: Implement IPC
-           /* PkgInfo pi = Evidence.getPackageInformation(anns[position].pid, anns[position].uid);
-            //First Line Text
-            TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-            String first = pi.appName;
-            firstLine.setText(first);
-
-            //Detail Text Field
-            TextView detail = (TextView) rowView.findViewById(R.id.detail);
-            String detailText = generateDetail(anns[position]);
-            detail.setText(detailText);
-
-            //App icon
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            imageView.setImageDrawable(pi.icon);
-
-            //Status icon
-            ImageView imageStatusView = (ImageView) rowView.findViewById(R.id.statusIcon);
-            int severity = anns[position].filter.severity;
-            if(severity == 3){
-                imageStatusView.setImageResource(R.mipmap.icon_warn_red);
-            } else if (severity == 2){
-                imageStatusView.setImageResource(R.mipmap.icon_warn_orange);
-            } else if (severity == 1) {
-                imageStatusView.setImageResource(R.mipmap.icon_warn_orange);
-            } else if (severity == 0){
-                imageStatusView.setImageResource(R.mipmap.icon_ok);
-            } else if (severity == -1) {
-                imageStatusView.setImageResource(R.mipmap.icon_quest);
-            }*/
-
-            return rowView;
-        }
-
-    }
-
-    //Generate detail information based ob the report.
-    private String generateDetail(Report ann) {
-        return "Well... implement it already!";
-    }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
     }
+}
 
-    //Poor excuse for a copy constructor
-    //TODO: Make real copy constructors
-    public ArrayList<Report> copyArrayList(ArrayList<Report> anns){
-        ArrayList<Report> copy = new ArrayList<>();
-        for(Report ann: anns){
-            copy.add(ann);
-        }
-        return copy;
+//Implementation of List Adapter
+class DetailAdapter extends ArrayAdapter<String[]> {
+
+    public DetailAdapter(Context context, int resource) {
+
+        super(context, resource);
+    }
+    public DetailAdapter(Context context, int resource, List<String[]> detailList) {
+
+        super(context, resource, detailList);
     }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        View v = convertView;
+        if (v == null) {
+            LayoutInflater vi;
+            vi = LayoutInflater.from(getContext());
+            v = vi.inflate(R.layout.report_detail_item, null);
+        }
+
+        String[] detail = getItem(position);
+
+        TextView type = (TextView) v.findViewById(R.id.report_detail_item_type);
+        type.setText(detail[0]);
+        TextView value = (TextView) v.findViewById(R.id.report_detail_item_value);
+        value.setText(detail[1]);
+
+        return v;
+    }
 
 }
