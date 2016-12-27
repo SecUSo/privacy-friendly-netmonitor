@@ -1,22 +1,24 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:padding="6dip" >
-
-
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/detail"
+        android:id="@+id/report_detail_item_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:text="Type:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+    <TextView
+        android:id="@+id/report_detail_item_value"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/loremIpsum"
-        android:textSize="12sp"
-        android:layout_below="@+id/icon"
-        android:layout_alignParentEnd="true"
-        android:ellipsize="end"
-        android:maxLines="10"
-        android:singleLine="false" />
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:text="value"
+        android:layout_toEndOf="@+id/report_detail_item_type" />
 
-
-
-</RelativeLayout> 
+</RelativeLayout>
