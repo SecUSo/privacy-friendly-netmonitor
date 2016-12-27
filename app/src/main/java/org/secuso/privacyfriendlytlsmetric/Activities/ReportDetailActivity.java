@@ -77,43 +77,44 @@ public class ReportDetailActivity extends AppCompatActivity{
     public void onDestroy(){
         super.onDestroy();
     }
-}
 
-//Implementation of List Adapter
-class DetailAdapter extends ArrayAdapter<String[]> {
+    //Implementation of List Adapter
+    class DetailAdapter extends ArrayAdapter<String[]> {
 
-    public DetailAdapter(Context context, int resource) {
+        public DetailAdapter(Context context, int resource) {
 
-        super(context, resource);
-    }
-    public DetailAdapter(Context context, int resource, List<String[]> detailList) {
-
-        super(context, resource, detailList);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View v = convertView;
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.report_detail_item, null);
+            super(context, resource);
         }
 
-        String[] detail = getItem(position);
+        public DetailAdapter(Context context, int resource, List<String[]> detailList) {
 
-        TextView type = (TextView) v.findViewById(R.id.report_detail_item_type);
-        TextView value = (TextView) v.findViewById(R.id.report_detail_item_value);
-        if(detail[0] != null && detail[1] != null){
-            type.setText(detail[0]);
-            value.setText(detail[1]);
-        }else{
-            type.setText("type");
-            value.setText("null");
+            super(context, resource, detailList);
         }
 
-        return v;
-    }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
 
+            View v = convertView;
+            if (v == null) {
+                LayoutInflater vi;
+                vi = LayoutInflater.from(getContext());
+                v = vi.inflate(R.layout.report_detail_item, null);
+            }
+
+            String[] detail = getItem(position);
+
+            TextView type = (TextView) v.findViewById(R.id.report_detail_item_type);
+            TextView value = (TextView) v.findViewById(R.id.report_detail_item_value);
+            if (detail[0] != null && detail[1] != null) {
+                type.setText(detail[0]);
+                value.setText(detail[1]);
+            } else {
+                type.setText("type");
+                value.setText("null");
+            }
+
+            return v;
+        }
+    }
 }
+
