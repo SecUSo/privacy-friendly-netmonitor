@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.os.Debug;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
+import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.io.ByteArrayInputStream;
@@ -36,6 +36,8 @@ public class Collector {
 
     //Data processing maps
     private static ArrayList<Report> mReportList;
+    private static ArrayList<String[]> l;
+    private static Report mDetailReport;
     private static HashMap<Integer, List<Report>> mUidReportMap;
 
     //Pushed the newest availiable information as deep copy.
@@ -217,4 +219,41 @@ public class Collector {
             return RunStore.getContext().getString(R.string.unknown_package);
         }
     }
+
+    public static void provideDetail(int uid, byte[] remoteAddHex) {
+        ArrayList<Report> filterList = filterReportsByAdd(uid, remoteAddHex);
+        mDetailReport = filterList.get(0);
+        buildDetail(filterList);
+
+    }
+
+    private static void buildDetail(ArrayList<Report> filterList) {
+        ArrayList<String[]> l = new ArrayList<>();
+        Report r = filterList.get(0);
+
+        l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
+        l.add(new String[]{"Remote Port", "" + r.remotePort});
+        l.add(new String[]{"Remote HexAddress ", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
+        if(r.remoteResolved){ l.add(new String[]{"Remote Host", r.remoteAdd.getHostName()});}
+        else { l.add(new String[]{"Remote Host", "name not resolved"}); }
+
+        l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
+        l.add(new String[]{"Local Port", "" + r.localPort});
+        l.add(new String[]{"Remote HexAddress ", ToolBox.printHexBinary(r.localAdd.getAddress())});
+        l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
+        l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
+
+    }
+
+    private static ArrayList<Report> filterReportsByAdd(int uid, byte[] remoteAddHex){
+        List<Report> reportList = mUidReportMap.get(uid);
+        ArrayList<Report> filterList = new ArrayList<>();
+        for (int i = 0; i < reportList.size(); i++){
+            if (reportList.get(i).remoteAddHex.equals(remoteAddHex)){
+                filterList.add(reportList.get(i));
+            }
+        }
+        return filterList;
+    }
+
 }

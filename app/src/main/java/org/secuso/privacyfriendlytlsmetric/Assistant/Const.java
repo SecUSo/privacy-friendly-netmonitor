@@ -48,20 +48,11 @@ public interface Const {
     String LOG_TAG = "TLSMetric";
     String FILE_IF_LIST = "iflist";
 
-
-    int ANNOUNCEMENT_TIMEOUT = 1;
-
     //Detector constants
     int REPORT_TTL_DEFAULT = 15000;
 
     //SharedPrefs identifiers
     String REPORT_TTL = "REPORT_TTL";
-
-
-    //File info for AnalyzerService
-    String FILE_TCPDUMP = "tcpdump";
-    String FILE_DUMP = "dump.pcap";
-    String FILE_FILTER = "filter.ini";
-    String PARAMS = "-w";
-    Object FILE_RESOLVE_PID = "resolve";
+    String DETAIL_MODE = "DETAIL_MODE";
+    String IS_LOG = "IS_LOG";
 }

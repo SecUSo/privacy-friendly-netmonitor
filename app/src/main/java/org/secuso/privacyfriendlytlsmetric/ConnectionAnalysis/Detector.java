@@ -32,7 +32,6 @@ class Detector {
     private static final String commandUdp6 = "cat /proc/net/udp6";
 
     static HashMap<Integer, Report> sReportMap = new HashMap<>();
-    static boolean mIsLog = false;
 
     //Update the Report HashMap with current connections. Key = sourceport
     // Update strategies:
@@ -40,7 +39,9 @@ class Detector {
     // true = keep old
     static void updateReportMap(){
         updateOrAdd(getCurrentConnections());
-        if (!mIsLog){ removeOldReports(); }
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
+        boolean isLog = prefs.getBoolean(Const.IS_LOG,true);
+        if (!isLog){ removeOldReports(); }
     }
 
     //Update existing or add new reports

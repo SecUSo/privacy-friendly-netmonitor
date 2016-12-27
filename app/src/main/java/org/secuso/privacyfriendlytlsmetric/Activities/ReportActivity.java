@@ -37,6 +37,7 @@
 
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -96,16 +97,15 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
 
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                if(sharedPref.getBoolean("pref_advanced_switch", true)) {
+            public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, int i1, long l) {
+                if(sharedPref.getBoolean(Const.DETAIL_MODE, true)) {
                     view.animate().setDuration(500).alpha((float) 0.5)
                     .withEndAction(new Runnable() {
-
                         @Override
                         public void run() {
-                            //TODO: Get Report, start smth
-                            //Intent intent = new Intent(RunStore.getContext(), ReportDetailActivity.class);
-                            //startActivity(intent);
+                            Intent intent = new Intent(getApplicationContext(), ReportDetailActivity.class);
+                            startActivity(intent);
+                            Collector.provideDetail(reportMap.get(i).get(0).remoteAddHex);
                         }
                     });
                     return true;
@@ -117,10 +117,6 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
 
         });
     }
-
-
-
-
 
     @Override
     protected int getNavigationDrawerID() {
