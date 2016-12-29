@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/activity_horizontal_margin"
         android:text="value"
+        android:textAlignment="textEnd"
         android:layout_toEndOf="@+id/report_detail_item_type" />
 
 </RelativeLayout>

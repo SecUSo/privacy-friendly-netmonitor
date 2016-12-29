@@ -227,27 +227,6 @@ public class Collector {
         buildDetail(filterList);
     }
 
-    private static void buildDetail(ArrayList<Report> filterList) {
-        ArrayList<String[]> l = new ArrayList<>();
-        Report r = filterList.get(0);
-
-        l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
-        l.add(new String[]{"Remote Port", "" + r.remotePort});
-        l.add(new String[]{"Remote HexAddress ", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
-        if(r.remoteResolved){ l.add(new String[]{"Remote Host", r.remoteAdd.getHostName()});}
-        else { l.add(new String[]{"Remote Host", "name not resolved"}); }
-
-        l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
-        l.add(new String[]{"Local Port", "" + r.localPort});
-        l.add(new String[]{"Remote HexAddress ", ToolBox.printHexBinary(r.localAdd.getAddress())});
-        l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
-        l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
-
-        //TODO: fill more information
-
-        sDetailReportInfo = l;
-    }
-
     private static ArrayList<Report> filterReportsByAdd(int uid, byte[] remoteAddHex){
         List<Report> reportList = mUidReportMap.get(uid);
         ArrayList<Report> filterList = new ArrayList<>();
@@ -257,6 +236,69 @@ public class Collector {
             }
         }
         return filterList;
+    }
+
+    private static void buildDetail(ArrayList<Report> filterList) {
+        ArrayList<String[]> l = new ArrayList<>();
+        Report r = filterList.get(0);
+
+        l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
+        l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
+        l.add(new String[]{"Remote Port", "" + r.remotePort});
+        if(r.remoteResolved){ l.add(new String[]{"Remote Host", r.remoteAdd.getHostName()});}
+        else { l.add(new String[]{"Remote Host", "name not resolved"}); }
+        l.add(new String[]{"Layer4 Protocol", "" + r.type});
+        l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
+        l.add(new String[]{"Local Address(HEX)", ToolBox.printHexBinary(r.localAdd.getAddress())});
+
+        l.add(new String[]{"Last Seen", r.timestamp.toString()});
+        l.add(new String[]{"Last Seen", getTransportState(r.state)});
+
+        l.add(new String[]{"", ""});
+        l.add(new String[]{"Simultaneous Connections", "" + filterList.size()});
+        for (int i = 0; i < filterList.size(); i++){
+            Report r2 = filterList.get(i);
+            l.add(new String[]{"    " + (i + 1) + " src port > dst port",
+                    r2.localPort + " > " + r2.remotePort});
+        }
+
+        sDetailReportInfo = l;
+    }
+
+
+    private static String getTransportState(byte[] state) {
+
+        String status;
+        switch (ToolBox.printHexBinary(state)) {
+            case "01":
+                    status = "TCPF_ESTABLISHED";
+            case "2":
+                status = "TCPF_SYN_SENT";
+            case "3":
+                status = "TCPF_SYN_RECV";
+            case "4":
+                status = "TCPF_FIN_WAIT1";
+            case "5":
+                status = "TCPF_FIN_WAIT2";
+            case "6":
+                status = "TCPF_TIME_WAIT";
+            case "7":
+                status = "TCPF_CLOSE";
+            case "8":
+                status = "TCPF_CLOSE_WAIT";
+            case "9":
+                status = "TCPF_LAST_ACK";
+            case "A":
+                status = "TCPF_LISTEN";
+            case "B":
+                status = "TCPF_CLOSING";
+            case "C":
+                status = "TCPF_NEW_SYN_RECV";
+            default:
+                status = "UNDEFINED";
+        }
+        return status;
+
     }
 
 }
