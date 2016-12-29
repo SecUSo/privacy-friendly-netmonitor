@@ -97,15 +97,19 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
 
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, int i1, long l) {
+            public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, final int i1, final long l) {
                 if(sharedPref.getBoolean(Const.DETAIL_MODE, true)) {
                     view.animate().setDuration(500).alpha((float) 0.5)
                     .withEndAction(new Runnable() {
                         @Override
                         public void run() {
+                            expListView = (ExpandableListView) findViewById(R.id.list);
+                            ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getAdapter();
+                            Report r = (Report) adapter.getChild(i,i1);
+                            Collector.provideDetail(r.uid, r.remoteAddHex);
                             Intent intent = new Intent(getApplicationContext(), ReportDetailActivity.class);
                             startActivity(intent);
-                            Collector.provideDetail(reportMap.get(i).get(0).remoteAddHex);
+
                         }
                     });
                     return true;

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,14 +31,14 @@ import java.util.Set;
 public class Collector {
 
     //application info caches
-    public static HashMap<Integer, PackageInfo> mCachePackage = new HashMap<>();
-    public static HashMap<Integer, Drawable> mCacheIcon = new HashMap<>();
-    public static HashMap<Integer, String> mCacheLabel = new HashMap<>();
-
+    static HashMap<Integer, PackageInfo> sCachePackage = new HashMap<>();
+    static HashMap<Integer, Drawable> sCacheIcon = new HashMap<>();
+    static HashMap<Integer, String> sCacheLabel = new HashMap<>();
+    //ReportDetail information
+    public static ArrayList<String[]> sDetailReportInfo;
+    public static Report sDetailReport;
     //Data processing maps
-    private static ArrayList<Report> mReportList;
-    private static ArrayList<String[]> l;
-    private static Report mDetailReport;
+    private static ArrayList<Report> sReportList;
     private static HashMap<Integer, List<Report>> mUidReportMap;
 
     //Pushed the newest availiable information as deep copy.
@@ -89,8 +90,8 @@ public class Collector {
     private static void sortReportsToMap() {
         mUidReportMap = new HashMap<>();
 
-        for (int i = 0; i < mReportList.size(); i++) {
-            Report r = mReportList.get(i);
+        for (int i = 0; i < sReportList.size(); i++) {
+            Report r = sReportList.get(i);
 
             if (!mUidReportMap.containsKey(r.uid)) {
                 mUidReportMap.put(r.uid, new ArrayList<Report>());
@@ -107,12 +108,12 @@ public class Collector {
         for (int i : keySet) {
             reportList.add(Detector.sReportMap.get(i));
         }
-        mReportList = deepCloneReportList(reportList);
+        sReportList = deepCloneReportList(reportList);
     }
 
     //Make an async reverse DNS request
     public static void resolveHosts() {
-        for (Report r : mReportList){
+        for (Report r : sReportList){
             try {
                 r.remoteAdd.getHostName();
                 r.remoteResolved = true;
@@ -125,13 +126,13 @@ public class Collector {
     }
 
     private static void fillPackageInformation() {
-        for (int i = 0; i < mReportList.size(); i++) {
-            Report r = mReportList.get(i);
-            if(!mCachePackage.containsKey(r.uid)) {
+        for (int i = 0; i < sReportList.size(); i++) {
+            Report r = sReportList.get(i);
+            if(!sCachePackage.containsKey(r.uid)) {
                 updatePackageCache();
             }
-            if(mCachePackage.containsKey(r.uid)){
-                PackageInfo pi = mCachePackage.get(r.uid);
+            if(sCachePackage.containsKey(r.uid)){
+                PackageInfo pi = sCachePackage.get(r.uid);
                 r.appName = pi.applicationInfo.name;
                 r.packageName = pi.packageName;
             } else {
@@ -161,13 +162,13 @@ public class Collector {
 
     //Updates the PkgInfo hash map with new entries.
     private static void updatePackageCache() {
-        mCachePackage = new HashMap();
+        sCachePackage = new HashMap();
 
         if(Const.IS_DEBUG){ printAllPackages(); }
         ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
         for (PackageInfo i : infoList) {
             if (i != null) {
-                mCachePackage.put(i.applicationInfo.uid, i);
+                sCachePackage.put(i.applicationInfo.uid, i);
             }
         }
     }
@@ -188,33 +189,33 @@ public class Collector {
     }
 
     public static Drawable getIcon(int uid){
-        if(!mCacheIcon.containsKey(uid)){
-            if(mCachePackage.containsKey(uid)){
-                mCacheIcon.put(uid, mCachePackage.get(uid).applicationInfo.
+        if(!sCacheIcon.containsKey(uid)){
+            if(sCachePackage.containsKey(uid)){
+                sCacheIcon.put(uid, sCachePackage.get(uid).applicationInfo.
                         loadIcon(RunStore.getContext().getPackageManager()));
             } else {
                 return RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
             }
         }
-        return mCacheIcon.get(uid);
+        return sCacheIcon.get(uid);
     }
 
     public static String getLabel(int uid){
-        if(!mCacheLabel.containsKey(uid)){
-            if(mCachePackage.containsKey(uid)){
-                mCacheLabel.put(uid, (String)mCachePackage.get(uid).applicationInfo.
+        if(!sCacheLabel.containsKey(uid)){
+            if(sCachePackage.containsKey(uid)){
+                sCacheLabel.put(uid, (String) sCachePackage.get(uid).applicationInfo.
                         loadLabel(RunStore.getContext().getPackageManager()));
             }
             else {
                 return RunStore.getContext().getString(R.string.unknown_app);
             }
         }
-        return mCacheLabel.get(uid);
+        return sCacheLabel.get(uid);
     }
 
     public static String getPackage(int uid) {
-        if(mCachePackage.containsKey(uid)) {
-            return mCachePackage.get(uid).packageName;
+        if(sCachePackage.containsKey(uid)) {
+            return sCachePackage.get(uid).packageName;
         } else{
             return RunStore.getContext().getString(R.string.unknown_package);
         }
@@ -222,9 +223,8 @@ public class Collector {
 
     public static void provideDetail(int uid, byte[] remoteAddHex) {
         ArrayList<Report> filterList = filterReportsByAdd(uid, remoteAddHex);
-        mDetailReport = filterList.get(0);
+        sDetailReport = filterList.get(0);
         buildDetail(filterList);
-
     }
 
     private static void buildDetail(ArrayList<Report> filterList) {
@@ -243,13 +243,16 @@ public class Collector {
         l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
         l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
 
+        //TODO: fill more information
+
+        sDetailReportInfo = l;
     }
 
     private static ArrayList<Report> filterReportsByAdd(int uid, byte[] remoteAddHex){
         List<Report> reportList = mUidReportMap.get(uid);
         ArrayList<Report> filterList = new ArrayList<>();
         for (int i = 0; i < reportList.size(); i++){
-            if (reportList.get(i).remoteAddHex.equals(remoteAddHex)){
+            if (Arrays.equals(reportList.get(i).remoteAddHex, remoteAddHex)){
                 filterList.add(reportList.get(i));
             }
         }
