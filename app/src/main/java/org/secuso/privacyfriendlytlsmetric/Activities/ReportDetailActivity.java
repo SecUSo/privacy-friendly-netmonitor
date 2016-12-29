@@ -72,9 +72,11 @@ public class ReportDetailActivity extends AppCompatActivity{
         listview.setAdapter(adapter);
 
         Report r = Collector.sDetailReport;
-        ImageView icon = (ImageView) findViewById(R.id.report_detail_icon);
+        ImageView icon = (ImageView) findViewById(R.id.reportDetailIcon);
         icon.setImageDrawable(Collector.getIcon(r.uid));
-        TextView pkg = (TextView) findViewById(R.id.report_detail_text_package);
+        TextView label = (TextView) findViewById(R.id.reportDetailTitle);
+        label.setText(Collector.getLabel(r.uid));
+        TextView pkg = (TextView) findViewById(R.id.reportDetailSubtitle);
         pkg.setText(Collector.getPackage(r.uid));
     }
 
