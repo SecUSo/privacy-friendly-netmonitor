@@ -104,7 +104,7 @@ public class ReportActivity extends BaseActivity implements SwipeRefreshLayout.O
                         @Override
                         public void run() {
                             expListView = (ExpandableListView) findViewById(R.id.list);
-                            ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getAdapter();
+                            ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getExpandableListAdapter();
                             Report r = (Report) adapter.getChild(i,i1);
                             Collector.provideDetail(r.uid, r.remoteAddHex);
                             Intent intent = new Intent(getApplicationContext(), ReportDetailActivity.class);
