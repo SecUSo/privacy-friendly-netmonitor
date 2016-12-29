@@ -44,14 +44,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
-
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 /**
@@ -65,11 +66,16 @@ public class ReportDetailActivity extends AppCompatActivity{
         setContentView(R.layout.activity_report_detail);
         RunStore.setContext(this);
 
-        final ListView listview = (ListView) findViewById(android.R.id.list);
-
-        final DetailAdapter adapter;
-        adapter = new DetailAdapter(this, R.layout.report_detail_item, new ArrayList<String[]>());
+        ArrayList<String[]> detailList = Collector.sDetailReportInfo;
+        final DetailAdapter adapter = new DetailAdapter(this, R.layout.report_detail_item, detailList);
+        final ListView listview = (ListView) findViewById(R.id.report_detail_list_view);
         listview.setAdapter(adapter);
+
+        Report r = Collector.sDetailReport;
+        ImageView icon = (ImageView) findViewById(R.id.report_detail_icon);
+        icon.setImageDrawable(Collector.getIcon(r.uid));
+        TextView pkg = (TextView) findViewById(R.id.report_detail_text_package);
+        pkg.setText(Collector.getPackage(r.uid));
     }
 
 
