@@ -5,4 +5,5 @@ package org.secuso.privacyfriendlytlsmetric.Assistant;
  */
 
 public class KnownPorts {
+
 }

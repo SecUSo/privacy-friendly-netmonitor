@@ -259,7 +259,7 @@ public class Collector {
             Report r2 = filterList.get(i);
             l.add(new String[]{"    " + (i + 1) + " src port > dst port",
                     r2.localPort + " > " + r2.remotePort});
-            l.add(new String[]{"        " + r.type + "-state: ", getTransportState(r.state)});
+            l.add(new String[]{"        socket-state: ", getTransportState(r.state)});
         }
 
         sDetailReportInfo = l;
@@ -274,37 +274,37 @@ public class Collector {
             case "01":
                 status = "ESTABLISHED";
                 break;
-            case "2":
+            case "02":
                 status = "SYN_SENT";
                 break;
-            case "3":
+            case "03":
                 status = "SYN_RECV";
                 break;
-            case "4":
+            case "04":
                 status = "FIN_WAIT1";
                 break;
-            case "5":
+            case "05":
                 status = "FIN_WAIT2";
                 break;
-            case "6":
+            case "06":
                 status = "TIME_WAIT";
                 break;
-            case "7":
+            case "07":
                 status = "CLOSE";
                 break;
-            case "8":
+            case "08":
                 status = "CLOSE_WAIT";
                 break;
-            case "9":
+            case "09":
                 status = "LAST_ACK";
                 break;
-            case "A":
+            case "0A":
                 status = "LISTEN";
                 break;
-            case "B":
+            case "0B":
                 status = "CLOSING";
                 break;
-            case "C":
+            case "0C":
                 status = "NEW_SYN_RECV";
                 break;
             default:
@@ -312,7 +312,6 @@ public class Collector {
                 break;
         }
         return status;
-
     }
 
 }
