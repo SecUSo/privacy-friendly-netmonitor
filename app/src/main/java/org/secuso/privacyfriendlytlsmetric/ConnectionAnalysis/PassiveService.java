@@ -37,19 +37,16 @@
 
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
-import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -57,12 +54,10 @@ import android.widget.Toast;
 
 import org.secuso.privacyfriendlytlsmetric.Activities.ReportActivity;
 import org.secuso.privacyfriendlytlsmetric.Activities.MainActivity;
+import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncCertVal;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
-import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
-
-import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -106,6 +101,9 @@ public class PassiveService extends Service {
         loadNotificationBitmaps();
 
         showAppNotification();
+
+        //TODO: DEBUG - Remove later
+        new AsyncCertVal().execute();
 
         if(isVpn){
             //VPN branch : Not implemented yet

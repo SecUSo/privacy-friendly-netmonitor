@@ -45,7 +45,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/*
+/**
  * Handles the execution of shell commands.
  */
 public class ExecCom extends Thread {

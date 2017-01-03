@@ -150,12 +150,8 @@ public class MainActivity extends BaseActivity {
         Button inspect = (Button) findViewById(R.id.button_inspect);
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
             inspect.setBackground(getDrawable(R.drawable.button_disabled));
-            TextView textView = (TextView) findViewById(R.id.main_text_inspect_info);
-            textView.setText(getString(R.string.main_text_desc_inspect_off));
         } else {
             inspect.setBackground(getDrawable(R.drawable.button_fullwidth));
-            TextView textView = (TextView) findViewById(R.id.main_text_inspect_info);
-            textView.setText(getString(R.string.main_text_desc_inspect_on));
         }
     }
 
