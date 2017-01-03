@@ -21,6 +21,8 @@ public class KnownPorts {
     //init hash map with reserved ports (1-1024) and protocol identifiers
     //based on: http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
     public static void initPortMap() {
+        m = new HashMap<>();
+
         m.put(1, "tcpmux");
         m.put(2, "compressnet");
         m.put(3, "compressnet");
