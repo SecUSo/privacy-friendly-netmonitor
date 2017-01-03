@@ -1,7 +1,5 @@
 package org.secuso.privacyfriendlytlsmetric.Assistant;
 
-import android.app.ProgressDialog;
-
 import android.os.AsyncTask;
 
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;

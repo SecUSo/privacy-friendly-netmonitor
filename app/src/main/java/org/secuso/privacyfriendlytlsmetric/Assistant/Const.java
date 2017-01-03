@@ -38,7 +38,7 @@
 package org.secuso.privacyfriendlytlsmetric.Assistant;
 
 /**
- * Storing constant values for app
+ * Storing constant values
  */
 
 public interface Const {
