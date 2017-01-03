@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
@@ -57,7 +58,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         }
         //final String text2 = "<No Metric info yet>";
         final String text2 = r.type + " " + r.remoteAdd.getHostAddress()
-                + ":" + r.remotePort;
+                + ":" + KnownPorts.resolvePort(r.remotePort);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context

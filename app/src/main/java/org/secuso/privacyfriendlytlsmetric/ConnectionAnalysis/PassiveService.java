@@ -58,6 +58,7 @@ import android.widget.Toast;
 import org.secuso.privacyfriendlytlsmetric.Activities.ReportActivity;
 import org.secuso.privacyfriendlytlsmetric.Activities.MainActivity;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
+import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
 
@@ -125,6 +126,10 @@ public class PassiveService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
         showAppNotification();
+
+        //init reserved-ports
+        KnownPorts.initPortMap();
+
         // Stop the previous session by interrupting the thread.
         if (mThread != null) {
             mThread.interrupt();
