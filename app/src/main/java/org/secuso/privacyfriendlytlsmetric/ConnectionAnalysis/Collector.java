@@ -8,6 +8,7 @@ import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
+import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.R;
@@ -224,7 +225,7 @@ public class Collector {
     public static void provideDetail(int uid, byte[] remoteAddHex) {
         ArrayList<Report> filterList = filterReportsByAdd(uid, remoteAddHex);
         sDetailReport = filterList.get(0);
-        buildDetail(filterList);
+        buildDetailStrings(filterList);
     }
 
     private static ArrayList<Report> filterReportsByAdd(int uid, byte[] remoteAddHex){
@@ -238,21 +239,21 @@ public class Collector {
         return filterList;
     }
 
-    private static void buildDetail(ArrayList<Report> filterList) {
+    private static void buildDetailStrings(ArrayList<Report> filterList) {
         ArrayList<String[]> l = new ArrayList<>();
         Report r = filterList.get(0);
 
         l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
         l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
-        l.add(new String[]{"Remote Port", "" + r.remotePort});
         if(r.remoteResolved){ l.add(new String[]{"Remote Host", r.remoteAdd.getHostName()});}
         else { l.add(new String[]{"Remote Host", "name not resolved"}); }
-        l.add(new String[]{"Layer4 Protocol", "" + r.type});
         l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
         l.add(new String[]{"Local Address(HEX)", ToolBox.printHexBinary(r.localAdd.getAddress())});
-
+        l.add(new String[]{"", ""});
+        l.add(new String[]{"Service Port", "" + r.remotePort});
+        l.add(new String[]{"Payload Protocol", "" + KnownPorts.resolvePort(r.remotePort)});
+        l.add(new String[]{"Transport Protocol", "" + r.type});
         l.add(new String[]{"Last Seen", r.timestamp.toString()});
-
         l.add(new String[]{"", ""});
         l.add(new String[]{"Simultaneous Connections", "" + filterList.size()});
         for (int i = 0; i < filterList.size(); i++){
@@ -261,7 +262,6 @@ public class Collector {
                     r2.localPort + " > " + r2.remotePort});
             l.add(new String[]{"    socket-state: ", getTransportState(r.state)});
         }
-
         sDetailReportInfo = l;
     }
 
