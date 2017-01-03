@@ -57,8 +57,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
             text1 = "" + r.remoteAdd.getHostAddress();
         }
         //final String text2 = "<No Metric info yet>";
-        final String text2 = r.type + " " + r.remoteAdd.getHostAddress()
-                + ":" + KnownPorts.resolvePort(r.remotePort);
+        final String text2 = "protocol: " + KnownPorts.resolvePort(r.remotePort)+ " (" + r.type + ")";
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
