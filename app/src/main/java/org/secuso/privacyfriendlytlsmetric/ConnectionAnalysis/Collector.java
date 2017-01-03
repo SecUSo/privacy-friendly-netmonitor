@@ -257,9 +257,9 @@ public class Collector {
         l.add(new String[]{"Simultaneous Connections", "" + filterList.size()});
         for (int i = 0; i < filterList.size(); i++){
             Report r2 = filterList.get(i);
-            l.add(new String[]{"    " + (i + 1) + " src port > dst port",
+            l.add(new String[]{"(" + (i + 1) + ")src port > dst port",
                     r2.localPort + " > " + r2.remotePort});
-            l.add(new String[]{"        socket-state: ", getTransportState(r.state)});
+            l.add(new String[]{"    socket-state: ", getTransportState(r.state)});
         }
 
         sDetailReportInfo = l;
