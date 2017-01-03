@@ -58,7 +58,7 @@ import org.secuso.privacyfriendlytlsmetric.R;
 /**
  * Evidence Detail Panel. List all reports of a connection, invoked by Evidence Panel (ReportActivity)
  */
-public class ReportDetailActivity extends AppCompatActivity{
+public class ReportDetailActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,5 +124,11 @@ public class ReportDetailActivity extends AppCompatActivity{
             return v;
         }
     }
+
+    @Override
+    protected int getNavigationDrawerID() {
+        return R.id.nav_report;
+    }
+
 }
 
