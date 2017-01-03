@@ -252,7 +252,6 @@ public class Collector {
         l.add(new String[]{"Local Address(HEX)", ToolBox.printHexBinary(r.localAdd.getAddress())});
 
         l.add(new String[]{"Last Seen", r.timestamp.toString()});
-        l.add(new String[]{"Last Seen", getTransportState(r.state)});
 
         l.add(new String[]{"", ""});
         l.add(new String[]{"Simultaneous Connections", "" + filterList.size()});
@@ -260,6 +259,7 @@ public class Collector {
             Report r2 = filterList.get(i);
             l.add(new String[]{"    " + (i + 1) + " src port > dst port",
                     r2.localPort + " > " + r2.remotePort});
+            l.add(new String[]{"        " + r.type + "-state: ", getTransportState(r.state)});
         }
 
         sDetailReportInfo = l;
@@ -269,33 +269,47 @@ public class Collector {
     private static String getTransportState(byte[] state) {
 
         String status;
-        switch (ToolBox.printHexBinary(state)) {
+        String stateHex = ToolBox.printHexBinary(state);
+        switch (stateHex) {
             case "01":
-                    status = "TCPF_ESTABLISHED";
+                status = "ESTABLISHED";
+                break;
             case "2":
-                status = "TCPF_SYN_SENT";
+                status = "SYN_SENT";
+                break;
             case "3":
-                status = "TCPF_SYN_RECV";
+                status = "SYN_RECV";
+                break;
             case "4":
-                status = "TCPF_FIN_WAIT1";
+                status = "FIN_WAIT1";
+                break;
             case "5":
-                status = "TCPF_FIN_WAIT2";
+                status = "FIN_WAIT2";
+                break;
             case "6":
-                status = "TCPF_TIME_WAIT";
+                status = "TIME_WAIT";
+                break;
             case "7":
-                status = "TCPF_CLOSE";
+                status = "CLOSE";
+                break;
             case "8":
-                status = "TCPF_CLOSE_WAIT";
+                status = "CLOSE_WAIT";
+                break;
             case "9":
-                status = "TCPF_LAST_ACK";
+                status = "LAST_ACK";
+                break;
             case "A":
-                status = "TCPF_LISTEN";
+                status = "LISTEN";
+                break;
             case "B":
-                status = "TCPF_CLOSING";
+                status = "CLOSING";
+                break;
             case "C":
-                status = "TCPF_NEW_SYN_RECV";
+                status = "NEW_SYN_RECV";
+                break;
             default:
-                status = "UNDEFINED";
+                status = "UNKNOWN";
+                break;
         }
         return status;
 
