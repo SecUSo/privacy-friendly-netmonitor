@@ -13,6 +13,7 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
+import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.R;
 
@@ -152,7 +153,12 @@ public class Collector {
         for (Report r : sReportList){
             try {
                 r.remoteAdd.getHostName();
-                r.remoteResolved = true;
+                //TODO: debug val for certval tests, remove later
+                if(r.type == TLType.tcp || r.type == TLType.udp){
+                    r.remoteResolved = true;
+                } else {
+                    r.remoteResolved = false;
+                }
             } catch(RuntimeException e) {
                 r.remoteResolved = false;
                 Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
@@ -272,6 +278,7 @@ public class Collector {
             Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
             if (analyseReady(map)){
                 String[] endpoints = (String[])map.get("endpoints[]");
+                return "Ready";
             }
         }
         return "PENDING";
@@ -280,7 +287,8 @@ public class Collector {
     //Checks if ssl analysis has been completed
     public static boolean analyseReady(Map<String, Object> map) {
         String status = (String)map.get("status");
-        return status.equals("READY");
+        if (status == null) {return false;}
+        else {return status.equals("READY");}
     }
 
     public static void provideDetail(int uid, byte[] remoteAddHex) {

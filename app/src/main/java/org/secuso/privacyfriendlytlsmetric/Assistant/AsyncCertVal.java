@@ -39,19 +39,19 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
         while(count > 0 && urls.size() > 0){
             host = urls.get(0);
             hostInfo = mSSLLabsApi.fetchHostInformationCached(host, null, false, false);
+
             Map<String, Object> map = null;
             try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore){}
             Collector.mCertValMap.put(host, map);
-            //TODO: remove later
-            //Debug log
+
+            //TODO: Debug log-remove later
             Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
             urls.remove(0);
-
-            if(!Collector.analyseReady(map)){
+            if(map.size() > 0 && !Collector.analyseReady(map)){
                 pendingList.add(host);
             }
+
         }
-        Collector.sCertValList.addAll(pendingList);
     }
 
     // Get number off allowed request at the time

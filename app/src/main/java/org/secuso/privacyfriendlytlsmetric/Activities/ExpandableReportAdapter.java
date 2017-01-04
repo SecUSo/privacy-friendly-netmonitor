@@ -1,13 +1,11 @@
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,13 +49,17 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         //Build information from reports of one App (UID)
         Report r = (Report) getChild(listPosition, expandedListPosition);
         final String text1;
+        final String text2;
         if(r.remoteResolved){
             text1 = "" + r.remoteAdd.getHostName();
         } else {
             text1 = "" + r.remoteAdd.getHostAddress();
         }
-        //final String text2 = "<No Metric info yet>";
-        final String text2 = "protocol: " + KnownPorts.resolvePort(r.remotePort)+ " (" + r.type + ")";
+        if (r.remotePort == 443 && r.remoteResolved){
+            text2 = "Host TLS rating: " + Collector.getMetric(text1);
+        } else {
+            text2 = "protocol: " + KnownPorts.resolvePort(r.remotePort) + " (" + r.type + ")";
+        }
 
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
@@ -128,50 +130,3 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         return true;
     }
 }
-
-/* OLD Adapter below
-    public ExpandableReportAdapter(Context context, Report[] reports) {
-        super(context, R.layout.report_list_item, reports);
-        this.context = context;
-        this.reports = reports;
-    }
-}
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View rowView = inflater.inflate(R.layout.report_list_group, parent, false);
-
-        //Ger the report
-        Report r = reports[position];
-
-        //First Line Text
-        TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-        String first = r.getAppName();
-        //String first = report.getAppName();
-        firstLine.setText(first);
-
-        //second Line Text
-        TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
-        String second = "Host: " + r.getRemoteAdd().getHostAddress() + ":" + r.getRemotePort()
-                + "SrcPort:" + r.getLocalPort() + "Pid: " + r.getPid() + "Uid: " + r.getUid();
-        secondLine.setText(second);
-
-        //App icon
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        imageView.setImageResource(R.mipmap.icon);
-
-        //Status icon
-        //ImageView imageStatusView = (ImageView) rowView.findViewById(R.id.statusIcon);
-        //imageStatusView.setImageResource(R.mipmap.icon_ok);
-
-
-        //Status Text
-        TextView statusLine = (TextView) rowView.findViewById(R.id.statusLine);
-        String status = "Level :" + 0;
-        statusLine.setText(status);
-
-        return rowView;
-    }*/
