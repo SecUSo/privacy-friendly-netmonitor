@@ -102,9 +102,6 @@ public class PassiveService extends Service {
 
         showAppNotification();
 
-        //TODO: DEBUG - Remove later
-        new AsyncCertVal().execute();
-
         if(isVpn){
             //VPN branch : Not implemented yet
             Log.i(Const.LOG_TAG,"VPN core not yet implemented");
@@ -139,6 +136,7 @@ public class PassiveService extends Service {
                 try {
                     while (!mInterrupt) {
                         Detector.updateReportMap();
+                        Collector.updateCertVal();
                         sleep(2000);
                     }
                 } catch (InterruptedException e) {

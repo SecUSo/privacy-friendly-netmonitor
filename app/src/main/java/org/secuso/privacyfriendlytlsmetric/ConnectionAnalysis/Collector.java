@@ -6,6 +6,9 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncCertVal;
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
@@ -23,7 +26,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import de.bjoernr.ssllabs.ConsoleUtilities;
 
 /**
  * Collector class collects data from the services and processes it for inter process communication
@@ -35,17 +41,23 @@ public class Collector {
     static HashMap<Integer, PackageInfo> sCachePackage = new HashMap<>();
     static HashMap<Integer, Drawable> sCacheIcon = new HashMap<>();
     static HashMap<Integer, String> sCacheLabel = new HashMap<>();
-    //ReportDetail information
-    public static ArrayList<String[]> sDetailReportInfo;
-    public static Report sDetailReport;
-    //Data processing maps
-    private static ArrayList<Report> sReportList;
-    private static HashMap<Integer, List<Report>> mUidReportMap;
 
-    //Pushed the newest availiable information as deep copy.
+    //ReportDetail information
+    public static HashMap<String, Map<String, Object>> mCertValMap = new HashMap<>();
+    public static List<String> sCertValList = new ArrayList<>();
+    public static ArrayList<String[]> sDetailReportList = new ArrayList<>();
+    public static Report sDetailReport;
+
+    //Data processing maps
+    private static ArrayList<Report> sReportList = new ArrayList<>();
+    private static HashMap<Integer, List<Report>> mUidReportMap = new HashMap<>();
+    private static HashMap<Integer, List<Report>> mFilteredUidReportMap = new HashMap<>();
+
+    //Pushed the newest available information as deep copy.
     public static HashMap<Integer, List<Report>> provideSimpleReports(){
         updateReports();
-        return filterReports();
+        mFilteredUidReportMap = filterReports();
+        return mFilteredUidReportMap;
     }
 
     public static HashMap<Integer, List<Report>> provideFullReports() {
@@ -85,6 +97,29 @@ public class Collector {
         new AsyncDNS().execute("");
         //sorting
         sortReportsToMap();
+        //Generate ssl analyze requests
+        fillCertRequests();
+    }
+
+    //Search for resolved hostnames and add them to the resolved list
+    private static void fillCertRequests() {
+        Set<Integer> keySet = mFilteredUidReportMap.keySet();
+        ArrayList<Report> list;
+        Report r;
+        String hostname;
+        for ( int i : keySet) {
+            list = (ArrayList<Report>)mFilteredUidReportMap.get(i);
+            for (int j = 0; j < list.size(); j++){
+                r = list.get(j);
+                //Add to certificate validation, if port 443 (TLS), resolved hostname and not yet
+                //analyzed
+                if (r.remotePort == 443 && r.remoteResolved &&
+                        !mCertValMap.containsKey(r.remoteAdd.getHostName()) &&
+                        !sCertValList.contains(r.remoteAdd.getHostName())){
+                    sCertValList.add(r.remoteAdd.getHostName());
+                }
+            }
+        }
     }
 
     //Sorts the reports by app package name to a HashMap
@@ -125,6 +160,14 @@ public class Collector {
             }
         }
     }
+
+    //Make an async request to get host information from sslLabs
+    public static void updateCertVal() {
+        if (sCertValList.size() > 0){
+            new AsyncCertVal().execute();
+        }
+    }
+
 
     private static void fillPackageInformation() {
         for (int i = 0; i < sReportList.size(); i++) {
@@ -222,6 +265,24 @@ public class Collector {
         }
     }
 
+    public static String getMetric(String hostname) {
+
+        if(mCertValMap.containsKey(hostname)){
+            Map<String, Object> map = mCertValMap.get(hostname);
+            Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            if (analyseReady(map)){
+                String[] endpoints = (String[])map.get("endpoints[]");
+            }
+        }
+        return "PENDING";
+    }
+
+    //Checks if ssl analysis has been completed
+    public static boolean analyseReady(Map<String, Object> map) {
+        String status = (String)map.get("status");
+        return status.equals("READY");
+    }
+
     public static void provideDetail(int uid, byte[] remoteAddHex) {
         ArrayList<Report> filterList = filterReportsByAdd(uid, remoteAddHex);
         sDetailReport = filterList.get(0);
@@ -262,7 +323,7 @@ public class Collector {
                     r2.localPort + " > " + r2.remotePort});
             l.add(new String[]{"    socket-state: ", getTransportState(r.state)});
         }
-        sDetailReportInfo = l;
+        sDetailReportList = l;
     }
 
 
@@ -313,5 +374,6 @@ public class Collector {
         }
         return status;
     }
+
 
 }

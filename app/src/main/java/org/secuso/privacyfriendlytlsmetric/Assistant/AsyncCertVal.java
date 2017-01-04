@@ -5,7 +5,10 @@ import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import de.bjoernr.ssllabs.Api;
@@ -17,35 +20,54 @@ import de.bjoernr.ssllabs.ConsoleUtilities;
 
 public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
 
-    private Api sSSLLabsApi;
+    private Api mSSLLabsApi;
+
+    public AsyncCertVal() { mSSLLabsApi = new Api(); }
 
     @Override
     public Void doInBackground(Void... voids) {
-        checkAvailability();
+        fetchHostInfo(Collector.sCertValList);
         return null;
     }
 
-    public JSONObject fetchHostInfo(String url) {
+    // Fetch cached information in the fetch host list
+    private void fetchHostInfo(List<String> urls) {
+        int count = getMaxAssesments();
+        JSONObject hostInfo;
+        String host;
+        ArrayList<String> pendingList = new ArrayList<>();
+        while(count > 0 && urls.size() > 0){
+            host = urls.get(0);
+            hostInfo = mSSLLabsApi.fetchHostInformationCached(host, null, false, false);
+            Map<String, Object> map = null;
+            try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore){}
+            Collector.mCertValMap.put(host, map);
+            //TODO: remove later
+            //Debug log
+            Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            urls.remove(0);
 
-        return null;
-    }
-
-    public boolean checkAvailability() {
-
-        if(sSSLLabsApi == null) { sSSLLabsApi = new Api(); }
-
-        JSONObject hostInfo = sSSLLabsApi.fetchApiInfo();
-        Map<String, Object> map = null;
-        try {
-            map = ConsoleUtilities.jsonToMap(hostInfo);
-        } catch (JSONException ignore){
-
+            if(!Collector.analyseReady(map)){
+                pendingList.add(host);
+            }
         }
+        Collector.sCertValList.addAll(pendingList);
+    }
 
+    // Get number off allowed request at the time
+    private int getMaxAssesments() {
+        final String max = "maxAssessments";
+        JSONObject hostInfo = mSSLLabsApi.fetchApiInfo();
+
+        Map<String, Object> map = null;
+        try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore) {}
         Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
 
-        return true;
+        if (map.containsKey(max)) {
+            return (Integer) map.get(max);
+        } else {
+            return 0;
+        }
+
     }
-
-
 }
