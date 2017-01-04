@@ -290,8 +290,9 @@ public class Collector {
                 grade = readEndpoints(map);
                 if (grade.equals("no_grade")){
                     return "no_grade";
-                } else if (grade.equals("no_endpoints")){
-                    return "no_endpoints";
+                } else if (grade.equals("Certificate not valid for domain name")){
+                    handleInvalidDomainName(map);
+                    return "RESOLVING CERTIFICATE HOSTS";
                 } else if (grade.equals("no_endpoints")){
                 return "no_endpoints";
                 } else {
@@ -299,14 +300,13 @@ public class Collector {
                 }
             } else { return "PENDING"; }
         } else { return "PENDING"; }
-
     }
 
     private static String readEndpoints(Map<String, Object> map) {
         final String result;
         if(map.containsKey("endpoints")){
-            ArrayList<Map> endpointsList = (ArrayList<Map>) map.get("endpoints");
-            HashMap<String, Object> endpoints = (HashMap<String, Object>) endpointsList.get(0);
+            ArrayList endpointsList = (ArrayList) map.get("endpoints");
+            HashMap endpoints = (HashMap) endpointsList.get(0);
             if(endpoints.containsKey("grade")){
                 result = (String)endpoints.get("grade");
             } else if (endpoints.containsKey("statusMessage")){
@@ -318,6 +318,24 @@ public class Collector {
             result = "no_endpoints";
         }
         return result;
+    }
+
+    //Handle "Certificate not valid for domain name" Error (e.g. google services)
+    private static void handleInvalidDomainName(Map<String, Object> map) {
+        if(map.containsKey("certHostnames") && map.containsKey("host")){
+            ArrayList certNames = (ArrayList)map.get("certHostnames");
+            String oldHost = (String)map.get("host");
+            String certHost = (String)certNames.get(0);
+            if (mCertValMap.containsKey(certHost) && mCertValMap.containsKey(oldHost)) {
+                mCertValMap.put(oldHost, mCertValMap.get(certHost));
+                if(sCertValList.contains(oldHost)) { sCertValList.remove(oldHost); }
+            } else {
+                if (!sCertValList.contains(certHost)){
+                    sCertValList.add(certHost);
+                }
+            }
+
+        }
     }
 
     //Checks if ssl analysis has been completed
