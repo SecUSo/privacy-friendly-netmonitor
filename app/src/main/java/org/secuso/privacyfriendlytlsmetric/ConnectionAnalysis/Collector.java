@@ -6,8 +6,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncCertVal;
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
@@ -272,16 +270,39 @@ public class Collector {
     }
 
     public static String getMetric(String hostname) {
+        String grade;
 
         if(mCertValMap.containsKey(hostname)){
             Map<String, Object> map = mCertValMap.get(hostname);
             Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
             if (analyseReady(map)){
-                String[] endpoints = (String[])map.get("endpoints[]");
-                return "Ready";
+                grade = readEndpoints(map);
+                if (grade.equals("no_grade")){
+                    return "no_grade";
+                } else if (grade.equals("no_endpoints")){
+                    return "no_endpoints";
+                } else {
+                    return grade;
+                }
+            } else { return "PENDING"; }
+        } else { return "PENDING"; }
+
+    }
+
+    private static String readEndpoints(Map<String, Object> map) {
+        if(map.containsKey("endpoints")){
+            ArrayList<Map> endpointsList = (ArrayList<Map>) map.get("endpoints");
+            HashMap<String, Object> endpoints = (HashMap<String, Object>) endpointsList.get(0);
+            if(endpoints.containsKey("grade")){
+                return (String)endpoints.get("grade");
+            } else if (endpoints.containsKey("statusMessage")){
+                return (String)endpoints.get("statusMessage");
             }
+        } else {
+            return "no_endpoints";
         }
-        return "PENDING";
+
+
     }
 
     //Checks if ssl analysis has been completed
