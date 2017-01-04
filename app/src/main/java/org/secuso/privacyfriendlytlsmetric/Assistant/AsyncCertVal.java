@@ -42,16 +42,21 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
 
             Map<String, Object> map = null;
             try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore){}
-            Collector.mCertValMap.put(host, map);
+            // add to map if not empty
+            if(map != null && map.size() > 0){
+                Collector.mCertValMap.put(host, map);
+            }
+            //continue to resolve if request not ready
+            if(map != null && map.size() > 0 && !Collector.analyseReady(map)){
+                pendingList.add(host);
+            }
+            urls.remove(0);
+            count--;
 
             //TODO: Debug log-remove later
             Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
-            urls.remove(0);
-            if(map.size() > 0 && !Collector.analyseReady(map)){
-                pendingList.add(host);
-            }
-
         }
+        Collector.sCertValList.addAll(pendingList);
     }
 
     // Get number off allowed request at the time

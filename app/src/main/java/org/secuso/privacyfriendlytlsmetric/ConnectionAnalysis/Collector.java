@@ -172,7 +172,6 @@ public class Collector {
         }
     }
 
-
     private static void fillPackageInformation() {
         for (int i = 0; i < sReportList.size(); i++) {
             Report r = sReportList.get(i);
@@ -269,6 +268,18 @@ public class Collector {
         }
     }
 
+    public static String getCertHost(String hostname) {
+        if(mCertValMap.containsKey(hostname)) {
+            Map<String, Object> map = mCertValMap.get(hostname);
+            Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            if (analyseReady(map)) {
+                if(map.containsKey("host"));
+                return (String)map.get("host");
+            }
+        }
+        return hostname;
+    }
+
     public static String getMetric(String hostname) {
         String grade;
 
@@ -281,6 +292,8 @@ public class Collector {
                     return "no_grade";
                 } else if (grade.equals("no_endpoints")){
                     return "no_endpoints";
+                } else if (grade.equals("no_endpoints")){
+                return "no_endpoints";
                 } else {
                     return grade;
                 }
@@ -290,19 +303,21 @@ public class Collector {
     }
 
     private static String readEndpoints(Map<String, Object> map) {
+        final String result;
         if(map.containsKey("endpoints")){
             ArrayList<Map> endpointsList = (ArrayList<Map>) map.get("endpoints");
             HashMap<String, Object> endpoints = (HashMap<String, Object>) endpointsList.get(0);
             if(endpoints.containsKey("grade")){
-                return (String)endpoints.get("grade");
+                result = (String)endpoints.get("grade");
             } else if (endpoints.containsKey("statusMessage")){
-                return (String)endpoints.get("statusMessage");
+                result = (String)endpoints.get("statusMessage");
+            } else {
+                result = "no_status";
             }
         } else {
-            return "no_endpoints";
+            result = "no_endpoints";
         }
-
-
+        return result;
     }
 
     //Checks if ssl analysis has been completed
