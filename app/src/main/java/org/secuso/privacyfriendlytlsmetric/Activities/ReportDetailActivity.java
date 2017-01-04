@@ -39,7 +39,6 @@ package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +65,7 @@ public class ReportDetailActivity extends BaseActivity{
         setContentView(R.layout.activity_report_detail);
         RunStore.setContext(this);
 
-        ArrayList<String[]> detailList = Collector.sDetailReportInfo;
+        ArrayList<String[]> detailList = Collector.sDetailReportList;
         final DetailAdapter adapter = new DetailAdapter(this, R.layout.report_detail_item, detailList);
         final ListView listview = (ListView) findViewById(R.id.report_detail_list_view);
         listview.setAdapter(adapter);
