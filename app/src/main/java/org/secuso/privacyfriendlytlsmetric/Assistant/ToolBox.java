@@ -224,5 +224,31 @@ public class ToolBox{
         }
         return b0;
     }
+    /**B80D01200000000067452301EFCDAB89 -> 2001:0db8:0000:0000:0123:4567:89ab:cdef
+     * */
+    public static String hexToIp6(String hexaIP){
+        StringBuilder result = new StringBuilder();
+        for(int i=0;i<hexaIP.length();i=i+8){
+            String word = hexaIP.substring(i,i+8);
+            for (int j = word.length() - 1; j >= 0; j = j - 2) {
+                result.append(word.substring(j - 1, j + 1));
+                result.append((j==5)?":":"");//in the middle
+            }
+            result.append(":");
+        }
+        return result.substring(0,result.length()-1).toString();
+    }
 
+    /**0100A8C0 -> 192.168.0.1*/
+    public static String hexToIp4 (String hexa) {
+        StringBuilder result = new StringBuilder();
+        //reverse Little to Big
+        for (int i = hexa.length() - 1; i >= 0; i = i - 2) {
+            String wtf = hexa.substring(i - 1, i + 1);
+            result.append(Integer.parseInt(wtf, 16));
+            result.append(".");
+        }
+        //remove last ".";
+        return result.substring(0,result.length()-1).toString();
+    }
 }
