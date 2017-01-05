@@ -29,6 +29,8 @@ import java.util.Set;
 
 import de.bjoernr.ssllabs.ConsoleUtilities;
 
+import static org.secuso.privacyfriendlytlsmetric.Assistant.Const.TLS_PORTS;
+
 /**
  * Collector class collects data from the services and processes it for inter process communication
  * with the UI.
@@ -36,14 +38,15 @@ import de.bjoernr.ssllabs.ConsoleUtilities;
 public class Collector {
 
     //application caches
-    static HashMap<Integer, PackageInfo> sCachePackage = new HashMap<>();
-    static HashMap<Integer, Drawable> sCacheIcon = new HashMap<>();
-    static HashMap<Integer, String> sCacheLabel = new HashMap<>();
-    static HashMap<String, String> sCacheDNS = new HashMap<>();
+    private static HashMap<Integer, PackageInfo> sCachePackage = new HashMap<>();
+    private static HashMap<Integer, Drawable> sCacheIcon = new HashMap<>();
+    private static HashMap<Integer, String> sCacheLabel = new HashMap<>();
+    private static HashMap<String, String> sCacheDNS = new HashMap<>();
 
     //ReportDetail information
+    public static Boolean isCertVal;
     public static HashMap<String, Map<String, Object>> mCertValMap = new HashMap<>();
-    public static List<String[]> sCertValList = new ArrayList<>();
+    public static List<String> sCertValList = new ArrayList<>();
     public static ArrayList<String[]> sDetailReportList = new ArrayList<>();
     public static Report sDetailReport;
 
@@ -57,11 +60,6 @@ public class Collector {
         updateReports();
         mFilteredUidReportMap = filterReports();
         return mFilteredUidReportMap;
-    }
-
-    public static HashMap<Integer, List<Report>> provideFullReports() {
-        updateReports();
-        return mUidReportMap;
     }
 
     //Generate an overview List, with only one report per remote address per app
@@ -97,7 +95,8 @@ public class Collector {
         //sorting
         sortReportsToMap();
         //Generate ssl analyze requests
-        fillCertRequests();
+        if(isCertVal){ fillCertRequests(); }
+
     }
 
     //Search for resolved hostnames and add them to the resolved list
@@ -105,21 +104,25 @@ public class Collector {
         Set<Integer> keySet = mFilteredUidReportMap.keySet();
         ArrayList<Report> list;
         Report r;
-        String hostname;
+        String ip;
         for ( int i : keySet) {
             list = (ArrayList<Report>)mFilteredUidReportMap.get(i);
             for (int j = 0; j < list.size(); j++) {
                 r = list.get(j);
                 //Add to certificate validation, if port 443 (TLS), resolved hostname and not yet
                 //analyzed
-                String ip = r.remoteAdd.getHostAddress();
-                    if (r.remotePort == 443 && hasHostName(ip) &&
+                ip = r.remoteAdd.getHostAddress();
+                    if (isTlsPort(r.remotePort) && hasHostName(ip) &&
                             !mCertValMap.containsKey(getDnsHostName(ip)) &&
                             !sCertValList.contains(getDnsHostName(ip))) {
-                        sCertValList.add(new String[]{getDnsHostName(ip), ip});
+                        sCertValList.add(getDnsHostName(ip));
                     }
             }
         }
+    }
+
+    public static boolean isTlsPort(int i) {
+        return TLS_PORTS.contains(i);
     }
 
     //Sorts the reports by app package name to a HashMap
@@ -153,11 +156,10 @@ public class Collector {
                 try {
                     String hostName = r.remoteAdd.getHostName();
                     sCacheDNS.put(r.remoteAdd.getHostAddress(), hostName);
-                    //TODO: Conditional debug
-                    Log.d("ReverseDNS", "Reverse DNS for " + r.remoteAdd.getHostAddress() +
-                            " is: " + r.remoteAdd.getHostName() + ", "
-                            + r.remoteAdd.getCanonicalHostName() + ", "
-                            + ToolBox.printHexBinary(r.remoteAdd.getAddress()));
+                    if (Const.IS_DEBUG){
+                        Log.d("ReverseDNS", "Reverse DNS for " + r.remoteAdd.getHostAddress()
+                                + hostName);
+                    }
                 } catch (RuntimeException e) {
                     if (Const.IS_DEBUG) {
                         Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
@@ -340,12 +342,13 @@ public class Collector {
             ArrayList certNames = (ArrayList)map.get("certHostnames");
             String oldHost = (String)map.get("host");
             String certHost = (String)certNames.get(0);
+            certHost = certHost.replace("*.", "");
             if (mCertValMap.containsKey(certHost) && mCertValMap.containsKey(oldHost)) {
                 mCertValMap.put(oldHost, mCertValMap.get(certHost));
                 if(sCertValList.contains(oldHost)) { sCertValList.remove(oldHost); }
             } else {
                 if (!sCertValList.contains(certHost)){
-                    sCertValList.add(new String[]{certHost, ""});
+                    sCertValList.add(certHost);
                 }
             }
         }

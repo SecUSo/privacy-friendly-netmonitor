@@ -37,6 +37,10 @@
 
 package org.secuso.privacyfriendlytlsmetric.Assistant;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Storing constant values
  */
@@ -50,9 +54,12 @@ public interface Const {
 
     //Detector constants
     int REPORT_TTL_DEFAULT = 15000;
+    Integer[] PORT_VALUES = new Integer[] { 993, 443, 995, 465, 587 };
+    Set<Integer> TLS_PORTS = new HashSet<>(Arrays.asList(PORT_VALUES));
 
     //SharedPrefs identifiers
     String REPORT_TTL = "REPORT_TTL";
     String DETAIL_MODE = "DETAIL_MODE";
     String IS_LOG = "IS_LOG";
+    String IS_CERTVAL = "IS_CERTVAL";
 }

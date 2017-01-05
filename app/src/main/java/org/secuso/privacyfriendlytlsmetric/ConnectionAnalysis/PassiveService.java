@@ -43,10 +43,13 @@ import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.IBinder;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -57,6 +60,7 @@ import org.secuso.privacyfriendlytlsmetric.Activities.MainActivity;
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncCertVal;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
+import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 import static java.lang.Thread.sleep;
@@ -82,9 +86,8 @@ public class PassiveService extends Service {
                     .setContentText("Packet analyzer service is running.");
 
     //private Bitmap mQuest;
-    private Bitmap mOk;
-    private Bitmap mWarnOrange;
-    private Bitmap mWarnRed;
+    private Bitmap mIcon;
+
 
     //Class for Binders IPC connection
     public class AnalyzerBinder extends Binder {
@@ -111,9 +114,7 @@ public class PassiveService extends Service {
     //Icons for Notification manager. Must be converted to bitmaps.
     private void loadNotificationBitmaps() {
         //mQuest = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_quest, mBitmapOptions);
-        mOk = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_ok);
-        mWarnOrange = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_warn_orange);
-        mWarnRed = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_warn_red);
+        mIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
     }
 
 
@@ -121,7 +122,9 @@ public class PassiveService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
         showAppNotification();
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
+        final boolean isCertVal = prefs.getBoolean(Const.IS_CERTVAL,false);
+        Collector.isCertVal = isCertVal;
         //init reserved-ports
         KnownPorts.initPortMap();
 
@@ -136,7 +139,7 @@ public class PassiveService extends Service {
                 try {
                     while (!mInterrupt) {
                         Detector.updateReportMap();
-                        Collector.updateCertVal();
+                        if(isCertVal){Collector.updateCertVal();}
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {
@@ -179,7 +182,7 @@ public class PassiveService extends Service {
     //BG notification. Standard Android version.
     private void showAppNotification(){
         mBuilder.setSmallIcon(R.mipmap.icon);
-        mBuilder.setLargeIcon(mOk);
+        mBuilder.setLargeIcon(mIcon);
             Intent resultIntent = new Intent(this, MainActivity.class);
 
         // The stack builder object will contain an artificial back stack for the
@@ -207,11 +210,11 @@ public class PassiveService extends Service {
     private void showWarningNotification(){
         //Set corresponding icon
         //if(Evidence.getMaxSeverity() > 2){
-            mBuilder.setSmallIcon(R.mipmap.icon_warn_red);
-            mBuilder.setLargeIcon(mWarnRed);
+        //    mBuilder.setSmallIcon(R.mipmap.icon_warn_red);
+        //    mBuilder.setLargeIcon(mWarnRed);
         //} else {
-            mBuilder.setSmallIcon(R.mipmap.icon_warn_orange);
-            mBuilder.setLargeIcon(mWarnOrange);
+        //    mBuilder.setSmallIcon(R.mipmap.icon_warn_orange);
+        //    mBuilder.setLargeIcon(mWarnOrange);
         //}
         mBuilder.setContentText(mNotificationCount + " new warnings encountered.");
 

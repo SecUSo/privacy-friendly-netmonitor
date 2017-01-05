@@ -55,7 +55,8 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         } else {
             text1 = "" + r.remoteAdd.getHostAddress();
         }
-        if (( r.remotePort == 443 || r.remotePort == 993) && Collector.hasHostName(r.remoteAdd.getHostAddress())){
+        //TODO: Build port-based warning system (colours)
+        if (Collector.isCertVal && Collector.isTlsPort(r.remotePort) && Collector.hasHostName(r.remoteAdd.getHostAddress())){
             if(text1.equals(Collector.getCertHost(text1))) {
                 text2 = "Server rating: " + Collector.getMetric(text1);
             } else {
