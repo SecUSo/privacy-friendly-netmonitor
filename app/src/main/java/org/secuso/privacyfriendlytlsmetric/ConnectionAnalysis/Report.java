@@ -63,7 +63,6 @@ public class Report implements Serializable {
     public byte[] remoteAddHex;
     public InetAddress remoteAdd;
 
-    public boolean dnsIsResolved;
     public int remotePort;
 
     public int pid;
