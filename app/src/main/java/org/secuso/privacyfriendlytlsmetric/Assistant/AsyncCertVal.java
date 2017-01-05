@@ -8,10 +8,8 @@ import org.json.JSONObject;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import de.bjoernr.ssllabs.Api;
 import de.bjoernr.ssllabs.ConsoleUtilities;
@@ -28,7 +26,9 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
 
     @Override
     public Void doInBackground(Void... voids) {
-        fetchHostInfo(Collector.sCertValList);
+        if(Collector.sCertValList.size() > 0) {
+            fetchHostInfo(Collector.sCertValList);
+        }
         return null;
     }
 
@@ -59,23 +59,10 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
             Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
         }
         Collector.sCertValList.addAll(pendingList);
-        updateCertHostHandler();
+        Collector.updateCertHostHandler();
     }
 
-    private void updateCertHostHandler() {
-        Set<String> keySet = Collector.mCertValMap.keySet();
-        Map map;
-        for (String key:keySet ) {
-            map = (HashMap)Collector.mCertValMap.get(key);
-            if(map.containsKey("host")){
-                String certHost = (String)map.get("host");
-                if(!key.equals(map.get(key)) && !Collector.analyseReady(map)){
-                    Collector.mCertValMap.put(key, Collector.mCertValMap.get(certHost));
-                }
-            }
-        }
 
-    }
 
     // Get number off allowed request at the time
     private int getMaxAssesments() {

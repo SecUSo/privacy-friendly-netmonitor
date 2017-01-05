@@ -338,6 +338,20 @@ public class Collector {
         }
     }
 
+    public static void updateCertHostHandler() {
+        Set<String> keySet = Collector.mCertValMap.keySet();
+        Map map;
+        for (String key:keySet ) {
+            map = (HashMap)Collector.mCertValMap.get(key);
+            if(map.containsKey("host")){
+                String certHost = (String)map.get("host");
+                if(!key.equals(map.get(key)) && !Collector.analyseReady(map)){
+                    Collector.mCertValMap.put(key, Collector.mCertValMap.get(certHost));
+                }
+            }
+        }
+    }
+
     //Checks if ssl analysis has been completed
     public static boolean analyseReady(Map<String, Object> map) {
         String status = (String)map.get("status");
