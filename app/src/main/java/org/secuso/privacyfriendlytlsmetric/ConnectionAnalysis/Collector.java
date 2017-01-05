@@ -19,8 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -114,10 +112,11 @@ public class Collector {
                 r = list.get(j);
                 //Add to certificate validation, if port 443 (TLS), resolved hostname and not yet
                 //analyzed
-                    if (r.remotePort == 443 && r.dnsIsResolved &&
-                            !mCertValMap.containsKey(r.remoteAdd.getHostName()) &&
-                            !sCertValList.contains(r.remoteAdd.getHostName())) {
-                        sCertValList.add(r.remoteAdd.getHostName());
+                String ip = r.remoteAdd.getHostAddress();
+                    if (r.remotePort == 443 && hasHostName(ip) &&
+                            !mCertValMap.containsKey(getDnsHostName(ip)) &&
+                            !sCertValList.contains(getDnsHostName(ip))) {
+                        sCertValList.add(getDnsHostName(ip));
                     }
             }
         }
@@ -150,19 +149,20 @@ public class Collector {
     public static void resolveHosts() {
         for (int i = 0; i < sReportList.size(); i++){
             Report r = sReportList.get(i);
-            if (!r.dnsIsResolved) {
-
+            if (!hasHostName(r.remoteAdd.getHostAddress())) {
                 try {
-                    r.remoteAdd.getHostName();
-                    r.dnsIsResolved = true;
+                    String hostName = r.remoteAdd.getHostName();
+                    sCacheDNS.put(r.remoteAdd.getHostAddress(), hostName);
+                    //TODO: Conditional debug
                     Log.d("ReverseDNS", "Reverse DNS for " + r.remoteAdd.getHostAddress() +
                             " is: " + r.remoteAdd.getHostName() + ", "
                             + r.remoteAdd.getCanonicalHostName() + ", "
                             + ToolBox.printHexBinary(r.remoteAdd.getAddress()));
                 } catch (RuntimeException e) {
-                    r.dnsIsResolved = false;
-                    Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
-                    e.printStackTrace();
+                    if (Const.IS_DEBUG) {
+                        Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -271,6 +271,17 @@ public class Collector {
         }
     }
 
+    public static String getDnsHostName(String hostAdd) {
+        if (sCacheDNS.containsKey(hostAdd)){
+            return sCacheDNS.get(hostAdd);
+        } else { return hostAdd; }
+    }
+
+    public static Boolean hasHostName(String hostAdd) {
+        return sCacheDNS.containsKey(hostAdd);
+    }
+
+
     public static String getCertHost(String hostname) {
         if(mCertValMap.containsKey(hostname)) {
             Map<String, Object> map = mCertValMap.get(hostname);
@@ -337,7 +348,6 @@ public class Collector {
                     sCertValList.add(certHost);
                 }
             }
-
         }
     }
 
@@ -385,8 +395,11 @@ public class Collector {
 
         l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
         l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
-        if(r.dnsIsResolved){ l.add(new String[]{"Remote Host", r.remoteAdd.getHostName()});}
-        else { l.add(new String[]{"Remote Host", "name not resolved"}); }
+        if(hasHostName(r.remoteAdd.getHostAddress())){
+            l.add(new String[]{"Remote Host", getDnsHostName(r.remoteAdd.getHostAddress())});
+        }else {
+            l.add(new String[]{"Remote Host", "name not resolved"});
+        }
         l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
         l.add(new String[]{"Local Address(HEX)", ToolBox.printHexBinary(r.localAdd.getAddress())});
         l.add(new String[]{"", ""});
@@ -407,7 +420,6 @@ public class Collector {
 
 
     private static String getTransportState(byte[] state) {
-
         String status;
         String stateHex = ToolBox.printHexBinary(state);
         switch (stateHex) {
@@ -453,6 +465,7 @@ public class Collector {
         }
         return status;
     }
+
 
 
 }
