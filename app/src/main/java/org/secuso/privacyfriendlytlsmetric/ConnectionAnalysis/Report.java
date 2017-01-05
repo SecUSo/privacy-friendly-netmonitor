@@ -32,8 +32,17 @@ public class Report implements Serializable {
 
         //Init InetAddresses
         try {
-            localAdd = InetAddress.getByAddress(localAddHex);
-            remoteAdd = InetAddress.getByAddress(remoteAddHex);
+            if (type == TLType.tcp ||type == TLType.udp){
+                localAdd = InetAddress.getByName(
+                        ToolBox.hexToIp4(ToolBox.printHexBinary(localAddHex)));
+                remoteAdd = InetAddress.getByName(
+                        ToolBox.hexToIp4(ToolBox.printHexBinary(remoteAddHex)));
+            } else {
+                localAdd = InetAddress.getByName(
+                        ToolBox.hexToIp6(ToolBox.printHexBinary(localAddHex)));
+                remoteAdd = InetAddress.getByName(
+                        ToolBox.hexToIp6(ToolBox.printHexBinary(remoteAddHex)));
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -54,7 +63,7 @@ public class Report implements Serializable {
     public byte[] remoteAddHex;
     public InetAddress remoteAdd;
 
-    public boolean remoteResolved;
+    public boolean dnsIsResolved;
     public int remotePort;
 
     public int pid;
@@ -78,15 +87,12 @@ public class Report implements Serializable {
     private void initIP4(ByteBuffer bb) {
         bb.position(0);
         byte[] b = new byte[2];
-
         localAddHex = new byte[4];
         bb.get(localAddHex);
-        localAddHex = ToolBox.reverseByteArray(localAddHex);
         bb.get(b);
         localPort = ToolBox.twoBytesToInt(b);
         remoteAddHex = new byte[4];
         bb.get(remoteAddHex);
-        remoteAddHex = ToolBox.reverseByteArray(remoteAddHex);
         bb.get(b);
         remotePort = ToolBox.twoBytesToInt(b);
         uid = abs(bb.getShort());
@@ -100,12 +106,10 @@ public class Report implements Serializable {
         byte[] b = new byte[2];
         localAddHex = new byte[16];
         bb.get(localAddHex);
-        localAddHex = ToolBox.reverseByteArray(localAddHex);
         bb.get(b);
         localPort = ToolBox.twoBytesToInt(b);
         remoteAddHex = new byte[16];
         bb.get(remoteAddHex);
-        remoteAddHex = ToolBox.reverseByteArray(remoteAddHex);
         bb.get(b);
         remotePort = ToolBox.twoBytesToInt(b);
         uid = abs((bb.getShort()));

@@ -11,7 +11,6 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
-import org.secuso.privacyfriendlytlsmetric.Assistant.TLType;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
 import org.secuso.privacyfriendlytlsmetric.R;
 
@@ -111,15 +110,15 @@ public class Collector {
         String hostname;
         for ( int i : keySet) {
             list = (ArrayList<Report>)mFilteredUidReportMap.get(i);
-            for (int j = 0; j < list.size(); j++){
+            for (int j = 0; j < list.size(); j++) {
                 r = list.get(j);
                 //Add to certificate validation, if port 443 (TLS), resolved hostname and not yet
                 //analyzed
-                if (r.remotePort == 443 && r.remoteResolved &&
-                        !mCertValMap.containsKey(r.remoteAdd.getHostName()) &&
-                        !sCertValList.contains(r.remoteAdd.getHostName())){
-                    sCertValList.add(r.remoteAdd.getHostName());
-                }
+                    if (r.remotePort == 443 && r.dnsIsResolved &&
+                            !mCertValMap.containsKey(r.remoteAdd.getHostName()) &&
+                            !sCertValList.contains(r.remoteAdd.getHostName())) {
+                        sCertValList.add(r.remoteAdd.getHostName());
+                    }
             }
         }
     }
@@ -127,10 +126,8 @@ public class Collector {
     //Sorts the reports by app package name to a HashMap
     private static void sortReportsToMap() {
         mUidReportMap = new HashMap<>();
-
         for (int i = 0; i < sReportList.size(); i++) {
             Report r = sReportList.get(i);
-
             if (!mUidReportMap.containsKey(r.uid)) {
                 mUidReportMap.put(r.uid, new ArrayList<Report>());
             }
@@ -153,18 +150,17 @@ public class Collector {
     public static void resolveHosts() {
         for (int i = 0; i < sReportList.size(); i++){
             Report r = sReportList.get(i);
+            if (!r.dnsIsResolved) {
 
-            if (!sCacheDNS.containsKey(r.remoteAdd.getHostAddress())) {
-                String ip = r.remoteAdd.getHostAddress();
-                String host;
-                String canonical;
                 try {
-                    host = InetAddress.getByName(ip).getHostName();
-                    canonical = InetAddress.getByName(ip).getCanonicalHostName();
-                    r.remoteResolved = true;
-                    Log.d("ReverseDNS", "Reverse DNS for " + ip + " is: " + host + ", " + canonical);
-                } catch (UnknownHostException e) {
-                    r.remoteResolved = false;
+                    r.remoteAdd.getHostName();
+                    r.dnsIsResolved = true;
+                    Log.d("ReverseDNS", "Reverse DNS for " + r.remoteAdd.getHostAddress() +
+                            " is: " + r.remoteAdd.getHostName() + ", "
+                            + r.remoteAdd.getCanonicalHostName() + ", "
+                            + ToolBox.printHexBinary(r.remoteAdd.getAddress()));
+                } catch (RuntimeException e) {
+                    r.dnsIsResolved = false;
                     Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
                     e.printStackTrace();
                 }
@@ -389,7 +385,7 @@ public class Collector {
 
         l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
         l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
-        if(r.remoteResolved){ l.add(new String[]{"Remote Host", r.remoteAdd.getHostName()});}
+        if(r.dnsIsResolved){ l.add(new String[]{"Remote Host", r.remoteAdd.getHostName()});}
         else { l.add(new String[]{"Remote Host", "name not resolved"}); }
         l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
         l.add(new String[]{"Local Address(HEX)", ToolBox.printHexBinary(r.localAdd.getAddress())});
