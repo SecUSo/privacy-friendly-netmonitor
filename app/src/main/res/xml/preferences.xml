@@ -17,7 +17,12 @@
             android:title="@string/pref_log_switch"
             android:summary="@string/pref_log_switch_summary"
             android:defaultValue="false"/>
-
+        <SwitchPreference
+            android:id="@+id/pref_certval_switch"
+            android:key="IS_CERTVAL"
+            android:title="@string/pref_certval_switch"
+            android:summary="@string/pref_certval_switch_summary"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->

@@ -122,4 +122,6 @@
     <string name="main_button_inspect_reports">Inspect Connections</string>
     <string name="main_text_desc_inspect_off">Start service to insoect active connections.</string>
     <string name="main_text_desc_inspect_on">Tocuh button to inspect connections.</string>
+    <string name="pref_certval_switch">Server Validation</string>
+    <string name="pref_certval_switch_summary"><![CDATA[<Experimental> TLS Server Test with SSL-Labs API]]></string>
 </resources>
