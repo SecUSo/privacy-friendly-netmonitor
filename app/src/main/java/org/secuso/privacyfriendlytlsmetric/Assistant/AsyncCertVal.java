@@ -33,14 +33,16 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
     }
 
     // Fetch cached information in the fetch host list
-    private void fetchHostInfo(List<String> urls) {
+    private void fetchHostInfo(List<String[]> urls) {
         int count = getMaxAssesments();
         JSONObject hostInfo;
         String host;
-        ArrayList<String> pendingList = new ArrayList<>();
+        String ip;
+        ArrayList<String[]> pendingList = new ArrayList<>();
         while(count > 0 && urls.size() > 0){
-            host = urls.get(0);
-            hostInfo = mSSLLabsApi.fetchHostInformationCached(host, null, false, false);
+            host = urls.get(0)[0];
+            ip = urls.get(0)[1];
+            hostInfo = mSSLLabsApi.fetchHostInformationCached(host, ip, false, false);
 
             Map<String, Object> map = null;
             try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore){}
@@ -50,7 +52,7 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
             }
             //continue to resolve if request not ready
             if(map != null && map.size() > 0 && !Collector.analyseReady(map)){
-                pendingList.add(host);
+                pendingList.add(new String[]{host, ip});
             }
             urls.remove(0);
             count--;

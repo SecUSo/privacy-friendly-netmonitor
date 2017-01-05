@@ -43,7 +43,7 @@ public class Collector {
 
     //ReportDetail information
     public static HashMap<String, Map<String, Object>> mCertValMap = new HashMap<>();
-    public static List<String> sCertValList = new ArrayList<>();
+    public static List<String[]> sCertValList = new ArrayList<>();
     public static ArrayList<String[]> sDetailReportList = new ArrayList<>();
     public static Report sDetailReport;
 
@@ -116,7 +116,7 @@ public class Collector {
                     if (r.remotePort == 443 && hasHostName(ip) &&
                             !mCertValMap.containsKey(getDnsHostName(ip)) &&
                             !sCertValList.contains(getDnsHostName(ip))) {
-                        sCertValList.add(getDnsHostName(ip));
+                        sCertValList.add(new String[]{getDnsHostName(ip), ip});
                     }
             }
         }
@@ -345,7 +345,7 @@ public class Collector {
                 if(sCertValList.contains(oldHost)) { sCertValList.remove(oldHost); }
             } else {
                 if (!sCertValList.contains(certHost)){
-                    sCertValList.add(certHost);
+                    sCertValList.add(new String[]{certHost, ""});
                 }
             }
         }
