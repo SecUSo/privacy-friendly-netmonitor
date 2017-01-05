@@ -100,10 +100,12 @@ public class Report implements Serializable {
         byte[] b = new byte[2];
         localAddHex = new byte[16];
         bb.get(localAddHex);
+        localAddHex = ToolBox.reverseByteArray(localAddHex);
         bb.get(b);
         localPort = ToolBox.twoBytesToInt(b);
         remoteAddHex = new byte[16];
         bb.get(remoteAddHex);
+        remoteAddHex = ToolBox.reverseByteArray(remoteAddHex);
         bb.get(b);
         remotePort = ToolBox.twoBytesToInt(b);
         uid = abs((bb.getShort()));

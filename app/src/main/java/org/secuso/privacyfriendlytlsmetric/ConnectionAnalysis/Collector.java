@@ -20,6 +20,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,10 +38,11 @@ import de.bjoernr.ssllabs.ConsoleUtilities;
  */
 public class Collector {
 
-    //application info caches
+    //application caches
     static HashMap<Integer, PackageInfo> sCachePackage = new HashMap<>();
     static HashMap<Integer, Drawable> sCacheIcon = new HashMap<>();
     static HashMap<Integer, String> sCacheLabel = new HashMap<>();
+    static HashMap<String, String> sCacheDNS = new HashMap<>();
 
     //ReportDetail information
     public static HashMap<String, Map<String, Object>> mCertValMap = new HashMap<>();
@@ -148,19 +151,23 @@ public class Collector {
 
     //Make an async reverse DNS request
     public static void resolveHosts() {
-        for (Report r : sReportList){
-            try {
-                r.remoteAdd.getHostName();
-                //TODO: debug val for certval tests, remove later
-                if(r.type == TLType.tcp || r.type == TLType.udp){
+        for (int i = 0; i < sReportList.size(); i++){
+            Report r = sReportList.get(i);
+
+            if (!sCacheDNS.containsKey(r.remoteAdd.getHostAddress())) {
+                String ip = r.remoteAdd.getHostAddress();
+                String host;
+                String canonical;
+                try {
+                    host = InetAddress.getByName(ip).getHostName();
+                    canonical = InetAddress.getByName(ip).getCanonicalHostName();
                     r.remoteResolved = true;
-                } else {
+                    Log.d("ReverseDNS", "Reverse DNS for " + ip + " is: " + host + ", " + canonical);
+                } catch (UnknownHostException e) {
                     r.remoteResolved = false;
+                    Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
+                    e.printStackTrace();
                 }
-            } catch(RuntimeException e) {
-                r.remoteResolved = false;
-                Log.e(Const.LOG_TAG, "Attempt to resolve host name failed");
-                e.printStackTrace();
             }
         }
     }
