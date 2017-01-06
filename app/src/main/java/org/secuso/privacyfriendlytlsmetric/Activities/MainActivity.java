@@ -74,11 +74,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_start));
                     RunStore.getServiceHandler().startPassiveService();
-                    activateReportView();
+                    Intent intent = new Intent(RunStore.getContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Collector.isCertVal = mSharedPreferences.getBoolean(Const.IS_CERTVAL, false);
+                    startActivity(intent);
                 } else {
                     if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_stop));
                     RunStore.getServiceHandler().stopPassiveService();
-                    activateMainView();
+                    Intent intent = new Intent(RunStore.getContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
             }
         });
@@ -100,9 +105,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void activateReportView(){
         setContentView(R.layout.activity_report);
         super.setToolbar();
-        //Set collector options
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
-        Collector.isCertVal = sharedPref.getBoolean(Const.IS_CERTVAL, false);
+
 
         final Button startStop = (Button) findViewById(R.id.main_button);
         startStop.setText(R.string.main_button_text_on);
@@ -133,7 +136,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, final int i1, final long l) {
-                if(sharedPref.getBoolean(Const.DETAIL_MODE, true)) {
+                if(mSharedPreferences.getBoolean(Const.DETAIL_MODE, true)) {
                     view.animate().setDuration(500).alpha((float) 0.5)
                             .withEndAction(new Runnable() {
                                 @Override
