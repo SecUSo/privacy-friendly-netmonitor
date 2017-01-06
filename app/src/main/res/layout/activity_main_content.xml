@@ -48,18 +48,5 @@
         android:text="@string/main_text_stopped"
         android:layout_gravity="center" />
 
-    <Button
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:background="@drawable/button_fullwidth"
-        android:text="@string/main_button_text_off"
-        android:id="@+id/main_button"
-        android:onClick="onClick"
-        android:layout_gravity="center_horizontal"
-        android:padding="16dp"/>
-
-
 
 </LinearLayout>
