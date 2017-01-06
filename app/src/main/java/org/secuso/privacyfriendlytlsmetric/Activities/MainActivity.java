@@ -65,25 +65,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
 
-        // on click functionality for inspect button
-        Button inspect = (Button) findViewById(R.id.button_inspect);
-        inspect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
-                    Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        TaskStackBuilder builder = TaskStackBuilder.create(getApplicationContext());
-                        builder.addNextIntentWithParentStack(intent);
-                        builder.startActivities();
-                    } else {
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }
-        });
-
         //Show welcome dialog on first start
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstStart = sharedPrefs.getBoolean("IsFirstStart", true);

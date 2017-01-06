@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:onClick=""
         app:headerLayout="@layout/main_nav_header"
         app:menu="@menu/main_drawer" />
 
