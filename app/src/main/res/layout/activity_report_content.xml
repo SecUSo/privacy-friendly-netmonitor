@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/report_content_layout"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:fitsSystemWindows="true"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Activities.ReportActivity" >
+    tools:context=".Activities.ReportActivity"
+    tools:showIn="@layout/activity_report_app_bar"
+    style="@style/AlertDialog.AppCompat"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/report_floor_layout"
+    android:layout_below="@+id/toolbar">
 
         <TextView
             android:layout_width="match_parent"
@@ -32,9 +37,11 @@
             android:dividerHeight="0.5dp"
             android:id="@+id/list"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            android:layout_height="match_parent"
+
             android:layout_width="match_parent"
-            android:headerDividersEnabled="false" />
+            android:headerDividersEnabled="false"
+            android:layout_height="wrap_content"
+            android:paddingBottom="96dp" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
