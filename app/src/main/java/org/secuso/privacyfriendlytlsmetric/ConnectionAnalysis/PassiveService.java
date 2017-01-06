@@ -122,9 +122,6 @@ public class PassiveService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
         showAppNotification();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
-        final boolean isCertVal = prefs.getBoolean(Const.IS_CERTVAL,false);
-        Collector.isCertVal = isCertVal;
         //init reserved-ports
         KnownPorts.initPortMap();
 
@@ -139,7 +136,7 @@ public class PassiveService extends Service {
                 try {
                     while (!mInterrupt) {
                         Detector.updateReportMap();
-                        if(isCertVal){Collector.updateCertVal();}
+                        if(Collector.isCertVal){Collector.updateCertVal();}
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {
