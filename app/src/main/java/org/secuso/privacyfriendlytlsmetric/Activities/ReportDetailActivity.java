@@ -126,7 +126,7 @@ public class ReportDetailActivity extends BaseActivity{
 
     @Override
     protected int getNavigationDrawerID() {
-        return R.id.nav_report;
+        return R.id.nav_main;
     }
 
 }

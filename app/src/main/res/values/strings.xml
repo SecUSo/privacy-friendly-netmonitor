@@ -57,7 +57,7 @@
     semper ac in est.</string>
 
     <!-- Menu drawer -->
-    <string name="drawer_main">Start</string>
+    <string name="drawer_main">Main</string>
     <string name="drawer_evidence">Reports</string>
     <string name="drawer_settings">Setting</string>
     <string name="drawer_help">Help</string>

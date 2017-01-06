@@ -7,10 +7,6 @@
             android:id="@+id/nav_main"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/drawer_main" />
-        <item
-            android:id="@+id/nav_report"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/drawer_evidence" />
     </group>
 
     <group android:id="@+id/nav_group_add"

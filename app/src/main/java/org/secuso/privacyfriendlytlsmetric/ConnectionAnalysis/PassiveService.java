@@ -55,7 +55,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 
-import org.secuso.privacyfriendlytlsmetric.Activities.ReportActivity;
 import org.secuso.privacyfriendlytlsmetric.Activities.MainActivity;
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncCertVal;
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
@@ -216,12 +215,12 @@ public class PassiveService extends Service {
         mBuilder.setContentText(mNotificationCount + " new warnings encountered.");
 
         // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, ReportActivity.class);
+        Intent resultIntent = new Intent(this, MainActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
         // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(ReportActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
 
         // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);

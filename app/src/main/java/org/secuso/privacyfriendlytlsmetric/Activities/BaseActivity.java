@@ -141,10 +141,6 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
-            case R.id.nav_report:
-                intent = new Intent(this, ReportActivity.class);
-                createBackStack(intent);
-                break;
             case R.id.nav_about:
                 intent = new Intent(this, AboutActivity.class);
                 createBackStack(intent);
@@ -166,10 +162,10 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
+        setToolbar();
     }
 
-    void setToolbar(){
+    public void setToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
