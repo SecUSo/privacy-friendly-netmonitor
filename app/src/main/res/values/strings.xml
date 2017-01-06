@@ -19,11 +19,11 @@
     <string name="passive_service_start">TLSMetric service has been started in passive mode.</string>
     <string name="passive_service_stop">TLSMetric service has been stopped. Was in passive mode.</string>
 
-    <!-- UI evidence text -->
+    <!-- UI report text -->
     <string name="evidenceSecondLine">Severity:</string>
     <string name="action_back">Back to Main</string>
     <string name="action_refresh">refresh view</string>
-    <string name="headline_evidence">Connections</string>
+    <string name="headline_reports">Connections</string>
     <string name="unknown_app">Unknown App</string>
 
     <!-- UI Evidence Detail text -->
@@ -40,7 +40,7 @@
     <string name="ALERT_SSL_3">Outdated encryption warning - SSL3</string>
     <string name="ALERT_TLS_12">Encrypted Connection - TLS 1.2</string>
     <string name="ALERT_TLS_11">Encrypted Connection - TLS 1.1</string>
-    <string name="action_settings">Aettings</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Testtext -->
 <string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -70,18 +70,8 @@
     <!-- ###MAIN### -->
     <string name="main_button_text_off">start TLSMetric</string>
     <string name="main_button_text_on">stop TLSMetric</string>
-    <string name="main_button_active_text">TLSMetric stoppen</string>
-    <string name="main_button_disabled_text">Inactive Button</string>
-    <string name="main_button_1">1</string>
-    <string name="main_button_2">2</string>
-    <string name="main_button_3">3</string>
-    <string name="main_button_4">4</string>
-    <string name="main_button_5">5</string>
-    <string name="main_text_fullwithbutton_desc">A button that uses the full width of the screen looks like this:</string>
-    <string name="main_text_disabledbutton_desc">A disabled button looks like this (any size):</string>
     <string name="main_text_title">This "Privacy Friendly" Version of TLSMetric uses minimal permissions and does not store or transmit any data.</string>
     <string name="main_text_normalbutton_desc">On touch of the start button, TLSMetric starts a passive daemon which monitors all ongoing network connections. A background notification will inform you of the ongoing monitoring.</string>
-    <string name="main_button_welcomedialog_text">Use the button in the lower left corner to call the Welcome Dialog.</string>
     <string name="main_text_desc_inspect_off">Start service to inspect active connections.</string>
 
     <!-- About -->

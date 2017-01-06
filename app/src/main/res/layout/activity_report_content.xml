@@ -19,14 +19,6 @@
     android:layout_above="@+id/report_floor_layout"
     android:layout_below="@+id/toolbar">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/colorAccent"
-            android:layout_marginStart="20dp"
-            android:text="@string/report_general_heading" />
-
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"

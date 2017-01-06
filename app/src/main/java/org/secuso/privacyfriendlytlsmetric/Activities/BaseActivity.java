@@ -34,8 +34,8 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
     static final int MAIN_CONTENT_FADEIN_DURATION = 250;
 
     // Navigation drawer:
-    private DrawerLayout mDrawerLayout;
-    private NavigationView mNavigationView;
+    DrawerLayout mDrawerLayout;
+    NavigationView mNavigationView;
 
     // Helper
     private Handler mHandler;
@@ -108,7 +108,7 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
     }
 
     // set active navigation item
-    private void selectNavigationItem(int itemId) {
+    void selectNavigationItem(int itemId) {
         for(int i = 0 ; i < mNavigationView.getMenu().size(); i++) {
             boolean b = itemId == mNavigationView.getMenu().getItem(i).getItemId();
             mNavigationView.getMenu().getItem(i).setChecked(b);
@@ -167,6 +167,9 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+    }
+
+    void setToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
