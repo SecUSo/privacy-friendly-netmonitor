@@ -156,7 +156,7 @@ public class PassiveService extends Service {
     public void onDestroy() {
         showNoNotification();
         mInterrupt = true;
-        Toast.makeText(this, "TLSMetric service stopped", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "TLSMetric service stopped", Toast.LENGTH_SHORT).show();
     }
 
 

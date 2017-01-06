@@ -16,7 +16,7 @@
     <string name="evidenceSecondLine">Gewichtung:</string>
     <string name="action_back">Zurück zum Start</string>
     <string name="action_refresh">Ansicht aktualisieren</string>
-    <string name="headline_evidence">Verbindungen</string>
+    <string name="headline_reports">Verbindungen</string>
     <string name="unknown_app">Unbekannte App</string>
 
     <!-- UI Evidence Detail text -->
