@@ -21,7 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -31,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.bjoernr.ssllabs.Console;
 import de.bjoernr.ssllabs.ConsoleUtilities;
 
 /**
@@ -214,9 +212,7 @@ public class Collector {
     //Updates the PkgInfo hash map with new entries.
     private static void updatePackageCache() {
         sCachePackage = new HashMap<>();
-        if(Const.IS_DEBUG){  }
-        printAllPackages();
-
+        if(Const.IS_DEBUG){ printAllPackages(); }
         ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
         for (PackageInfo i : infoList) {
             if (i != null) {

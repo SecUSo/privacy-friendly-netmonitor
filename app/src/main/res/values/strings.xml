@@ -43,18 +43,19 @@
     <string name="action_settings">Settings</string>
 
     <!-- Testtext -->
-<string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec
-    consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas
-    mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur.
-    Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet,
-    consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper
-    sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur
-    dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero
-    in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at
-    malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes,
-    nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis
-    semper ac in est.</string>
+    <string name="loremIpsum">Welcome to Privacy Friendly TLS Metric. \n \n
+        This app scans active network connections in background. The detected connections are
+        listed with their invoking apps, the remote host (if resolvable) and an identification of
+        the service used. \n \n
+        Additionally, very detailed technical information can be displayed by touching one of the
+        listed connections. An automatic Certificate Validation and SSL Server Test can be toggled in
+        the setting, allowing TLS Metric to request a Transport Layer Security (TLS) rating of addressed Servers.
+        The ratings are provided by SSL-Labs (https://www.ssllabs.com), see "help" for further information.
+        \n \n
+        This App has been developed with privacy in mind, and does not use any unnecessary
+        permissions and does not save or transmit any personal data.
+        For further information see "help" or pick "about" in the navigation.
+    </string>
 
     <!-- Menu drawer -->
     <string name="drawer_main">Main</string>
@@ -87,14 +88,53 @@
     <string name="help_general_heading">Overview</string>
     <string name="help_feature_heading">Features</string>
     <string name="help_privacy_heading">Privacy</string>
-    <string name="help_whatis">What is Privacy Friendly App Example?</string>
-    <string name="help_whatis_answer">Privacy Friendly App Example is an app that demonstrates the design of a Privacy Friendly App.</string>
-    <string name="help_feature_one">Feature 1</string>
-    <string name="help_feature_one_answer">Description of first feature.</string>
+    <string name="help_whatis">What is Privacy Friendly TLS Metric?</string>
+    <string name="help_whatis_answer">Privacy Friendly TLS Metric is an application for monitoring
+        network traffic from installed apps. It scans active network connections with a background
+        service and displays it with additional information concerning network encryption
+        (Transport Layer Security, TLS).
+    </string>
+    <string name="help_feature_one">Connection Monitoring</string>
+    <string name="help_feature_one_answer">TLS Metric deploys an background service, scanning for
+        active connections once every second. The apps, invoking the connections are identified and
+        are listed with their icon and the amount of remote addresses they are communicating with in
+        a connection overview. The connection overview can be refreshed by swiping down on the display.
+    </string>
+    <string name="help_feature_two">Protocol/Encryption Detection</string>
+    <string name="help_feature_two_answer">Based on a connections remote port, the transport protocol
+        can be identified by "Well Known Port" tables. Based on this information, a warning is given
+        if a connection is known for not having an encryption employed. Note that this is no grantee
+        that the connection uses this protocol, since the assignment port numbers is not enforced.
+    </string>
+    <string name="help_feature_three">Hostname Resolution</string>
+    <string name="help_feature_three_answer">The hostname assigned to remote address is requested by
+        name resolution. This is done asynchronously in background and may take some seconds.
+    </string>
+    <string name="help_feature_four">Detailed Reports</string>
+    <string name="help_feature_four_answer">
+        A detailed mode can be toggled in the settings view. When activated, a scanned connection
+        can be touched to display additional, technical information on the given connection.
+    </string>
+    <string name="help_feature_five">Certificate Validation</string>
+    <string name="help_feature_five_answer">
+        An automatic test of the remote servers encryption implementation can be activated in the
+        settings view. When active, remote servers with a resolved hostname are tested automatically,
+        when the connection protocol is known for employing TLS encryption. The server testing is
+        performed by SSL Lab's "SSL Server Test" (www.ssllabs.com). The remote server's encryption
+        quality is shown in grades A+ (best) to F (worst). For further information on SSL Lab API
+        see the "about" view.
+    </string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
-    <string name="help_privacy_answer">Privacy Friendly App Example does not require any permission. It further does not include any tracking mechanisms or advertisement.</string>
+    <string name="help_privacy_answer">Privacy Friendly App Example does not require any root
+        permission to scan active connections. It further does not include any tracking mechanisms
+        or advertisement and comes free of charge. Privacy Friendly TLS Metric is published under
+        GPLv3 license and therefore is free to distribute or extend.
+    </string>
     <string name="help_permission">Which permissions requires the app?</string>
-    <string name="help_permission_answer">Privacy Friendly App Example does not require any permission.</string>
+    <string name="help_permission_answer">Privacy Friendly App Example does not require any permission
+        for scanning active connections. The Certificate Validation / SSL Server Test feature requires
+        INTERNET permissions to request server test results from Qualys(R) SSL Labs (www.ssllabs.com).
+    </string>
 
     <!-- ###SETTINGS### -->
     <string name="title_activity_settings">Settings</string>
