@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.bjoernr.ssllabs.Console;
 import de.bjoernr.ssllabs.ConsoleUtilities;
 
 /**
@@ -139,7 +140,7 @@ public class Collector {
         for (int i : keySet) {
             reportList.add(Detector.sReportMap.get(i));
         }
-        sReportList = deepCloneReportList(reportList);
+        sReportList = deepCopyReportList(reportList);
     }
 
     //Make an async reverse DNS request
@@ -165,7 +166,7 @@ public class Collector {
     }
 
     //Make an async request to get host information from sslLabs
-    public static void updateCertVal() {
+    static void updateCertVal() {
         if (sCertValList.size() > 0){
             new AsyncCertVal().execute();
         }
@@ -189,7 +190,7 @@ public class Collector {
     }
 
     //Make a deep copy of the report list
-    private static ArrayList<Report> deepCloneReportList(ArrayList<Report> reportList) {
+    private static ArrayList<Report> deepCopyReportList(ArrayList<Report> reportList) {
         ArrayList<Report> cloneList = new ArrayList<>();
         try {
             for (int i = 0; i < reportList.size(); i++) {
@@ -208,17 +209,28 @@ public class Collector {
 
     //Updates the PkgInfo hash map with new entries.
     private static void updatePackageCache() {
-        sCachePackage = new HashMap();
+        sCachePackage = new HashMap<>();
+        if(Const.IS_DEBUG){  }
+        printAllPackages();
 
-        if(Const.IS_DEBUG){ printAllPackages(); }
         ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
         for (PackageInfo i : infoList) {
             if (i != null) {
                 sCachePackage.put(i.applicationInfo.uid, i);
             }
         }
+        addSysPackage();
     }
 
+    //Generate a system user dummy for UID 0
+    private static void addSysPackage() {
+        if (sCachePackage.containsKey(1000)){
+            PackageInfo systemPI = sCachePackage.get(1000);
+            sCachePackage.put(0, systemPI);
+        }
+    }
+
+    //Get a list with all currently installed packages
     private static List<PackageInfo> getPackages(Context context) {
         synchronized (context.getApplicationContext()) {
                 PackageManager pm = context.getPackageManager();
@@ -283,8 +295,12 @@ public class Collector {
             Map<String, Object> map = mCertValMap.get(hostname);
             Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
             if (analyseReady(map)) {
-                if(map.containsKey("host"));
-                return (String)map.get("host");
+                if(map.containsKey("host")){
+                    return (String)map.get("host");
+                } else {
+                    return hostname;
+                }
+
             }
         }
         return hostname;
@@ -364,9 +380,8 @@ public class Collector {
 
     //Checks if ssl analysis has been completed
     public static boolean analyseReady(Map<String, Object> map) {
-        String status = (String)map.get("status");
-        if (status == null) {return false;}
-        else {return status.equals("READY");}
+        String status = (String) map.get("status");
+        return status != null && status.equals("READY");
     }
 
     public static void provideDetail(int uid, byte[] remoteAddHex) {
@@ -389,7 +404,8 @@ public class Collector {
     private static void buildDetailStrings(ArrayList<Report> filterList) {
         ArrayList<String[]> l = new ArrayList<>();
         Report r = filterList.get(0);
-
+        l.add(new String[]{"user ID", "" + r.uid});
+        l.add(new String[]{"", ""});
         l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
         l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
         if(hasHostName(r.remoteAdd.getHostAddress())){
@@ -410,8 +426,10 @@ public class Collector {
             Report r2 = filterList.get(i);
             l.add(new String[]{"(" + (i + 1) + ")src port > dst port",
                     r2.localPort + " > " + r2.remotePort});
-            l.add(new String[]{"    socket-state: ", getTransportState(r.state)});
+            l.add(new String[]{"    socket-state ", getTransportState(r.state)});
         }
+        l.add(new String[]{"", ""});
+
         sDetailReportList = l;
     }
 

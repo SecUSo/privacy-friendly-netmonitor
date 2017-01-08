@@ -56,8 +56,7 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
             urls.remove(0);
             count--;
 
-            //TODO: Debug log-remove later
-            Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            if(Const.IS_DEBUG){Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));}
         }
         Collector.sCertValList.addAll(pendingList);
         Collector.updateCertHostHandler();
@@ -72,7 +71,7 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
 
         Map<String, Object> map = null;
         try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore) {}
-        Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+        if(Const.IS_DEBUG){Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));}
 
         if (map.containsKey(max)) {
             return (Integer) map.get(max);
