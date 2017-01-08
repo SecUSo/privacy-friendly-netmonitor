@@ -54,12 +54,21 @@ public interface Const {
 
     //Detector constants
     int REPORT_TTL_DEFAULT = 15000;
-    Integer[] PORT_VALUES = new Integer[] { 993, 443, 995, 465, 587 };
-    Set<Integer> TLS_PORTS = new HashSet<>(Arrays.asList(PORT_VALUES));
+    Integer[] TLS_PORT_VALUES = new Integer[] { 993, 443, 995, 465, 587, 22 };
+    Set<Integer> TLS_PORTS = new HashSet<>(Arrays.asList(TLS_PORT_VALUES));
+    Integer[] UNSECURE_PORT_VALUES = new Integer[] { 80, 21, 25,  };
+    Set<Integer> UNSECURE_PORTS = new HashSet<>(Arrays.asList(TLS_PORT_VALUES));
+
+    //String Builder Constants
+    String STATUS_TLS = "Encrypted";
+    String STATUS_UNSECURE = "Unencrypted";
+    String STATUS_UNKNOWN = "Unknown";
 
     //SharedPrefs identifiers
     String REPORT_TTL = "REPORT_TTL";
     String DETAIL_MODE = "DETAIL_MODE";
     String IS_LOG = "IS_LOG";
     String IS_CERTVAL = "IS_CERTVAL";
+
+
 }
