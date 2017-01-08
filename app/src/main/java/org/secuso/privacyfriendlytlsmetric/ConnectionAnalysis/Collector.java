@@ -1,9 +1,11 @@
 package org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncCertVal;
@@ -12,6 +14,7 @@ import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
 import org.secuso.privacyfriendlytlsmetric.Assistant.ToolBox;
+import org.secuso.privacyfriendlytlsmetric.BuildConfig;
 import org.secuso.privacyfriendlytlsmetric.R;
 
 import java.io.ByteArrayInputStream;
@@ -224,10 +227,16 @@ public class Collector {
 
     //Generate a system user dummy for UID 0
     private static void addSysPackage() {
-        if (sCachePackage.containsKey(1000)){
-            PackageInfo systemPI = sCachePackage.get(1000);
-            sCachePackage.put(0, systemPI);
-        }
+        // Add root
+        PackageInfo root = new PackageInfo();
+        root.packageName = "com.android.system";
+        root.versionCode = BuildConfig.VERSION_CODE;
+        root.versionName = BuildConfig.VERSION_NAME;
+        root.applicationInfo = new ApplicationInfo();
+        root.applicationInfo.name = "System";
+        root.applicationInfo.uid = 0;
+        root.applicationInfo.icon = 0;
+        sCachePackage.put(root.applicationInfo.uid, root);
     }
 
     //Get a list with all currently installed packages
@@ -279,6 +288,7 @@ public class Collector {
         }
     }
 
+
     public static String getDnsHostName(String hostAdd) {
         if (sCacheDNS.containsKey(hostAdd)){
             return sCacheDNS.get(hostAdd);
@@ -300,7 +310,6 @@ public class Collector {
                 } else {
                     return hostname;
                 }
-
             }
         }
         return hostname;
