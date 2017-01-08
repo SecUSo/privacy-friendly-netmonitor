@@ -1,7 +1,10 @@
 package org.secuso.privacyfriendlytlsmetric.Activities;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.graphics.ColorUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.KnownPorts;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
@@ -48,23 +52,34 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         //Build information from reports of one App (UID)
         Report r = (Report) getChild(listPosition, expandedListPosition);
-        final String text1;
-        final String text2;
+        final String item1;
+        final String item2_type;
+        final String item2_value;
+        final String item3;
+
+        //Set hostname if resolved by AsyncDNS class
         if(Collector.hasHostName(r.remoteAdd.getHostAddress())){
-            text1 = Collector.getDnsHostName(r.remoteAdd.getHostAddress());
+            item1 = Collector.getDnsHostName(r.remoteAdd.getHostAddress());
         } else {
-            text1 = "" + r.remoteAdd.getHostAddress();
+            item1 = "" + r.remoteAdd.getHostAddress();
         }
-        //TODO: Build port-based warning system (colours)
-        if (Collector.isCertVal && Collector.isTlsPort(r.remotePort) && Collector.hasHostName(r.remoteAdd.getHostAddress())){
-            if(text1.equals(Collector.getCertHost(text1))) {
-                text2 = "Server rating: " + Collector.getMetric(text1);
+        //Set connection info or server rating
+        if (Collector.isCertVal && KnownPorts.isTlsPort(r.remotePort) && Collector.hasHostName(r.remoteAdd.getHostAddress())){
+            if(item1.equals(Collector.getCertHost(item1))) {
+                item2_type = "SSL Server Rating:";
+                item2_value = Collector.getMetric(item1);
             } else {
-                text2 = "Server rating: " + Collector.getMetric(text1) +
-                        "\n (" + Collector.getCertHost(text1) + ")";
+                item2_type = "SSL Server Rating:";
+                if (item1.equals(Collector.getCertHost(item1))) {
+                    item2_value = Collector.getMetric(item1);
+                } else {
+                    item2_value = Collector.getMetric(item1) + " (" + Collector.getCertHost(item1)
+                            + ")";
+                }
             }
         } else {
-            text2 = "protocol: " + KnownPorts.resolvePort(r.remotePort) + " (" + r.type + ")";
+            item2_type = "Connection Info:";
+            item2_value = KnownPorts.CompileConnectionInfo(r.remotePort, r.type);
         }
 
         if (convertView == null) {
@@ -72,16 +87,25 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.report_list_item, null);
         }
-        TextView reportTextView = (TextView) convertView
-                .findViewById(R.id.report_item_1);
-        reportTextView.setText(text1);
-        reportTextView = (TextView) convertView
-                .findViewById(R.id.report_item_2);
-        reportTextView.setTextColor(context.getResources().getColor(R.color.colorPrimary));
-        reportTextView.setText(text2);
-        reportTextView.setTextColor(context.getResources().getColor(R.color.middlegrey));
+
+        //Fill textviews
+        TextView textView = (TextView) convertView.findViewById(R.id.report_item_1);
+        final int height = textView.getHeight();
+        textView.setText(item1);
+        textView = (TextView) convertView.findViewById(R.id.report_item_2_type);
+        textView.setText(item2_type);
+        textView = (TextView) convertView.findViewById(R.id.report_item_2_val);
+        textView.setText(item2_value);
+
+        //Set warning colour
+        if (item2_value.contains(Const.STATUS_TLS)) {
+            textView.setTextColor(context.getResources().getColor(R.color.green));
+        } else if (item2_value.contains(Const.STATUS_UNSECURE)){
+            textView.setTextColor(context.getResources().getColor(R.color.red));
+        }
         return convertView;
     }
+
 
     @Override
     public int getChildrenCount(int listPosition) {
@@ -135,4 +159,5 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int listPosition, int expandedListPosition) {
         return true;
     }
+
 }

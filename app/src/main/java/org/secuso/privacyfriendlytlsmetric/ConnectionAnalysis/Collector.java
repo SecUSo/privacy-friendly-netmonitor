@@ -29,8 +29,6 @@ import java.util.Set;
 
 import de.bjoernr.ssllabs.ConsoleUtilities;
 
-import static org.secuso.privacyfriendlytlsmetric.Assistant.Const.TLS_PORTS;
-
 /**
  * Collector class collects data from the services and processes it for inter process communication
  * with the UI.
@@ -112,17 +110,13 @@ public class Collector {
                 //Add to certificate validation, if port 443 (TLS), resolved hostname and not yet
                 //analyzed
                 ip = r.remoteAdd.getHostAddress();
-                    if (isTlsPort(r.remotePort) && hasHostName(ip) &&
+                    if (KnownPorts.isTlsPort(r.remotePort) && hasHostName(ip) &&
                             !mCertValMap.containsKey(getDnsHostName(ip)) &&
                             !sCertValList.contains(getDnsHostName(ip))) {
                         sCertValList.add(getDnsHostName(ip));
                     }
             }
         }
-    }
-
-    public static boolean isTlsPort(int i) {
-        return TLS_PORTS.contains(i);
     }
 
     //Sorts the reports by app package name to a HashMap

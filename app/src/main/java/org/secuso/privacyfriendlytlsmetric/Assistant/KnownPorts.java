@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 public class KnownPorts {
 
+
     private static HashMap<Integer, String> m;
 
     //get protocol desc based on port number
@@ -18,6 +19,30 @@ public class KnownPorts {
             return "unknown";
         }
     }
+
+    public static String CompileConnectionInfo(int remotePort, TLType type) {
+        String info;
+        if (isTlsPort(remotePort)){
+            info = Const.STATUS_TLS;
+        } else if (isUnsecurePort(remotePort)){
+            info = Const.STATUS_UNSECURE;
+        } else {
+            info = Const.STATUS_UNKNOWN;
+        }
+
+        return info + " (" + resolvePort(remotePort) + ", " + type + ")";
+    }
+
+    //Test if port number is well known for TLS connection
+    public static boolean isTlsPort(int i) {
+        return Const.TLS_PORTS.contains(i);
+    }
+
+    //Test if port number is well known for unencrypted connection
+    public static boolean isUnsecurePort(int i) {
+        return Const.UNSECURE_PORTS.contains(i);
+    }
+
     //init hash map with reserved ports (1-1024) and protocol identifiers
     //based on: http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml
     public static void initPortMap() {
@@ -713,4 +738,7 @@ public class KnownPorts {
         m.put(1021, "exp1");
         m.put(1022, "exp2");
     }
+
+
+
 }
