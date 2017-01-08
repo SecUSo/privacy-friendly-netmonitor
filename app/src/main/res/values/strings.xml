@@ -121,5 +121,6 @@
     <string name="report_detail_heading">Connection Detail</string>
     <string name="pref_certval_switch">Enable Server Validation</string>
     <string name="pref_certval_switch_summary">TLSMetric tries to perform a Server Test with SSL Labs API, when possible.</string>
+    <string name="report_swipe_refresh">Swipe down to refresh connections!</string>
 
 </resources>

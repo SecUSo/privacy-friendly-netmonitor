@@ -67,6 +67,7 @@ public interface Const {
     //SharedPrefs identifiers
     String REPORT_TTL = "REPORT_TTL";
     String DETAIL_MODE = "DETAIL_MODE";
+    String IS_FIRST_START = "IS_FIRST_START";
     String IS_LOG = "IS_LOG";
     String IS_CERTVAL = "IS_CERTVAL";
 

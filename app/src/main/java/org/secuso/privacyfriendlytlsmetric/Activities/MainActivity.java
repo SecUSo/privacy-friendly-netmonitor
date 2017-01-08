@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.Const;
 import org.secuso.privacyfriendlytlsmetric.Assistant.RunStore;
@@ -37,7 +38,6 @@ import java.util.List;
 public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private SharedPreferences sharedPref;
     private ExpandableListView expListView;
     private HashMap<Integer, List<Report>> reportMap;
 
@@ -54,12 +54,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         //Show welcome dialog on first start
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstStart = sharedPrefs.getBoolean("IsFirstStart", true);
+        boolean isFirstStart = sharedPrefs.getBoolean("IS_FIRST_START", true);
         if(isFirstStart){
             WelcomeDialog welcomeDialog = new WelcomeDialog();
             welcomeDialog.show(getFragmentManager(), "WelcomeDialog");
             SharedPreferences.Editor edit = sharedPrefs.edit();
-            edit.putBoolean("IsFirstStart", false);
+            edit.putBoolean("IS_FIRST_START", false);
             edit.apply();
         }
 
@@ -106,7 +106,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setContentView(R.layout.activity_report);
         super.setToolbar();
 
-
         final Button startStop = (Button) findViewById(R.id.main_button);
         startStop.setText(R.string.main_button_text_on);
         setButtonListener();
@@ -119,7 +118,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
-
+        Toast toast = Toast.makeText(this, getResources().getString(R.string.report_swipe_refresh), Toast.LENGTH_LONG);
+        toast.show();
         /**
          * Showing Swipe Refresh animation on activity create
          * As animation won't start on onCreate, post runnable is used
