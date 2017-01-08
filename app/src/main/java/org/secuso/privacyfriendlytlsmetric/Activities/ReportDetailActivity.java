@@ -54,6 +54,12 @@ import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlytlsmetric.R;
 
+import de.bjoernr.ssllabs.ConsoleUtilities;
+
+import static org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector.getDnsHostName;
+import static org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector.isCertVal;
+import static org.secuso.privacyfriendlytlsmetric.ConnectionAnalysis.Collector.mCertValMap;
+
 /**
  * Evidence Detail Panel. List all reports of a connection, invoked by Evidence Panel (ReportActivity)
  */
@@ -70,6 +76,7 @@ public class ReportDetailActivity extends BaseActivity{
         final ListView listview = (ListView) findViewById(R.id.report_detail_list_view);
         listview.setAdapter(adapter);
 
+        // Fill headings
         Report r = Collector.sDetailReport;
         ImageView icon = (ImageView) findViewById(R.id.reportDetailIcon);
         icon.setImageDrawable(Collector.getIcon(r.uid));
@@ -77,6 +84,15 @@ public class ReportDetailActivity extends BaseActivity{
         label.setText(Collector.getLabel(r.uid));
         TextView pkg = (TextView) findViewById(R.id.reportDetailSubtitle);
         pkg.setText(Collector.getPackage(r.uid));
+        //Add certificate information
+        if(isCertVal && Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
+                mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
+            TextView ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_heading);
+            ssllabs.setText(getResources().getString(R.string.report_detail_ssllabs));
+            ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_result);
+            ssllabs.setText(ConsoleUtilities.mapToConsoleOutput(
+                    mCertValMap.get(getDnsHostName(r.remoteAdd.getHostAddress()))));
+        }
     }
 
 
@@ -116,8 +132,8 @@ public class ReportDetailActivity extends BaseActivity{
                 type.setText(detail[0]);
                 value.setText(detail[1]);
             } else {
-                type.setText("type");
-                value.setText("null");
+                type.setText("");
+                value.setText("");
             }
 
             return v;

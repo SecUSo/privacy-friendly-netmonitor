@@ -12,7 +12,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Activities.ReportActivity"
+    tools:context=".Activities.MainActivity"
     tools:showIn="@layout/activity_report_app_bar"
     style="@style/AlertDialog.AppCompat"
     android:layout_height="match_parent"
