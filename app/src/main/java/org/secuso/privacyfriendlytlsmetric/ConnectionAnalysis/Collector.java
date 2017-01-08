@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 
 import org.secuso.privacyfriendlytlsmetric.Assistant.AsyncCertVal;
@@ -22,8 +21,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -413,7 +414,12 @@ public class Collector {
     private static void buildDetailStrings(ArrayList<Report> filterList) {
         ArrayList<String[]> l = new ArrayList<>();
         Report r = filterList.get(0);
-        l.add(new String[]{"user ID", "" + r.uid});
+        PackageInfo info = sCachePackage.get(r.uid);
+
+        l.add(new String[]{"User ID", "" + r.uid});
+        l.add(new String[]{"App Version", "" + info.versionName});
+        l.add(new String[]{"Installed On", "" + new Date(info.firstInstallTime).toString()});
+        l.add(new String[]{"App Version", "" + info.applicationInfo.loadDescription(RunStore.getContext().getPackageManager())});
         l.add(new String[]{"", ""});
         l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
         l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});

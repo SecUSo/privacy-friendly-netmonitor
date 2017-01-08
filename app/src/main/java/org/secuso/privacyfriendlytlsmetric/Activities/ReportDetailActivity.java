@@ -84,6 +84,7 @@ public class ReportDetailActivity extends BaseActivity{
         label.setText(Collector.getLabel(r.uid));
         TextView pkg = (TextView) findViewById(R.id.reportDetailSubtitle);
         pkg.setText(Collector.getPackage(r.uid));
+
         //Add certificate information
         if(isCertVal && Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
                 mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
