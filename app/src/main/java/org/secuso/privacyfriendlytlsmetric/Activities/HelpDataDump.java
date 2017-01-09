@@ -26,7 +26,6 @@ public class HelpDataDump {
 
         List<String> general = new ArrayList<String>();
         general.add(context.getResources().getString(R.string.help_whatis_answer));
-
         expandableListDetail.put(context.getResources().getString(R.string.help_whatis), general);
         return expandableListDetail;
     }
@@ -34,10 +33,25 @@ public class HelpDataDump {
     public HashMap<String, List<String>> getDataFeatures() {
         HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
 
-        List<String> features = new ArrayList<String>();
-        features.add(context.getResources().getString(R.string.help_feature_one_answer));
+        List<String> features1 = new ArrayList<String>();
+        features1.add(context.getResources().getString(R.string.help_feature_one_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_feature_one), features1);
 
-        expandableListDetail.put(context.getResources().getString(R.string.help_feature_one), features);
+        List<String> features2 = new ArrayList<String>();
+        features2.add(context.getResources().getString(R.string.help_feature_two_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_feature_two), features2);
+
+        List<String> features3 = new ArrayList<String>();
+        features3.add(context.getResources().getString(R.string.help_feature_three_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_feature_three), features3);
+
+        List<String> features4 = new ArrayList<String>();
+        features4.add(context.getResources().getString(R.string.help_feature_four_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_feature_four), features4);
+
+        List<String> features5 = new ArrayList<String>();
+        features5.add(context.getResources().getString(R.string.help_feature_five_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_feature_five), features5);
 
         return expandableListDetail;
     }
