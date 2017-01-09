@@ -31,7 +31,7 @@ class HelpDataDump {
     }
 
     HashMap<String, List<String>> getDataFeatures() {
-        HashMap<String, List<String>> expandableListDetail = new HashMap<String, List<String>>();
+        HashMap<String, List<String>> expandableListDetail = new HashMap<>();
 
         List<String> features1 = new ArrayList<>();
         features1.add(context.getResources().getString(R.string.help_feature_one_answer));

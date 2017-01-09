@@ -74,7 +74,6 @@ public class PassiveService extends Service {
 
     public static boolean mInterrupt;
     private Thread mThread;
-    private boolean isVpn;
     private final IBinder mBinder = new AnalyzerBinder();
 
     private int mNotificationCount;
@@ -82,7 +81,7 @@ public class PassiveService extends Service {
             new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.icon)
                     .setContentTitle("TLSMetric")
-                    .setContentText("Packet analyzer service is running.");
+                    .setContentText("Connection monitoring is active.");
 
     //private Bitmap mQuest;
     private Bitmap mIcon;
@@ -98,21 +97,13 @@ public class PassiveService extends Service {
     @Override
     public void onCreate() {
         mInterrupt = false;
-        isVpn = false;
         mNotificationCount = 0;
         loadNotificationBitmaps();
 
-        showAppNotification();
-
-        if(isVpn){
-            //VPN branch : Not implemented yet
-            Log.i(Const.LOG_TAG,"VPN core not yet implemented");
-        }
     }
 
     //Icons for Notification manager. Must be converted to bitmaps.
     private void loadNotificationBitmaps() {
-        //mQuest = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_quest, mBitmapOptions);
         mIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
     }
 
@@ -155,7 +146,6 @@ public class PassiveService extends Service {
     public void onDestroy() {
         showNoNotification();
         mInterrupt = true;
-        //Toast.makeText(this, "TLSMetric service stopped", Toast.LENGTH_SHORT).show();
     }
 
 
