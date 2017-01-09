@@ -12,29 +12,6 @@
     <string name="passive_service_start">TLSMetric wurde im passiven Modus gestartet.</string>
     <string name="passive_service_stop">TLSMetric Dienst wurde gestoppt (passiver Modus).</string>
 
-    <!-- UI Evidence text -->
-    <string name="evidenceSecondLine">Gewichtung:</string>
-    <string name="action_back">Zurück zum Start</string>
-    <string name="action_refresh">Ansicht aktualisieren</string>
-    <string name="headline_reports">Verbindungen</string>
-    <string name="unknown_app">Unbekannte App</string>
-
-    <!-- UI Evidence Detail text -->
-    <string name="headline_evidence_detail">Detail Ansicht</string>
-
-    <!-- Toasts and Snacks -->
-    <string name="startDump">Starte TCPDump...</string>
-    <string name="stopDump">Beende TCPDump...</string>
-    <string name="gotoEvidence">Verbindungen einsehen</string>
-
-    <!-- Filter warning text -->
-    <string name="ALERT_HTTP">Unverschlüsselte HTTP verbindung erkannt!</string>
-    <string name="ALERT_TLS_10">Verschlüsselte Verbindung - TLS 1.0</string>
-    <string name="ALERT_SSL_3">Verschlüsselte Verbindung- SSL3</string>
-    <string name="ALERT_TLS_12">Verschlüsselte Verbindung - TLS 1.2</string>
-    <string name="ALERT_TLS_11">Verschlüsselte Verbindung - TLS 1.1</string>
-    <string name="action_settings">Einstellungen</string>
-
     <!-- Testtext -->
     <string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec
@@ -51,7 +28,6 @@
 
     <!-- Menu drawer -->
     <string name="drawer_main">Start</string>
-    <string name="drawer_evidence">Reports</string>
     <string name="drawer_settings">Einstellungen</string>
     <string name="drawer_help">Hilfe</string>
     <string name="drawer_about">Über TLSMetric</string>
@@ -60,20 +36,7 @@
     <!-- ###MAIN### -->
     <string name="main_button_text_off">TLSMetric starten</string>
     <string name="main_button_text_on">TLSMetric stoppen</string>
-    <string name="main_button_active_text">Stop TLSMetric</string>
-    <string name="main_button_disabled_text">Inaktiver Button</string>
-    <string name="main_button_1">1</string>
-    <string name="main_button_2">2</string>
-    <string name="main_button_3">3</string>
-    <string name="main_button_4">4</string>
-    <string name="main_button_5">5</string>
-    <string name="main_text_fullwithbutton_desc">Ein Button mit voller breite sieht folgendermaßen aus:</string>
-    <string name="main_text_disabledbutton_desc">Ein inaktiver Button sieht folgendermaßen aus (jede Größe):</string>
     <string name="main_text_title">Diese "Privacy-Friendly" Version von TLSMetric benötigt nur minimale Berechtigungen und speichert oder versendet keinerlei Daten.</string>
-    <string name="main_text_normalbutton_desc">Beim berühren des Start-Buttons startet TLSMetric einen passiven Dienst, welcher alle aktiven Netzwerkverbindungen überprüft. Eine Hintergrundbenachrichtigung informiert dich über die aktive Überprüfung.</string>
-    <string name="main_button_welcomedialog_text">Der Button in der Ecke unten links öffnet einen Beispiel-Welcome Dialog.</string>
-
-
 
     <!--###ABOUT###-->
     <string name="about">Über</string>
@@ -85,29 +48,12 @@
     <string name="more_info">Weitere Infos unter:</string>
 
     <!--###HELP###-->
-    <string name="help">Help</string>
-    <string name="help_general_heading">Übersicht</string>
-    <string name="help_feature_heading">Features</string>
-    <string name="help_privacy_heading">Datenschutz</string>
 
-    <string name="help_whatis">Was ist Privacy Friendly Beispiel?</string>
-    <string name="help_whatis_answer">Privacy Friendly Beispiel zeigt das Standard-Design einer Privacy Friendly App.</string>
-    <string name="help_feature_one">Feature 1</string>
-    <string name="help_feature_one_answer">Beschreibung vom 1. Feature.</string>
-    <string name="help_privacy">Was macht die App privatsphäre-freundlich?</string>
-    <string name="help_privacy_answer">Erklären welche Mechanismen verwendet wurden.</string>
-    <string name="help_permission">Welche Berechtigungen braucht die App?</string>
-    <string name="help_permission_answer">Privacy Friendly Beispiel benötigt keine Berechtigungen.</string>
 
     <!-- ###SETTINGS### -->
-    <string name="title_activity_settings">Einstellungen</string>
-    <string name="pref_header_general">Allgemein</string>
-    <string name="pref_example_switch">Beispiel Switch</string>
-    <string name="pref_example_switch_summary">Beispiel Switch Summary</string>
-    <string name="pref_example_summary">Beispiel Summary</string>
+
 
     <!-- ### WELCOME DIALOG ### -->
-    <string name="welcome_text">Diese App soll als Anleitung zum Design von Privacy Friendly Apps dienen. Ihr Quellcode ist auf GitHub verfügbar. Weitere Infos im Privacy Friendly App Guide. Im Welcome Dialog sollen Schlüsselfunktionalitäten der App vorgestellt werden.</string>
     <string name="welcome">Willkommen</string>
     <string name="okay">Okay</string>
     <string name="viewhelp">Hilfe</string>
@@ -121,7 +67,7 @@
     <string name="report_connections_found">connections by this App (UID)</string>
     <string name="main_button_inspect_reports">Inspect Connections</string>
     <string name="main_text_desc_inspect_off">Start service to insoect active connections.</string>
-    <string name="main_text_desc_inspect_on">Tocuh button to inspect connections.</string>
+    <string name="main_text_desc_inspect_on">Touch button to inspect connections.</string>
     <string name="pref_certval_switch">Server Validation</string>
-    <string name="pref_certval_switch_summary"><![CDATA[<Experimental> TLS Server Test with SSL-Labs API]]></string>
+    <string name="pref_certval_switch_summary">TLS Server Test with SSL-Labs API</string>
 </resources>

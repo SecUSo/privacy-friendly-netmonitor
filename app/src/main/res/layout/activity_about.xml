@@ -59,28 +59,39 @@
             android:layout_marginTop="5dp"
             android:text="@string/about_author" />
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/textFieldAuthorNames"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:gravity="center">
+            android:text="@string/about_author_names" />
 
-            <TextView
-                android:id="@+id/textFieldAuthorNames"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/about_author_names" />
-
-            <TextView
-                android:id="@+id/textFieldContributors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_toEndOf="@+id/textFieldAuthorNames"
-                android:text="@string/about_author_contributors" />
-
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/textAPI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/about_API" />
+        <TextView
+            android:id="@+id/javaAPIURL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="@string/url_API" />
+        <TextView
+            android:id="@+id/APIURL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="@string/url_SSLLabs" />
 
 
         <TextView
@@ -112,6 +123,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="@string/more_info" />
 

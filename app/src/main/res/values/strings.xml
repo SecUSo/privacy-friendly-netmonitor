@@ -4,8 +4,6 @@
     <string name="app_prefix" translatable="false">Privacy Friendly</string>
     <string name="about_author_names">Felix Tsala Schiller</string>
     <string name="about_author_contributors">Contibutors</string>
-    <string name="privacy_friendly">This app belongs...</string>
-
 
     <!-- UI main text -->
     <string name="info_handle">Press power button to start TLSMetric</string>
@@ -29,18 +27,6 @@
     <!-- UI Evidence Detail text -->
     <string name="headline_evidence_detail">Detail View</string>
 
-    <!-- Toasts and Snacks -->
-    <string name="startDump">Start TCPDump.</string>
-    <string name="stopDump">Stop TCPDump.</string>
-    <string name="gotoEvidence">inspect connections</string>
-
-    <!-- Filter warning text -->
-    <string name="ALERT_HTTP">Unencrypted HTTP connection detected!</string>
-    <string name="ALERT_TLS_10">Encrypted Connection - TLS 1.0</string>
-    <string name="ALERT_SSL_3">Outdated encryption warning - SSL3</string>
-    <string name="ALERT_TLS_12">Encrypted Connection - TLS 1.2</string>
-    <string name="ALERT_TLS_11">Encrypted Connection - TLS 1.1</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Testtext -->
     <string name="loremIpsum">Welcome to Privacy Friendly TLS Metric. \n \n
@@ -50,7 +36,7 @@
         Additionally, very detailed technical information can be displayed by touching one of the
         listed connections. An automatic Certificate Validation and SSL Server Test can be toggled in
         the setting, allowing TLS Metric to request a Transport Layer Security (TLS) rating of addressed Servers.
-        The ratings are provided by SSL-Labs (https://www.ssllabs.com), see "help" for further information.
+        The ratings are provided by SSL-Labs (<a href="https:www.ssllabs.com"/>), see "help" for further information.
         \n \n
         This App has been developed with privacy in mind, and does not use any unnecessary
         permissions and does not save or transmit any personal data.
@@ -76,12 +62,16 @@
     <string name="main_text_desc_inspect_off">Start service to inspect active connections.</string>
 
     <!-- About -->
-    <string name="version_number">2.0</string>
+    <string name="version_number">Version 2.0</string>
     <string name="about_author">Author</string>
     <string name="about_affiliation">In affiliation with</string>
+    <string name="privacy_friendly">This app belongs to the group of Privacy Friendly Apps developed by Technische Universität Darmstadt. Sourcecode licensed under GPLv3. Images copyright TU Darmstadt und Google Inc.</string>
     <string name="more_info">More information can be found on:</string>
     <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-app-example">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
+    <string name="about_API"> This app uses by Java-SSLLabs-API Björn Roland and Qualis SSL Labs.</string>
+    <string name="url_API" translatable="false"><a href="https://github.com/bjoernr-de">Java-SSLLabs-API</a></string>
+    <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis/index.html">Qualis SSL Labs APIs</a></string>
 
     <!-- HELP -->
     <string name="help">Help</string>
@@ -114,7 +104,7 @@
     <string name="help_feature_five_answer">An automatic test of the remote servers encryption
         implementation can be activated in the settings view. When active, remote servers with a resolved hostname are tested automatically,
         when the connection protocol is known for employing TLS encryption. The server testing is
-        performed by SSL Lab\'s SSL Server Test (www.ssllabs.com). The remote server\'s encryption
+        performed by SSL Lab\'s SSL Server Test (<a href="https:www.ssllabs.com"/>). The remote server\'s encryption
         quality is shown in grades A+ (best) to F (worst). For further information on SSL Lab API
         see the about view.</string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
@@ -125,7 +115,7 @@
     <string name="help_permission">Which permissions requires the app?</string>
     <string name="help_permission_answer">Privacy Friendly App Example does not require any permission
         for scanning active connections. The Certificate Validation / SSL Server Test feature requires
-        INTERNET permissions to request server test results from Qualys(R) SSL Labs (www.ssllabs.com).</string>
+        INTERNET permissions to request server test results from Qualys SSL Labs (<a href="https:www.ssllabs.com"/>).</string>
 
     <!-- ###SETTINGS### -->
     <string name="title_activity_settings">Settings</string>
@@ -140,6 +130,7 @@
     <string name="okay">Okay</string>
     <string name="viewhelp">View Help</string>
     <string name="main_button_welcomedialog">Show Welcome</string>
+
     <string name="main_text_stopped">TLSMetric not active ....</string>
     <string name="main_text_started">TLSMetric active ....</string>
     <string name="report_general_heading">Active Connections</string>
