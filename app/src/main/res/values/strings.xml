@@ -141,7 +141,7 @@
     <string name="pref_log_switch">Log Connections</string>
     <string name="pref_log_switch_summary">Keep detected connections while service is running</string>
     <string name="main_button_inspect_reports">Inspect Connections</string>
-    <string name="report_detail_heading">Connection Detail</string>
+    <string name="report_detail_heading">Detailed Technical Information</string>
     <string name="pref_certval_switch">Enable Server Validation</string>
     <string name="pref_certval_switch_summary">Net Monitor tries to perform a Server Test with SSL Labs API, when possible.</string>
     <string name="report_swipe_refresh">Swipe down to refresh connections!</string>
