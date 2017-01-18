@@ -414,8 +414,11 @@ public class Collector {
 
         l.add(new String[]{"User ID", "" + r.uid});
         l.add(new String[]{"App Version", "" + info.versionName});
-        l.add(new String[]{"Installed On", "" + new Date(info.firstInstallTime).toString()});
-        l.add(new String[]{"App Version", "" + info.applicationInfo.loadDescription(RunStore.getContext().getPackageManager())});
+        if(r.uid > 10000){
+            l.add(new String[]{"Installed On", "" + new Date(info.firstInstallTime).toString()});
+        } else {
+            l.add(new String[]{"Installed On", "System App"});
+        }
         l.add(new String[]{"", ""});
         l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
         l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
