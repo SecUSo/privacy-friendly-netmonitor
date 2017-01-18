@@ -20,22 +20,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.ReportActivity"
-            android:label="@string/headline_reports"
-            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
-        </activity>
-        <activity
             android:name="org.secuso.privacyfriendlynetmonitor.Activities.ReportDetailActivity"
             android:label="@string/headline_evidence_detail"
             android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlynetmonitor.Activities.ReportActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlynetmonitor.Activities.AboutActivity"

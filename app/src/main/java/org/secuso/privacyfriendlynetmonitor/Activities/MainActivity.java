@@ -17,8 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
@@ -26,6 +26,7 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.R;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +59,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             edit.putBoolean("IS_FIRST_START", false);
             edit.apply();
         }
-
         overridePendingTransition(0, 0);
     }
 
@@ -67,16 +67,28 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
-                    if(Const.IS_DEBUG) Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_start));
-                    RunStore.getServiceHandler().startPassiveService();
-                    Intent intent = new Intent(RunStore.getContext(), MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    Collector.isCertVal = mSharedPreferences.getBoolean(Const.IS_CERTVAL, false);
-                    startActivity(intent);
-                }
+                startStopTrigger();
             }
         });
+    }
+
+    private void startStopTrigger() {
+        if (!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
+            if (Const.IS_DEBUG)
+                Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_start));
+            RunStore.getServiceHandler().startPassiveService();
+            Intent intent = new Intent(RunStore.getContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Collector.isCertVal = mSharedPreferences.getBoolean(Const.IS_CERTVAL, false);
+            startActivity(intent);
+        } else {
+            if (Const.IS_DEBUG)
+                Log.d(Const.LOG_TAG, getResources().getString(R.string.passive_service_stop));
+            RunStore.getServiceHandler().stopPassiveService();
+            Intent intent = new Intent(RunStore.getContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     private void activateMainView() {
@@ -89,39 +101,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         textView.setText(R.string.main_text_stopped);
         setButtonListener();
         getNavigationDrawerID();
-
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch(item.getItemId()) {
-            case R.id.action_refresh:
-                refreshAdapter();
-                break;
-            case R.id.action_startstop:
-                break;
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void activateReportView(){
         setContentView(R.layout.activity_report);
         super.setToolbar();
-
-        final Button startStop = (Button) findViewById(R.id.main_button);
-        startStop.setText(R.string.main_button_text_on);
-        setButtonListener();
         getNavigationDrawerID();
 
         //Initiate ListView functionality
@@ -131,8 +115,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
         swipeRefreshLayout.setOnRefreshListener(this);
-        Toast toast = Toast.makeText(this, getResources().getString(R.string.report_swipe_refresh), Toast.LENGTH_LONG);
-        toast.show();
         /**
          * Showing Swipe Refresh animation on activity create
          * As animation won't start on onCreate, post runnable is used
@@ -208,11 +190,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void onDestroy(){
         super.onDestroy();
-        //Kill the service if main activity gets destroyed
-        /*
-        if(RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
-            RunStore.getServiceHandler().stopPassiveService();
-        }*/
     }
 
     //refresh the adapter-list
@@ -223,11 +200,57 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
 
+        //Set swipe text and icon visible, if connections are empty
+
+        setSwipeInfo(!(reportAdapter.getGroupCount() > 0));
         swipeRefreshLayout.setRefreshing(false);
     }
+
+    private void setSwipeInfo(boolean b) {
+        final ImageView icon = (ImageView) findViewById(R.id.report_empty_icon);
+        final TextView text = (TextView) findViewById(R.id.report_empty_text);
+        if(b){
+            icon.setVisibility(View.GONE);
+            text.setVisibility(View.GONE);
+        } else {
+            icon.setVisibility(View.VISIBLE);
+            text.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     @Override
     public void onRefresh(){
         refreshAdapter();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch(item.getItemId()) {
+            case R.id.action_refresh:
+                refreshAdapter();
+                break;
+            case R.id.action_startstop:
+                startStopTrigger();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        menu.clear();
+        if(RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
+            getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 }
