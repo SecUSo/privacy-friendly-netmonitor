@@ -40,8 +40,9 @@ class Detector {
     static void updateReportMap(){
         updateOrAdd(getCurrentConnections());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
-        boolean isLog = prefs.getBoolean(Const.IS_LOG,true);
-        if (!isLog){ removeOldReports(); }
+        boolean isLog = prefs.getBoolean(Const.IS_LOG,false);
+        boolean isCertVal = prefs.getBoolean(Const.IS_CERTVAL,false);
+        if (!isLog || !isCertVal){ removeOldReports(); }
     }
 
     //Update existing or add new reports

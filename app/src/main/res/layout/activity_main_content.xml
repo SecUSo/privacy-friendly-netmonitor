@@ -39,7 +39,7 @@
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/main_text_startstop"
