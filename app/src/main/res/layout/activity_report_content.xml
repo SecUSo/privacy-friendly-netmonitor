@@ -35,6 +35,12 @@
             android:layout_height="wrap_content"
             android:paddingBottom="96dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="@string/report_swipe_refresh"/>
+
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

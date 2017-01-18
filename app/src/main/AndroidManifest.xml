@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.secuso.privacyfriendlytlsmetric" >
+    package="org.secuso.privacyfriendlynetmonitor" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity
-            android:name=".Activities.MainActivity"
+            android:name="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -22,54 +22,56 @@
         <activity
             android:name=".Activities.ReportActivity"
             android:label="@string/headline_reports"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
-            android:name=".Activities.ReportDetailActivity"
+            android:name="org.secuso.privacyfriendlynetmonitor.Activities.ReportDetailActivity"
             android:label="@string/headline_evidence_detail"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlytlsmetric.Activities.ReportActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.ReportActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlytlsmetric.Activities.AboutActivity"
+            android:name="org.secuso.privacyfriendlynetmonitor.Activities.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity"
-            android:screenOrientation="portrait">
+            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlytlsmetric.Activities.HelpActivity"
+            android:name="org.secuso.privacyfriendlynetmonitor.Activities.HelpActivity"
             android:label="@string/help"
-            android:parentActivityName="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlytlsmetric.Activities.SettingsActivity"
+            android:name="org.secuso.privacyfriendlynetmonitor.Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity"
+            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlytlsmetric.Activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
 
       <service
-            android:name=".ConnectionAnalysis.PassiveService"
+            android:name="org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService"
             android:label=".TLSMetricPassiveService"
+          android:enabled="true"
             android:permission="android.permission.BIND_SERVICE" >
         </service>
 

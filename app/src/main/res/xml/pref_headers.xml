@@ -3,7 +3,7 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="org.secuso.privacyfriendlytlsmetric.Activities.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="org.secuso.privacyfriendlynetmonitor.Activities.SettingsActivity$GeneralPreferenceFragment"
         android:icon="@mipmap/ic_info_black_24dp"
         android:title="@string/pref_header_general" />
 
