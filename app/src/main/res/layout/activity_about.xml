@@ -76,6 +76,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:text="@string/about_API" />
+
         <TextView
             android:id="@+id/javaAPIURL"
             android:layout_width="wrap_content"
@@ -84,6 +85,7 @@
             android:gravity="center_horizontal"
             android:textStyle="bold"
             android:text="@string/url_API" />
+
         <TextView
             android:id="@+id/APIURL"
             android:layout_width="wrap_content"

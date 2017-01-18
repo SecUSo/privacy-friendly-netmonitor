@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="gotoEvidence" type="id">GOTO: evidenceActivity</item>
-    <item name="main_text_started" type="id">TLSMetric active ...</item>
-</resources>
