@@ -201,8 +201,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         expListView.setAdapter(reportAdapter);
 
         //Set swipe text and icon visible, if connections are empty
-
-        setSwipeInfo(!(reportAdapter.getGroupCount() > 0));
+        setSwipeInfo((reportAdapter.getGroupCount() > 0));
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -217,7 +216,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             text.setVisibility(View.VISIBLE);
         }
     }
-
 
     @Override
     public void onRefresh(){
