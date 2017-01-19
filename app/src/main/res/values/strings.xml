@@ -128,9 +128,6 @@
     <!-- ### WELCOME DIALOG ### -->
     <string name="welcome_text">This App serves as a guideline to see the basic design of Privacy Friendly Apps. The sourcecode is available at GitHub. For further explanations have a look at the Privacy Friendly App Guide.\n\nThe welcome screen should introduce the app and the key elements of the start page.</string>
     <string name="welcome">Welcome</string>
-    <string name="okay">Okay</string>
-    <string name="viewhelp">View Help</string>
-    <string name="main_button_welcomedialog">Show Welcome</string>
 
     <string name="main_text_stopped">Net Monitor not active ....</string>
     <string name="main_text_started">Net Monitor active ....</string>
@@ -149,7 +146,22 @@
     <string name="unknown_description">Unknown App - Description</string>
     <string name="action_refresh_title">Refresh</string>
     <string name="action_startstop_start">Start</string>
-    <string name="next">next</string>
-    <string name="skip">skip</string>
+
+
+    <!-- ### TUTORIAL DIALOG ### -->
+    <string name="slide1_heading">Welcome!</string>
+    <string name="slide1_text">This App serves as a guideline to see the basic design of Privacy Friendly Apps. Here introduce your app in one or two sentences.</string>
+
+    <string name="slide2_heading">Key Elements</string>
+    <string name="slide2_text">Introduce key elements of your app. Do not introduce too many details.</string>
+
+    <string name="slide3_heading">Github and Guide</string>
+    <string name="slide3_text">The sourcecode of this app is available at GitHub. For further explanations have a look at the Privacy Friendly App Guide.</string>
+
+    <string name="okay">Okay</string>
+    <string name="viewhelp">View Help</string>
+    <string name="main_button_welcomedialog">Show Welcome</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
 
 </resources>
