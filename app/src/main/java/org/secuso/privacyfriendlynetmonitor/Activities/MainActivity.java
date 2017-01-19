@@ -1,6 +1,5 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -26,7 +25,6 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.R;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +46,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             activateReportView();
         }
-
         //Show welcome dialog on first start
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstStart = sharedPrefs.getBoolean("IS_FIRST_START", true);
@@ -79,7 +76,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             RunStore.getServiceHandler().startPassiveService();
             Intent intent = new Intent(RunStore.getContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            Collector.isCertVal = mSharedPreferences.getBoolean(Const.IS_CERTVAL, false);
             startActivity(intent);
         } else {
             if (Const.IS_DEBUG)
@@ -142,7 +138,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                                     Collector.provideDetail(r.uid, r.remoteAddHex);
                                     Intent intent = new Intent(getApplicationContext(), ReportDetailActivity.class);
                                     startActivity(intent);
-
                                 }
                             });
                     return true;
@@ -162,10 +157,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     public static class WelcomeDialog extends DialogFragment {
 
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -182,7 +173,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     ((MainActivity)getActivity()).goToNavigationItem(R.id.nav_help);
                 }
             });
-
             return builder.create();
         }
     }

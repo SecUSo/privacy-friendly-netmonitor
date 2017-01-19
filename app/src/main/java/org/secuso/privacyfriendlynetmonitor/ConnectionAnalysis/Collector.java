@@ -1,10 +1,12 @@
 package org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.AsyncCertVal;
@@ -45,7 +47,7 @@ public class Collector {
     private static HashMap<String, String> sCacheDNS = new HashMap<>();
 
     //ReportDetail information
-    public static Boolean isCertVal;
+    public static Boolean isCertVal = false;
     public static HashMap<String, Map<String, Object>> mCertValMap = new HashMap<>();
     public static List<String> sCertValList = new ArrayList<>();
     public static ArrayList<String[]> sDetailReportList = new ArrayList<>();
@@ -84,6 +86,11 @@ public class Collector {
             }
         }
         return filteredReportsByApp;
+    }
+
+    public static void updateSettings() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
+        Collector.isCertVal = prefs.getBoolean(Const.IS_CERTVAL, false);
     }
 
     private static void updateReports(){
