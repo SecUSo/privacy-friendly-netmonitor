@@ -58,6 +58,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
+        <activity android:name="org.secuso.privacyfriendlynetmonitor.Activities.TutorialActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
       <service
             android:name="org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService"
