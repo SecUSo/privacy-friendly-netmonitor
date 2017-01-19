@@ -138,5 +138,7 @@
     <string name="report_detail_ssllabs">SSL Labs Server Test Results</string>
     <string name="unknown_description">Unknown App - Description</string>
     <string name="action_refresh_title">Refresh</string>
+    <string name="next">next</string>
+    <string name="skip">skip</string>
 
 </resources>
