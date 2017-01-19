@@ -119,6 +119,7 @@ public class PassiveService extends Service {
             public void run() {
                 try {
                     while (!mInterrupt) {
+                        Collector.updateSettings();
                         Detector.updateReportMap();
                         if(Collector.isCertVal){Collector.updateCertVal();}
                         sleep(1000);
