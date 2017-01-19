@@ -140,5 +140,6 @@
     <string name="action_refresh_title">Refresh</string>
     <string name="next">next</string>
     <string name="skip">skip</string>
+    <string name="title_activity_tutorial">Tutorial</string>
 
 </resources>

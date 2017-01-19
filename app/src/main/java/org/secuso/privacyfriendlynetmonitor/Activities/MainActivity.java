@@ -1,16 +1,12 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,8 +45,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         //Show welcome dialog on first start
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstStart = sharedPrefs.getBoolean("IS_FIRST_START", true);
-        if(isFirstStart){
+        //TODO: change back to real first start after develop
+        //if(isFirstStart){
+        if(true){
             Intent intent = new Intent(MainActivity.this, TutorialActivity.class);
+            startActivity(intent);
             SharedPreferences.Editor edit = sharedPrefs.edit();
             edit.putBoolean("IS_FIRST_START", false);
             edit.apply();

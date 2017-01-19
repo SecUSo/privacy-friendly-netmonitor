@@ -163,5 +163,6 @@
     <string name="main_button_welcomedialog">Show Welcome</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
+    <string name="title_activity_tutorial">Tutorial</string>
 
 </resources>
