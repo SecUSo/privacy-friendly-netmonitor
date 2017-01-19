@@ -50,8 +50,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isFirstStart = sharedPrefs.getBoolean("IS_FIRST_START", true);
         if(isFirstStart){
-            WelcomeDialog welcomeDialog = new WelcomeDialog();
-            welcomeDialog.show(getFragmentManager(), "WelcomeDialog");
+            Intent intent = new Intent(MainActivity.this, TutorialActivity.class);
             SharedPreferences.Editor edit = sharedPrefs.edit();
             edit.putBoolean("IS_FIRST_START", false);
             edit.apply();
@@ -155,27 +154,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         return R.id.nav_main;
     }
 
-    public static class WelcomeDialog extends DialogFragment {
-
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-            LayoutInflater i = getActivity().getLayoutInflater();
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setView(i.inflate(R.layout.welcome_dialog, null));
-            builder.setIcon(R.mipmap.icon);
-            builder.setTitle(getActivity().getString(R.string.welcome));
-            builder.setPositiveButton(getActivity().getString(R.string.okay), null);
-            builder.setNegativeButton(getActivity().getString(R.string.viewhelp), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    ((MainActivity)getActivity()).goToNavigationItem(R.id.nav_help);
-                }
-            });
-            return builder.create();
-        }
-    }
 
     @Override
     public void onDestroy(){

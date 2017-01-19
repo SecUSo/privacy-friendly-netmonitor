@@ -149,5 +149,7 @@
     <string name="unknown_description">Unknown App - Description</string>
     <string name="action_refresh_title">Refresh</string>
     <string name="action_startstop_start">Start</string>
+    <string name="next">next</string>
+    <string name="skip">skip</string>
 
 </resources>
