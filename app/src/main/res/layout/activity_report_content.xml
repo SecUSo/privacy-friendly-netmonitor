@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     android:id="@+id/report_content_layout"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,6 +16,25 @@
     style="@style/AlertDialog.AppCompat"
 
     android:layout_below="@+id/toolbar">
+    <ImageView
+        android:id="@+id/report_empty_icon"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_on"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:layout_marginTop="16dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/report_empty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/report_swipe_refresh"
+        android:layout_below="@+id/report_empty_icon"
+        android:layout_centerHorizontal="true" />
 
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_layout"
@@ -31,26 +50,8 @@
             android:headerDividersEnabled="false"
             android:layout_height="wrap_content" />
 
-
-        <ImageView
-            android:id="@+id/report_empty_icon"
-            android:layout_width="96dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_on"
-            android:adjustViewBounds="true"
-            android:cropToPadding="true"
-            android:visibility="gone"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/report_empty_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="@string/report_swipe_refresh"/>
-
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+</RelativeLayout>
 
 
