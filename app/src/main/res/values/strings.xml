@@ -78,7 +78,7 @@
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
     <string name="about_API"> This app uses by Java-SSLLabs-API Björn Roland and Qualis SSL Labs.</string>
     <string name="url_API" translatable="false"><a href="https://github.com/bjoernr-de">Java-SSLLabs-API</a></string>
-    <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualis SSL Labs APIs</a></string>
+    <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualis SSL Labs API</a></string>
 
     <!-- HELP -->
     <string name="help">Help</string>
