@@ -51,7 +51,7 @@
             android:layout_height="fill_parent"
             android:foregroundGravity="center_vertical"
             android:paddingStart="@dimen/activity_vertical_margin"
-            android:src="@mipmap/icon"
+            android:src="@mipmap/ic_launcher"
             android:cropToPadding="false"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
