@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.KnownPorts;
+import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.R;
@@ -95,12 +96,24 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         textView.setText(item2_value);
 
         //Set warning colour
-        if (item2_value.contains(Const.STATUS_TLS)) {
-            textView.setTextColor(context.getResources().getColor(R.color.green));
-        } else if (item2_value.contains(Const.STATUS_UNSECURE)){
-            textView.setTextColor(context.getResources().getColor(R.color.red));
-        }
+        textView.setTextColor(context.getResources().getColor(getWarningColor(item2_value)));
+
+
         return convertView;
+    }
+
+    private int getWarningColor(String value) {
+        if (value.contains(Const.STATUS_TLS) || value.substring(0,1).equals("A")) {
+            return (R.color.green);
+        } else if (value.substring(0,1).equals("B") || value.substring(0,1).equals("C")){
+            return (R.color.orange);
+        } else if (value.contains(Const.STATUS_UNSECURE) || value.substring(0,1).equals("T") ||
+                value.substring(0,1).equals("F") || value.substring(0,1).equals("D") ||
+                value.substring(0,1).equals("E")){
+            return R.color.red;
+        } else {
+            return R.color.text_dark;
+        }
     }
 
 
