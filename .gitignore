@@ -10,6 +10,9 @@ local.properties
 # Gradle generated files
 .gradle/
 
+# Idea configuations
+.Idea
+
 # Signing files
 .signing/
 
