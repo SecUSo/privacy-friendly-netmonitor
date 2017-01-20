@@ -6,6 +6,7 @@ import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ class HelpDataDump {
     }
 
     HashMap<String, List<String>> getDataGeneral() {
-        HashMap<String, List<String>> expandableListDetail = new HashMap<>();
+        HashMap<String, List<String>> expandableListDetail = new LinkedHashMap<>();
 
         List<String> general = new ArrayList<>();
         general.add(context.getResources().getString(R.string.help_whatis_answer));
