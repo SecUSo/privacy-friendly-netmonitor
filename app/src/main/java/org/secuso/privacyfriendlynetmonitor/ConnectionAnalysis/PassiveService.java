@@ -82,8 +82,8 @@ public class PassiveService extends Service {
     NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle("Net Monitor")
-                    .setContentText("Connection monitoring is active.");
+                    .setContentTitle(getResources().getString(R.string.app_name))
+                    .setContentText(getResources().getString(R.string.bg_desc));
 
     //private Bitmap mQuest;
     private Bitmap mIcon;

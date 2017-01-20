@@ -1,7 +1,9 @@
 <resources>
     <!-- MAIN -->
-    <string name="main_button_text_off">Net Monitor starten</string>
-    <string name="main_text_normalbutton_desc">Bei Betätigung des Start-Buttons wird ein Dienst ausgeführt, welcher alle aktiven Netzwerk-Verbindungen erfasst. Eine Hintergrund-Benachrichtigung zeigt die aktive Überwachung an.</string>
+    <string name="main_button_text_off">Start Net Monitor</string>
+    <string name="main_text_normalbutton_desc">Bei aktivierung des Start-Buttons wird ein Dienst
+        ausgeführt, der alle aktiven Netzwerk-Verbindungen erfasst. Eine Benachrichtigung im
+        Hintergrund zeigt den aktiven Scan an.</string>
     <string name="main_text_stopped">Net Monitor inaktiv ....</string>
 
     <!-- SERVICE HANDLER -->
@@ -16,7 +18,7 @@
 
     <!-- REPORT DETAIL -->
     <string name="headline_report_detail">Detail Ansicht</string>
-    <string name="report_detail_heading">Detailierte technische Info</string>
+    <string name="report_detail_heading">Detaillierte technische Info</string>
 
     <!-- Welcome Dialog - DEPREACHED -->
 
@@ -41,41 +43,41 @@
     <string name="help">Help</string>
     <string name="help_whatis">Was ist Privacy Friendly Net Monitor?</string>
     <string name="help_whatis_answer">Privacy Friendy Net Monitor überwacht den Netzwerkverkehr der
-        auf dem Gerät installierten Apps. Aktive Netzwekverbindungen werden mit einem hintergrund
+        auf dem Gerät installierten Apps. Aktive Netzwekverbindungen werden mittels Hintergrund
         Dienst erfasst und mit zusätzlichen Verschlüsselungsinformationen Aufgelistet.</string>
     <string name="help_feature_one">Verbindungs Überwachung </string>
-    <string name="help_feature_one_answer">Net Monitor setzt einen Hintergrunddienst ein welcher einmal
-        pro Sekunde aktive Netzwerkverbindungen erfasse. Die zur Verbindung gehörigen Apps werden
-        identifiziert und mit dem Verbindungsziel aufgelistet. Die Übersichtsliste kann durch
-        abwärts-wischen des Displays oder über den Aktualisieren-Button neu geladen werden.</string>
-    <string name="help_feature_two">Erkennen von Protokol/Verschlüsselung</string>
-    <string name="help_feature_two_answer">Basierend auf dem Ziel-Post der Verbindung wird das zugehörige
-        Protokoll der Transportschicht anhand bekannter Port-Nummern identifiziert. Anhand der bekannten
-        Port-Nummern wird eine Warnung angegeben, falls es sch um ein uinverschlüsselltes Protokoll
-        handelt. Da die verwendung bestimmter Ports nicht vom System erzwungen wird, ist diese
-        Information unter Umständen inkorrekt.</string>
+    <string name="help_feature_one_answer">Net Monitor setzt einen Hintergrunddienst ein, welcher einmal
+        pro Sekunde aktive Netzwerkverbindungen erfasst. Die zur Verbindung gehörigen Apps werden
+        identifiziert und mit dem Verbindungsziel aufgelistet. Die Liste kann durch
+        Abwärts-Wischen des Displays oder über den aktualisieren Button neu geladen werden.</string>
+    <string name="help_feature_two">Erkennen von Protokoll und Verschlüsselung</string>
+    <string name="help_feature_two_answer">Basierend auf dem Ziel-Port der Verbindung wird das zugehörige
+        Protokoll der Transportschicht anhand bekannter Port-Nummern identifiziert. Anhand der
+        verwendeten Protokolle wird eine Warnung angegeben, falls es sch um eine unverschlüssellte
+        Verbindung handelt. Da die Verwendung bestimmter Ports nicht vom System erzwungen wird, ist diese
+        Information unter Umständen nicht vollständig korrekt.</string>
     <string name="help_feature_three">Host-Namensauflösung</string>
-    <string name="help_feature_three_answer"> Der Name des Zielhosts wird über eine inverse
-        Namensauflösung angefragt. Da dies asynchron im Hintergrund geschieht kann es ein paar
-        Sekunden dauern, bis das Ergebnis verfügbar ist. Der Aufgelöst Hostname kann sich von der
+    <string name="help_feature_three_answer"> Der Name des Zielhosts wird über eine umgekehrte
+        Namensauflösung ermittelt. Da dies asynchron im Hintergrund geschieht, kann es ein paar
+        Sekunden dauern bis der Name verfügbar ist. Der Hostname kann sich von der
         Domain unterscheiden, welche z.B. in einem Browser angewählt wurde.</string>
-    <string name="help_feature_four">Detalierte Berichte</string>
-    <string name="help_feature_four_answer">Ein detalierter Modus kann in den Einstellungen aktiviert
-        werden. Wenn dieser aktiv ist werden zusätzliche technische Informationen zu einer Verbindung
-        angezeigt, wenn diese in der Liste berührt werden.</string>
+    <string name="help_feature_four">Detaillierte Berichte</string>
+    <string name="help_feature_four_answer">Ein detallierter Modus kann in den Einstellungen aktiviert
+        werden. Zusätzliche technische Informationen zu einer Verbindung werden angezeigt, wenn
+        diese in der Liste ausgewählt wird.</string>
     <string name="help_feature_five">Zertifikats-Überprüfung</string>
     <string name="help_feature_five_answer">Eine automatische Analyse der TLS-Implementierung des
-        Zielservers kann in den Einstellungen aktiviert werden. Wenn aktiv werden Server mit
-        aufgelöstem Hostnamen und bekanntem TLS-Port automatisch analysiert. Die Analyse wird über
+        Zielservers kann in den Einstellungen aktiviert werden. Server mit
+        aufgelöstem Hostnamen und bekanntem TLS-Port werden automatisch analysiert. Die Analyse wird über
         SSL Labs Schnittstelle und den zugehörigen Dienst durchgeführt. Die Qualität der TLS-
-        Implementierung wird von A+ (am Besten) bis F (am Schlechtesten), oder mit T
+        Implementierung wird von A+ (am Besten) bis F (am Schlechtesten) oder mit T
         (Vertrauensprobleme) angegeben. Weitere Informationen über SSL Labs sind auf der "Über"
         Seite zu finden.</string>
     <string name="help_privacy">Was macht die App privatsphäre-freundlich?</string>
-    <string name="help_privacy_answer">Privacy Friendly Net Monitor verwendet keine Nachverfolgenden
+    <string name="help_privacy_answer">Privacy Friendly Net Monitor verwendet keine verfolgenden
         Mechanismen, ist werbefrei und kostenlos. Privacy Friendly Net Monitor ist unter
         GPLv3 Lizenz veröffentlicht und kann frei erweitert und vertielt werden.</string>
-    <string name="help_permission">Which permissions requires the app?</string>
+    <string name="help_permission">Welche Berechtigungen braucht die App?</string>
     <string name="help_permission_answer">Privacy Friendly App Example benötigt keine zusätzlichen
         Berechtigungen um Netzwerkverbindungen zu überwachen. Die Zertifikatsüberprüfung benötigt
         die Berechtigung android.permissions.INTERNET um Testergebnisse von Qualys SSL Labs
@@ -83,11 +85,11 @@
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Einstellungen</string>
-    <string name="pref_advanced_switch">Detalierter Modus</string>
+    <string name="pref_advanced_switch">Detaillierter Modus</string>
     <string name="pref_advanced_switch_summary">Zeigt technische Informationen der Verbindung</string>
     <string name="pref_log_switch">Verbindungen aufzeichnen</string>
-    <string name="pref_log_switch_summary">Behält erkannte Verbindungen</string>
-    <string name="pref_certval_switch">Zertifikats Überprüfung</string>
+    <string name="pref_log_switch_summary">Behält Verbindungen</string>
+    <string name="pref_certval_switch">Zertifikats-Überprüfung</string>
     <string name="pref_certval_switch_summary">Serveranalyse mit SSL Labs API</string>
 
     <!-- TOOLBAR -->
@@ -100,12 +102,15 @@
         installierter Apps. Überprüfen Sie alle aktiven Verbindungen.</string>
     <string name="slide2_heading">Schlüsselelements</string>
     <string name="slide2_text">Informationen zu aktiven Verbindungen und Verschlüsselung werden
-        gelistet. Zusätzlich könne vorhalten der Verbindungen, detalierte, technsiche Informationen
+        gelistet. Zusätzlich könne vorhalten der Verbindungen, detaillierte, technsiche Informationen
         und Zertifikatsprüfung des Zielservers aktiviert werden.</string>
     <string name="slide3_heading">Github and Guide</string>
     <string name="slide3_text">Der Quellcode dieser App ist auf GitHub. Weitere Infos gibt es im Privacy Friendly App Guide.</string>
     <string name="okay">Okay</string>
     <string name="next">Weiter</string>
     <string name="skip">Überspringen</string>
+
+    <!-- NOTIFICATION -->
+    <string name="bg_desc">Verbindungen werden überwacht</string>
 
 </resources>
