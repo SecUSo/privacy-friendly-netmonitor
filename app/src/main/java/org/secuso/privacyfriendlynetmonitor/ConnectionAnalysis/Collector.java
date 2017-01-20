@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,7 +63,45 @@ public class Collector {
     public static HashMap<Integer, List<Report>> provideSimpleReports(){
         updateReports();
         mFilteredUidReportMap = filterReports();
+        mFilteredUidReportMap = sortMapByLabels();
         return mFilteredUidReportMap;
+    }
+
+    //Sort the filtered report map by app labels and app type (system/third-party)
+    private static LinkedHashMap<Integer, List<Report>> sortMapByLabels() {
+        LinkedHashMap<Integer, List<Report>> sortedMap = new LinkedHashMap<>();
+        ArrayList<ArrayList<Report>> reportsApp = new ArrayList<>();
+        ArrayList<ArrayList<Report>> reportsSysApp = new ArrayList<>();
+        //Sort in sub lists by app-type (System/User)
+        Set<Integer> keys = mFilteredUidReportMap.keySet();
+        for (int key : keys) {
+            ArrayList<Report> appReports = (ArrayList<Report>)mFilteredUidReportMap.get(key);
+            if (appReports.get(0).uid > 10000){ reportsApp.add(appReports); }
+            else { reportsSysApp.add(appReports); }
+        }
+        //sort the sub list and append to liked HashMap
+        sortListByName(reportsApp);
+        sortListByName(reportsSysApp);
+        reportsApp.addAll(reportsSysApp);
+
+        //Add to original filter map
+        for (int i=0; i< reportsApp.size(); i++){
+            sortedMap.put(reportsApp.get(i).get(0).uid, reportsApp.get(i));
+        }
+        return sortedMap;
+    }
+
+    //Do da bubble sort!
+    private static void sortListByName(ArrayList<ArrayList<Report>> list) {
+        for (int j = list.size(); j > 1; j--) {
+            for (int i = 0; i < j - 1; i++) {
+                if (getLabel(list.get(i).get(0).uid).compareTo(getLabel(list.get(i+1).get(0).uid)) > 0){
+                    ArrayList<Report> tmpList = list.get(i);
+                    list.set(i,list.get(i+1));
+                    list.set(i+1,tmpList);
+                }
+            }
+        }
     }
 
     //Generate an overview List, with only one report per remote address per app
