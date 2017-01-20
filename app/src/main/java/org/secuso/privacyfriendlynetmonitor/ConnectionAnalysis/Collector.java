@@ -1,3 +1,47 @@
+/*
+    Privacy Friendly Net Monitor (Net Monitor)
+    - Copyright (2015 - 2017) Felix Tsala Schiller
+
+    ###################################################################
+
+    This file is part of Net Monitor.
+
+    Net Monitor is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Net Monitor is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Net Monitor.  If not, see <http://www.gnu.org/licenses/>.
+
+    Diese Datei ist Teil von Net Monitor.
+
+    Net Monitor ist Freie Software: Sie können es unter den Bedingungen
+    der GNU General Public License, wie von der Free Software Foundation,
+    Version 3 der Lizenz oder (nach Ihrer Wahl) jeder späteren
+    veröffentlichten Version, weiterverbreiten und/oder modifizieren.
+
+    Net Monitor wird in der Hoffnung, dass es nützlich sein wird, aber
+    OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
+    Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
+    Siehe die GNU General Public License für weitere Details.
+
+    Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+    Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
+
+    ###################################################################
+
+    This app has been created in affiliation with SecUSo-Department of Technische Universität
+    Darmstadt.
+
+    Privacy Friendly Net Monitor is based on TLSMetric by Felix Tsala Schiller
+    https://bitbucket.org/schillef/tlsmetric/overview.
+ */
 package org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis;
 
 import android.content.Context;
@@ -36,8 +80,9 @@ import java.util.Set;
 import de.bjoernr.ssllabs.ConsoleUtilities;
 
 /**
- * Collector class collects data from the services and processes it for inter process communication
- * with the UI.
+ * Collector class collects data from the services and processes it for usage with the UI.
+ * It handles asynchronous calls to DNS and SSL-Labs services and holds run-time caches for
+ * compiled information.
  */
 public class Collector {
 
@@ -127,11 +172,13 @@ public class Collector {
         return filteredReportsByApp;
     }
 
-    public static void updateSettings() {
+    //gets momentual settings from pref manager
+    static void updateSettings() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
         Collector.isCertVal = prefs.getBoolean(Const.IS_CERTVAL, false);
     }
 
+    //Sequence to collect reports from detector
     private static void updateReports(){
         //update reports
         pull();
@@ -220,6 +267,7 @@ public class Collector {
         }
     }
 
+    // fill reports with app data from Package Information Cache
     private static void fillPackageInformation() {
         for (int i = 0; i < sReportList.size(); i++) {
             Report r = sReportList.get(i);
@@ -290,7 +338,7 @@ public class Collector {
         }
     }
 
-    //degub print: Print all reachable active processes
+    //debug print: Print all reachable active processes
     private static void printAllPackages() {
             ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
             for (PackageInfo i : infoList) {
@@ -298,6 +346,7 @@ public class Collector {
             }
     }
 
+    //Provides app icon for activities
     public static Drawable getIcon(int uid){
         if(!sCacheIcon.containsKey(uid)){
             if(sCachePackage.containsKey(uid)){
@@ -310,6 +359,7 @@ public class Collector {
         return sCacheIcon.get(uid);
     }
 
+    //Provides App names for activities
     public static String getLabel(int uid){
         if(!sCacheLabel.containsKey(uid)){
             if(sCachePackage.containsKey(uid)){
@@ -323,6 +373,7 @@ public class Collector {
         return sCacheLabel.get(uid);
     }
 
+    //Provides full app package name
     public static String getPackage(int uid) {
         if(sCachePackage.containsKey(uid)) {
             return sCachePackage.get(uid).packageName;
@@ -331,18 +382,19 @@ public class Collector {
         }
     }
 
-
+    //Provides resolved hostname if available
     public static String getDnsHostName(String hostAdd) {
         if (sCacheDNS.containsKey(hostAdd)){
             return sCacheDNS.get(hostAdd);
         } else { return hostAdd; }
     }
 
+    //Test if hostname of connection is resolved
     public static Boolean hasHostName(String hostAdd) {
         return sCacheDNS.containsKey(hostAdd);
     }
 
-
+    //Get linked hostname from certificate information package (SSL Labs API)
     public static String getCertHost(String hostname) {
         if(mCertValMap.containsKey(hostname)) {
             Map<String, Object> map = mCertValMap.get(hostname);
@@ -358,9 +410,9 @@ public class Collector {
         return hostname;
     }
 
+    //Get grade information of an resolved SSL Labs request
     public static String getMetric(String hostname) {
         String grade;
-
         if(mCertValMap.containsKey(hostname)){
             Map<String, Object> map = mCertValMap.get(hostname);
             Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
@@ -380,6 +432,7 @@ public class Collector {
         } else { return "PENDING"; }
     }
 
+    //Read endpoint-date from a SSL Labs request
     private static String readEndpoints(Map<String, Object> map) {
         final String result;
         if(map.containsKey("endpoints")){
@@ -416,6 +469,7 @@ public class Collector {
         }
     }
 
+    // Update pending hostnames for certificate validation by SSL Labs API
     public static void updateCertHostHandler() {
         Set<String> keySet = Collector.mCertValMap.keySet();
         Map map;
@@ -436,12 +490,14 @@ public class Collector {
         return status != null && status.equals("READY");
     }
 
+    //provide a detail report of a connection
     public static void provideDetail(int uid, byte[] remoteAddHex) {
         ArrayList<Report> filterList = filterReportsByAdd(uid, remoteAddHex);
         sDetailReport = filterList.get(0);
         buildDetailStrings(filterList);
     }
 
+    //filter a report list so that each remote ip is unique
     private static ArrayList<Report> filterReportsByAdd(int uid, byte[] remoteAddHex){
         List<Report> reportList = mUidReportMap.get(uid);
         ArrayList<Report> filterList = new ArrayList<>();
@@ -453,6 +509,7 @@ public class Collector {
         return filterList;
     }
 
+    //Build report detail information for ReportDetailActivity list adapter
     private static void buildDetailStrings(ArrayList<Report> filterList) {
         ArrayList<String[]> l = new ArrayList<>();
         Report r = filterList.get(0);
@@ -494,6 +551,7 @@ public class Collector {
     }
 
 
+    //Resolves the socket state of an identified connection
     private static String getTransportState(byte[] state) {
         String status;
         String stateHex = ToolBox.printHexBinary(state);
@@ -540,7 +598,4 @@ public class Collector {
         }
         return status;
     }
-
-
-
 }
