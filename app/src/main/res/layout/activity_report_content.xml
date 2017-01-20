@@ -20,7 +20,7 @@
         android:id="@+id/report_empty_icon"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_on"
+        android:src="@mipmap/ic_drawer"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:layout_marginTop="16dp"
