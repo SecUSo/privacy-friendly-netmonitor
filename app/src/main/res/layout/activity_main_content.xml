@@ -28,7 +28,7 @@
         android:id="@+id/main_image_startstopp"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_off"
+        android:src="@mipmap/ic_monitor_off"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:layout_marginTop="16dp"
