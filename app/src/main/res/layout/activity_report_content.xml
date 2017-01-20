@@ -6,16 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:fitsSystemWindows="true"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".Activities.MainActivity"
     tools:showIn="@layout/activity_report_app_bar"
-    style="@style/AlertDialog.AppCompat"
+    style="@style/AlertDialog.AppCompat">
 
-    android:layout_below="@+id/toolbar">
     <ImageView
         android:id="@+id/report_empty_icon"
         android:layout_width="96dp"
@@ -23,7 +19,6 @@
         android:src="@mipmap/ic_drawer"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
-        android:layout_marginTop="16dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center" />
@@ -31,7 +26,7 @@
     <TextView
         android:id="@+id/report_empty_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/report_swipe_refresh"
         android:layout_below="@+id/report_empty_icon"
         android:layout_centerHorizontal="true" />
@@ -42,13 +37,13 @@
         android:layout_height="match_parent">
 
         <ExpandableListView
+            android:id="@+id/list"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="0.5dp"
-            android:id="@+id/list"
             android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            android:layout_width="match_parent"
-            android:headerDividersEnabled="false"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="28dp" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
