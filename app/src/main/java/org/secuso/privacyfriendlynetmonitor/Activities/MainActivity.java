@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
         //Show welcome dialog on first start
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstStart = sharedPrefs.getBoolean("IS_FIRST_START", true);
+        boolean isFirstStart = sharedPrefs.getBoolean(Const.IS_FIRST_START, true);
         if(isFirstStart){
             Intent intent = new Intent(MainActivity.this, TutorialActivity.class);
             startActivity(intent);
