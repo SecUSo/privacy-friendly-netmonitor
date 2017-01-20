@@ -35,3 +35,14 @@ This application uses SSL Labs APIs v1.24.4 by Qualys SSL Labs (Terms of use: ht
 
 Privacy Friendly Net Monitor is a non-root variant of TLSMetric android app (https://bitbucket.org/schillef/tlsmetric/overview) by Felix Tsala Schiller.
 
+### Contributors ###
+Developer:
+Felix Tsala Schiller
+
+Design Template:
+Karoly Marky
+Christopher Beckmann
+Markus Hau
+
+
+
