@@ -21,7 +21,7 @@
         </activity>
         <activity
             android:name="org.secuso.privacyfriendlynetmonitor.Activities.ReportDetailActivity"
-            android:label="@string/headline_evidence_detail"
+            android:label="@string/headline_report_detail"
             android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
