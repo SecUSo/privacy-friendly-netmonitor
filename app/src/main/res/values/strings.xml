@@ -86,43 +86,43 @@
     <string name="help_feature_heading">Features</string>
     <string name="help_privacy_heading">Privacy</string>
     <string name="help_whatis">What is Privacy Friendly Net Monitor?</string>
-    <string name="help_whatis_answer">Privacy Friendly Net Monitor is an application for monitoring
-        network traffic from installed apps. It scans active network connections with a background
-        service and displays it with additional information concerning network encryption
-        (Transport Layer Security, TLS).</string>
+    <string name="help_whatis_answer">Privacy Friendly Net Monitor monitors
+        network traffic produced by installed apps on the device. It scans active network connections with a background
+        service and displays them with additional network encryption information.</string>
     <string name="help_feature_one">Connection Monitoring</string>
-    <string name="help_feature_one_answer">Net Monitor deploys an background service, scanning for
-        active connections once every second. The apps, invoking the connections are identified and
-        are listed with their icon and the amount of remote addresses they are communicating with in
-        a connection overview. The connection overview can be refreshed by swiping down on the display.</string>
+    <string name="help_feature_one_answer">Net Monitor deploys an background service which scans for
+        active connections every second. The apps invoking a detected connections are identified and
+        listed with icon and remote addresses they are communicating with. The connection overview
+        can be refreshed by swiping down on the display or touching the refresh button in the toolbar.</string>
     <string name="help_feature_two">Protocol/Encryption Detection</string>
-    <string name="help_feature_two_answer">Based on a connections remote port, the transport protocol
-        can be identified by "Well Known Port" tables. Based on this information, a warning is given
-        if a connection is known for not having an encryption employed. Note that this is no grantee
-        that the connection uses this protocol, since the assignment port numbers is not enforced.</string>
+    <string name="help_feature_two_answer">Based on a connection\'s remote port, the transport protocol
+        can be identified by "Well Known Port" tables. Based on the known ports, a warning is given
+        if a connection is known for not beeing encrypted. Note that this is no grantee
+        that the connection uses this protocol, since assignment of port numbers is not enforced by the system.</string>
     <string name="help_feature_three">Hostname Resolution</string>
-    <string name="help_feature_three_answer">The hostname assigned to remote address is requested by
-        name resolution. This is done asynchronously in background and may take some seconds.</string>
+    <string name="help_feature_three_answer">The remote host name assigned is requested by
+        reverse name resolution. This is done asynchronously in background and may take some seconds.
+        The resolved hostname may not be the actual domain name requested by e.g. a browser app.</string>
     <string name="help_feature_four">Detailed Reports</string>
-    <string name="help_feature_four_answer">A detailed mode can be toggled in the settings view.
-        When activated, a scanned connection can be touched to display additional, technical
-        information on the given connection.</string>
+    <string name="help_feature_four_answer">A detailed mode can be toggled in the settings.
+        When activated, additional technical information of scanned connections is displayed when a
+        connection is touched in the overview.</string>
     <string name="help_feature_five">Certificate Validation</string>
-    <string name="help_feature_five_answer">An automatic test of the remote servers encryption
-        implementation can be activated in the settings view. When active, remote servers with a resolved hostname are tested automatically,
-        when the connection protocol is known for employing TLS encryption. The server testing is
-        performed by SSL Lab\'s SSL Server Test (<a href="https:www.ssllabs.com"/>). The remote server\'s encryption
-        quality is shown in grades A+ (best) to F (worst). For further information on SSL Lab API
-        see the about view.</string>
+    <string name="help_feature_five_answer">An automatic analysis of the remote servers TLS
+        implementation can be activated in the settings. When active, remote servers with a resolved
+        hostname are tested automatically when the connection protocol is known for having TLS
+        encryption. The analysis is performed by SSL Lab API and the associated service. The remote
+        server\'s implementation quality is shown in grades A+ (best) to F (worst), or is displayed
+        as T (trust issues). For further information on SSL Lab API see the about.</string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
-    <string name="help_privacy_answer">Privacy Friendly App Example does not require any root
-        permission to scan active connections. It further does not include any tracking mechanisms
+    <string name="help_privacy_answer">Privacy Friendly App Example does not require any system
+        permission to scan network connections. It does not include any tracking mechanisms
         or advertisement and comes free of charge. Privacy Friendly Net Monitor is published under
-        GPLv3 license and therefore is free to distribute or extend.</string>
+        GPLv3 license and is free to distribute or extend.</string>
     <string name="help_permission">Which permissions requires the app?</string>
     <string name="help_permission_answer">Privacy Friendly App Example does not require any permission
-        for scanning active connections. The Certificate Validation / SSL Server Test feature requires
-        INTERNET permissions to request server test results from Qualys SSL Labs (<a href="https:www.ssllabs.com"/>).</string>
+        for scanning active connections. The Certificate Validation feature requires
+        android.permissions.INTERNET to request server test results from Qualys SSL Labs.</string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
