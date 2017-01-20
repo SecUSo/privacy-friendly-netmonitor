@@ -19,7 +19,7 @@
     <string name="unknown_app">Unknown App</string>
 
     <!-- UI Evidence Detail text -->
-    <string name="headline_evidence_detail">Detail View</string>
+    <string name="headline_report_detail">Detail View</string>
 
 
     <!-- Welcome Dialog -->
