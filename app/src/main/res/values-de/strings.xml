@@ -1,35 +1,49 @@
 <resources>
-    <!-- UI main text -->
-    <string name="info_handle">Press button to start Net Monitor</string>
+
+    <!-- MAIN -->
+    <string name="info_handle">Press power button to start Net Monitor</string>
     <string name="info_starting">Starting network dump</string>
     <string name="info_waiting">Waiting for connection data</string>
     <string name="info_running">Net Monitor running</string>
     <string name="info_stopping">Stopping Net Monitor</string>
     <string name="info_service_offline">Net Monitor service is not yet running</string>
+    <string name="main_button_text_off">start Net Monitor</string>
+    <string name="main_button_text_on">stop Net Monitor</string>
+    <string name="main_text_title">This "Privacy Friendly" Version of Net Monitor uses minimal permissions and does not store or transmit any data.</string>
+    <string name="main_text_normalbutton_desc">On touch of the start button, Net Monitor starts a passive service which detects all active network connections. A background notification will inform you of the ongoing monitoring.</string>
+    <string name="main_text_desc_inspect_off">Start service to inspect active connections.</string>
+    <string name="main_text_stopped">Net Monitor not active ....</string>
+    <string name="main_text_started">Net Monitor active ....</string>
+    <string name="main_button_inspect_reports">Inspect Connections</string>
 
-    <!-- Service Info Messages -->
-    <string name="passive_service_start">Net Monitorservice has been started in passive mode.</string>
-    <string name="passive_service_stop">Net Monitorservice has been stopped. Was in passive mode.</string>
+    <!-- SERVICE HANDLER -->
+    <string name="passive_service_start">Net Monitor service has been started in passive mode.</string>
+    <string name="passive_service_stop">Net Monitor service has been stopped. Was in passive mode.</string>
 
-    <!-- UI report text -->
+    <!-- REPORT -->
     <string name="DetailSecondLine">Severity:</string>
     <string name="action_back">Back to Main</string>
     <string name="action_refresh">refresh view</string>
     <string name="headline_reports">Connections</string>
+    <string name="report_general_heading">Active Connections</string>
     <string name="unknown_app">Unknown App</string>
+    <string name="unknown_package">app.android.unknown</string>
+    <string name="report_swipe_refresh">Swipe down to refresh connections!</string>
+    <string name="report_detail_ssllabs">SSL Labs Server Test Results</string>
 
-    <!-- UI Evidence Detail text -->
+    <!-- REPORT DETAIL -->
     <string name="headline_report_detail">Detail View</string>
+    <string name="report_detail_heading">Detailed Technical Information</string>
+    <string name="unknown_description">Unknown App - Description</string>
 
-
-    <!-- Welcome Dialog -->
-    <string name="welcome_dialog">Welcome to Privacy Friendly TLS Metric. \n \n
+    <!-- Welcome Dialog - DEPREACHED -->
+    <string name="welcome_dialog">Welcome to Privacy Friendly Net Monitor. \n \n
         This app scans active network connections in background. The detected connections are
         listed with their invoking apps, the remote host (if resolvable) and an identification of
         the service used. \n \n
         Additionally, very detailed technical information can be displayed by touching one of the
         listed connections. An automatic Certificate Validation and SSL Server Test can be toggled in
-        the setting, allowing Net Monitorto request a Transport Layer Security (TLS) rating of addressed Servers.
+        the setting, allowing Net Monitor to request a Transport Layer Security (TLS) rating of addressed Servers.
         The ratings are provided by SSL-Labs (<a href="https:www.ssllabs.com"/>), see "help" for further information.
         \n \n
         This App has been developed with privacy in mind, and does not use any unnecessary
@@ -37,109 +51,102 @@
         For further information see "help" or pick "about" in the navigation.
     </string>
 
-    <!-- Menu drawer -->
+    <!-- MENU DRAWER -->
     <string name="drawer_main">Main</string>
     <string name="drawer_evidence">Reports</string>
-    <string name="drawer_settings">Setting</string>
+    <string name="drawer_settings">Settings</string>
     <string name="drawer_help">Help</string>
-    <string name="drawer_about">About TLSMetric</string>
+    <string name="drawer_about">About Net Monitor</string>
     <string name="drawer_manual">Manual</string>
     <string name="navigation_drawer_open">navigation_drawer_open</string>
     <string name="navigation_drawer_close">navigation_drawer_close</string>
 
-
-    <!-- ###MAIN### -->
-    <string name="main_button_text_off">start TLSMetric</string>
-    <string name="main_button_text_on">stop TLSMetric</string>
-    <string name="main_text_title">This "Privacy Friendly" Version of Net Monitoruses minimal permissions and does not store or transmit any data.</string>
-    <string name="main_text_normalbutton_desc">On touch of the start button, Net Monitorstarts a passive daemon which monitors all ongoing network connections. A background notification will inform you of the ongoing monitoring.</string>
-    <string name="main_text_desc_inspect_off">Start service to inspect active connections.</string>
-
-    <!-- About -->
+    <!-- ABOUT -->
     <string name="about">About</string>
     <string name="version_number">Version 2.0</string>
     <string name="about_author">Author</string>
     <string name="about_affiliation">In affiliation with</string>
     <string name="privacy_friendly">This app belongs to the group of Privacy Friendly Apps developed by Technische Universität Darmstadt. Sourcecode licensed under GPLv3. Images copyright TU Darmstadt und Google Inc.</string>
     <string name="more_info">More information can be found on:</string>
+    <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-app-example">Github-Repo</a></string>
+    <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
     <string name="about_API"> This app uses by Java-SSLLabs-API Björn Roland and Qualis SSL Labs.</string>
+    <string name="url_API" translatable="false"><a href="https://github.com/bjoernr-de">Java-SSLLabs-API</a></string>
+    <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualis SSL Labs APIs</a></string>
 
     <!-- HELP -->
     <string name="help">Help</string>
     <string name="help_general_heading">Overview</string>
     <string name="help_feature_heading">Features</string>
     <string name="help_privacy_heading">Privacy</string>
-    <string name="help_whatis">What is Privacy Friendly TLS Metric?</string>
-    <string name="help_whatis_answer">Privacy Friendly Net Monitoris an application for monitoring
-        network traffic from installed apps. It scans active network connections with a background
-        service and displays it with additional information concerning network encryption
-        (Transport Layer Security, TLS).</string>
+    <string name="help_whatis">What is Privacy Friendly Net Monitor?</string>
+    <string name="help_whatis_answer">Privacy Friendly Net Monitor monitors
+        network traffic produced by installed apps on the device. It scans active network connections with a background
+        service and displays them with additional network encryption information.</string>
     <string name="help_feature_one">Connection Monitoring</string>
-    <string name="help_feature_one_answer">Net Monitordeploys an background service, scanning for
-        active connections once every second. The apps, invoking the connections are identified and
-        are listed with their icon and the amount of remote addresses they are communicating with in
-        a connection overview. The connection overview can be refreshed by swiping down on the display.</string>
+    <string name="help_feature_one_answer">Net Monitor deploys an background service which scans for
+        active connections every second. The apps invoking a detected connections are identified and
+        listed with icon and remote addresses they are communicating with. The connection overview
+        can be refreshed by swiping down on the display or touching the refresh button in the toolbar.</string>
     <string name="help_feature_two">Protocol/Encryption Detection</string>
-    <string name="help_feature_two_answer">Based on a connections remote port, the transport protocol
-        can be identified by "Well Known Port" tables. Based on this information, a warning is given
-        if a connection is known for not having an encryption employed. Note that this is no grantee
-        that the connection uses this protocol, since the assignment port numbers is not enforced.</string>
+    <string name="help_feature_two_answer">Based on a connection\'s remote port, the transport protocol
+        can be identified by "Well Known Port" tables. Based on the known ports, a warning is given
+        if a connection is known for not beeing encrypted. Note that this is no grantee
+        that the connection uses this protocol, since assignment of port numbers is not enforced by the system.</string>
     <string name="help_feature_three">Hostname Resolution</string>
-    <string name="help_feature_three_answer">The hostname assigned to remote address is requested by
-        name resolution. This is done asynchronously in background and may take some seconds.</string>
+    <string name="help_feature_three_answer">The remote host name assigned is requested by
+        reverse name resolution. This is done asynchronously in background and may take some seconds.
+        The resolved hostname may not be the actual domain name requested by e.g. a browser app.</string>
     <string name="help_feature_four">Detailed Reports</string>
-    <string name="help_feature_four_answer">A detailed mode can be toggled in the settings view.
-        When activated, a scanned connection can be touched to display additional, technical
-        information on the given connection.</string>
+    <string name="help_feature_four_answer">A detailed mode can be toggled in the settings.
+        When activated, additional technical information of scanned connections is displayed when a
+        connection is touched in the overview.</string>
     <string name="help_feature_five">Certificate Validation</string>
-    <string name="help_feature_five_answer">An automatic test of the remote servers encryption
-        implementation can be activated in the settings view. When active, remote servers with a resolved hostname are tested automatically,
-        when the connection protocol is known for employing TLS encryption. The server testing is
-        performed by SSL Lab\'s SSL Server Test (<a href="https:www.ssllabs.com"/>). The remote server\'s encryption
-        quality is shown in grades A+ (best) to F (worst). For further information on SSL Lab API
-        see the about view.</string>
+    <string name="help_feature_five_answer">An automatic analysis of the remote servers TLS
+        implementation can be activated in the settings. When active, remote servers with a resolved
+        hostname are tested automatically when the connection protocol is known for having TLS
+        encryption. The analysis is performed by SSL Lab API and the associated service. The remote
+        server\'s implementation quality is shown in grades A+ (best) to F (worst), or is displayed
+        as T (trust issues). For further information on SSL Lab API see the about.</string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
-    <string name="help_privacy_answer">Privacy Friendly App Example does not require any root
-        permission to scan active connections. It further does not include any tracking mechanisms
-        or advertisement and comes free of charge. Privacy Friendly Net Monitoris published under
-        GPLv3 license and therefore is free to distribute or extend.</string>
+    <string name="help_privacy_answer">Privacy Friendly App Example does not require any system
+        permission to scan network connections. It does not include any tracking mechanisms
+        or advertisement and comes free of charge. Privacy Friendly Net Monitor is published under
+        GPLv3 license and is free to distribute or extend.</string>
     <string name="help_permission">Which permissions requires the app?</string>
     <string name="help_permission_answer">Privacy Friendly App Example does not require any permission
-        for scanning active connections. The Certificate Validation / SSL Server Test feature requires
-        INTERNET permissions to request server test results from Qualys SSL Labs (<a href="https:www.ssllabs.com"/>).</string>
+        for scanning active connections. The Certificate Validation feature requires
+        android.permissions.INTERNET to request server test results from Qualys SSL Labs.</string>
 
-    <!-- ###SETTINGS### -->
+    <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
     <string name="pref_header_general">General</string>
     <string name="pref_example_switch">Example Switch</string>
     <string name="pref_example_switch_summary">Example Switch Summary</string>
     <string name="pref_example_summary">Example Summary</string>
+    <string name="pref_advanced_switch">Detail Mode</string>
+    <string name="pref_advanced_switch_summary">Show info tab when touching a connection</string>
+    <string name="pref_log_switch">Log Connections</string>
+    <string name="pref_log_switch_summary">Keep detected information</string>
+    <string name="pref_certval_switch">Server Validation</string>
+    <string name="pref_certval_switch_summary">Perform analysis with SSL Labs API</string>
 
-    <!-- ### WELCOME DIALOG ### -->
-    <string name="welcome_text">This App serves as a guideline to see the basic design of Privacy Friendly Apps. The sourcecode is available at GitHub. For further explanations have a look at the Privacy Friendly App Guide.\n\nThe welcome screen should introduce the app and the key elements of the start page.</string>
-    <string name="welcome">Welcome</string>
+    <!-- TOOLBAR -->
+    <string name="action_refresh_title">Refresh</string>
+    <string name="action_startstop_start">Start</string>
+
+    <!-- TUTORIAL -->
+    <string name="slide1_heading">Welcome!</string>
+    <string name="slide1_text">Privacy Friendly Net Monitor observes network activity of installed apps. Use it to check on all your device\'s connections.</string>
+    <string name="slide2_heading">Key Elements</string>
+    <string name="slide2_text">Currently active connections and encryption info is listed by app. \n Logging, detailed technical info, and server validation features can be activated in settings.</string>
+    <string name="slide3_heading">Github and Guide</string>
+    <string name="slide3_text">The sourcecode of this app is available at GitHub. For further explanations have a look at the Privacy Friendly App Guide.</string>
     <string name="okay">Okay</string>
     <string name="viewhelp">View Help</string>
     <string name="main_button_welcomedialog">Show Welcome</string>
-
-    <string name="main_text_stopped">Net Monitornot active ....</string>
-    <string name="main_text_started">Net Monitoractive ....</string>
-    <string name="report_general_heading">Active Connections</string>
-    <string name="unknown_package">app.android.unknown</string>
-    <string name="pref_advanced_switch">Enable Detail Mode</string>
-    <string name="pref_advanced_switch_summary">Provides detailed information when tapping a connection in list</string>
-    <string name="pref_log_switch">Log Connections</string>
-    <string name="pref_log_switch_summary">Keep detected connections while service is running</string>
-    <string name="main_button_inspect_reports">Inspect Connections</string>
-    <string name="report_detail_heading">Connection Detail</string>
-    <string name="pref_certval_switch">Enable Server Validation</string>
-    <string name="pref_certval_switch_summary">Net Monitortries to perform a Server Test with SSL Labs API, when possible.</string>
-    <string name="report_swipe_refresh">Swipe down to refresh connections!</string>
-    <string name="report_detail_ssllabs">SSL Labs Server Test Results</string>
-    <string name="unknown_description">Unknown App - Description</string>
-    <string name="action_refresh_title">Refresh</string>
-    <string name="next">next</string>
-    <string name="skip">skip</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
     <string name="title_activity_tutorial">Tutorial</string>
 
 </resources>

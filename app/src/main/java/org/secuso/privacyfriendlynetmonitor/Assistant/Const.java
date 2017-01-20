@@ -49,7 +49,7 @@ public interface Const {
 
     //App constants
     boolean IS_DEBUG = false;
-    String LOG_TAG = "TLSMetric";
+    String LOG_TAG = "NetMonitor";
     String FILE_IF_LIST = "iflist";
 
     //Detector constants

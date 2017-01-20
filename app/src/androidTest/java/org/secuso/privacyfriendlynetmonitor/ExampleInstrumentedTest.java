@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("org.secuso.privacyfriendlytlsmetric", appContext.getPackageName());
+        assertEquals("org.secuso.privacyfriendlynetmonitor", appContext.getPackageName());
     }
 }
