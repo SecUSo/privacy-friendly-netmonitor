@@ -35,14 +35,14 @@
 
     <!-- ABOUT -->
     <string name="about">About</string>
-    <string name="version_number">Version 2.0</string>
+    <string name="version_number">Version 1.0</string>
     <string name="about_author">Author</string>
     <string name="about_affiliation">In affiliation with</string>
     <string name="privacy_friendly">This app belongs to the group of Privacy Friendly Apps developed by Technische Universität Darmstadt. Sourcecode licensed under GPLv3. Images copyright TU Darmstadt und Google Inc.</string>
     <string name="more_info">More information can be found on:</string>
     <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-app-example">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
-    <string name="about_API"> This app uses by Java-SSLLabs-API Björn Roland and Qualis SSL Labs.</string>
+    <string name="about_API">This app uses Java-SSLLabs-API by Björn Roland and Qualis SSL Labs.</string>
     <string name="url_API" translatable="false"><a href="https://github.com/bjoernr-de">Java-SSLLabs-API</a></string>
     <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualis SSL Labs API</a></string>
 
@@ -60,7 +60,7 @@
     <string name="help_feature_two">Protocol/Encryption Detection</string>
     <string name="help_feature_two_answer">Based on a connection\'s remote port, the transport protocol
         can be identified by "Well Known Port" tables. Based on the known ports, a warning is given
-        if a connection is known for not beeing encrypted. Note that this is no grantee
+        if a connection is known for not being encrypted. Note that this is no grantee
         that the connection uses this protocol, since assignment of port numbers is not enforced by the system.</string>
     <string name="help_feature_three">Hostname Resolution</string>
     <string name="help_feature_three_answer">The remote host name assigned is requested by
@@ -74,16 +74,15 @@
     <string name="help_feature_five_answer">An automatic analysis of the remote servers TLS
         implementation can be activated in the settings. When active, remote servers with a resolved
         hostname are tested automatically when the connection protocol is known for having TLS
-        encryption. The analysis is performed by SSL Lab API and the associated service. The remote
+        encryption. The analysis is performed by SSL Labs API and the associated service. The remote
         server\'s implementation quality is shown in grades A+ (best) to F (worst), or is displayed
         as T (trust issues). For further information on SSL Lab API see the about.</string>
     <string name="help_privacy">What makes the app privacy-friendly?</string>
-    <string name="help_privacy_answer">Privacy Friendly App Example does not require any system
-        permission to scan network connections. It does not include any tracking mechanisms
+    <string name="help_privacy_answer">Privacy Friendly Net Monitor does not include any tracking mechanisms
         or advertisement and comes free of charge. Privacy Friendly Net Monitor is published under
         GPLv3 license and is free to distribute or extend.</string>
     <string name="help_permission">Which permissions requires the app?</string>
-    <string name="help_permission_answer">Privacy Friendly App Example does not require any permission
+    <string name="help_permission_answer">Privacy Friendly Net Monitor does not require any permission
         for scanning active connections. The Certificate Validation feature requires
         android.permissions.INTERNET to request server test results from Qualys SSL Labs.</string>
 
