@@ -73,7 +73,7 @@ public class PassiveService extends Service {
     private int mNotificationCount;
     NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.icon)
+                    .setSmallIcon(R.drawable.ic_launcher)
                     .setContentTitle("TLSMetric")
                     .setContentText("Connection monitoring is active.");
 
@@ -96,9 +96,9 @@ public class PassiveService extends Service {
 
     }
 
-    //Icons for Notification manager. Must be converted to bitmaps.
+    //Icons for notification manager. Must be converted to bitmaps.
     private void loadNotificationBitmaps() {
-        mIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
+        mIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
     }
 
 
@@ -162,7 +162,7 @@ public class PassiveService extends Service {
     }*/
     //BG notification. Standard Android version.
     private void showAppNotification(){
-        mBuilder.setSmallIcon(R.mipmap.icon);
+        mBuilder.setSmallIcon(R.drawable.ic_launcher);
         mBuilder.setLargeIcon(mIcon);
             Intent resultIntent = new Intent(this, MainActivity.class);
 

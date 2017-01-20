@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:foregroundGravity="center_vertical"
-        android:src="@mipmap/icon"
+        android:src="@mipmap/ic_launcher"
         android:cropToPadding="false"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"

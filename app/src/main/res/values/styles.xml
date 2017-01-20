@@ -14,7 +14,7 @@
     </style>
 
     <style name="SplashTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@mipmap/icon</item>
+        <item name="android:windowBackground">@mipmap/pfa_splash</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
