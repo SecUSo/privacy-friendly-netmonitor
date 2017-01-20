@@ -74,7 +74,7 @@ public class PassiveService extends Service {
     NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle("TLSMetric")
+                    .setContentTitle("Net Monitor")
                     .setContentText("Connection monitoring is active.");
 
     //private Bitmap mQuest;
