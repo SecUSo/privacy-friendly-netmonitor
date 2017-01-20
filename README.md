@@ -19,6 +19,14 @@ Mininum SDK: 21 Target SDK: 23
 ### Setup ###
 * Android Studio 2.2.2
 
+### Future Enhancements ###
+possible additional features (non FUD)
+- raw socket inspection
+- ip locating feature
+- export of identified information
+- display of additional remote host information (SSLLabs)
+- long term goal: addtitional active service, perfoming (deep) packet inspection with VPN-Capture implementation
+
 ### License ###
 
 Privacy Friendly Net Monitor is licensed under the GPLv3. Copyright (C) 2015 - 2017 Felix Tsala Schiller
