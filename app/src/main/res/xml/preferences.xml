@@ -1,9 +1,6 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="TLSMetric Settings">
-
         <SwitchPreference
             android:id="@+id/pref_advanced_switch"
             android:key="DETAIL_MODE"
@@ -23,7 +20,6 @@
             android:title="@string/pref_certval_switch"
             android:summary="@string/pref_certval_switch_summary"
             android:defaultValue="false"/>
-    </PreferenceCategory>
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->

@@ -98,7 +98,7 @@ public class PassiveService extends Service {
 
     //Icons for notification manager. Must be converted to bitmaps.
     private void loadNotificationBitmaps() {
-        mIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
+        mIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_drawer);
     }
 
 
