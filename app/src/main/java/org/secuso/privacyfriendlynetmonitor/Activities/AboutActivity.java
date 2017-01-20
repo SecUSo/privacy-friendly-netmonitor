@@ -33,7 +33,8 @@ public class AboutActivity extends AppCompatActivity {
 
         overridePendingTransition(0, 0);
 
-        // TODO: links updaten
+        ((TextView)findViewById(R.id.javaAPIURL)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)findViewById(R.id.APIURL)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView)findViewById(R.id.secusoWebsite)).setMovementMethod(LinkMovementMethod.getInstance());
         ((TextView)findViewById(R.id.githubURL)).setMovementMethod(LinkMovementMethod.getInstance());
     }
