@@ -13,13 +13,13 @@ This app is optimized regarding the user’s privacy. It doesn’t use any track
 
 ## Developer Information ##
 
-# API Reference #
+### API Reference ###
 Mininum SDK: 21 Target SDK: 23 
 
-# Setup #
+### Setup ###
 * Android Studio 2.2.2
 
-# License #
+### License ###
 
 Privacy Friendly Net Monitor is licensed under the GPLv3. Copyright (C) 2015 - 2017 Felix Tsala Schiller
 
