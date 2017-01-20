@@ -21,27 +21,15 @@ public class HelpActivity extends BaseActivity {
         setContentView(R.layout.activity_help);
         RunStore.setContext(this);
 
-        ExpandableListAdapter listAdapter;
+        ExpandableListAdapter expandableListAdapter;
         HelpDataDump helpDataDump = new HelpDataDump(this);
 
         ExpandableListView generalExpandableListView = (ExpandableListView) findViewById(R.id.generalExpandableListView);
 
         HashMap<String, List<String>> expandableListDetail = helpDataDump.getDataGeneral();
-        List<String> expandableListTitleGeneral = new ArrayList<String>(expandableListDetail.keySet());
-        listAdapter = new ExpandableListAdapter(this, expandableListTitleGeneral, expandableListDetail);
-        generalExpandableListView.setAdapter(listAdapter);
-
-        ExpandableListView featuresExpandableListView = (ExpandableListView) findViewById(R.id.featuresExpandableListView);
-        expandableListDetail = helpDataDump.getDataFeatures();
-        List<String> expandableListTitleFeatures = new ArrayList<String>(expandableListDetail.keySet());
-        listAdapter = new ExpandableListAdapter(this, expandableListTitleFeatures, expandableListDetail);
-        featuresExpandableListView.setAdapter(listAdapter);
-
-        ExpandableListView privacyExpandableListView = (ExpandableListView) findViewById(R.id.privacyExpandableListView);
-        expandableListDetail = helpDataDump.getDataPrivacy();
-        List<String> expandableListTitlePrivacy = new ArrayList<String>(expandableListDetail.keySet());
-        listAdapter = new ExpandableListAdapter(this, expandableListTitlePrivacy, expandableListDetail);
-        privacyExpandableListView.setAdapter(listAdapter);
+        List<String> expandableListTitleGeneral = new ArrayList<>(expandableListDetail.keySet());
+        expandableListAdapter = new ExpandableListAdapter(this, expandableListTitleGeneral, expandableListDetail);
+        generalExpandableListView.setAdapter(expandableListAdapter);
 
         overridePendingTransition(0, 0);
     }
