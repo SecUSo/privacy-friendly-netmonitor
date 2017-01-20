@@ -33,10 +33,7 @@ class Detector {
 
     static HashMap<Integer, Report> sReportMap = new HashMap<>();
 
-    //Update the Report HashMap with current connections. Key = sourceport
-    // Update strategies:
-    // false = update and detach old
-    // true = keep old
+    //Update the report HashMap with currently scanned connections
     static void updateReportMap(){
         updateOrAdd(getCurrentConnections());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
