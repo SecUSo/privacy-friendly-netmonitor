@@ -1,6 +1,7 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,6 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         final String item1;
         final String item2_type;
         final String item2_value;
-        final String item3;
 
         //Set hostname if resolved by AsyncDNS class
         if(Collector.hasHostName(r.remoteAdd.getHostAddress())){
@@ -87,7 +87,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         //Fill textviews
         TextView textView = (TextView) convertView.findViewById(R.id.report_item_1);
-        final int height = textView.getHeight();
+        //final int height = textView.getHeight();
         textView.setText(item1);
         textView = (TextView) convertView.findViewById(R.id.report_item_2_type);
         textView.setText(item2_type);
@@ -139,8 +139,14 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         TextView textViewSubtitle = (TextView) convertView.findViewById(R.id.reportGroupSubtitle);
         ImageView imgView = (ImageView) convertView.findViewById(R.id.reportGroupIcon);
 
-        textViewTitle.setText(Collector.getLabel(uid) +
-                " (" + reportListDetail.get(uid).size() +")");
+        //add system app tag
+        if(uid <= 10000){
+            textViewTitle.setText(Collector.getLabel(uid) +
+                    " (" + reportListDetail.get(uid).size() + ")" + " [System]");
+        } else {
+            textViewTitle.setText(Collector.getLabel(uid) +
+                    " (" + reportListDetail.get(uid).size() + ")");
+        }
         textViewSubtitle.setText(Collector.getPackage(uid));
         imgView.setImageDrawable(Collector.getIcon(uid));
 
