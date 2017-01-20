@@ -27,11 +27,6 @@ class HelpDataDump {
         List<String> general = new ArrayList<>();
         general.add(context.getResources().getString(R.string.help_whatis_answer));
         expandableListDetail.put(context.getResources().getString(R.string.help_whatis), general);
-        return expandableListDetail;
-    }
-
-    HashMap<String, List<String>> getDataFeatures() {
-        HashMap<String, List<String>> expandableListDetail = new HashMap<>();
 
         List<String> features1 = new ArrayList<>();
         features1.add(context.getResources().getString(R.string.help_feature_one_answer));
@@ -53,21 +48,14 @@ class HelpDataDump {
         features5.add(context.getResources().getString(R.string.help_feature_five_answer));
         expandableListDetail.put(context.getResources().getString(R.string.help_feature_five), features5);
 
-        return expandableListDetail;
-    }
-
-    HashMap<String, List<String>> getDataPrivacy() {
-        HashMap<String, List<String>> expandableListDetail = new HashMap<>();
-
-
         List<String> privacy = new ArrayList<>();
         privacy.add(context.getResources().getString(R.string.help_privacy_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_privacy), privacy);
 
         List<String> permissions = new ArrayList<>();
         permissions.add(context.getResources().getString(R.string.help_permission_answer));
-
-        expandableListDetail.put(context.getResources().getString(R.string.help_privacy), privacy);
         expandableListDetail.put(context.getResources().getString(R.string.help_permission), permissions);
+
         return expandableListDetail;
     }
 }
