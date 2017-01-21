@@ -80,10 +80,18 @@ public class TutorialActivity extends AppCompatActivity {
     private TextView[] dots;
     private int[] layouts;
     private Button btnSkip, btnNext;
+    private PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Checking for first time launch - before calling setContentView()
+        prefManager = new PrefManager(this);
+        if (!prefManager.isFirstTimeLaunch()) {
+            launchHomeScreen();
+            finish();
+        }
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -102,8 +110,7 @@ public class TutorialActivity extends AppCompatActivity {
         // add few more layouts if you want
         layouts = new int[]{
                 R.layout.tutorial_slide1,
-                R.layout.tutorial_slide2,
-                R.layout.tutorial_slide3,};
+                R.layout.tutorial_slide2,};
 
         // adding bottom dots
         addBottomDots(0);
@@ -162,7 +169,10 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        startActivity(new Intent(TutorialActivity.this, MainActivity.class));
+        prefManager.setFirstTimeLaunch(false);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 
@@ -205,7 +215,7 @@ public class TutorialActivity extends AppCompatActivity {
         }
     }
 
-     //View pager adapter
+    //View pager adapter
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 
