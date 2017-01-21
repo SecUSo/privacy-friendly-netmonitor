@@ -1,24 +1,20 @@
-<RelativeLayout
-    android:id="@+id/scrollojt"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollojt"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:fitsSystemWindows="true"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activities.HelpActivity">
 
-
     <ExpandableListView
+
+        android:id="@+id/generalExpandableListView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp"
-        android:id="@+id/generalExpandableListView"
-        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
 </RelativeLayout>
 
