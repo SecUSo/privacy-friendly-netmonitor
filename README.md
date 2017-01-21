@@ -2,16 +2,12 @@
 
 This app monitors active network sockets and provides information on the scanned connections and apps. The invoking app is identified and listed with it's name, package and icon. The Connection's local and remote socket information (ip/port) is displayed along with a resolved hostname information and protocol evaluation based on well-known ports. Known un-/encrypted protocols are automatically marked. Additional features can be activated in the settings tab. This includes a panel for detailed technical information on connections, a logging functionality to keep scan results, and a remote analysis of TLS-Servers via SSL-Labs API.
 
-
+This app is optimized regarding the user’s privacy. It doesn’t use any tracking mechanisms, neither it displays any advertisement. It belongs to the Privacy Friendly Apps group developed by the SECUSO research group at Technische Universität Darmstadt, Germany.
 
 ## Motivation ##
 This application has been developed to raise user awareness for the constant and unobserved communication behaviour of mobil device application. Additionally a coarse, technical analysis of the connections can help to identify unsecure, privacy-violating or malicious communicating behaviour of installed applications.
 
-## Privacy Friendly ##
-This app is optimized regarding the user’s privacy. It doesn’t use any tracking mechanisms, neither it displays any advertisement. It belongs to the Privacy Friendly Apps group developed by the SECUSO research group at Technische Universität Darmstadt, Germany.
-
-
-## Developer Information ##
+## Download and more Information ##
 
 ### API Reference ###
 Mininum SDK: 21 Target SDK: 23 
@@ -44,13 +40,16 @@ This application uses SSL Labs APIs v1.24.4 by Qualys SSL Labs (Terms of use: ht
 Privacy Friendly Net Monitor is a non-root variant of TLSMetric android app (https://bitbucket.org/schillef/tlsmetric/overview) by Felix Tsala Schiller.
 
 ### Contributors ###
+
+App Icon:
+Markus Hau
+
 Developer:
 Felix Tsala Schiller
 
 Design Template:
 Karoly Marky
 Christopher Beckmann
-Markus Hau
 
 
 
