@@ -95,15 +95,15 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             activateReportView();
         }
         //Show welcome dialog on first start
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstStart = sharedPrefs.getBoolean(Const.IS_FIRST_START, true);
-        if(isFirstStart){
-            Intent intent = new Intent(MainActivity.this, TutorialActivity.class);
-            startActivity(intent);
-            SharedPreferences.Editor edit = sharedPrefs.edit();
-            edit.putBoolean("IS_FIRST_START", false);
-            edit.apply();
-        }
+//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        boolean isFirstStart = sharedPrefs.getBoolean(Const.IS_FIRST_START, true);
+//        if(isFirstStart){
+//            Intent intent = new Intent(MainActivity.this, TutorialActivity.class);
+//            startActivity(intent);
+//            SharedPreferences.Editor edit = sharedPrefs.edit();
+//            edit.putBoolean("IS_FIRST_START", false);
+//            edit.apply();
+//        }
         overridePendingTransition(0, 0);
     }
 
