@@ -16,7 +16,7 @@
     <!-- REPORT -->
     <string name="unknown_app">Unknown App</string>
     <string name="unknown_package">app.android.unknown</string>
-    <string name="report_swipe_refresh">Swipe down to refresh connections!</string>
+    <string name="report_swipe_refresh">Swipe down to refresh.</string>
     <string name="report_detail_ssllabs">SSL Labs Server Test Results</string>
 
     <!-- REPORT DETAIL -->

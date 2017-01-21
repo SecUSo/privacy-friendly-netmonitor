@@ -26,6 +26,7 @@
         android:id="@+id/report_empty_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/report_swipe_refresh"
         android:layout_below="@+id/report_empty_icon"
         android:layout_centerHorizontal="true" />

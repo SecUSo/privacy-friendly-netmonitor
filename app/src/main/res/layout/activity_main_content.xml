@@ -20,6 +20,7 @@
         android:id="@+id/main_text_normalbutton_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/main_text_normalbutton_desc"
         android:textColor="@color/black" />
 
@@ -31,7 +32,6 @@
         android:src="@mipmap/ic_monitor_off"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
-        android:layout_marginTop="16dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center" />
