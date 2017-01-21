@@ -6,7 +6,7 @@
 
     <!-- MAIN -->
     <string name="main_button_text_off">Start Net Monitor</string>
-    <string name="main_text_normalbutton_desc">On touch of the start button, Net Monitor starts a passive service which detects all active network connections. A background notification will inform you of the ongoing monitoring.</string>
+    <string name="main_text_normalbutton_desc">By touching the start button, Net Monitor starts a passive service which detects all active network connections. A background notification will inform you of the ongoing monitoring.</string>
     <string name="main_text_stopped">Net Monitor inactive</string>
 
     <!-- SERVICE HANDLER -->
