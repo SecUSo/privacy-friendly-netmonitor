@@ -62,6 +62,7 @@ import android.util.Log;
 import org.secuso.privacyfriendlynetmonitor.Activities.MainActivity;
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.KnownPorts;
+import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import static java.lang.Thread.sleep;
@@ -82,14 +83,13 @@ public class PassiveService extends Service {
     NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle(getResources().getString(R.string.app_name))
-                    .setContentText(getResources().getString(R.string.bg_desc));
+                    .setContentTitle(RunStore.getContext().getResources().getString(R.string.app_name))
+                    .setContentText(RunStore.getContext().getResources().getString(R.string.bg_desc));
 
     //private Bitmap mQuest;
     private Bitmap mIcon;
 
-
-    //Class for Binders IPC connection
+    //Class for Bindern
     public class AnalyzerBinder extends Binder {
         PassiveService getService() {
             return PassiveService.this;
