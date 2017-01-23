@@ -62,6 +62,7 @@ import android.util.Log;
 import org.secuso.privacyfriendlynetmonitor.Activities.MainActivity;
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.KnownPorts;
+import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.R;
 
@@ -104,7 +105,6 @@ public class PassiveService extends Service {
 
     public void startThread() {
         Log.i(Const.LOG_TAG, "PassiveService - Thread started");
-
         // Stop the previous session by interrupting the thread.
         if (mThread != null) {
             mThread.interrupt();
@@ -115,13 +115,12 @@ public class PassiveService extends Service {
             public void run() {
                 try {
                     while (!mInterrupt) {
-                        Log.d(Const.LOG_TAG, "pink");
-                        //update settings for changed behaviour
-                        Collector.updateSettings();
                         //detect connections
                         Detector.updateReportMap();
                         //check certificate validation state when feature is active
+                        Collector.updateSettings();
                         if(Collector.isCertVal){Collector.updateCertVal();}
+                        //sleep
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {

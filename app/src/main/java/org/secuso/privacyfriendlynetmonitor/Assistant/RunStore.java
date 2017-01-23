@@ -77,7 +77,7 @@ public class RunStore {
 
     public static void setAppContext(Context appContext) { RunStore.gAppContext = appContext; }
 
-    public static Activity getAppContext() {
-        return gContext;
+    public static Context getAppContext() {
+        return gAppContext;
     }
 }
