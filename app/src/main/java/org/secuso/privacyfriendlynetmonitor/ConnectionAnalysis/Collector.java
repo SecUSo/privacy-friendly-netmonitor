@@ -190,7 +190,6 @@ public class Collector {
         sortReportsToMap();
         //Generate ssl analyze requests
         if(isCertVal){ fillCertRequests(); }
-
     }
 
     //Search for resolved hostnames and add them to the resolved list
@@ -224,6 +223,18 @@ public class Collector {
                 mUidReportMap.put(r.uid, new ArrayList<Report>());
             }
             mUidReportMap.get(r.uid).add(r);
+        }
+    }
+
+    public static boolean hasGrade(String hostname){
+        String grade = getMetric(hostname);
+        switch(grade){
+            case "RESOLVING CERTIFICATE HOSTS":
+                return false;
+            case "PENDING":
+                return false;
+            default:
+                return true;
         }
     }
 
@@ -398,7 +409,7 @@ public class Collector {
     public static String getCertHost(String hostname) {
         if(mCertValMap.containsKey(hostname)) {
             Map<String, Object> map = mCertValMap.get(hostname);
-            Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            if(Const.IS_DEBUG){ Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map)); }
             if (analyseReady(map)) {
                 if(map.containsKey("host")){
                     return (String)map.get("host");
@@ -415,7 +426,7 @@ public class Collector {
         String grade;
         if(mCertValMap.containsKey(hostname)){
             Map<String, Object> map = mCertValMap.get(hostname);
-            Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            if(Const.IS_DEBUG){ Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map)); }
             if (analyseReady(map)){
                 grade = readEndpoints(map);
                 if (grade.equals("no_grade")){

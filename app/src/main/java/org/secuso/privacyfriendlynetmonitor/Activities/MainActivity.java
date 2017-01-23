@@ -50,6 +50,7 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -72,6 +73,8 @@ import org.secuso.privacyfriendlynetmonitor.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static org.secuso.privacyfriendlynetmonitor.R.string.url;
 
 
 /**
@@ -177,23 +180,30 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, final int i1, final long l) {
+                expListView = (ExpandableListView) findViewById(R.id.list);
+                ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getExpandableListAdapter();
+                final Report r = (Report) adapter.getChild(i,i1);
 
                 if(mSharedPreferences.getBoolean(Const.IS_DETAIL_MODE, false)) {
                     view.animate().setDuration(500).alpha((float) 0.5)
                             .withEndAction(new Runnable() {
                                 @Override
                                 public void run() {
-                                    expListView = (ExpandableListView) findViewById(R.id.list);
-                                    ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getExpandableListAdapter();
-                                    Report r = (Report) adapter.getChild(i,i1);
+
                                     Collector.provideDetail(r.uid, r.remoteAddHex);
                                     Intent intent = new Intent(getApplicationContext(), ReportDetailActivity.class);
                                     startActivity(intent);
                                 }
                             });
                     return true;
-                } else if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false)) {
-                    //TODO: Link to host SSLCertval
+                    // if no detail mode and server analysis is complete, goto SSL Labs
+                } else if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) &&
+                        Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
+                        Collector.hasGrade(Collector.getDnsHostName(r.remoteAdd.getHostAddress()))) {
+                    String url = Const.SSLLABS_URL +
+                            Collector.getCertHost(Collector.getDnsHostName(r.remoteAdd.getHostAddress()));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(browserIntent);
                     return false;
 
                 } else {
