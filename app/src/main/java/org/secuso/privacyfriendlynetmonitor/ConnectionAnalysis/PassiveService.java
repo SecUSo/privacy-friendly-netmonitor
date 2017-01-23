@@ -78,30 +78,22 @@ public class PassiveService extends Service {
     public static boolean mInterrupt;
     private Thread mThread;
     private final IBinder mBinder = new AnalyzerBinder();
-
-    private int mNotificationCount;
+    private Bitmap mIcon;
     NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle(RunStore.getContext().getResources().getString(R.string.app_name))
                     .setContentText(RunStore.getContext().getResources().getString(R.string.bg_desc));
 
-    //private Bitmap mQuest;
-    private Bitmap mIcon;
 
-    //Class for Bindern
-    public class AnalyzerBinder extends Binder {
-        PassiveService getService() {
-            return PassiveService.this;
-        }
-    }
 
     @Override
     public void onCreate() {
         mInterrupt = false;
-        mNotificationCount = 0;
         loadNotificationBitmaps();
-
+        showAppNotification();
+        //init reserved-ports
+        KnownPorts.initPortMap();
     }
 
     //Icons for notification manager. Must be converted to bitmaps.
@@ -110,12 +102,8 @@ public class PassiveService extends Service {
     }
 
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("LocalService", "Received start id " + startId + ": " + intent);
-        showAppNotification();
-        //init reserved-ports
-        KnownPorts.initPortMap();
+    public void startThread() {
+        Log.i(Const.LOG_TAG, "PassiveService - Thread started");
 
         // Stop the previous session by interrupting the thread.
         if (mThread != null) {
@@ -127,6 +115,7 @@ public class PassiveService extends Service {
             public void run() {
                 try {
                     while (!mInterrupt) {
+                        Log.d(Const.LOG_TAG, "pink");
                         //update settings for changed behaviour
                         Collector.updateSettings();
                         //detect connections
@@ -145,19 +134,51 @@ public class PassiveService extends Service {
 
         //start the service
         mThread.start();
-        return START_STICKY;
     }
 
-    //end notification and interrupt service
-    @Override
-    public void onDestroy() {
+    //Call to stop service and notification
+    private void interrupt(){
         showNoNotification();
         mInterrupt = true;
+        stopSelf();
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {
+        startThread();
         return mBinder;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        interrupt();
+        return super.onUnbind(intent);
+    }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        startThread();
+        return Service.START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        interrupt();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        stopSelf();
+    }
+
+    //Class for Binder
+    public class AnalyzerBinder extends Binder {
+        PassiveService getService() {
+            return PassiveService.this;
+        }
     }
 
     //Check for new notification information. Currently inactive due to insignificance
@@ -209,7 +230,7 @@ public class PassiveService extends Service {
         //    mBuilder.setSmallIcon(R.mipmap.icon_warn_orange);
         //    mBuilder.setLargeIcon(mWarnOrange);
         //}
-        mBuilder.setContentText(mNotificationCount + " new warnings encountered.");
+        //mBuilder.setContentText(mNotificationCount + " new warnings encountered.");
 
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, MainActivity.class);

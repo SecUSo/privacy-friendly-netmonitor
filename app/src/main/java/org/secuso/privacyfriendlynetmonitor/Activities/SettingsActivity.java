@@ -179,7 +179,7 @@ public class SettingsActivity extends BaseActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
             if (id == android.R.id.home) {
-                //getActivity().finish();
+                //getAppContext().finish();
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
             }

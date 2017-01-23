@@ -56,25 +56,28 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.ServiceHandler;
 
 public class RunStore {
 
-        private static Activity gContext;
-        private static ServiceHandler gService;
+    private static Activity gContext;
+    private static Context gAppContext;
+    private static ServiceHandler gService;
 
-        public static void setContext( Activity activity) {
-            gContext = activity;
-        }
+    public static void setContext( Activity activity) {
+        gContext = activity;
+    }
 
-        public static Activity getActivity() {
-            return gContext;
-        }
+    public static Context getContext() {
+        return gContext;
+    }
 
-        public static Context getContext() {
-            return gContext;
+    public static ServiceHandler getServiceHandler() {
+        if (gService == null) {
+        gService = new ServiceHandler();
         }
+        return gService;
+    }
 
-        public static ServiceHandler getServiceHandler() {
-            if (gService == null) {
-            gService = new ServiceHandler();
-            }
-            return gService;
-        }
+    public static void setAppContext(Context appContext) { RunStore.gAppContext = appContext; }
+
+    public static Activity getAppContext() {
+        return gContext;
+    }
 }
