@@ -100,7 +100,7 @@
     <string name="slide1_text">Privacy Friendly Net Monitor überwacht die Netzwerkaktivität
         installierter Apps. So können Sie überprüfen, welche Verbindungen durch installierte Apps aufgebaut werden und wann diese aktiv sind.</string>
 
-    <string name="slide2_heading">Verbindungskontrolle</string>
+    <string name="slide2_heading">Verbindungsinformationen</string>
     <string name="slide2_text">Informationen zu aktiven Verbindungen und Verschlüsselung werden
         gelistet. Zusätzlich könne vorhalten der Verbindungen, detaillierte, technsiche Informationen
         und Zertifikatsprüfung des Zielservers aktiviert werden.</string>

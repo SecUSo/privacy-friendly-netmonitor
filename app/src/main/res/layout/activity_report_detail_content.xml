@@ -79,13 +79,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:textColor="@color/colorAccent"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/report_detail_ssllabs_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp" />
+        android:layout_marginStart="5dp"
+        android:visibility="gone" />
 
 </LinearLayout>
 
