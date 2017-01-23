@@ -50,9 +50,7 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -64,6 +62,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
+import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService;
@@ -178,7 +177,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, final int i1, final long l) {
-                if(mSharedPreferences.getBoolean(Const.DETAIL_MODE, true)) {
+
+                if(mSharedPreferences.getBoolean(Const.IS_DETAIL_MODE, false)) {
                     view.animate().setDuration(500).alpha((float) 0.5)
                             .withEndAction(new Runnable() {
                                 @Override
@@ -192,6 +192,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                                 }
                             });
                     return true;
+                } else if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false)) {
+                    //TODO: Link to host SSLCertval
+                    return false;
+
                 } else {
                     return false;
                 }

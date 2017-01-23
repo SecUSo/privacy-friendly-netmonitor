@@ -61,6 +61,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
+import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
@@ -69,7 +72,6 @@ import org.secuso.privacyfriendlynetmonitor.R;
 import de.bjoernr.ssllabs.ConsoleUtilities;
 
 import static org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector.getDnsHostName;
-import static org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector.isCertVal;
 import static org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector.mCertValMap;
 
 /**
@@ -99,7 +101,7 @@ public class ReportDetailActivity extends BaseActivity{
         pkg.setText(Collector.getPackage(r.uid));
 
         //Add certificate information
-        if(isCertVal && Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
+        if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) && Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
                 mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
             TextView ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_heading);
             ssllabs.setText(getResources().getString(R.string.report_detail_ssllabs));
@@ -108,7 +110,6 @@ public class ReportDetailActivity extends BaseActivity{
                     mCertValMap.get(getDnsHostName(r.remoteAdd.getHostAddress()))));
         }
     }
-
 
     @Override
     public void onDestroy(){

@@ -23,29 +23,24 @@ import android.content.SharedPreferences;
  * @version 20170112
  */
 public class PrefManager {
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
-    private Context context;
+    private static SharedPreferences pref;
+    private static SharedPreferences.Editor editor;
 
     // shared pref mode
     private int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = Const.PFA_NET_MONITOR;
-
-    private static final String IS_FIRST_TIME_LAUNCH = Const.IS_FIRST_START;
 
     public PrefManager(Context context) {
-        this.context = context;
-        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        pref = context.getSharedPreferences(Const.PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
-    public void setFirstTimeLaunch(boolean isFirstTime) {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
+    public static void setFirstTimeLaunch(boolean isFirstTime) {
+        editor.putBoolean(Const.IS_FIRST_START, isFirstTime);
         editor.commit();
     }
 
-    public boolean isFirstTimeLaunch() { return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true); }
+    public static boolean isFirstTimeLaunch() { return pref.getBoolean(Const.IS_FIRST_START, true); }
 
 }

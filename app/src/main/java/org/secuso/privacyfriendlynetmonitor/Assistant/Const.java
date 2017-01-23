@@ -61,7 +61,7 @@ public interface Const {
     String FILE_IF_LIST = "iflist";
 
     //Detector constants
-    int REPORT_TTL_DEFAULT = 15000;
+    long REPORT_TTL_DEFAULT = 10000;
     Integer[] TLS_PORT_VALUES = new Integer[] { 993, 443, 995, 995, 614, 465, 587, 22 };
     Set<Integer> TLS_PORTS = new HashSet<>(Arrays.asList(TLS_PORT_VALUES));
     Integer[] UNSECURE_PORT_VALUES = new Integer[] { 21, 23, 25, 80, 109, 110, 143, 137, 138 ,139,
@@ -75,9 +75,9 @@ public interface Const {
 
     //SharedPrefs identifiers
     String REPORT_TTL = "REPORT_TTL";
-    String DETAIL_MODE = "DETAIL_MODE";
+    String IS_DETAIL_MODE = "IS_DETAIL_MODE";
     String IS_FIRST_START = "IS_FIRST_START";
     String IS_LOG = "IS_LOG";
     String IS_CERTVAL = "IS_CERTVAL";
-    String PFA_NET_MONITOR = "PFA_NET_MONITOR";
+    String PREF_NAME = "PREF_NAME";
 }

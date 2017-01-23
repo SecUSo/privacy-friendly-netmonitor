@@ -50,6 +50,7 @@ import android.preference.PreferenceManager;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.ExecCom;
+import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.Assistant.TLType;
 import org.secuso.privacyfriendlynetmonitor.Assistant.ToolBox;
@@ -81,7 +82,7 @@ class Detector {
     //Update the report HashMap with currently scanned connections
     static void updateReportMap(){
         updateOrAdd(getCurrentConnections());
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getAppContext());
         boolean isLog = prefs.getBoolean(Const.IS_LOG, false);
         boolean isCertVal = prefs.getBoolean(Const.IS_CERTVAL, false);
         if (!isLog && !isCertVal){ removeOldReports(); }
@@ -104,9 +105,7 @@ class Detector {
 
     //Remove timed-out connection-reports
     private static void removeOldReports() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getContext());
-        final int reportTTL =  prefs.getInt(Const.REPORT_TTL, Const.REPORT_TTL_DEFAULT);
-        Timestamp thresh = new Timestamp(System.currentTimeMillis() - reportTTL) ;
+        Timestamp thresh = new Timestamp(System.currentTimeMillis() - Const.REPORT_TTL_DEFAULT) ;
 
         HashSet<Integer> keySet = new HashSet<>(sReportMap.keySet());
         for (int key:keySet) {
