@@ -56,14 +56,25 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/report_detail_ssllabs_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/report_detail_ssllabs"
+        android:visibility="gone"
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
         android:text="@string/report_detail_heading"
         android:textColor="@color/colorAccent"
         android:textStyle="bold" />
+
+
 
     <ListView
         android:id="@+id/report_detail_list_view"
@@ -73,21 +84,7 @@
         android:dividerHeight="0.5dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft" />
 
-    <TextView
-        android:id="@+id/report_detail_ssllabs_heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/report_detail_ssllabs_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:visibility="gone" />
 
 </LinearLayout>
 

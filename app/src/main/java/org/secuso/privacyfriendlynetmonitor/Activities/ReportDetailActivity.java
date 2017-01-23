@@ -50,6 +50,8 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,7 +94,7 @@ public class ReportDetailActivity extends BaseActivity{
         listview.setAdapter(adapter);
 
         // Fill headings
-        Report r = Collector.sDetailReport;
+        final Report r = Collector.sDetailReport;
         ImageView icon = (ImageView) findViewById(R.id.reportDetailIcon);
         icon.setImageDrawable(Collector.getIcon(r.uid));
         TextView label = (TextView) findViewById(R.id.reportDetailTitle);
@@ -100,15 +102,24 @@ public class ReportDetailActivity extends BaseActivity{
         TextView pkg = (TextView) findViewById(R.id.reportDetailSubtitle);
         pkg.setText(Collector.getPackage(r.uid));
 
-        //Add certificate information
+        //Add certificate information - open link to ssl labs
         if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) && Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
-                mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
-            TextView ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_heading);
-            ssllabs.setText(getResources().getString(R.string.report_detail_ssllabs));
-            ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_result);
-            ssllabs.setText(ConsoleUtilities.mapToConsoleOutput(
-                    mCertValMap.get(getDnsHostName(r.remoteAdd.getHostAddress()))));
+                Collector.hasGrade(Collector.getDnsHostName(r.remoteAdd.getHostAddress()))){
+            TextView ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_result);
+            ssllabs.setVisibility(View.VISIBLE);
+            ssllabs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = Const.SSLLABS_URL +
+                            Collector.getCertHost(Collector.getDnsHostName(r.remoteAdd.getHostAddress()));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(browserIntent);
+                }
+            });
+
         }
+
+
     }
 
     @Override
