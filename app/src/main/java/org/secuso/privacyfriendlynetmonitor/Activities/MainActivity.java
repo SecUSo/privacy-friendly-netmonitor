@@ -57,6 +57,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -97,6 +98,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         } else {
             activateReportView();
         }
+        //Block Screenshot functionality
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE);
         //Show welcome dialog on first start
 //        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 //        boolean isFirstStart = sharedPrefs.getBoolean(Const.IS_FIRST_START, true);

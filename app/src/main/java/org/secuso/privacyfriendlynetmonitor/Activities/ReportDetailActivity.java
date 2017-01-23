@@ -56,6 +56,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -65,16 +66,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
-import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.R;
-
-import de.bjoernr.ssllabs.ConsoleUtilities;
-
-import static org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector.getDnsHostName;
-import static org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector.mCertValMap;
 
 /**
  * Evidence Detail Panel. List all reports of a connection, invoked by Evidence Panel (ReportActivity)
@@ -86,6 +81,11 @@ public class ReportDetailActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_detail);
         RunStore.setContext(this);
+
+        //block screenshot functionality
+        //Block Screenshot functionality
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
+                WindowManager.LayoutParams.FLAG_SECURE);
 
         //Get reports from collector class
         ArrayList<String[]> detailList = Collector.sDetailReportList;
