@@ -60,6 +60,9 @@ public interface Const {
     String LOG_TAG = "NetMonitor";
     String FILE_IF_LIST = "iflist";
 
+    //SSL LABS CONSTANTS
+    String SSLLABS_URL = "https://www.ssllabs.com/ssltest/analyze.html?d=";
+
     //Detector constants
     long REPORT_TTL_DEFAULT = 10000;
     Integer[] TLS_PORT_VALUES = new Integer[] { 993, 443, 995, 995, 614, 465, 587, 22 };
