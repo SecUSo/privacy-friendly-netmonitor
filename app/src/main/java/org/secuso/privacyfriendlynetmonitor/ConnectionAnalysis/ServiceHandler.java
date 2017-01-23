@@ -63,9 +63,11 @@ public class ServiceHandler {
 
     private PassiveService mPassiveService;
 
+    private boolean mIsBound;
+
     //Get information of running services
     public boolean isServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) RunStore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) RunStore.getAppContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
                 return true;
@@ -73,8 +75,6 @@ public class ServiceHandler {
         }
         return false;
     }
-
-    //Passive service connection object
     private ServiceConnection mPassiveServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been
@@ -83,8 +83,6 @@ public class ServiceHandler {
             // service that we know is running in our own process, we can
             // cast its IBinder to a concrete class and directly access it.
             mPassiveService = ((PassiveService.AnalyzerBinder)service).getService();
-
-            // Tell the user about this for our demo.
             Toast.makeText(RunStore.getContext(), R.string.passive_service_start,
                     Toast.LENGTH_SHORT).show();
         }
@@ -100,31 +98,32 @@ public class ServiceHandler {
         }
     };
 
-    //start the service
+    //start the service manually
     public void startPassiveService() {
         // Establish a connection with the service.
-        Intent intent = new Intent(RunStore.getContext(),
-                PassiveService.class);
+        Intent intent = new Intent(RunStore.getAppContext(), PassiveService.class);
         RunStore.getContext().startService(intent);
     }
 
     //stop the passive service
     public void stopPassiveService() {
         if (isServiceRunning(PassiveService.class)) {
-            RunStore.getContext().stopService(new Intent(RunStore.getContext(), PassiveService.class));
+            RunStore.getContext().stopService(new Intent(RunStore.getAppContext(), PassiveService.class));
         }
     }
 
-    //Bind the passice service to the assigned context
+    //Bind the passive service to the assigned context
     public void bindPassiveService(Context context) {
-        Intent intent = new Intent(context,PassiveService.class);
-        RunStore.getContext().bindService(intent, mPassiveServiceConnection, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent(RunStore.getAppContext(),PassiveService.class);
+        context.bindService(intent, mPassiveServiceConnection, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
     }
 
     //Unbind the passive service to app  context
     public void unbindPassiveService(Context context) {
-        if (isServiceRunning(PassiveService.class)) {
+        if (mIsBound) {
             context.unbindService(mPassiveServiceConnection);
+            mIsBound = false;
         }
     }
 

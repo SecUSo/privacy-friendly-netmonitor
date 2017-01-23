@@ -88,6 +88,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RunStore.setContext(this);
+        RunStore.setAppContext(getApplicationContext());
         //Save context state
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
             activateMainView();
