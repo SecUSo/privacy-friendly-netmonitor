@@ -3,7 +3,7 @@
 
         <SwitchPreference
             android:id="@+id/pref_advanced_switch"
-            android:key="DETAIL_MODE"
+            android:key="IS_DETAIL_MODE"
             android:title="@string/pref_advanced_switch"
             android:summary="@string/pref_advanced_switch_summary"
             android:defaultValue="false"/>
