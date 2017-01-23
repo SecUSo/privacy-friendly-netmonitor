@@ -79,6 +79,5 @@ public interface Const {
     String IS_FIRST_START = "IS_FIRST_START";
     String IS_LOG = "IS_LOG";
     String IS_CERTVAL = "IS_CERTVAL";
-
-
+    String PFA_NET_MONITOR = "PFA_NET_MONITOR";
 }
