@@ -12,7 +12,7 @@
  along with Privacy Friendly Password Generator. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.secuso.privacyfriendlynetmonitor.Activities;
+package org.secuso.privacyfriendlynetmonitor.Assistant;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,9 +31,9 @@ public class PrefManager {
     private int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = "pfa-pw-generator";
+    private static final String PREF_NAME = Const.PFA_NET_MONITOR;
 
-    private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    private static final String IS_FIRST_TIME_LAUNCH = Const.IS_FIRST_START;
 
     public PrefManager(Context context) {
         this.context = context;
@@ -46,8 +46,6 @@ public class PrefManager {
         editor.commit();
     }
 
-    public boolean isFirstTimeLaunch() {
-        return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
-    }
+    public boolean isFirstTimeLaunch() { return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true); }
 
 }
