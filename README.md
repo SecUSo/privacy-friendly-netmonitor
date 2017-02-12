@@ -10,13 +10,13 @@ This application has been developed to raise user awareness for the constant and
 ## Download and more Information ##
 
 ### API Reference ###
-Mininum SDK: 21 Target SDK: 23 
+Mininum SDK: 21 Target SDK: 25 
 
 ### Setup ###
 * Android Studio 2.2.2
 
 ### Future Enhancements ###
-possible additional features (non FUD)
+possible additional features
 - raw socket inspection
 - ip locating feature
 - export of identified information
