@@ -1,0 +1,109 @@
+<resources>
+    <!-- APP GLOBAL -->
+
+    <!-- MAIN -->
+    <string name="main_button_text_off">Net Monitor を開始</string>
+    <string name="main_text_normalbutton_desc">スタートボタンをタッチすることにより、Net Monitor はすべてのアクティブなネットワーク接続を検出するパッシブサービスを開始します。 進行中のモニタリングを通知するバックグラウンド通知が表示されます。</string>
+    <string name="main_text_stopped">Net Monitor は非アクティブ</string>
+
+    <!-- SERVICE HANDLER -->
+    <string name="passive_service_start">Net Monitor サービスはパッシブモードで開始されました。</string>
+    <string name="passive_service_stop">Net Monitor サービスは停止しました。 パッシブモードでした。</string>
+
+    <!-- REPORT -->
+    <string name="unknown_app">不明なアプリ</string>
+    <string name="unknown_package">app.android.unknown</string>
+    <string name="report_swipe_refresh">下にスワイプすると更新します。</string>
+    <string name="report_detail_ssllabs"><u>Open SSL Labs サーバーテストの結果</u></string>
+
+    <!-- REPORT DETAIL -->
+    <string name="headline_report_detail">詳細表示</string>
+    <string name="report_detail_heading">詳細な技術情報</string>
+
+    <!-- MENU DRAWER -->
+    <string name="drawer_main">メイン</string>
+    <string name="drawer_settings">設定</string>
+    <string name="drawer_help">ヘルプ</string>
+    <string name="drawer_about">アプリについて</string>
+    <string name="navigation_drawer_open">ナビゲーションドロワーを開く</string>
+    <string name="navigation_drawer_close">ナビゲーションドロワーを閉じる</string>
+
+    <!-- ABOUT -->
+    <string name="about">アプリについて</string>
+    <string name="version_number">バージョン</string>
+    <string name="about_author">作者</string>
+    <string name="about_author_contributors">と貢献者。</string>
+    <string name="about_affiliation">提携</string>
+    <string name="privacy_friendly">このアプリケーションは、ダルムシュタット工科大学 (Technische Universität Darmstadt, Germany) が開発したプライバシーフレンドリーアプリのグループに属しています。ソースコードは GPLv3 の下でライセンスされます。画像の著作権は TU Darmstadt および Google Inc.</string>
+    <string name="more_info">さらに詳しい情報は以下でご覧ください:</string>
+    <string name="about_API">このアプリは Java-SSLLabs-API by Björn Roland と Qualis SSL Labs を使用しています。</string>
+
+    <!-- HELP -->
+    <string name="help">ヘルプ</string>
+
+    <string name="help_whatis">プライバシーフレンドリー Net Monitor とは?</string>
+    <string name="help_whatis_answer">プライバシーフレンドリー Net Monitor 
+        は、インストールされているアプリからのネットワークトラフィックをモニターします。
+        バックグラウンドサービスでアクティブなネットワーク接続をスキャンし、追加のネットワーク暗号化情報も表示します。</string>
+
+    <string name="help_feature_one">接続モニタリングの仕組みは?</string>
+    <string name="help_feature_one_answer">Net Monitor はバックグラウンドサービスを展開し、
+        1 秒ごとにアクティブな接続をスキャンします。 検出された接続を呼び出すアプリケーションは、
+        通信しているリモートアドレスとともに識別され、リストされます。</string>
+
+    <string name="help_feature_two">プロトコルと暗号化の検出とは?</string>
+    <string name="help_feature_two_answer">接続のリモートポートに基づいて、トランスポートプロトコルは
+        \"よく知られているポート\" テーブルによって識別できます。 既知のポートに基づいて、
+        接続が暗号化されていないことが分かっている場合に警告が表示されます。 ポート番号の割り当てはシステムによって強制されないので、
+        接続がこのプロトコルを使用していることは保証されていないことに注意してください。</string>
+
+    <string name="help_feature_three">ホスト名解決とは?</string>
+    <string name="help_feature_three_answer">割り当てられたリモートホスト名は、逆引き名前解決によって要求されます。
+        これはバックグラウンドで非同期で行われ、数秒かかる場合があります。
+        解決されたホスト名は、要求された実際のドメイン名ではない可能性があります。 例えば、ブラウザーアプリ。</string>
+
+    <string name="help_feature_four">詳細なレポートとは?</string>
+    <string name="help_feature_four_answer">詳細モードは、設定で有効にすることができます。
+        有効にした後、スキャンされた接続の追加の技術情報は、概要で接続をタッチした後に表示されます。</string>
+
+    <string name="help_feature_five">証明書の検証とは?</string>
+    <string name="help_feature_five_answer">リモートサーバーの TLS 実装の自動分析は、設定で有効にすることができます。
+        有効な場合、解決されたホスト名を持つリモートサーバーは、接続プロトコルが TLS 暗号化を使用することがわかっているときに自動的にテストされます。
+        分析は、SSL Labs API と関連サービスによって実行されます。 リモートサーバーの実装品質は、グレード A+ (最高) 〜 F (最低)、
+        またはT (信頼問題) として表示されます。 SSL Lab API の詳細については、アプリについてを参照してください。</string>
+
+    <string name="help_privacy">アプリをプライバシーフレンドリーにするものは?</string>
+
+    <string name="help_privacy_answer">プライバシーフレンドリー Net Monitor は、追跡メカニズムや広告は含まれていません。
+        無料です。 プライバシーフレンドリー Net Monitor はGPLv3 ライセンスの下で公開されており、配布または拡張は自由です。</string>
+
+    <string name="help_permission">アプリが必要とするアクセス許可は?</string>
+    <string name="help_permission_answer">プライバシーフレンドリー Net Monitor は、
+        アクティブな接続をスキャンするためにアクセス許可を必要としません。 証明書検証機能は、
+        Qualys SSL Labs のサーバーテスト結果を要求するためのインターネットアクセス許可が必要です。</string>
+
+    <!-- SETTINGS -->
+    <string name="title_activity_settings">設定</string>
+    <string name="pref_advanced_switch">詳細モード</string>
+    <string name="pref_advanced_switch_summary">接続をタッチすると情報タブを表示します。</string>
+    <string name="pref_log_switch">接続のログ</string>
+    <string name="pref_log_switch_summary">検出された情報を保持します。</string>
+    <string name="pref_certval_switch">サーバー検証</string>
+    <string name="pref_certval_switch_summary">SSL Labs API で分析を実行します。</string>
+
+    <!-- TOOLBAR -->
+    <string name="action_refresh_title">更新</string>
+    <string name="action_startstop_start">開始</string>
+
+    <!-- TUTORIAL -->
+    <string name="slide1_heading">ようこそ!</string>
+    <string name="slide1_text">プライバシーフレンドリー Net Monitor は、インストールされているアプリのネットワーク活動を表示します。 これを使用して、すべてのデバイスの接続をチェックします。</string>
+    <string name="slide2_heading">接続情報</string>
+    <string name="slide2_text">現在、アクティブな接続と暗号化情報は、アプリによってリストされています。 \n ログ、詳細な技術情報、およびサーバーの検証機能は設定で有効にすることができます。</string>
+
+    <string name="okay">OK</string>
+    <string name="next">次へ</string>
+    <string name="skip">スキップ</string>
+    <string name="bg_desc">接続モニタリングはアクティブです</string>
+
+</resources>
