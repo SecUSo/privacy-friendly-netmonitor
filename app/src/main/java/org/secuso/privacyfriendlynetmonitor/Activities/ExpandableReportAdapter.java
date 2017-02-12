@@ -153,7 +153,7 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
     private int getWarningColor(String value) {
         if (value.contains(Const.STATUS_TLS) || value.substring(0,1).equals("A")) {
             return (R.color.green);
-        } else if (value.substring(0,1).equals("B") || value.substring(0,1).equals("C")){
+        } else if (value.contains(Const.STATUS_INCONCLUSIVE) || value.substring(0,1).equals("B") || value.substring(0,1).equals("C")){
             return (R.color.orange);
         } else if (value.contains(Const.STATUS_UNSECURE) || value.substring(0,1).equals("T") ||
                 value.substring(0,1).equals("F") || value.substring(0,1).equals("D") ||
