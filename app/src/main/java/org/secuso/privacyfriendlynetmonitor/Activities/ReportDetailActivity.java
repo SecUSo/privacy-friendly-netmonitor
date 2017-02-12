@@ -72,7 +72,7 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 /**
- * Evidence Detail Panel. List all reports of a connection, invoked by Evidence Panel (ReportActivity)
+ * Report Detail Panel. List all reports of a connection, invoked by Report Panel (ReportActivity)
  */
 public class ReportDetailActivity extends BaseActivity{
 
@@ -82,7 +82,6 @@ public class ReportDetailActivity extends BaseActivity{
         setContentView(R.layout.activity_report_detail);
         RunStore.setContext(this);
 
-        //block screenshot functionality
         //Block Screenshot functionality
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
                 WindowManager.LayoutParams.FLAG_SECURE);

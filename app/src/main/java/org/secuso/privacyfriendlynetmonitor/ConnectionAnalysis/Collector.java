@@ -58,6 +58,7 @@ import org.secuso.privacyfriendlynetmonitor.Assistant.AsyncDNS;
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.KnownPorts;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
+import org.secuso.privacyfriendlynetmonitor.Assistant.TLType;
 import org.secuso.privacyfriendlynetmonitor.Assistant.ToolBox;
 import org.secuso.privacyfriendlynetmonitor.BuildConfig;
 import org.secuso.privacyfriendlynetmonitor.R;
@@ -526,6 +527,7 @@ public class Collector {
         Report r = filterList.get(0);
         PackageInfo info = sCachePackage.get(r.uid);
 
+        //App info
         l.add(new String[]{"User ID", "" + r.uid});
         l.add(new String[]{"App Version", "" + info.versionName});
         if(r.uid > 10000){
@@ -534,27 +536,41 @@ public class Collector {
             l.add(new String[]{"Installed On", "System App"});
         }
         l.add(new String[]{"", ""});
-        l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
-        l.add(new String[]{"Remote Address(HEX)", ToolBox.printHexBinary(r.remoteAdd.getAddress())});
+
+        //Connection info
+        if(r.type == TLType.tcp6 || r.type == TLType.udp6) {
+            l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()
+                    + "\n(IPv6 translated)"});
+        } else {
+            l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
+        }
+        l.add(new String[]{"Remote HEX", ToolBox.printHexBinary(r.remoteAddHex)});
         if(hasHostName(r.remoteAdd.getHostAddress())){
             l.add(new String[]{"Remote Host", getDnsHostName(r.remoteAdd.getHostAddress())});
         }else {
             l.add(new String[]{"Remote Host", "name not resolved"});
         }
-        l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
-        l.add(new String[]{"Local Address(HEX)", ToolBox.printHexBinary(r.localAdd.getAddress())});
+        if(r.type == TLType.tcp6 || r.type == TLType.udp6) {
+            l.add(new String[]{"Local Address", r.localAdd.getHostAddress()
+            + "\n(IPv6 translated)"});
+        }else {
+            l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
+        }
+        l.add(new String[]{"Local HEX", ToolBox.printHexBinary(r.localAddHex)});
         l.add(new String[]{"", ""});
         l.add(new String[]{"Service Port", "" + r.remotePort});
         l.add(new String[]{"Payload Protocol", "" + KnownPorts.resolvePort(r.remotePort)});
         l.add(new String[]{"Transport Protocol", "" + r.type});
         l.add(new String[]{"Last Seen", r.timestamp.toString()});
         l.add(new String[]{"", ""});
+
+        //List open sockets
         l.add(new String[]{"Simultaneous Connections", "" + filterList.size()});
         for (int i = 0; i < filterList.size(); i++){
             Report r2 = filterList.get(i);
             l.add(new String[]{"(" + (i + 1) + ")src port > dst port",
                     r2.localPort + " > " + r2.remotePort});
-            l.add(new String[]{"    socket-state ", getTransportState(r.state)});
+            l.add(new String[]{"    last socket-state ", getTransportState(r.state)});
         }
         l.add(new String[]{"", ""});
 
