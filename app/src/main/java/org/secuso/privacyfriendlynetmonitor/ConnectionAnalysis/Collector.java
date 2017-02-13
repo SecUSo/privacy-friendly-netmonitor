@@ -574,6 +574,14 @@ public class Collector {
         }
         l.add(new String[]{"", ""});
 
+        /*CertVal information - needs shortening
+        if(isCertVal && mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
+            l.add(new String[]{"SSL Labs Report", ""});
+
+            l.add(new String[]{"", ConsoleUtilities.mapToConsoleOutput(
+                    mCertValMap.get(getDnsHostName(r.remoteAdd.getHostAddress())))});
+        }*/
+
         sDetailReportList = l;
     }
 
