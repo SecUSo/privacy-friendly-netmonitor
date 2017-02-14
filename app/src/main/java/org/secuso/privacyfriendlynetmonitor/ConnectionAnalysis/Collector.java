@@ -44,12 +44,14 @@
  */
 package org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -365,10 +367,24 @@ public class Collector {
                 sCacheIcon.put(uid, sCachePackage.get(uid).applicationInfo.
                         loadIcon(RunStore.getContext().getPackageManager()));
             } else {
-                return RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    return getIconNew(android.R.drawable.sym_def_app_icon);
+                } else {
+                    return getIconOld(android.R.drawable.sym_def_app_icon);
+                }
             }
         }
         return sCacheIcon.get(uid);
+    }
+
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    private static Drawable getIconOld(int id) {
+        return RunStore.getContext().getResources().getDrawable(id);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static Drawable getIconNew(int id) {
+        return RunStore.getContext().getDrawable(id);
     }
 
     //Provides App names for activities
