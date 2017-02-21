@@ -1,5 +1,9 @@
 # Changelog #
 
+## Version 1.1.1 (2017-02-21) ##
+- Refinements of translations
+- Downgrade to SDK 23 is target
+
 ## Version 1.1 (2017-02-20) ##
 - SSL Rating added
 - Japanese translation
