@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId 'org.secuso.privacyfriendlynetmonitorapp'
+        applicationId 'org.secuso.privacyfriendlynetmonitor'
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 3
