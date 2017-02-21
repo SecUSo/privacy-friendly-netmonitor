@@ -9,8 +9,10 @@ This application has been developed to raise user awareness for the constant and
 
 ## Download and more Information ##
 
+[<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/org.secuso.privacyfriendlynetmonitor)<a href="https://play.google.com/store/apps/details?id=org.secuso.privacyfriendlynetmonitorapp"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="60"></a>
+
 ### API Reference ###
-Mininum SDK: 21 Target SDK: 25 
+Mininum SDK: 17 Target SDK: 25 
 
 ### Setup ###
 * Android Studio 2.2.2
@@ -41,14 +43,14 @@ Privacy Friendly Net Monitor is a non-root variant of TLSMetric android app (htt
 
 ### Contributors ###
 
-App Icon:
+App Icon:</br>
 Markus Hau
 
-Developer:
+Developer:</br>
 Felix Tsala Schiller
 
-Design Template:
-Karoly Marky
+Design Template:</br>
+Karoly Marky </br>
 Christopher Beckmann
 
 
