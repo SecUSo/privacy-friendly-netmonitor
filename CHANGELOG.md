@@ -1,5 +1,8 @@
 # Changelog #
 
+## Version 1.1.1 (2017-02-28) ##
+- Mininum SDK reset to 21
+
 ## Version 1.1.1 (2017-02-21) ##
 - Refinements of translations
 - Downgrade to SDK 23 is target
