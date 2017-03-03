@@ -381,7 +381,7 @@ public class Collector {
     private static Drawable getDefaultIcon(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return getIconNew(android.R.drawable.sym_def_app_icon);
-            } else {
+        } else {
             return getIconOld(android.R.drawable.sym_def_app_icon);
     }
     }
