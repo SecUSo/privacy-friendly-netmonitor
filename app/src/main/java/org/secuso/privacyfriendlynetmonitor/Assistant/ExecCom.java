@@ -95,7 +95,10 @@ public class ExecCom extends Thread {
             }
             res = readFully(response);
         } catch (IOException e) {
-            Log.i(Const.LOG_TAG, "IO operation unsuccessful while executing command: " + string );
+            if(Const.IS_DEBUG) {
+                Log.i(Const.LOG_TAG, "IO operation unsuccessful. Pipe Broken?"
+                        + string);
+            }
         } finally {
             closeSilently(outputStream, response);
         }
