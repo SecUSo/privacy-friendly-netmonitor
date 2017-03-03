@@ -92,6 +92,12 @@
         \"System [System\"] bezeichnet ist, dann wurde die Verbindung von einer Android
         Systemkomponente initialisiert (root user).</string>
 
+    <string name="help_ssllabs">Was ist SSL-Labs?</string>
+    <string name="help_ssllabs_answer">SSL-Labs API von Qualys führt eine analyse von SSL/TLS web
+        servern durch. Net Monitor fragt Analyseergebnisse auf Bedarf von SSL Labs an. SSL-Labs
+        Privacy-Konditinen sagen aus, dass keine der so erhaltenen IP Addressen oder Hostnamen
+        an Dritte weitergegeben werden. </string>
+
     <!-- SETTINGS -->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_advanced_switch">Detaillierter Modus</string>

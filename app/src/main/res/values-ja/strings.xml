@@ -88,6 +88,11 @@
         android system by the original equipment manufacturer (OEM). If the app is named \'System
         [System]\', an android system component itself has invoked the connection (root-user).</string>
 
+    <string name="help_ssllabs">What is SSL-Labs</string>
+    <string name="help_ssllabs_answer">SSL-Labs API from Qualys performs a deep analysis of SSL/TLS
+        web server. Net Monitor requests analysis results on demand from SSL Labs. SSL-Labs privacy
+    terms state, that it does not share submitted IP addresses or hostnames with any third party. </string>
+
     <!-- SETTINGS -->
     <string name="title_activity_settings">設定</string>
     <string name="pref_advanced_switch">詳細モード</string>
