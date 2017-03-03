@@ -83,6 +83,16 @@
         アクティブな接続をスキャンするためにアクセス許可を必要としません。 証明書検証機能は、
         Qualys SSL Labs のサーバーテスト結果を要求するためのインターネットアクセス許可が必要です。</string>
 
+    <string name="help_sysuser">What does the [System] tag mean?</string>
+    <string name="help_sysuser_answer">The [System] tag identifies an app pre-installed on the
+        android system by the original equipment manufacturer (OEM). If the app is named \'System
+        [System]\', an android system component itself has invoked the connection (root-user).</string>
+
+    <string name="help_ssllabs">What is SSL-Labs</string>
+    <string name="help_ssllabs_answer">SSL-Labs API from Qualys performs a deep analysis of SSL/TLS
+        web server. Net Monitor requests analysis results on demand from SSL Labs. SSL-Labs privacy
+    terms state, that it does not share submitted IP addresses or hostnames with any third party. </string>
+
     <!-- SETTINGS -->
     <string name="title_activity_settings">設定</string>
     <string name="pref_advanced_switch">詳細モード</string>

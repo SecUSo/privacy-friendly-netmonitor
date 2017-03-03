@@ -55,15 +55,18 @@
         verwendeten Protokolle wird eine Warnung angegeben, falls es sich um eine unverschlüsselte
         Verbindung handelt. Da die Verwendung bestimmter Ports nicht vom System erzwungen wird, ist diese
         Information allerdings unter Umständen nicht vollständig korrekt.</string>
+
     <string name="help_feature_three">Was ist Host-Namensauflösung?</string>
     <string name="help_feature_three_answer">Der Name des Zielhosts wird über
         eine umgekehrte
         Namensauflösung ermittelt. Da dies asynchron im Hintergrund geschieht, kann es ein paar
         Sekunden dauern bis der Name verfügbar ist. Achtung: Der Hostname kann sich von der
         Domain unterscheiden, welche z.B. in einem Browser angewählt wurde.</string>
+
     <string name="help_feature_four">Was sind detaillierte Berichte?</string>
     <string name="help_feature_four_answer">Der detallierte Modus kann in den Einstellungen aktiviert
         werden. Dadurch werden zusätzliche technische Informationen zu einer Verbindung angezeigt, wenn diese in der Liste ausgewählt wird.</string>
+
     <string name="help_feature_five">Was ist Zertifikats-Überprüfung?</string>
     <string name="help_feature_five_answer">Eine automatische Analyse der TLS-Implementierung des
         Zielservers kann in den Einstellungen aktiviert werden. Server mit
@@ -72,14 +75,28 @@
         Implementierung wird von A+ (am Besten) bis F (am Schlechtesten) oder mit T
         (Vertrauensprobleme) angegeben. Weitere Informationen über die SSL Labs sind auf der "Über"
         Seite zu finden.</string>
+
     <string name="help_privacy">Was macht die App privatsphäre-freundlich?</string>
     <string name="help_privacy_answer">Privacy Friendly Net Monitor verwendet keine Tracking-Mechanismen,
         ist werbefrei und kostenlos. Außerdem werden die Informationen über die Verbindungen nicht gespeichert. </string>
+
     <string name="help_permission">Welche Berechtigungen braucht die App?</string>
     <string name="help_permission_answer">Privacy Friendly Net Monitor benötigt keine zusätzlichen
         Berechtigungen um Netzwerkverbindungen zu überwachen. Die Zertifikatsüberprüfung benötigt
         die Internet-Berechtigung um Testergebnisse von Qualys SSL Labs
         abzufragen.</string>
+
+    <string name="help_sysuser">Was bedeutet die [System] Markierung?</string>
+    <string name="help_sysuser_answer">Die [System] Markierung bedeutet, dass die entsprechende
+        App durch den Hersteller auf dem System vorinstalliert wurde. Wenn die App als
+        \"System [System\"] bezeichnet ist, dann wurde die Verbindung von einer Android
+        Systemkomponente initialisiert (root user).</string>
+
+    <string name="help_ssllabs">Was ist SSL-Labs?</string>
+    <string name="help_ssllabs_answer">SSL-Labs API von Qualys führt eine analyse von SSL/TLS web
+        servern durch. Net Monitor fragt Analyseergebnisse auf Bedarf von SSL Labs an. SSL-Labs
+        Privacy-Konditinen sagen aus, dass keine der so erhaltenen IP Addressen oder Hostnamen
+        an Dritte weitergegeben werden. </string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Einstellungen</string>

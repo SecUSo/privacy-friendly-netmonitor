@@ -362,15 +362,38 @@ public class Collector {
 
     //Provides app icon for activities
     public static Drawable getIcon(int uid){
-        if(!sCacheIcon.containsKey(uid)){
-            if(sCachePackage.containsKey(uid)){
-                sCacheIcon.put(uid, sCachePackage.get(uid).applicationInfo.
-                        loadIcon(RunStore.getContext().getPackageManager()));
-            } else {
-                return RunStore.getContext().getDrawable(android.R.drawable.sym_def_app_icon);
+        try {
+            if (!sCacheIcon.containsKey(uid)) {
+                if (sCachePackage.containsKey(uid)) {
+                    sCacheIcon.put(uid, sCachePackage.get(uid).applicationInfo.
+                            loadIcon(RunStore.getContext().getPackageManager()));
+                } else {
+                    return getDefaultIcon();
+                }
             }
+            return sCacheIcon.get(uid);
+        } catch(NullPointerException e){
+            Log.e(Const.LOG_TAG, "Could not load icon of: " + sCachePackage.get(uid).packageName);
+            return getDefaultIcon();
         }
-        return sCacheIcon.get(uid);
+    }
+
+    private static Drawable getDefaultIcon(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getIconNew(android.R.drawable.sym_def_app_icon);
+        } else {
+            return getIconOld(android.R.drawable.sym_def_app_icon);
+    }
+    }
+
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    private static Drawable getIconOld(int id) {
+        return RunStore.getContext().getResources().getDrawable(id);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static Drawable getIconNew(int id) {
+        return RunStore.getContext().getDrawable(id);
     }
 
     //Provides App names for activities

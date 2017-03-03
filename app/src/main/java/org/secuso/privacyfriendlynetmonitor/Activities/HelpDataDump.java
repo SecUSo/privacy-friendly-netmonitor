@@ -107,6 +107,10 @@ class HelpDataDump {
         permissions.add(context.getResources().getString(R.string.help_permission_answer));
         expandableListDetail.put(context.getResources().getString(R.string.help_permission), permissions);
 
+        List<String> sysuser = new ArrayList<>();
+        permissions.add(context.getResources().getString(R.string.help_sysuser_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_sysuser), sysuser);
+
         return expandableListDetail;
     }
 }

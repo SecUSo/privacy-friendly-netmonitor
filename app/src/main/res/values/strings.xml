@@ -41,9 +41,9 @@
     <string name="more_info">More information can be found on:</string>
     <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-netmonitor/">Github-Repo</a></string>
     <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
-    <string name="about_API">This app uses Java-SSLLabs-API by Björn Roland and Qualis SSL Labs.</string>
+    <string name="about_API">This app uses Java-SSLLabs-API by Björn Roland and Qualys SSL Labs.</string>
     <string name="url_API" translatable="false"><a href="https://github.com/bjoernr-de">Java-SSL Labs-API</a></string>
-    <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualis SSL Labs API</a></string>
+    <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualys SSL Labs API</a></string>
 
     <!-- HELP -->
     <string name="help">Help</string>
@@ -92,6 +92,17 @@
     <string name="help_permission_answer">Privacy Friendly Net Monitor does not require any permission
         for scanning active connections. The Certificate Validation feature requires
         the Internet permission to request server test results from Qualys SSL Labs.</string>
+
+    <string name="help_sysuser">What does the [System] tag mean?</string>
+    <string name="help_sysuser_answer">The [System] tag identifies an app pre-installed on the
+        android system by the original equipment manufacturer (OEM). If the app is named \'System
+        [System]\', an android system component itself has invoked the connection (root-user).</string>
+
+    <string name="help_ssllabs">What is SSL-Labs</string>
+    <string name="help_ssllabs_answer">SSL-Labs API from Qualys performs a deep analysis of SSL/TLS
+        web server. Net Monitor requests analysis results on demand from SSL Labs. SSL-Labs privacy
+    terms state, that it does not share submitted IP addresses or hostnames with any third party. </string>
+
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>

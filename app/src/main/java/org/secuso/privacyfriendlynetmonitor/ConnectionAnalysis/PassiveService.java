@@ -45,6 +45,7 @@
 
 package org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis;
 
+import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -54,6 +55,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -62,7 +64,6 @@ import android.util.Log;
 import org.secuso.privacyfriendlynetmonitor.Activities.MainActivity;
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.KnownPorts;
-import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.R;
 
@@ -83,9 +84,25 @@ public class PassiveService extends Service {
     NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setContentTitle(RunStore.getContext().getResources().getString(R.string.app_name))
-                    .setContentText(RunStore.getContext().getResources().getString(R.string.bg_desc));
+                    .setContentTitle(getVersionString(R.string.app_name))
+                    .setContentText(getVersionString(R.string.bg_desc));
 
+    private String getVersionString(int id){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return getStringNew(id);
+        } else {
+            return getStringOld(id);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    private static String getStringNew(int id) {
+        return RunStore.getContext().getResources().getString(id);
+    }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private static String getStringOld(int id) {
+        return RunStore.getContext().getString(id);
+    }
 
 
     @Override
