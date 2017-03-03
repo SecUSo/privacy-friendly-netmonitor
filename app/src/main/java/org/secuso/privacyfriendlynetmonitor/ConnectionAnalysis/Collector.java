@@ -388,7 +388,7 @@ public class Collector {
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private static Drawable getIconOld(int id) {
-    return RunStore.getContext().getResources().getDrawable(id);
+        return RunStore.getContext().getResources().getDrawable(id);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
