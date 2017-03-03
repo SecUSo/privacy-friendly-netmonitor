@@ -101,7 +101,7 @@
     <string name="help_ssllabs_answer">SSL-Labs API from Qualys performs a deep analysis of SSL/TLS
         web server. Net Monitor requests analysis results on demand from SSL Labs. SSL-Labs privacy
     terms state, that it does not share submitted IP addresses or hostnames with any third party. </string>
-    
+
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
     <string name="pref_advanced_switch">Detail Mode</string>
