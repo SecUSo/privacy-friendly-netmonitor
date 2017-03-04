@@ -49,9 +49,10 @@ Markus Hau
 Developer:</br>
 Felix Tsala Schiller
 
-Design Template:</br>
-Karoly Marky </br>
-Christopher Beckmann
+Contributors (Github):</br>
+Yonjuni </br>
+Kamuno</br>
+di72nn
 
 
 
