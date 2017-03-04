@@ -74,7 +74,6 @@
         またはT (信頼問題) として表示されます。 SSL Lab API の詳細については、アプリについてを参照してください。</string>
 
     <string name="help_privacy">アプリをプライバシーフレンドリーにするものは?</string>
-
     <string name="help_privacy_answer">プライバシーフレンドリー Net Monitor は、追跡メカニズムや広告は含まれていません。
         無料です。 プライバシーフレンドリー Net Monitor はGPLv3 ライセンスの下で公開されており、配布または拡張は自由です。</string>
 
@@ -83,15 +82,15 @@
         アクティブな接続をスキャンするためにアクセス許可を必要としません。 証明書検証機能は、
         Qualys SSL Labs のサーバーテスト結果を要求するためのインターネットアクセス許可が必要です。</string>
 
-    <string name="help_sysuser">What does the [System] tag mean?</string>
-    <string name="help_sysuser_answer">The [System] tag identifies an app pre-installed on the
-        android system by the original equipment manufacturer (OEM). If the app is named \'System
-        [System]\', an android system component itself has invoked the connection (root-user).</string>
+    <string name="help_sysuser">[システム] タグの意味は?</string>
+    <string name="help_sysuser_answer">[システム]タグは、OEM (相手先ブランド名製造) によって Android
+        システムにプリインストールされているアプリを識別します。 このアプリの名前が \'System [システム]\'
+        の場合、Android システムコンポーネント自体が接続を呼び出しています (root-user)。</string>
 
-    <string name="help_ssllabs">What is SSL-Labs</string>
-    <string name="help_ssllabs_answer">SSL-Labs API from Qualys performs a deep analysis of SSL/TLS
-        web server. Net Monitor requests analysis results on demand from SSL Labs. SSL-Labs privacy
-    terms state, that it does not share submitted IP addresses or hostnames with any third party. </string>
+    <string name="help_ssllabs">SSL-Labs とは</string>
+    <string name="help_ssllabs_answer">Qualys の SSL-Labs APIは、SSL/TLS Web サーバーの詳細な分析を実行します。
+        Net Monitor は、SSL Labs にオンデマンドで分析結果をリクエストします。 SSL-Labs のプライバシー条件では、
+        提出された IP アドレスまたはホスト名を第三者と共有しないことを表示しています。 </string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">設定</string>
