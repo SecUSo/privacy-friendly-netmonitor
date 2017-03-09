@@ -47,3 +47,6 @@ Thumbs.db
 *.doc
 *.docx
 *.odt
+
+#APK
+*.apk
