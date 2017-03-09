@@ -1,5 +1,8 @@
 # Changelog #
 
+## Version 1.1.4 (2017-03-09) ##
+- Screenshot blocking removed
+
 ## Version 1.1.3 (2017-03-04) ##
 - Android 4 Support added
 - Icons refinements (list icons, splash icons, unloadable icons)
