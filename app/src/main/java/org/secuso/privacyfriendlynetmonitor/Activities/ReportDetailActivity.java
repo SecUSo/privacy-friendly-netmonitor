@@ -82,10 +82,6 @@ public class ReportDetailActivity extends BaseActivity{
         setContentView(R.layout.activity_report_detail);
         RunStore.setContext(this);
 
-        //Block Screenshot functionality
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
-                WindowManager.LayoutParams.FLAG_SECURE);
-
         //Get reports from collector class
         ArrayList<String[]> detailList = Collector.sDetailReportList;
         final DetailAdapter adapter = new DetailAdapter(this, R.layout.report_detail_item, detailList);
