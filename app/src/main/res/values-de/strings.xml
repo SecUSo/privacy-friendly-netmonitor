@@ -116,7 +116,7 @@
 
     <string name="slide2_heading">Verbindungsinformationen</string>
     <string name="slide2_text">Die App listet Informationen zu aktiven Netzwerkverbindungen und zeigt an,
-        ob diese verschlüsselt sind. Zusätzlich können detaillierte, technsiche Informationen
+        ob diese verschlüsselt sind. Zusätzlich können detaillierte, technische Informationen
         und eine Zertifikatsprüfung des Zielservers in den Einstellungen aktiviert werden.</string>
 
     <string name="okay">Okay</string>
