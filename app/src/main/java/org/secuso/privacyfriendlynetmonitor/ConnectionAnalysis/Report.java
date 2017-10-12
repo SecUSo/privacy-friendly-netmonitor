@@ -140,7 +140,7 @@ public class Report implements Serializable {
         bb.get(remoteAddHex);
         bb.get(b);
         remotePort = ToolBox.twoBytesToInt(b);
-        uid = abs(bb.getShort());
+        uid = abs(bb.getInt());
         state = new byte[1];
         bb.get(state);
     }
@@ -157,7 +157,7 @@ public class Report implements Serializable {
         bb.get(remoteAddHex);
         bb.get(b);
         remotePort = ToolBox.twoBytesToInt(b);
-        uid = abs((bb.getShort()));
+        uid = abs((bb.getInt()));
         state = new byte[1];
         bb.get(state);
     }
