@@ -50,7 +50,6 @@ import android.preference.PreferenceManager;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.ExecCom;
-import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.Assistant.TLType;
 import org.secuso.privacyfriendlynetmonitor.Assistant.ToolBox;
@@ -162,8 +161,8 @@ class Detector {
     private static Report initReport4(String[] splitTabs, TLType type){
         int pos;
         pos = 0;
-        //Allocating buffer for 4 Bytes add and 2 bytes port each + 2 bytes UID
-        ByteBuffer bb = ByteBuffer.allocate(15);
+        //Allocating buffer for 4 Bytes add and 2 bytes port each + 4 bytes UID
+        ByteBuffer bb = ByteBuffer.allocate(17);
         bb.position(0);
 
         //local address
@@ -186,7 +185,7 @@ class Detector {
         bb.put(ToolBox.hexStringToByteArray(hexStr));
 
         //UID
-        bb.putShort(Short.parseShort(splitTabs[7]));
+        bb.putInt(Integer.parseInt(splitTabs[7]));
 
         //state
         bb.put(ToolBox.hexStringToByteArray(splitTabs[3]));
@@ -198,8 +197,8 @@ class Detector {
     private static Report initReport6(String[] splitTabs, TLType type){
         int pos;
         pos = 0;
-        //Allocating buffer for 16 Bytes add and 2 bytes port each + 2 bytes UID
-        ByteBuffer bb = ByteBuffer.allocate(39);
+        //Allocating buffer for 16 Bytes add and 2 bytes port each + 4 bytes UID
+        ByteBuffer bb = ByteBuffer.allocate(41);
         bb.position(0);
 
         //local address
@@ -222,8 +221,7 @@ class Detector {
         bb.put(ToolBox.hexStringToByteArray(hexStr));
 
         //UID
-        short a = Short.parseShort(splitTabs[7]);
-        bb.putShort(a);
+        bb.putInt(Integer.parseInt(splitTabs[7]));
 
         //state
         bb.put(ToolBox.hexStringToByteArray(splitTabs[3]));
