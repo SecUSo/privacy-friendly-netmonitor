@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_startstop"
-        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        android:icon="@drawable/ic_clear"
         android:title="@string/action_startstop_start"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_refresh"
-        android:icon="@android:drawable/ic_menu_rotate"
+        android:icon="@drawable/ic_refresh"
         android:title="@string/action_refresh_title"
         app:showAsAction="ifRoom" />
 
