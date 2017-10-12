@@ -90,7 +90,7 @@ import de.bjoernr.ssllabs.ConsoleUtilities;
 public class Collector {
 
     //application caches
-    private static HashMap<Integer, PackageInfo> sCachePackage = new HashMap<>();
+    private static HashMap<Integer, List<PackageInfo>> sCachePackage = new HashMap<>();
     private static HashMap<Integer, Drawable> sCacheIcon = new HashMap<>();
     private static HashMap<Integer, String> sCacheLabel = new HashMap<>();
     private static HashMap<String, String> sCacheDNS = new HashMap<>();
@@ -288,10 +288,13 @@ public class Collector {
             if(!sCachePackage.containsKey(r.uid)) {
                 updatePackageCache();
             }
-            if(sCachePackage.containsKey(r.uid)){
-                PackageInfo pi = sCachePackage.get(r.uid);
+            if(sCachePackage.containsKey(r.uid) && sCachePackage.get(r.uid).size() == 1){
+                PackageInfo pi = sCachePackage.get(r.uid).get(0);
                 r.appName = pi.applicationInfo.name;
                 r.packageName = pi.packageName;
+            } else if(sCachePackage.containsKey(r.uid) && sCachePackage.get(r.uid).size() > 1) {
+                r.appName = "UID " + r.uid;
+                r.appName = "app.unknown";
             } else {
                 r.appName = "Unknown App";
                 r.appName = "app.unknown";
@@ -324,7 +327,11 @@ public class Collector {
         ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
         for (PackageInfo i : infoList) {
             if (i != null) {
-                sCachePackage.put(i.applicationInfo.uid, i);
+                if(!sCachePackage.containsKey(i.applicationInfo.uid)) {
+                    sCachePackage.put(i.applicationInfo.uid, new ArrayList<PackageInfo>());
+                }
+
+                sCachePackage.get(i.applicationInfo.uid).add(i);
             }
         }
         addSysPackage();
@@ -341,7 +348,11 @@ public class Collector {
         root.applicationInfo.name = "System";
         root.applicationInfo.uid = 0;
         root.applicationInfo.icon = 0;
-        sCachePackage.put(root.applicationInfo.uid, root);
+
+        if(!sCachePackage.containsKey(root.applicationInfo.uid)) {
+            sCachePackage.put(root.applicationInfo.uid, new ArrayList<PackageInfo>());
+        }
+        sCachePackage.get(root.applicationInfo.uid).add(root);
     }
 
     //Get a list with all currently installed packages
@@ -364,8 +375,8 @@ public class Collector {
     public static Drawable getIcon(int uid){
         try {
             if (!sCacheIcon.containsKey(uid)) {
-                if (sCachePackage.containsKey(uid)) {
-                    sCacheIcon.put(uid, sCachePackage.get(uid).applicationInfo.
+                if (sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
+                    sCacheIcon.put(uid, sCachePackage.get(uid).get(0).applicationInfo.
                             loadIcon(RunStore.getContext().getPackageManager()));
                 } else {
                     return getDefaultIcon();
@@ -373,7 +384,7 @@ public class Collector {
             }
             return sCacheIcon.get(uid);
         } catch(NullPointerException e){
-            Log.e(Const.LOG_TAG, "Could not load icon of: " + sCachePackage.get(uid).packageName);
+            Log.e(Const.LOG_TAG, "Could not load icon of: " + sCachePackage.get(uid).get(0).packageName);
             return getDefaultIcon();
         }
     }
@@ -399,11 +410,13 @@ public class Collector {
     //Provides App names for activities
     public static String getLabel(int uid){
         if(!sCacheLabel.containsKey(uid)){
-            if(sCachePackage.containsKey(uid)){
-                sCacheLabel.put(uid, (String) sCachePackage.get(uid).applicationInfo.
+            if(sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
+                sCacheLabel.put(uid, (String) sCachePackage.get(uid).get(0).applicationInfo.
                         loadLabel(RunStore.getContext().getPackageManager()));
-            }
-            else {
+            } else if(sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() > 1) {
+                return "UID " + uid;
+
+            } else {
                 return RunStore.getContext().getString(R.string.unknown_app);
             }
         }
@@ -412,8 +425,8 @@ public class Collector {
 
     //Provides full app package name
     public static String getPackage(int uid) {
-        if(sCachePackage.containsKey(uid)) {
-            return sCachePackage.get(uid).packageName;
+        if(sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
+            return sCachePackage.get(uid).get(0).packageName;
         } else{
             return RunStore.getContext().getString(R.string.unknown_package);
         }
@@ -550,7 +563,7 @@ public class Collector {
     private static void buildDetailStrings(ArrayList<Report> filterList) {
         ArrayList<String[]> l = new ArrayList<>();
         Report r = filterList.get(0);
-        PackageInfo info = sCachePackage.get(r.uid);
+        PackageInfo info = sCachePackage.get(r.uid).get(0);
 
         //App info
         l.add(new String[]{"User ID", "" + r.uid});
