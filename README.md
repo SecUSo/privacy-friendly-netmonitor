@@ -1,4 +1,4 @@
-# Privacy Friendly Net Monitor #
+﻿# Privacy Friendly Net Monitor #
 
 This app monitors active network sockets and provides information on the scanned connections and apps. The invoking app is identified and listed with it's name, package and icon. The Connection's local and remote socket information (ip/port) is displayed along with a resolved hostname information and protocol evaluation based on well-known ports. Known un-/encrypted protocols are automatically marked. Additional features can be activated in the settings tab. This includes a panel for detailed technical information on connections, a logging functionality to keep scan results, and a remote analysis of TLS-Servers via SSL-Labs API.
 
@@ -35,7 +35,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
-The icons used in the nagivation drawer are licensed under the CC BY 2.5. In addition to them the app uses icons from Google Design Material Icons licensed under Apache License Version 2.0. All other images (the logo of Privacy Friendly Apps, the SECUSO logo, the app logo and the spash screen icon) copyright Technische Universtität Darmstadt (2016).
+The icons used in the nagivation drawer are licensed under the CC BY 2.5. In addition to them the app uses icons from Google Design Material Icons licensed under Apache License Version 2.0. All other images (the logo of Privacy Friendly Apps, the SECUSO logo, the app logos and the spash screen icon) copyright Technische Universtität Darmstadt (2016).
 
 This application uses SSL Labs APIs v1.24.4 by Qualys SSL Labs (Terms of use: https://www.ssllabs.com/downloads/Qualys_SSL_Labs_Terms_of_Use.pdf) and  Java SSL Labs API by Björn Roland GLicense: GPLv3, https://github.com/bjoernr-de/java-ssllabs-api)
 
@@ -52,7 +52,8 @@ Felix Tsala Schiller
 Contributors (Github):</br>
 Yonjuni </br>
 Kamuno</br>
-di72nn
+di72nn</br>
+stevesoltys 
 
 
 
