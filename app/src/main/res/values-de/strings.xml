@@ -24,9 +24,9 @@
     <string name="drawer_main">Start</string>
     <string name="drawer_settings">Einstellungen</string>
     <string name="drawer_help">Hilfe</string>
-    <string name="drawer_about">Über Net Monitor</string>
-    <string name="navigation_drawer_open">navigation_drawer_open</string>
-    <string name="navigation_drawer_close">navigation_drawer_close</string>
+    <string name="drawer_about">Über</string>
+    <string name="navigation_drawer_open">Öffnen</string>
+    <string name="navigation_drawer_close">Schließen</string>
 
     <!-- ABOUT -->
     <string name="about">Über</string>

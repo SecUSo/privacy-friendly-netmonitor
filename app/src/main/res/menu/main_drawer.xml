@@ -13,11 +13,11 @@
         android:checkableBehavior="all">
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_settings"
             android:title="@string/drawer_settings" />
         <item
             android:id="@+id/nav_help"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/ic_help"
             android:title="@string/drawer_help" />
         <item
             android:id="@+id/nav_about"
