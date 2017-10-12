@@ -1,5 +1,9 @@
 # Changelog #
 
+## Version 1.2 (2017-10-12) ##
+- Bug fixing
+- Icon updates
+
 ## Version 1.1.4 (2017-03-09) ##
 - Screenshot blocking removed
 
