@@ -77,6 +77,8 @@ import static java.lang.Thread.sleep;
  */
 public class PassiveService extends Service {
 
+    private static final int SERVICE_IDENTIFIER = 1;
+
     public static boolean mInterrupt;
     private Thread mThread;
     private final IBinder mBinder = new AnalyzerBinder();
@@ -154,7 +156,6 @@ public class PassiveService extends Service {
 
     //Call to stop service and notification
     private void interrupt(){
-        showNoNotification();
         mInterrupt = true;
         stopSelf();
     }
@@ -229,11 +230,8 @@ public class PassiveService extends Service {
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // mId allows you to update the notification later on.
-        mNotificationManager.notify(Const.LOG_TAG, 1, mBuilder.build());
+        startForeground(SERVICE_IDENTIFIER, mBuilder.build());
     }
 
     //Computes the need and severity of a notification. Currently unused.
@@ -267,13 +265,5 @@ public class PassiveService extends Service {
         // mId allows you to update the notification later on.
         mNotificationManager.notify(Const.LOG_TAG, 1, mBuilder.build());
     }
-
-    //Revoke notifications
-    private void showNoNotification(){
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
-    }
-
 
 }
