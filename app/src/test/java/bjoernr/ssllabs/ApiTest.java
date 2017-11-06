@@ -11,7 +11,7 @@ public class ApiTest
 	{
 		Api api = new Api();
 		JSONObject apiInformation = api.fetchApiInfo();
-		
+
 		ApiAssert.assertNotNull("JSONObject is null", apiInformation);
 		ApiAssert.assertApiDataFetched(apiInformation);
 	}

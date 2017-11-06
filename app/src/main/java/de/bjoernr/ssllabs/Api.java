@@ -224,12 +224,12 @@ public class Api
 		
 		return (getParameterString);
 	}
-	
+
 	/**
 	 * Helper function to cast boolean to on/off string
-	 * 
-	 * @param	boolean	b
-	 * @return	String on|off
+	 *
+	 * @param b
+	 * @return
 	 */
 	private String booleanToOnOffString(boolean b)
 	{
