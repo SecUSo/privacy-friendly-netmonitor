@@ -52,6 +52,7 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -113,7 +114,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     // On start button press activate second view (report)
     private void setButtonListener() {
-        final Button startStop = (Button) findViewById(R.id.main_button);
+        final FloatingActionButton startStop = findViewById(R.id.mainFAB);
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +122,23 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         });
     }
+
+    @Override
+    public void onBackPressed(){
+        startStopTrigger();
+    }
+
+    // TODO Delete
+//    // On start button press activate second view (report)
+//    private void setButtonListener() {
+//        final Button startStop = (Button) findViewById(R.id.main_button);
+//        startStop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startStopTrigger();
+//            }
+//        });
+//    }
 
     //Trigger switches between activity, based service running indicator
     private void startStopTrigger() {
@@ -146,13 +164,26 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setContentView(R.layout.activity_main);
         super.setToolbar();
 
-        final Button startStop = (Button) findViewById(R.id.main_button);
-        startStop.setText(R.string.main_button_text_off);
+        final FloatingActionButton startStop = findViewById(R.id.mainFAB);
         TextView textView = (TextView) findViewById(R.id.main_text_startstop);
         textView.setText(R.string.main_text_stopped);
         setButtonListener();
         getNavigationDrawerID();
     }
+
+    // TODO Delete
+//    //Activate the main layout
+//    private void activateMainView() {
+//        setContentView(R.layout.activity_main);
+//        super.setToolbar();
+//
+//        final Button startStop = (Button) findViewById(R.id.main_button);
+//        startStop.setText(R.string.main_button_text_off);
+//        TextView textView = (TextView) findViewById(R.id.main_text_startstop);
+//        textView.setText(R.string.main_text_stopped);
+//        setButtonListener();
+//        getNavigationDrawerID();
+//    }
 
     //activate the report layout
     private void activateReportView(){
@@ -272,9 +303,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             case R.id.action_refresh:
                 refreshAdapter();
                 break;
-            case R.id.action_startstop:
-                startStopTrigger();
-                break;
+//            case R.id.action_startstop:
+//                startStopTrigger();
+//                break;
             default:
                 break;
         }
