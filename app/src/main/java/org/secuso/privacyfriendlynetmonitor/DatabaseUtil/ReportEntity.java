@@ -7,6 +7,6 @@ package org.secuso.privacyfriendlynetmonitor.DatabaseUtil;
 
 public class ReportEntity {
 
-
+    Double x;
 
 }
