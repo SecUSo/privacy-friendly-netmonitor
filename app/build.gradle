@@ -5,10 +5,10 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId 'org.secuso.privacyfriendlynetmonitor'
-        minSdkVersion 17
+        minSdkVersion 22
         targetSdkVersion 26
         versionCode 7
-        versionName "1.2"
+        versionName "2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

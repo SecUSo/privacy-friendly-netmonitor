@@ -111,6 +111,10 @@ class HelpDataDump {
         sysuser.add(context.getResources().getString(R.string.help_sysuser_answer));
         expandableListDetail.put(context.getResources().getString(R.string.help_sysuser), sysuser);
 
+        List<String> un_encrypted_ports = new ArrayList<>();
+        un_encrypted_ports.add(context.getResources().getString(R.string.help_un_encrypted_ports_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_un_encrypted_ports), un_encrypted_ports);
+
         return expandableListDetail;
     }
 }
