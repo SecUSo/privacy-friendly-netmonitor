@@ -83,7 +83,11 @@ public class TutorialActivity extends AppCompatActivity {
     private int[] layouts;
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
-    public static boolean tutorial_click = false;
+    private static boolean tutorial_click = false;
+
+    public static void setTutorial_click(boolean tutorial_click) {
+        TutorialActivity.tutorial_click = tutorial_click;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -208,7 +208,7 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
                 createBackStack(intent);
                 break;
             case R.id.nav_tutorial:
-                TutorialActivity.tutorial_click = true;
+                TutorialActivity.setTutorial_click(true);
                 intent = new Intent( this, TutorialActivity.class );
                 createBackStack(intent);
                 break;
