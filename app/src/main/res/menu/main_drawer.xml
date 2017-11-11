@@ -20,6 +20,10 @@
             android:icon="@drawable/ic_help"
             android:title="@string/drawer_help" />
         <item
+            android:id="@+id/nav_tutorial"
+            android:icon="@drawable/ic_tutorial"
+            android:title="Tutorial" />
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_info"
             android:title="@string/drawer_about" />

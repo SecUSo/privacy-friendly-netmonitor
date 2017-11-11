@@ -129,4 +129,8 @@
     <string name="skip">Skip</string>
     <string name="bg_desc">Connection monitoring is active</string>
 
+    <string name="title_activity_tutorial__monitor">Tutorial_Monitor</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

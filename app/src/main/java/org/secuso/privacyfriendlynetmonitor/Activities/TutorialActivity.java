@@ -83,6 +83,7 @@ public class TutorialActivity extends AppCompatActivity {
     private int[] layouts;
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
+    public static boolean tutorial_click = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +92,12 @@ public class TutorialActivity extends AppCompatActivity {
         // Checking for first time launch - before calling setContentView()
         prefManager = new PrefManager(this);
         if (!prefManager.isFirstTimeLaunch()) {
-            launchHomeScreen();
-            finish();
+            if (tutorial_click==false) {
+                launchHomeScreen();
+                finish();
+            }
         }
+        tutorial_click = false;
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -146,6 +150,7 @@ public class TutorialActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
