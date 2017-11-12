@@ -63,16 +63,6 @@
         android:visibility="gone"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/report_detail_heading"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold" />
-
-
-
     <ListView
         android:id="@+id/report_detail_list_view"
         android:layout_width="match_parent"
