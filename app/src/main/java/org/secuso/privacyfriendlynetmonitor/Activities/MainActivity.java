@@ -70,6 +70,10 @@ import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.util.ArrayList;
@@ -88,17 +92,24 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private ExpandableListView expListView;
     private HashMap<Integer, List<Report>> reportMap;
 
+    private static ReportEntityDao reportEntityDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RunStore.setContext(this);
         RunStore.setAppContext(getApplicationContext());
         //Save context state
+
+        DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
+        reportEntityDao = daoSession.getReportEntityDao();
+
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
             activateMainView();
         } else {
             activateReportView();
         }
+
         //Show welcome dialog on first start
 //        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 //        boolean isFirstStart = sharedPrefs.getBoolean(Const.IS_FIRST_START, true);
@@ -126,6 +137,27 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void onBackPressed(){
         startStopTrigger();
+
+        // TODO delete this db test when not needed anymore
+//        List<ReportEntity> reportEntities = reportEntityDao.loadAll();
+//        for(ReportEntity reportEntity : reportEntities){
+//            System.out.println("___________________");
+//            System.out.println(reportEntity.getId());
+//            System.out.println(reportEntity.getAppName());
+//            System.out.println(reportEntity.getUserID());
+//            System.out.println(reportEntity.getAppVersion());
+//            System.out.println(reportEntity.getInstalledOn());
+//            System.out.println(reportEntity.getRemoteAddress());
+//            System.out.println(reportEntity.getRemoteHex());
+//            System.out.println(reportEntity.getRemoteHost());
+//            System.out.println(reportEntity.getLocalAddress());
+//            System.out.println(reportEntity.getLocalHex());
+//            System.out.println(reportEntity.getServicePoint());
+//            System.out.println(reportEntity.getPayloadProtocol());
+//            System.out.println(reportEntity.getTransportProtocol());
+//            System.out.println(reportEntity.getLastSeen());
+//        }
+
     }
 
     // TODO Delete
@@ -193,7 +225,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         //Initiate ListView functionality
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        reportMap = Collector.provideSimpleReports();
+        reportMap = Collector.provideSimpleReports(reportEntityDao);
         expListView = (ExpandableListView) findViewById(R.id.list);
         final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
@@ -262,7 +294,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public void refreshAdapter(){
         swipeRefreshLayout.setRefreshing(true);
 
-        reportMap = Collector.provideSimpleReports();
+        reportMap = Collector.provideSimpleReports(reportEntityDao);
         final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
 

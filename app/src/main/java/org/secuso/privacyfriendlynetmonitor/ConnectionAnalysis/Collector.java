@@ -1,44 +1,32 @@
 /*
     Privacy Friendly Net Monitor (Net Monitor)
     - Copyright (2015 - 2017) Felix Tsala Schiller
-
     ###################################################################
-
     This file is part of Net Monitor.
-
     Net Monitor is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
     Net Monitor is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License
     along with Net Monitor.  If not, see <http://www.gnu.org/licenses/>.
-
     Diese Datei ist Teil von Net Monitor.
-
     Net Monitor ist Freie Software: Sie können es unter den Bedingungen
     der GNU General Public License, wie von der Free Software Foundation,
     Version 3 der Lizenz oder (nach Ihrer Wahl) jeder späteren
     veröffentlichten Version, weiterverbreiten und/oder modifizieren.
-
     Net Monitor wird in der Hoffnung, dass es nützlich sein wird, aber
     OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
     Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
     Siehe die GNU General Public License für weitere Details.
-
     Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
     Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
-
     ###################################################################
-
     This app has been created in affiliation with SecUSo-Department of Technische Universität
     Darmstadt.
-
     Privacy Friendly Net Monitor is based on TLSMetric by Felix Tsala Schiller
     https://bitbucket.org/schillef/tlsmetric/overview.
  */
@@ -63,6 +51,8 @@ import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.Assistant.TLType;
 import org.secuso.privacyfriendlynetmonitor.Assistant.ToolBox;
 import org.secuso.privacyfriendlynetmonitor.BuildConfig;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.io.ByteArrayInputStream;
@@ -108,8 +98,8 @@ public class Collector {
     private static HashMap<Integer, List<Report>> mFilteredUidReportMap = new HashMap<>();
 
     //Pushed the newest available information as deep copy.
-    public static HashMap<Integer, List<Report>> provideSimpleReports(){
-        updateReports();
+    public static HashMap<Integer, List<Report>> provideSimpleReports(ReportEntityDao reportEntityDao){
+        updateReports(reportEntityDao);
         mFilteredUidReportMap = filterReports();
         mFilteredUidReportMap = sortMapByLabels();
         return mFilteredUidReportMap;
@@ -182,7 +172,8 @@ public class Collector {
     }
 
     //Sequence to collect reports from detector
-    private static void updateReports(){
+    private static void updateReports(ReportEntityDao reportEntityDao){
+
         //update reports
         pull();
         //process reports (passive mode)
@@ -193,6 +184,72 @@ public class Collector {
         sortReportsToMap();
         //Generate ssl analyze requests
         if(isCertVal){ fillCertRequests(); }
+
+        for(Report report : sReportList){
+
+            ReportEntity reportEntity = new ReportEntity();
+
+            String appName = report.appName;
+            reportEntity.setAppName(appName);
+
+            String userID = "" + report.uid;
+            reportEntity.setUserID(userID);
+
+            PackageInfo info = sCachePackage.get(report.uid).get(0);
+
+            String appVersion = "" +  info.versionName;
+            reportEntity.setAppVersion(appVersion);
+
+            String installedOn = "";
+            if(report.uid > 10000){
+                installedOn = new Date(info.firstInstallTime).toString();
+            } else {
+                installedOn = "System App";
+            }
+            reportEntity.setInstalledOn(installedOn);
+
+
+            String remoteAddr = "";
+            if(report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                remoteAddr = report.remoteAdd.getHostAddress() + "(IPv6)";
+            } else {
+                remoteAddr = report.remoteAdd.getHostAddress();
+            }
+            reportEntity.setRemoteAddress(remoteAddr);
+
+            String remoteHex = ToolBox.printHexBinary(report.remoteAddHex);
+            reportEntity.setRemoteHex(remoteHex);
+
+            String remoteHost = "";
+            if(hasHostName(report.remoteAdd.getHostAddress())){
+                remoteHost = getDnsHostName(report.remoteAdd.getHostAddress());
+            }else {
+                remoteHost = "name not resolved";
+            }
+            reportEntity.setRemoteHost(remoteHost);
+
+            String localAddress = "";
+            if(report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                localAddress = report.localAdd.getHostAddress() + "IPv6";
+            }else {
+                localAddress = report.localAdd.getHostAddress();
+            }
+            reportEntity.setLocalAddress(localAddress);
+
+            String localHex = ToolBox.printHexBinary(report.localAddHex);
+            reportEntity.setLocalHex(localHex);
+
+            String servicePort = "" + report.remotePort;
+            reportEntity.setServicePoint(servicePort);
+            String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
+            reportEntity.setPayloadProtocol(payloadProt);
+            String transportProtocol = "" + report.type;
+            reportEntity.setTransportProtocol(transportProtocol);
+            String lastSeen = report.timestamp.toString();
+            reportEntity.setLastSeen(lastSeen);
+
+            reportEntityDao.insertOrReplace(reportEntity);
+        }
     }
 
     //Search for resolved hostnames and add them to the resolved list
@@ -208,11 +265,11 @@ public class Collector {
                 //Add to certificate validation, if port 443 (TLS), resolved hostname and not yet
                 //analyzed
                 ip = r.remoteAdd.getHostAddress();
-                    if (KnownPorts.isTlsPort(r.remotePort) && hasHostName(ip) &&
-                            !mCertValMap.containsKey(getDnsHostName(ip)) &&
-                            !sCertValList.contains(getDnsHostName(ip))) {
-                        sCertValList.add(getDnsHostName(ip));
-                    }
+                if (KnownPorts.isTlsPort(r.remotePort) && hasHostName(ip) &&
+                        !mCertValMap.containsKey(getDnsHostName(ip)) &&
+                        !sCertValList.contains(getDnsHostName(ip))) {
+                    sCertValList.add(getDnsHostName(ip));
+                }
             }
         }
     }
@@ -358,17 +415,17 @@ public class Collector {
     //Get a list with all currently installed packages
     private static List<PackageInfo> getPackages(Context context) {
         synchronized (context.getApplicationContext()) {
-                PackageManager pm = context.getPackageManager();
+            PackageManager pm = context.getPackageManager();
             return new ArrayList<>(pm.getInstalledPackages(0));
         }
     }
 
     //debug print: Print all reachable active processes
     private static void printAllPackages() {
-            ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
-            for (PackageInfo i : infoList) {
-                Log.d(Const.LOG_TAG, i.packageName + " uid_" + i.applicationInfo.uid);
-            }
+        ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
+        for (PackageInfo i : infoList) {
+            Log.d(Const.LOG_TAG, i.packageName + " uid_" + i.applicationInfo.uid);
+        }
     }
 
     //Provides app icon for activities
@@ -394,7 +451,7 @@ public class Collector {
             return getIconNew(android.R.drawable.sym_def_app_icon);
         } else {
             return getIconOld(android.R.drawable.sym_def_app_icon);
-    }
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.GINGERBREAD)
@@ -474,7 +531,7 @@ public class Collector {
                     handleInvalidDomainName(map);
                     return "RESOLVING CERTIFICATE HOSTS";
                 } else if (grade.equals("no_endpoints")){
-                return "no_endpoints";
+                    return "no_endpoints";
                 } else {
                     return grade;
                 }
@@ -590,7 +647,7 @@ public class Collector {
         }
         if(r.type == TLType.tcp6 || r.type == TLType.udp6) {
             l.add(new String[]{"Local Address", r.localAdd.getHostAddress()
-            + "\n(IPv6 translated)"});
+                    + "\n(IPv6 translated)"});
         }else {
             l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
         }
@@ -615,7 +672,6 @@ public class Collector {
         /*CertVal information - needs shortening
         if(isCertVal && mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
             l.add(new String[]{"SSL Labs Report", ""});
-
             l.add(new String[]{"", ConsoleUtilities.mapToConsoleOutput(
                     mCertValMap.get(getDnsHostName(r.remoteAdd.getHostAddress())))});
         }*/
