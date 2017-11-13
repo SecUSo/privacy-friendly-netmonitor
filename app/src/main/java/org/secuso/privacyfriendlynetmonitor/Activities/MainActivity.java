@@ -141,37 +141,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         // TODO delete this db test when not needed anymore
 //        List<ReportEntity> reportEntities = reportEntityDao.loadAll();
 //        for(ReportEntity reportEntity : reportEntities){
-//            System.out.println("___________________");
-//            System.out.println(reportEntity.getId());
-//            System.out.println(reportEntity.getAppName());
-//            System.out.println(reportEntity.getUserID());
-//            System.out.println(reportEntity.getAppVersion());
-//            System.out.println(reportEntity.getInstalledOn());
-//            System.out.println(reportEntity.getRemoteAddress());
-//            System.out.println(reportEntity.getRemoteHex());
-//            System.out.println(reportEntity.getRemoteHost());
-//            System.out.println(reportEntity.getLocalAddress());
-//            System.out.println(reportEntity.getLocalHex());
-//            System.out.println(reportEntity.getServicePoint());
-//            System.out.println(reportEntity.getPayloadProtocol());
-//            System.out.println(reportEntity.getTransportProtocol());
-//            System.out.println(reportEntity.getLastSeen());
+//            System.out.println(reportEntity.toString());
 //        }
-
     }
 
-    // TODO Delete
-//    // On start button press activate second view (report)
-//    private void setButtonListener() {
-//        final Button startStop = (Button) findViewById(R.id.main_button);
-//        startStop.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startStopTrigger();
-//            }
-//        });
-//    }
-
+    
     //Trigger switches between activity, based service running indicator
     private void startStopTrigger() {
         if (!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
