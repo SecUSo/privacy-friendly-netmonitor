@@ -194,4 +194,21 @@ public class ReportEntity {
         this.lastSeen = lastSeen;
     }
 
+    public String toString(){
+        return  "ID: " + id + "" +
+                "\nAppname: "  + appName +
+                "\nUID: " + userID +
+                "\nAppVersion: " + appVersion +
+                "\nInstalled On: " + installedOn +
+                "\nRemote Address: " + remoteAddress +
+                "\nRemote Hex: " + remoteHex +
+                "\nRemote Host: " + remoteHost +
+                "\nLocal Address: " + localAddress +
+                "\nLocal Hex: " + localHex +
+                "\nService Port: " + servicePoint +
+                "\nPayload Protocol: " + payloadProtocol +
+                "\nTransport Protocol: " + transportProtocol +
+                "\nLast Seen: " + lastSeen;
+    }
+
 }

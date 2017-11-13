@@ -190,7 +190,11 @@ public class Collector {
             ReportEntity reportEntity = new ReportEntity();
 
             String appName = report.appName;
-            reportEntity.setAppName(appName);
+            if(appName != null){
+                reportEntity.setAppName(appName);
+            } else {
+                reportEntity.setAppName("Unknown");
+            }
 
             String userID = "" + report.uid;
             reportEntity.setUserID(userID);
