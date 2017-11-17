@@ -25,6 +25,7 @@
     <string name="drawer_settings">Einstellungen</string>
     <string name="drawer_help">Hilfe</string>
     <string name="drawer_about">Über</string>
+    <string name="drawer_tutorial">Anleitung</string>
     <string name="navigation_drawer_open">Öffnen</string>
     <string name="navigation_drawer_close">Schließen</string>
 
