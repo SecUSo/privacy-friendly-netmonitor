@@ -64,6 +64,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
@@ -88,6 +89,11 @@ public class ReportDetailActivity extends BaseActivity{
         final ListView listview = (ListView) findViewById(R.id.report_detail_list_view);
         listview.setAdapter(adapter);
 
+        View view_header = getLayoutInflater().inflate(R.layout.report_list_group_header, null);
+        listview.addHeaderView(view_header);
+
+    //TODO Löschen
+        /*
         // Fill headings
         final Report r = Collector.sDetailReport;
         ImageView icon = (ImageView) findViewById(R.id.reportDetailIcon);
@@ -96,17 +102,26 @@ public class ReportDetailActivity extends BaseActivity{
         label.setText(Collector.getLabel(r.uid));
         TextView pkg = (TextView) findViewById(R.id.reportDetailSubtitle);
         pkg.setText(Collector.getPackage(r.uid));
+        */
+    //Ende Löschen
+        final Report report = Collector.sDetailReport;
+        ImageView icon_header = (ImageView) view_header.findViewById(R.id.reportGroupIcon_header);
+        icon_header.setImageDrawable(Collector.getIcon(report.uid));
+        TextView label_header = (TextView) view_header.findViewById(R.id.reportGroupTitle_header);
+        label_header.setText(Collector.getLabel(report.uid));
+        TextView pkg_header = (TextView) view_header.findViewById(R.id.reportGroupSubtitle_header);
+        pkg_header.setText(Collector.getPackage(report.uid));
 
         //Add certificate information - open link to ssl labs
-        if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) && Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
-                Collector.hasGrade(Collector.getDnsHostName(r.remoteAdd.getHostAddress()))){
+        if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) && Collector.hasHostName(report.remoteAdd.getHostAddress()) &&
+                Collector.hasGrade(Collector.getDnsHostName(report.remoteAdd.getHostAddress()))){
             TextView ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_result);
             ssllabs.setVisibility(View.VISIBLE);
             ssllabs.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String url = Const.SSLLABS_URL +
-                            Collector.getCertHost(Collector.getDnsHostName(r.remoteAdd.getHostAddress()));
+                            Collector.getCertHost(Collector.getDnsHostName(report.remoteAdd.getHostAddress()));
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                 }
