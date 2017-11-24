@@ -53,6 +53,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,6 +149,8 @@ public class ReportDetailActivity extends BaseActivity{
         //Get detail information from collector class and write to adapter views
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
             View v = convertView;
             if (v == null) {
