@@ -66,8 +66,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
-import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 /**
@@ -189,6 +187,10 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
                 intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                break;
+            case R.id.nav_history:
+                intent = new Intent(this, HistoryAcitivty.class);
+                createBackStack(intent);
                 break;
             case R.id.nav_about:
                 intent = new Intent(this, AboutActivity.class);

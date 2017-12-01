@@ -128,4 +128,7 @@
     <!-- NOTIFICATION -->
     <string name="bg_desc">Verbindungen werden überwacht</string>
 
+    <!--HISTORY-->
+    <string name="title_activity_history">Historie</string>
+
 </resources>
