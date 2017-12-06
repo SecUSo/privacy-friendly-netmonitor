@@ -126,8 +126,6 @@ public class HistoryDetailActivity extends BaseActivity {
         details[1] = unpreparedDetails.get(12);
         detailsList.add(details);
 
-        System.out.println(detailsList);
-
         return detailsList;
     }
 

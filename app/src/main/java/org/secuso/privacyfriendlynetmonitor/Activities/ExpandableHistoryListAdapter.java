@@ -174,8 +174,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
             historyGroupSubtitle.setText(appName);
 
             ImageView imgView = (ImageView) convertView.findViewById(R.id.historyGroupIcon);
-//            System.out.println(Integer.parseInt(uidList.get(groupPosition)));
-
 
             try {
                 imgView.setImageDrawable(packageManager.getApplicationIcon(appName));

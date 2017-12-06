@@ -140,12 +140,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void onBackPressed(){
         startStopTrigger();
-
-        // TODO delete this db test when not needed anymore
-//        List<ReportEntity> reportEntities = reportEntityDao.loadAll();
-//        for(ReportEntity reportEntity : reportEntities){
-//            System.out.println(reportEntity.toString());
-//        }
     }
 
 

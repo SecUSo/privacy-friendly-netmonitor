@@ -60,10 +60,6 @@ public class HistoryActivity extends BaseActivity {
         expListView = (ExpandableListView) findViewById(R.id.list_history);
         final HashMap<String, List<ReportEntity>> historyReports = provideHistoryReports();
 
-//
-//        for(String s : new ArrayList<>(historyReports.keySet())){
-//            System.out.println(s);
-//        }
         historyReportAdapter = new ExpandableHistoryListAdapter(this, new ArrayList<>(historyReports.keySet()), historyReports);
         expListView.setAdapter(historyReportAdapter);
 
