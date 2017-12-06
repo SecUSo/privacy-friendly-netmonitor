@@ -204,74 +204,81 @@ public class Collector {
                 if (!appsToExcludeFromScan.contains(appName)) {
 //                    if (appsToIncludeInScan.contains(appName)) {
 
-                        if (appName != null) {
-                            reportEntity.setAppName(appName);
-                        } else {
-                            reportEntity.setAppName("Unknown");
-                        }
-
-                        String userID = "" + report.uid;
-                        reportEntity.setUserID(userID);
-
-                        PackageInfo info;
-                        try {
-                            info = sCachePackage.get(report.uid).get(0);
-                        } catch (NullPointerException e) {
-                            info = new PackageInfo();
-                        }
-
-                        String appVersion = "" + info.versionName;
-                        reportEntity.setAppVersion(appVersion);
-
-                        String installedOn = "";
-                        if (report.uid > 10000) {
-                            installedOn = new Date(info.firstInstallTime).toString();
-                        } else {
-                            installedOn = "System App";
-                        }
-                        reportEntity.setInstalledOn(installedOn);
-
-
-                        String remoteAddr = "";
-                        if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                            remoteAddr = report.remoteAdd.getHostAddress() + " (IPv6)";
-                        } else {
-                            remoteAddr = report.remoteAdd.getHostAddress();
-                        }
-                        reportEntity.setRemoteAddress(remoteAddr);
-
-                        String remoteHex = ToolBox.printHexBinary(report.remoteAddHex);
-                        reportEntity.setRemoteHex(remoteHex);
-
-                        String remoteHost = "";
-                        if (hasHostName(report.remoteAdd.getHostAddress())) {
-                            remoteHost = getDnsHostName(report.remoteAdd.getHostAddress());
-                        } else {
-                            remoteHost = "name not resolved";
-                        }
-                        reportEntity.setRemoteHost(remoteHost);
-
-                        String localAddress = "";
-                        if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                            localAddress = report.localAdd.getHostAddress() + " (IPv6)";
-                        } else {
-                            localAddress = report.localAdd.getHostAddress();
-                        }
-                        reportEntity.setLocalAddress(localAddress);
-
-                        String localHex = ToolBox.printHexBinary(report.localAddHex);
-                        reportEntity.setLocalHex(localHex);
-
-                        String servicePort = "" + report.remotePort;
-                        reportEntity.setServicePoint(servicePort);
-                        String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
-                        reportEntity.setPayloadProtocol(payloadProt);
-                        String transportProtocol = "" + report.type;
-                        reportEntity.setTransportProtocol(transportProtocol);
-                        String lastSeen = report.timestamp.toString();
-                        reportEntity.setLastSeen(lastSeen);
-                        reportEntityDao.insertOrReplace(reportEntity);
+                    if (appName != null) {
+                        reportEntity.setAppName(appName);
+                    } else {
+                        reportEntity.setAppName("Unknown");
                     }
+
+                    String userID = "" + report.uid;
+                    reportEntity.setUserID(userID);
+
+                    PackageInfo info;
+                    try {
+                        info = sCachePackage.get(report.uid).get(0);
+                    } catch (NullPointerException e) {
+                        info = new PackageInfo();
+                    }
+
+                    String appVersion = "" + info.versionName;
+                    reportEntity.setAppVersion(appVersion);
+
+                    String installedOn = "";
+                    if (report.uid > 10000) {
+                        installedOn = new Date(info.firstInstallTime).toString();
+                    } else {
+                        installedOn = "System App";
+                    }
+                    reportEntity.setInstalledOn(installedOn);
+
+
+                    String remoteAddr = "";
+                    if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                        remoteAddr = report.remoteAdd.getHostAddress() + " (IPv6)";
+                    } else {
+                        remoteAddr = report.remoteAdd.getHostAddress();
+                    }
+                    reportEntity.setRemoteAddress(remoteAddr);
+
+                    String remoteHex = ToolBox.printHexBinary(report.remoteAddHex);
+                    reportEntity.setRemoteHex(remoteHex);
+
+                    String remoteHost = "";
+                    if (hasHostName(report.remoteAdd.getHostAddress())) {
+                        remoteHost = getDnsHostName(report.remoteAdd.getHostAddress());
+                    } else {
+                        remoteHost = "name not resolved";
+                    }
+                    reportEntity.setRemoteHost(remoteHost);
+
+                    String localAddress = "";
+                    if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                        localAddress = report.localAdd.getHostAddress() + " (IPv6)";
+                    } else {
+                        localAddress = report.localAdd.getHostAddress();
+                    }
+                    reportEntity.setLocalAddress(localAddress);
+
+                    String localHex = ToolBox.printHexBinary(report.localAddHex);
+                    reportEntity.setLocalHex(localHex);
+
+                    String servicePort = "" + report.remotePort;
+                    reportEntity.setServicePoint(servicePort);
+                    String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
+                    reportEntity.setPayloadProtocol(payloadProt);
+                    String transportProtocol = "" + report.type;
+                    reportEntity.setTransportProtocol(transportProtocol);
+                    String lastSeen = report.timestamp.toString();
+                    reportEntity.setLastSeen(lastSeen);
+                    String localPort = "" + report.localPort;
+                    reportEntity.setLocalPort(localPort);
+                    String lastSocketState = getTransportState(report.state);
+                    reportEntity.setLastSocketState(lastSocketState);
+                    String connectionInfo = getMetric(report.remoteAdd.getHostAddress());
+                    reportEntity.setConnectionInfo(connectionInfo);
+
+                    reportEntityDao.insertOrReplace(reportEntity);
+                }
 //                }
             }
         }
@@ -660,7 +667,7 @@ public class Collector {
     private static void buildDetailStrings(ArrayList<Report> filterList) {
         ArrayList<String[]> l = new ArrayList<>();
         Report r = filterList.get(0);
-        try{
+        try {
             PackageInfo info = sCachePackage.get(r.uid).get(0);
 
             //App info
@@ -718,7 +725,7 @@ public class Collector {
         }*/
 
             sDetailReportList = l;
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
 
         }
     }
@@ -778,6 +785,10 @@ public class Collector {
 
     public static void addAppToIncludeInScan(String appToInclude) {
         Collector.appsToIncludeInScan.add(appToInclude);
+    }
+
+    public static void deleteAppFromIncludeInScan() {
+
     }
 
     public static List<String> getAppsToExcludeFromScan() {

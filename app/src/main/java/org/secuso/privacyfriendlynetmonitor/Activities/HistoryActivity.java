@@ -19,6 +19,7 @@ import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -66,56 +67,74 @@ public class HistoryActivity extends BaseActivity {
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String details = "";
-
                 ReportEntity reportEntity = historyReports.get(keys.get(groupPosition)).get(childPosition);
-                List<String> detailsList = new ArrayList<String>();
-
-                details = reportEntity.getAppName();
-                detailsList.add(details);
-
-                details = reportEntity.getUserID();
-                detailsList.add(details);
-
-                details = reportEntity.getAppVersion();
-                detailsList.add(details);
-
-                details = reportEntity.getInstalledOn();
-                detailsList.add(details);
-
-                details = reportEntity.getRemoteAddress();
-                detailsList.add(details);
-
-                details = reportEntity.getRemoteHex();
-                detailsList.add(details);
-
-                details = reportEntity.getRemoteHost();
-                detailsList.add(details);
-
-                details = reportEntity.getLocalAddress();
-                detailsList.add(details);
-
-                details = reportEntity.getLocalHex();
-                detailsList.add(details);
-
-                details = reportEntity.getServicePoint();
-                detailsList.add(details);
-
-                details = reportEntity.getPayloadProtocol();
-                detailsList.add(details);
-
-                details = reportEntity.getTransportProtocol();
-                detailsList.add(details);
-
-                details = reportEntity.getLastSeen();
-                detailsList.add(details);
-
+                List<String> detailsList = prepareData(reportEntity);
                 Intent intent = new Intent(getBaseContext(), HistoryDetailActivity.class);
                 intent.putExtra("Details", (ArrayList) detailsList);
                 startActivity(intent);
                 return false;
             }
         });
+    }
+
+    /**
+     * Get details from db entities an save in List
+     * @param reportEntity
+     * @return details list
+     */
+    private List<String> prepareData(ReportEntity reportEntity){
+        String details = "";
+        List<String> detailsList = new ArrayList<String>();
+
+        details = reportEntity.getAppName();
+        detailsList.add(details);
+
+        details = reportEntity.getUserID();
+        detailsList.add(details);
+
+        details = reportEntity.getAppVersion();
+        detailsList.add(details);
+
+        details = reportEntity.getInstalledOn();
+        detailsList.add(details);
+
+        details = reportEntity.getRemoteAddress();
+        detailsList.add(details);
+
+        details = reportEntity.getRemoteHex();
+        detailsList.add(details);
+
+        details = reportEntity.getRemoteHost();
+        detailsList.add(details);
+
+        details = reportEntity.getLocalAddress();
+        detailsList.add(details);
+
+        details = reportEntity.getLocalHex();
+        detailsList.add(details);
+
+        details = reportEntity.getServicePoint();
+        detailsList.add(details);
+
+        details = reportEntity.getPayloadProtocol();
+        detailsList.add(details);
+
+        details = reportEntity.getTransportProtocol();
+        detailsList.add(details);
+
+        details = reportEntity.getLastSeen();
+        detailsList.add(details);
+
+        details = reportEntity.getLocalPort();
+        detailsList.add(details);
+
+        details = reportEntity.getLastSocketState();
+        detailsList.add(details);
+
+        details = reportEntity.getConnectionInfo();
+        detailsList.add(details);
+
+        return detailsList;
     }
 
     /**
@@ -143,6 +162,10 @@ public class HistoryActivity extends BaseActivity {
         }
 
         keys = new ArrayList<>(historyReportMap.keySet());
+
+        for(String key : keys){
+            Collections.reverse(historyReportMap.get(key));
+        }
 
         return historyReportMap;
     }

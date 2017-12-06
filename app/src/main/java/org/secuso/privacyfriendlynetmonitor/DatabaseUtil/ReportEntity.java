@@ -49,6 +49,12 @@ public class ReportEntity {
     private  String transportProtocol;
     @NotNull
     private  String lastSeen;
+    @NotNull
+    private String localPort;
+    @NotNull
+    private String lastSocketState;
+    @NotNull
+    private String connectionInfo;
 
 
     @Generated(hash = 683167796)
@@ -56,14 +62,15 @@ public class ReportEntity {
     }
 
 
-    @Generated(hash = 1845742658)
+    @Generated(hash = 2117068832)
     public ReportEntity(Long id, @NotNull String appName, @NotNull String userID,
             @NotNull String appVersion, @NotNull String installedOn,
             @NotNull String remoteAddress, @NotNull String remoteHex,
             @NotNull String remoteHost, @NotNull String localAddress,
             @NotNull String localHex, @NotNull String servicePoint,
             @NotNull String payloadProtocol, @NotNull String transportProtocol,
-            @NotNull String lastSeen) {
+            @NotNull String lastSeen, @NotNull String localPort,
+            @NotNull String lastSocketState, @NotNull String connectionInfo) {
         this.id = id;
         this.appName = appName;
         this.userID = userID;
@@ -78,6 +85,9 @@ public class ReportEntity {
         this.payloadProtocol = payloadProtocol;
         this.transportProtocol = transportProtocol;
         this.lastSeen = lastSeen;
+        this.localPort = localPort;
+        this.lastSocketState = lastSocketState;
+        this.connectionInfo = connectionInfo;
     }
 
 
@@ -209,6 +219,36 @@ public class ReportEntity {
                 "\nPayload Protocol: " + payloadProtocol +
                 "\nTransport Protocol: " + transportProtocol +
                 "\nLast Seen: " + lastSeen;
+    }
+
+
+    public String getLocalPort() {
+        return this.localPort;
+    }
+
+
+    public void setLocalPort(String localPort) {
+        this.localPort = localPort;
+    }
+
+
+    public String getLastSocketState() {
+        return this.lastSocketState;
+    }
+
+
+    public void setLastSocketState(String lastSocketState) {
+        this.lastSocketState = lastSocketState;
+    }
+
+
+    public String getConnectionInfo() {
+        return this.connectionInfo;
+    }
+
+
+    public void setConnectionInfo(String connectionInfo) {
+        this.connectionInfo = connectionInfo;
     }
 
 }

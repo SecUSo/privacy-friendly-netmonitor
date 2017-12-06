@@ -87,17 +87,11 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = (TextView) convertView.findViewById(R.id.history_item_1);
         txtListChild.setText(dnsHostName);
 
-        String metric = Collector.getMetric(dnsHostName);
-
         TextView history_item_2_type = (TextView) convertView.findViewById(R.id.history_item_2_type);
-        if(metric.equals("Unknown (unknown, udp6)") || metric.contains("Unknown") || metric.equals("Unencrypted (http, tcp)")){
-            history_item_2_type.setText("Connection Info:");
-        } else {
-            history_item_2_type.setText("SSL Server Rating:");
-        }
+        history_item_2_type.setText("Time Stamp: ");
 
         TextView history_item_2_val = (TextView) convertView.findViewById(R.id.history_item_2_val);
-        history_item_2_val.setText(metric);
+        history_item_2_val.setText(reportEntity.getLastSeen());
 
 
         return convertView;
