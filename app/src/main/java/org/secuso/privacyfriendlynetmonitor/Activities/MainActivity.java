@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         reportEntityDao = daoSession.getReportEntityDao();
         Collector.addAppToExcludeFromScan("app.android.unknown");
         Collector.addAppToExcludeFromScan("app.unknown");
+        Collector.addAppToExcludeFromScan("unknown");
 
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
             activateMainView();

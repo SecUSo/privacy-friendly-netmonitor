@@ -234,7 +234,7 @@ public class Collector {
 
                         String remoteAddr = "";
                         if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                            remoteAddr = report.remoteAdd.getHostAddress() + "(IPv6)";
+                            remoteAddr = report.remoteAdd.getHostAddress() + " (IPv6)";
                         } else {
                             remoteAddr = report.remoteAdd.getHostAddress();
                         }
@@ -253,7 +253,7 @@ public class Collector {
 
                         String localAddress = "";
                         if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                            localAddress = report.localAdd.getHostAddress() + "IPv6";
+                            localAddress = report.localAdd.getHostAddress() + " (IPv6)";
                         } else {
                             localAddress = report.localAdd.getHostAddress();
                         }
