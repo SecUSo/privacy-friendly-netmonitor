@@ -137,5 +137,6 @@
 
     <!--HISTORY-->
     <string name="title_activity_history">History</string>
+    <string name="title_activity_history_detail">History Detail View</string>
 
 </resources>

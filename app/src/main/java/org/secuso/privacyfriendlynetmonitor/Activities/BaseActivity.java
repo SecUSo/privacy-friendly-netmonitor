@@ -189,7 +189,7 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
                 startActivity(intent);
                 break;
             case R.id.nav_history:
-                intent = new Intent(this, HistoryAcitivty.class);
+                intent = new Intent(this, HistoryActivity.class);
                 createBackStack(intent);
                 break;
             case R.id.nav_about:

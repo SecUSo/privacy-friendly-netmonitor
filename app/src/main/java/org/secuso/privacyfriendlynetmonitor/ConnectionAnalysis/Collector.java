@@ -97,8 +97,12 @@ public class Collector {
     private static HashMap<Integer, List<Report>> mUidReportMap = new HashMap<>();
     private static HashMap<Integer, List<Report>> mFilteredUidReportMap = new HashMap<>();
 
+    //Apps to scan/not scan
+    private static List<String> appsToIncludeInScan = new ArrayList<String>();
+    private static List<String> appsToExcludeFromScan = new ArrayList<String>();
+
     //Pushed the newest available information as deep copy.
-    public static HashMap<Integer, List<Report>> provideSimpleReports(ReportEntityDao reportEntityDao){
+    public static HashMap<Integer, List<Report>> provideSimpleReports(ReportEntityDao reportEntityDao) {
         updateReports(reportEntityDao);
         mFilteredUidReportMap = filterReports();
         mFilteredUidReportMap = sortMapByLabels();
@@ -113,9 +117,12 @@ public class Collector {
         //Sort in sub lists by app-type (System/User)
         Set<Integer> keys = mFilteredUidReportMap.keySet();
         for (int key : keys) {
-            ArrayList<Report> appReports = (ArrayList<Report>)mFilteredUidReportMap.get(key);
-            if (appReports.get(0).uid > 10000){ reportsApp.add(appReports); }
-            else { reportsSysApp.add(appReports); }
+            ArrayList<Report> appReports = (ArrayList<Report>) mFilteredUidReportMap.get(key);
+            if (appReports.get(0).uid > 10000) {
+                reportsApp.add(appReports);
+            } else {
+                reportsSysApp.add(appReports);
+            }
         }
         //sort the sub list and append to liked HashMap
         sortListByName(reportsApp);
@@ -123,7 +130,7 @@ public class Collector {
         reportsApp.addAll(reportsSysApp);
 
         //Add to original filter map
-        for (int i=0; i< reportsApp.size(); i++){
+        for (int i = 0; i < reportsApp.size(); i++) {
             sortedMap.put(reportsApp.get(i).get(0).uid, reportsApp.get(i));
         }
         return sortedMap;
@@ -133,10 +140,10 @@ public class Collector {
     private static void sortListByName(ArrayList<ArrayList<Report>> list) {
         for (int j = list.size(); j > 1; j--) {
             for (int i = 0; i < j - 1; i++) {
-                if (getLabel(list.get(i).get(0).uid).compareTo(getLabel(list.get(i+1).get(0).uid)) > 0){
+                if (getLabel(list.get(i).get(0).uid).compareTo(getLabel(list.get(i + 1).get(0).uid)) > 0) {
                     ArrayList<Report> tmpList = list.get(i);
-                    list.set(i,list.get(i+1));
-                    list.set(i+1,tmpList);
+                    list.set(i, list.get(i + 1));
+                    list.set(i + 1, tmpList);
                 }
             }
         }
@@ -172,7 +179,7 @@ public class Collector {
     }
 
     //Sequence to collect reports from detector
-    private static void updateReports(ReportEntityDao reportEntityDao){
+    private static void updateReports(ReportEntityDao reportEntityDao) {
 
         //update reports
         pull();
@@ -183,76 +190,90 @@ public class Collector {
         //sorting
         sortReportsToMap();
         //Generate ssl analyze requests
-        if(isCertVal){ fillCertRequests(); }
+        if (isCertVal) {
+            fillCertRequests();
+        }
 
-        for(Report report : sReportList){
+        if (!sReportList.isEmpty()) {
+            for (Report report : sReportList) {
 
-            ReportEntity reportEntity = new ReportEntity();
+                ReportEntity reportEntity = new ReportEntity();
 
-            String appName = report.appName;
-            if(appName != null){
-                reportEntity.setAppName(appName);
-            } else {
-                reportEntity.setAppName("Unknown");
+                String appName = getPackage(report.uid);
+
+                if (!appsToExcludeFromScan.contains(appName)) {
+//                    if (appsToIncludeInScan.contains(appName)) {
+
+                        if (appName != null) {
+                            reportEntity.setAppName(appName);
+                        } else {
+                            reportEntity.setAppName("Unknown");
+                        }
+
+                        String userID = "" + report.uid;
+                        reportEntity.setUserID(userID);
+
+                        PackageInfo info;
+                        try {
+                            info = sCachePackage.get(report.uid).get(0);
+                        } catch (NullPointerException e) {
+                            info = new PackageInfo();
+                        }
+
+                        String appVersion = "" + info.versionName;
+                        reportEntity.setAppVersion(appVersion);
+
+                        String installedOn = "";
+                        if (report.uid > 10000) {
+                            installedOn = new Date(info.firstInstallTime).toString();
+                        } else {
+                            installedOn = "System App";
+                        }
+                        reportEntity.setInstalledOn(installedOn);
+
+
+                        String remoteAddr = "";
+                        if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                            remoteAddr = report.remoteAdd.getHostAddress() + "(IPv6)";
+                        } else {
+                            remoteAddr = report.remoteAdd.getHostAddress();
+                        }
+                        reportEntity.setRemoteAddress(remoteAddr);
+
+                        String remoteHex = ToolBox.printHexBinary(report.remoteAddHex);
+                        reportEntity.setRemoteHex(remoteHex);
+
+                        String remoteHost = "";
+                        if (hasHostName(report.remoteAdd.getHostAddress())) {
+                            remoteHost = getDnsHostName(report.remoteAdd.getHostAddress());
+                        } else {
+                            remoteHost = "name not resolved";
+                        }
+                        reportEntity.setRemoteHost(remoteHost);
+
+                        String localAddress = "";
+                        if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                            localAddress = report.localAdd.getHostAddress() + "IPv6";
+                        } else {
+                            localAddress = report.localAdd.getHostAddress();
+                        }
+                        reportEntity.setLocalAddress(localAddress);
+
+                        String localHex = ToolBox.printHexBinary(report.localAddHex);
+                        reportEntity.setLocalHex(localHex);
+
+                        String servicePort = "" + report.remotePort;
+                        reportEntity.setServicePoint(servicePort);
+                        String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
+                        reportEntity.setPayloadProtocol(payloadProt);
+                        String transportProtocol = "" + report.type;
+                        reportEntity.setTransportProtocol(transportProtocol);
+                        String lastSeen = report.timestamp.toString();
+                        reportEntity.setLastSeen(lastSeen);
+                        reportEntityDao.insertOrReplace(reportEntity);
+                    }
+//                }
             }
-
-            String userID = "" + report.uid;
-            reportEntity.setUserID(userID);
-
-            PackageInfo info = sCachePackage.get(report.uid).get(0);
-
-            String appVersion = "" +  info.versionName;
-            reportEntity.setAppVersion(appVersion);
-
-            String installedOn = "";
-            if(report.uid > 10000){
-                installedOn = new Date(info.firstInstallTime).toString();
-            } else {
-                installedOn = "System App";
-            }
-            reportEntity.setInstalledOn(installedOn);
-
-
-            String remoteAddr = "";
-            if(report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                remoteAddr = report.remoteAdd.getHostAddress() + "(IPv6)";
-            } else {
-                remoteAddr = report.remoteAdd.getHostAddress();
-            }
-            reportEntity.setRemoteAddress(remoteAddr);
-
-            String remoteHex = ToolBox.printHexBinary(report.remoteAddHex);
-            reportEntity.setRemoteHex(remoteHex);
-
-            String remoteHost = "";
-            if(hasHostName(report.remoteAdd.getHostAddress())){
-                remoteHost = getDnsHostName(report.remoteAdd.getHostAddress());
-            }else {
-                remoteHost = "name not resolved";
-            }
-            reportEntity.setRemoteHost(remoteHost);
-
-            String localAddress = "";
-            if(report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                localAddress = report.localAdd.getHostAddress() + "IPv6";
-            }else {
-                localAddress = report.localAdd.getHostAddress();
-            }
-            reportEntity.setLocalAddress(localAddress);
-
-            String localHex = ToolBox.printHexBinary(report.localAddHex);
-            reportEntity.setLocalHex(localHex);
-
-            String servicePort = "" + report.remotePort;
-            reportEntity.setServicePoint(servicePort);
-            String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
-            reportEntity.setPayloadProtocol(payloadProt);
-            String transportProtocol = "" + report.type;
-            reportEntity.setTransportProtocol(transportProtocol);
-            String lastSeen = report.timestamp.toString();
-            reportEntity.setLastSeen(lastSeen);
-
-            reportEntityDao.insertOrReplace(reportEntity);
         }
     }
 
@@ -262,8 +283,8 @@ public class Collector {
         ArrayList<Report> list;
         Report r;
         String ip;
-        for ( int i : keySet) {
-            list = (ArrayList<Report>)mFilteredUidReportMap.get(i);
+        for (int i : keySet) {
+            list = (ArrayList<Report>) mFilteredUidReportMap.get(i);
             for (int j = 0; j < list.size(); j++) {
                 r = list.get(j);
                 //Add to certificate validation, if port 443 (TLS), resolved hostname and not yet
@@ -290,9 +311,9 @@ public class Collector {
         }
     }
 
-    public static boolean hasGrade(String hostname){
+    public static boolean hasGrade(String hostname) {
         String grade = getMetric(hostname);
-        switch(grade){
+        switch (grade) {
             case "RESOLVING CERTIFICATE HOSTS":
                 return false;
             case "PENDING":
@@ -315,13 +336,13 @@ public class Collector {
 
     //Make an async reverse DNS request
     public static void resolveHosts() {
-        for (int i = 0; i < sReportList.size(); i++){
+        for (int i = 0; i < sReportList.size(); i++) {
             Report r = sReportList.get(i);
             if (!hasHostName(r.remoteAdd.getHostAddress())) {
                 try {
                     String hostName = r.remoteAdd.getHostName();
                     sCacheDNS.put(r.remoteAdd.getHostAddress(), hostName);
-                    if (Const.IS_DEBUG){
+                    if (Const.IS_DEBUG) {
                         Log.d("ReverseDNS", "Reverse DNS for " + r.remoteAdd.getHostAddress()
                                 + hostName);
                     }
@@ -337,7 +358,7 @@ public class Collector {
 
     //Make an async request to get host information from sslLabs
     static void updateCertVal() {
-        if (sCertValList.size() > 0){
+        if (sCertValList.size() > 0) {
             new AsyncCertVal().execute();
         }
     }
@@ -346,14 +367,14 @@ public class Collector {
     private static void fillPackageInformation() {
         for (int i = 0; i < sReportList.size(); i++) {
             Report r = sReportList.get(i);
-            if(!sCachePackage.containsKey(r.uid)) {
+            if (!sCachePackage.containsKey(r.uid)) {
                 updatePackageCache();
             }
-            if(sCachePackage.containsKey(r.uid) && sCachePackage.get(r.uid).size() == 1){
+            if (sCachePackage.containsKey(r.uid) && sCachePackage.get(r.uid).size() == 1) {
                 PackageInfo pi = sCachePackage.get(r.uid).get(0);
                 r.appName = pi.applicationInfo.name;
                 r.packageName = pi.packageName;
-            } else if(sCachePackage.containsKey(r.uid) && sCachePackage.get(r.uid).size() > 1) {
+            } else if (sCachePackage.containsKey(r.uid) && sCachePackage.get(r.uid).size() > 1) {
                 r.appName = "UID " + r.uid;
                 r.appName = "app.unknown";
             } else {
@@ -384,11 +405,13 @@ public class Collector {
     //Updates the PkgInfo hash map with new entries.
     private static void updatePackageCache() {
         sCachePackage = new HashMap<>();
-        if(Const.IS_DEBUG){ printAllPackages(); }
+        if (Const.IS_DEBUG) {
+            printAllPackages();
+        }
         ArrayList<PackageInfo> infoList = (ArrayList<PackageInfo>) getPackages(RunStore.getContext());
         for (PackageInfo i : infoList) {
             if (i != null) {
-                if(!sCachePackage.containsKey(i.applicationInfo.uid)) {
+                if (!sCachePackage.containsKey(i.applicationInfo.uid)) {
                     sCachePackage.put(i.applicationInfo.uid, new ArrayList<PackageInfo>());
                 }
 
@@ -410,7 +433,7 @@ public class Collector {
         root.applicationInfo.uid = 0;
         root.applicationInfo.icon = 0;
 
-        if(!sCachePackage.containsKey(root.applicationInfo.uid)) {
+        if (!sCachePackage.containsKey(root.applicationInfo.uid)) {
             sCachePackage.put(root.applicationInfo.uid, new ArrayList<PackageInfo>());
         }
         sCachePackage.get(root.applicationInfo.uid).add(root);
@@ -433,7 +456,7 @@ public class Collector {
     }
 
     //Provides app icon for activities
-    public static Drawable getIcon(int uid){
+    public static Drawable getIcon(int uid) {
         try {
             if (!sCacheIcon.containsKey(uid)) {
                 if (sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
@@ -444,14 +467,14 @@ public class Collector {
                 }
             }
             return sCacheIcon.get(uid);
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             Log.e(Const.LOG_TAG, "Could not load icon of: " + sCachePackage.get(uid).get(0).packageName);
             return getDefaultIcon();
         }
     }
 
-    private static Drawable getDefaultIcon(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private static Drawable getDefaultIcon() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return getIconNew(android.R.drawable.sym_def_app_icon);
         } else {
             return getIconOld(android.R.drawable.sym_def_app_icon);
@@ -469,12 +492,12 @@ public class Collector {
     }
 
     //Provides App names for activities
-    public static String getLabel(int uid){
-        if(!sCacheLabel.containsKey(uid)){
-            if(sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
+    public static String getLabel(int uid) {
+        if (!sCacheLabel.containsKey(uid)) {
+            if (sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
                 sCacheLabel.put(uid, (String) sCachePackage.get(uid).get(0).applicationInfo.
                         loadLabel(RunStore.getContext().getPackageManager()));
-            } else if(sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() > 1) {
+            } else if (sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() > 1) {
                 return "UID " + uid;
 
             } else {
@@ -486,18 +509,20 @@ public class Collector {
 
     //Provides full app package name
     public static String getPackage(int uid) {
-        if(sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
+        if (sCachePackage.containsKey(uid) && sCachePackage.get(uid).size() == 1) {
             return sCachePackage.get(uid).get(0).packageName;
-        } else{
+        } else {
             return RunStore.getContext().getString(R.string.unknown_package);
         }
     }
 
     //Provides resolved hostname if available
     public static String getDnsHostName(String hostAdd) {
-        if (sCacheDNS.containsKey(hostAdd)){
+        if (sCacheDNS.containsKey(hostAdd)) {
             return sCacheDNS.get(hostAdd);
-        } else { return hostAdd; }
+        } else {
+            return hostAdd;
+        }
     }
 
     //Test if hostname of connection is resolved
@@ -507,12 +532,14 @@ public class Collector {
 
     //Get linked hostname from certificate information package (SSL Labs API)
     public static String getCertHost(String hostname) {
-        if(mCertValMap.containsKey(hostname)) {
+        if (mCertValMap.containsKey(hostname)) {
             Map<String, Object> map = mCertValMap.get(hostname);
-            if(Const.IS_DEBUG){ Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map)); }
+            if (Const.IS_DEBUG) {
+                Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            }
             if (analyseReady(map)) {
-                if(map.containsKey("host")){
-                    return (String)map.get("host");
+                if (map.containsKey("host")) {
+                    return (String) map.get("host");
                 } else {
                     return hostname;
                 }
@@ -524,35 +551,42 @@ public class Collector {
     //Get grade information of an resolved SSL Labs request
     public static String getMetric(String hostname) {
         String grade;
-        if(mCertValMap.containsKey(hostname)){
+        if (mCertValMap.containsKey(hostname)) {
             Map<String, Object> map = mCertValMap.get(hostname);
-            if(Const.IS_DEBUG){ Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map)); }
-            if (analyseReady(map)){
+            if (Const.IS_DEBUG) {
+                Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            }
+            if (analyseReady(map)) {
                 grade = readEndpoints(map);
-                if (grade.equals("no_grade")){
+                if (grade.equals("no_grade")) {
                     return "no_grade";
-                } else if (grade.equals("Certificate not valid for domain name")){
+                } else if (grade.equals("Certificate not valid for domain name")) {
                     handleInvalidDomainName(map);
                     return "RESOLVING CERTIFICATE HOSTS";
-                } else if (grade.equals("no_endpoints")){
+                } else if (grade.equals("no_endpoints")) {
                     return "no_endpoints";
                 } else {
                     return grade;
                 }
-            } else { return "PENDING"; }
-        } else { return "PENDING"; }
+            } else {
+                return "PENDING";
+            }
+
+        } else {
+            return "PENDING";
+        }
     }
 
     //Read endpoint-date from a SSL Labs request
     private static String readEndpoints(Map<String, Object> map) {
         final String result;
-        if(map.containsKey("endpoints")){
+        if (map.containsKey("endpoints")) {
             ArrayList endpointsList = (ArrayList) map.get("endpoints");
             HashMap endpoints = (HashMap) endpointsList.get(0);
-            if(endpoints.containsKey("grade")){
-                result = (String)endpoints.get("grade");
-            } else if (endpoints.containsKey("statusMessage")){
-                result = (String)endpoints.get("statusMessage");
+            if (endpoints.containsKey("grade")) {
+                result = (String) endpoints.get("grade");
+            } else if (endpoints.containsKey("statusMessage")) {
+                result = (String) endpoints.get("statusMessage");
             } else {
                 result = "no_status";
             }
@@ -564,16 +598,18 @@ public class Collector {
 
     //Handle "Certificate not valid for domain name" Error (e.g. google services)
     private static void handleInvalidDomainName(Map<String, Object> map) {
-        if(map.containsKey("certHostnames") && map.containsKey("host")){
-            ArrayList certNames = (ArrayList)map.get("certHostnames");
-            String oldHost = (String)map.get("host");
-            String certHost = (String)certNames.get(0);
+        if (map.containsKey("certHostnames") && map.containsKey("host")) {
+            ArrayList certNames = (ArrayList) map.get("certHostnames");
+            String oldHost = (String) map.get("host");
+            String certHost = (String) certNames.get(0);
             certHost = certHost.replace("*.", "");
             if (mCertValMap.containsKey(certHost) && mCertValMap.containsKey(oldHost)) {
                 mCertValMap.put(oldHost, mCertValMap.get(certHost));
-                if(sCertValList.contains(oldHost)) { sCertValList.remove(oldHost); }
+                if (sCertValList.contains(oldHost)) {
+                    sCertValList.remove(oldHost);
+                }
             } else {
-                if (!sCertValList.contains(certHost)){
+                if (!sCertValList.contains(certHost)) {
                     sCertValList.add(certHost);
                 }
             }
@@ -584,11 +620,11 @@ public class Collector {
     public static void updateCertHostHandler() {
         Set<String> keySet = Collector.mCertValMap.keySet();
         Map map;
-        for (String key:keySet ) {
-            map = (HashMap)Collector.mCertValMap.get(key);
-            if(map.containsKey("host")){
-                String certHost = (String)map.get("host");
-                if(!key.equals(map.get(key)) && !Collector.analyseReady(map)){
+        for (String key : keySet) {
+            map = (HashMap) Collector.mCertValMap.get(key);
+            if (map.containsKey("host")) {
+                String certHost = (String) map.get("host");
+                if (!key.equals(map.get(key)) && !Collector.analyseReady(map)) {
                     Collector.mCertValMap.put(key, Collector.mCertValMap.get(certHost));
                 }
             }
@@ -609,11 +645,11 @@ public class Collector {
     }
 
     //filter a report list so that each remote ip is unique
-    private static ArrayList<Report> filterReportsByAdd(int uid, byte[] remoteAddHex){
+    private static ArrayList<Report> filterReportsByAdd(int uid, byte[] remoteAddHex) {
         List<Report> reportList = mUidReportMap.get(uid);
         ArrayList<Report> filterList = new ArrayList<>();
-        for (int i = 0; i < reportList.size(); i++){
-            if (Arrays.equals(reportList.get(i).remoteAddHex, remoteAddHex)){
+        for (int i = 0; i < reportList.size(); i++) {
+            if (Arrays.equals(reportList.get(i).remoteAddHex, remoteAddHex)) {
                 filterList.add(reportList.get(i));
             }
         }
@@ -624,54 +660,55 @@ public class Collector {
     private static void buildDetailStrings(ArrayList<Report> filterList) {
         ArrayList<String[]> l = new ArrayList<>();
         Report r = filterList.get(0);
-        PackageInfo info = sCachePackage.get(r.uid).get(0);
+        try{
+            PackageInfo info = sCachePackage.get(r.uid).get(0);
 
-        //App info
-        l.add(new String[]{"User ID", "" + r.uid});
-        l.add(new String[]{"App Version", "" + info.versionName});
-        if(r.uid > 10000){
-            l.add(new String[]{"Installed On", "" + new Date(info.firstInstallTime).toString()});
-        } else {
-            l.add(new String[]{"Installed On", "System App"});
-        }
-        l.add(new String[]{"", ""});
+            //App info
+            l.add(new String[]{"User ID", "" + r.uid});
+            l.add(new String[]{"App Version", "" + info.versionName});
+            if (r.uid > 10000) {
+                l.add(new String[]{"Installed On", "" + new Date(info.firstInstallTime).toString()});
+            } else {
+                l.add(new String[]{"Installed On", "System App"});
+            }
+            l.add(new String[]{"", ""});
 
-        //Connection info
-        if(r.type == TLType.tcp6 || r.type == TLType.udp6) {
-            l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()
-                    + "\n(IPv6 translated)"});
-        } else {
-            l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
-        }
-        l.add(new String[]{"Remote HEX", ToolBox.printHexBinary(r.remoteAddHex)});
-        if(hasHostName(r.remoteAdd.getHostAddress())){
-            l.add(new String[]{"Remote Host", getDnsHostName(r.remoteAdd.getHostAddress())});
-        }else {
-            l.add(new String[]{"Remote Host", "name not resolved"});
-        }
-        if(r.type == TLType.tcp6 || r.type == TLType.udp6) {
-            l.add(new String[]{"Local Address", r.localAdd.getHostAddress()
-                    + "\n(IPv6 translated)"});
-        }else {
-            l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
-        }
-        l.add(new String[]{"Local HEX", ToolBox.printHexBinary(r.localAddHex)});
-        l.add(new String[]{"", ""});
-        l.add(new String[]{"Service Port", "" + r.remotePort});
-        l.add(new String[]{"Payload Protocol", "" + KnownPorts.resolvePort(r.remotePort)});
-        l.add(new String[]{"Transport Protocol", "" + r.type});
-        l.add(new String[]{"Last Seen", r.timestamp.toString()});
-        l.add(new String[]{"", ""});
+            //Connection info
+            if (r.type == TLType.tcp6 || r.type == TLType.udp6) {
+                l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()
+                        + "\n(IPv6 translated)"});
+            } else {
+                l.add(new String[]{"Remote Address", r.remoteAdd.getHostAddress()});
+            }
+            l.add(new String[]{"Remote HEX", ToolBox.printHexBinary(r.remoteAddHex)});
+            if (hasHostName(r.remoteAdd.getHostAddress())) {
+                l.add(new String[]{"Remote Host", getDnsHostName(r.remoteAdd.getHostAddress())});
+            } else {
+                l.add(new String[]{"Remote Host", "name not resolved"});
+            }
+            if (r.type == TLType.tcp6 || r.type == TLType.udp6) {
+                l.add(new String[]{"Local Address", r.localAdd.getHostAddress()
+                        + "\n(IPv6 translated)"});
+            } else {
+                l.add(new String[]{"Local Address", r.localAdd.getHostAddress()});
+            }
+            l.add(new String[]{"Local HEX", ToolBox.printHexBinary(r.localAddHex)});
+            l.add(new String[]{"", ""});
+            l.add(new String[]{"Service Port", "" + r.remotePort});
+            l.add(new String[]{"Payload Protocol", "" + KnownPorts.resolvePort(r.remotePort)});
+            l.add(new String[]{"Transport Protocol", "" + r.type});
+            l.add(new String[]{"Last Seen", r.timestamp.toString()});
+            l.add(new String[]{"", ""});
 
-        //List open sockets
-        l.add(new String[]{"Simultaneous Connections", "" + filterList.size()});
-        for (int i = 0; i < filterList.size(); i++){
-            Report r2 = filterList.get(i);
-            l.add(new String[]{"(" + (i + 1) + ")src port > dst port",
-                    r2.localPort + " > " + r2.remotePort});
-            l.add(new String[]{"    last socket-state ", getTransportState(r.state)});
-        }
-        l.add(new String[]{"", ""});
+            //List open sockets
+            l.add(new String[]{"Simultaneous Connections", "" + filterList.size()});
+            for (int i = 0; i < filterList.size(); i++) {
+                Report r2 = filterList.get(i);
+                l.add(new String[]{"(" + (i + 1) + ")src port > dst port",
+                        r2.localPort + " > " + r2.remotePort});
+                l.add(new String[]{"    last socket-state ", getTransportState(r.state)});
+            }
+            l.add(new String[]{"", ""});
 
         /*CertVal information - needs shortening
         if(isCertVal && mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
@@ -680,7 +717,10 @@ public class Collector {
                     mCertValMap.get(getDnsHostName(r.remoteAdd.getHostAddress())))});
         }*/
 
-        sDetailReportList = l;
+            sDetailReportList = l;
+        } catch(NullPointerException e) {
+
+        }
     }
 
 
@@ -730,5 +770,21 @@ public class Collector {
                 break;
         }
         return status;
+    }
+
+    public static List<String> getAppsToIncludeInScan() {
+        return appsToIncludeInScan;
+    }
+
+    public static void addAppToIncludeInScan(String appToInclude) {
+        Collector.appsToIncludeInScan.add(appToInclude);
+    }
+
+    public static List<String> getAppsToExcludeFromScan() {
+        return appsToExcludeFromScan;
+    }
+
+    public static void addAppToExcludeFromScan(String appToExclude) {
+        Collector.appsToExcludeFromScan.add(appToExclude);
     }
 }

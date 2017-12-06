@@ -79,7 +79,7 @@ public class ReportEntity {
         this.transportProtocol = transportProtocol;
         this.lastSeen = lastSeen;
     }
-    
+
 
     public Long getId() {
         return this.id;

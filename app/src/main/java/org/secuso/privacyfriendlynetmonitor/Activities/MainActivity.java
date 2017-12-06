@@ -103,6 +103,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
         reportEntityDao = daoSession.getReportEntityDao();
+        Collector.addAppToExcludeFromScan("app.android.unknown");
+        Collector.addAppToExcludeFromScan("app.unknown");
 
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
             activateMainView();
@@ -145,7 +147,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 //        }
     }
 
-    
+
     //Trigger switches between activity, based service running indicator
     private void startStopTrigger() {
         if (!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {

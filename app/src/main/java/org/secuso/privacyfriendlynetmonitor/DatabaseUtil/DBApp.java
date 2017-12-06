@@ -4,6 +4,10 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import org.greenrobot.greendao.database.Database;
+import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
+
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
