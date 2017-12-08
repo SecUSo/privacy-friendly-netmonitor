@@ -84,7 +84,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
-        <activity android:name=".Activities.HistoryDetailActivity"
+        <activity
+            android:name=".Activities.HistoryDetailActivity"
             android:label="@string/title_activity_history_detail"
             android:parentActivityName=".Activities.HistoryActivity"
             android:screenOrientation="portrait"
@@ -92,6 +93,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.SelectHistoryAppsActivity"
+            android:label="@string/title_activity_select_history_apps"
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
     </application>
 

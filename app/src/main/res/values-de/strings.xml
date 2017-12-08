@@ -127,8 +127,10 @@
 
     <!-- NOTIFICATION -->
     <string name="bg_desc">Verbindungen werden überwacht</string>
+    <string name="title_activity_history_detail">Historie Detailansicht</string>
 
     <!--HISTORY-->
     <string name="title_activity_history">Historie</string>
+    <string name="title_activity_select_history_apps">App Auswahl für Historie</string>
 
 </resources>
