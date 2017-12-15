@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    >
+
+    <TextView
+        android:id="@+id/appGroupTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/appGroupIcon"
+        android:paddingLeft="@dimen/nav_header_vertical_spacing"
+        android:text="App Name" />
+
+
+    <ImageView
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:id="@+id/appGroupIcon"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:foregroundGravity="center_vertical"
+        android:src="@mipmap/ic_launcher"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="32dp" />
+
+    <Switch
+        android:id="@+id/switchAppOnOffHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:checked="false"
+        android:paddingRight="10dp" />
+
+</RelativeLayout>

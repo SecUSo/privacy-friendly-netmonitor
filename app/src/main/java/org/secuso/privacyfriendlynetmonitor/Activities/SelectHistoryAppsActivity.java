@@ -5,11 +5,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -30,7 +32,7 @@ import javax.xml.transform.sax.SAXSource;
 public class SelectHistoryAppsActivity extends BaseActivity {
 
     private ListView userInstalledAppsView;
-    private List<App_Entity> app_list;
+    private List<String> app_list_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,32 +54,54 @@ public class SelectHistoryAppsActivity extends BaseActivity {
     }
 
     private void show_APP_list(){
-        userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app_history);
-        List<App_Entity> app_list = provideAppList();
-        userInstalledAppsView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        AppListAdapter appAdapter = new AppListAdapter(SelectHistoryAppsActivity.this, app_list);
+        userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
+        app_list_name = provideAppList();
+        //userInstalledAppsView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        AppListAdapter appAdapter = new AppListAdapter(this, app_list_name);
         userInstalledAppsView.setAdapter(appAdapter);
     }
 
-    private List<App_Entity> provideAppList() {
-        app_list = new ArrayList<App_Entity>();
-        List<PackageInfo> packs = getPackageManager().getInstalledPackages(0);
+    private List<String> provideAppList() {
+
+        ArrayList<String> packageNames = new ArrayList<String>();
+        PackageManager p = this.getPackageManager();
+        final List<PackageInfo> packs = p.getInstalledPackages(0);
+        List<PackageInfo> packs_permission = p.getInstalledPackages(PackageManager.GET_PERMISSIONS);
+
+
+        //This For goes through every app that is installed on the device according to
+        // --> p.getInstalledPackages(0);
         for (int i =0; i<packs.size();i++){
-            PackageInfo p = packs.get(i);
-            if ((isSystemPackage(p) == false)) {
-                String appName = p.applicationInfo.loadLabel(getPackageManager()).toString();
-                Drawable icon = p.applicationInfo.loadIcon(getPackageManager());
-                app_list.add(new App_Entity(appName, icon));
+            PackageInfo pinfo = packs.get(i); //This Var has the actual Information about an app (not the permission)
+            //Check if it is a System App
+            if ((isSystemPackage(pinfo) == false)) {
+                PackageInfo appPermission = packs_permission.get(i);
+                //If the App has NULL permissions then skip it
+                if (appPermission.requestedPermissions == null){
+                    continue;
+                }
+
+                //Check if App has Internet Permission
+                for (String permission : appPermission.requestedPermissions) {
+                    //Checking for Internet permission
+                    if (TextUtils.equals(permission, android.Manifest.permission.INTERNET)) {
+                        //Actual Data collection
+                        packageNames.add(pinfo.packageName);
+                        String appName = pinfo.applicationInfo.loadLabel(getPackageManager()).toString();
+                        Drawable icon = pinfo.applicationInfo.loadIcon(getPackageManager());
+                        break;
+                    }
+                }
+
             }
         }
 
-        return app_list;
+        return packageNames;
     }
 
     private boolean isSystemPackage(PackageInfo pkgInfo) {
         return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) ? true : false;
     }
-
 
     protected int getNavigationDrawerID() { return R.id.nav_history; }
 
