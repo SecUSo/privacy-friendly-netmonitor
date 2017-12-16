@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.graphics.drawable.Drawable;
@@ -74,7 +76,7 @@ public class SelectHistoryAppsActivity extends BaseActivity {
         for (int i =0; i<packs.size();i++){
             PackageInfo pinfo = packs.get(i); //This Var has the actual Information about an app (not the permission)
             //Check if it is a System App
-            if ((isSystemPackage(pinfo) == false)) {
+            //if ((isSystemPackage(pinfo) == false)) {
                 PackageInfo appPermission = packs_permission.get(i);
                 //If the App has NULL permissions then skip it
                 if (appPermission.requestedPermissions == null){
@@ -93,15 +95,15 @@ public class SelectHistoryAppsActivity extends BaseActivity {
                     }
                 }
 
-            }
+            //}
         }
 
         return packageNames;
     }
 
-    private boolean isSystemPackage(PackageInfo pkgInfo) {
-        return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) ? true : false;
-    }
+//    private boolean isSystemPackage(PackageInfo pkgInfo) {
+//        return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) ? true : false;
+//    }
 
     protected int getNavigationDrawerID() { return R.id.nav_history; }
 

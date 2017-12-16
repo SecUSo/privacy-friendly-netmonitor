@@ -2,16 +2,19 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.R;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 /**
@@ -23,6 +26,11 @@ public class AppListAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private List<String> listStorage;
     private Context context;
+
+    static class ViewHolder {
+        SwitchCompat s;
+        String appName;
+    }
 
     public AppListAdapter(Context context, List<String> customizedListView) {
         layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,14 +78,37 @@ public class AppListAdapter extends BaseAdapter {
             imgView.setImageDrawable(packageManager.getApplicationIcon(appName));
         } catch (PackageManager.NameNotFoundException e) {}
 
+        selectionHandlin(convertView, appName, position);
 
         return convertView;
     }
 
+    private void selectionHandlin(View convertView, final String appName, int position){
+        final org.secuso.privacyfriendlynetmonitor.Activities.AppListAdapter.ViewHolder holder = new ViewHolder();
+        holder.s = (SwitchCompat) convertView.findViewById(R.id.switchAppOnOffHistory);
+        holder.s.setTag(position);
+        holder.appName = appName;
+        holder.s.setOnCheckedChangeListener(null);
 
-    static class ViewHolder{
-
-        TextView textInListView;
-        ImageView imageInListView;
+        holder.s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked )
+                {
+                    System.out.println("True" + holder.appName);
+                }
+                else
+                {
+                    System.out.println("False");
+                }
+            }
+        });
     }
+
+
+//    static class ViewHolder{
+//
+//        TextView textInListView;
+//        ImageView imageInListView;
+//    }
 }

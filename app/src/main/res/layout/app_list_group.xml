@@ -31,7 +31,7 @@
         android:paddingBottom="8dp"
         android:paddingStart="32dp" />
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/switchAppOnOffHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
