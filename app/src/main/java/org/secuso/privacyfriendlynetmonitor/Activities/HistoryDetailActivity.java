@@ -13,10 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
-import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
-import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.R;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
