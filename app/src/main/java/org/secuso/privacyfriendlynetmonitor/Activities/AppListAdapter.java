@@ -78,12 +78,12 @@ public class AppListAdapter extends BaseAdapter {
             imgView.setImageDrawable(packageManager.getApplicationIcon(appName));
         } catch (PackageManager.NameNotFoundException e) {}
 
-        selectionHandlin(convertView, appName, position);
+        selectionHandling(convertView, appName, position);
 
         return convertView;
     }
 
-    private void selectionHandlin(View convertView, final String appName, int position){
+    private void selectionHandling(View convertView, final String appName, int position){
         final org.secuso.privacyfriendlynetmonitor.Activities.AppListAdapter.ViewHolder holder = new ViewHolder();
         holder.s = (SwitchCompat) convertView.findViewById(R.id.switchAppOnOffHistory);
         holder.s.setTag(position);
