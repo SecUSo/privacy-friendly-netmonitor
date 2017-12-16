@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.util.List;
@@ -96,10 +97,12 @@ public class AppListAdapter extends BaseAdapter {
                 if (isChecked )
                 {
                     System.out.println("True" + holder.appName);
+                    Collector.addAppToIncludeInScan(appName);
                 }
                 else
                 {
                     System.out.println("False");
+                    Collector.deleteAppFromIncludeInScan(appName);
                 }
             }
         });
