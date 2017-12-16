@@ -787,8 +787,8 @@ public class Collector {
         Collector.appsToIncludeInScan.add(appToInclude);
     }
 
-    public static void deleteAppFromIncludeInScan() {
-
+    public static void deleteAppFromIncludeInScan(String appName) {
+        Collector.appsToIncludeInScan.remove(appName);
     }
 
     public static List<String> getAppsToExcludeFromScan() {
