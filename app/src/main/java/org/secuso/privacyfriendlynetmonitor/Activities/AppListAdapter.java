@@ -2,8 +2,6 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Environment;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +60,20 @@ public class AppListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.app_list_group, null);
         }
 
+        final org.secuso.privacyfriendlynetmonitor.Activities.AppListAdapter.ViewHolder holder = new ViewHolder();
+        holder.s = (SwitchCompat) convertView.findViewById(R.id.switchAppOnOffHistory);
+        holder.s.setTag(position);
+        holder.s.setOnCheckedChangeListener(null);
+
         String appName = listStorage.get(position);
+        holder.appName = appName;
+
+        if(Collector.getAppsToIncludeInScan().contains(appName)){
+            holder.s.setChecked(true);
+        }else{
+            holder.s.setChecked(false);
+        }
+
         TextView appGroupTitle = (TextView) convertView.findViewById(R.id.appGroupTitle);
 
         PackageManager packageManager = context.getPackageManager();
@@ -79,30 +90,25 @@ public class AppListAdapter extends BaseAdapter {
             imgView.setImageDrawable(packageManager.getApplicationIcon(appName));
         } catch (PackageManager.NameNotFoundException e) {}
 
-        selectionHandling(convertView, appName, position);
+        selectionHandling(holder);
 
         return convertView;
     }
 
-    private void selectionHandling(View convertView, final String appName, int position){
-        final org.secuso.privacyfriendlynetmonitor.Activities.AppListAdapter.ViewHolder holder = new ViewHolder();
-        holder.s = (SwitchCompat) convertView.findViewById(R.id.switchAppOnOffHistory);
-        holder.s.setTag(position);
-        holder.appName = appName;
-        holder.s.setOnCheckedChangeListener(null);
+    private void selectionHandling(final ViewHolder holder){
 
         holder.s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked )
                 {
-                    System.out.println("True" + holder.appName);
-                    Collector.addAppToIncludeInScan(appName);
+                    //System.out.println("True" + holder.appName); //TODO delete
+                    Collector.addAppToIncludeInScan(holder.appName);
                 }
                 else
                 {
-                    System.out.println("False");
-                    Collector.deleteAppFromIncludeInScan(appName);
+                    //System.out.println("False"); //TODO delete
+                    Collector.deleteAppFromIncludeInScan(holder.appName);
                 }
             }
         });

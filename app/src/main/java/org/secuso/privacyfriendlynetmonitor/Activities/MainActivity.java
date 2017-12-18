@@ -106,6 +106,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         Collector.addAppToExcludeFromScan("app.android.unknown");
         Collector.addAppToExcludeFromScan("app.unknown");
         Collector.addAppToExcludeFromScan("unknown");
+        Collector.addAppToIncludeInScan("org.secuso.privacyfriendlynetmonitor");
 
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
             activateMainView();

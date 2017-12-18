@@ -19,6 +19,7 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.graphics.drawable.Drawable;
 
+import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.R;
 
@@ -71,29 +72,29 @@ public class SelectHistoryAppsActivity extends BaseActivity {
         List<PackageInfo> packs_permission = p.getInstalledPackages(PackageManager.GET_PERMISSIONS);
 
 
-        //This For goes through every app that is installed on the device according to
+        //This FOR goes through every app that is installed on the device according to
         // --> p.getInstalledPackages(0);
         for (int i =0; i<packs.size();i++){
             PackageInfo pinfo = packs.get(i); //This Var has the actual Information about an app (not the permission)
-            //Check if it is a System App
-            //if ((isSystemPackage(pinfo) == false)) {
-                PackageInfo appPermission = packs_permission.get(i);
-                //If the App has NULL permissions then skip it
-                if (appPermission.requestedPermissions == null){
-                    continue;
-                }
-
-                //Check if App has Internet Permission
-                for (String permission : appPermission.requestedPermissions) {
-                    //Checking for Internet permission
-                    if (TextUtils.equals(permission, android.Manifest.permission.INTERNET)) {
-                        //Actual Data collection
-                        packageNames.add(pinfo.packageName);
-                        String appName = pinfo.applicationInfo.loadLabel(getPackageManager()).toString();
-                        Drawable icon = pinfo.applicationInfo.loadIcon(getPackageManager());
-                        break;
+            //Check if it is a System App TODO delete
+            //if ((isSystemPackage(pinfo) == false)) { TODO delete
+                    PackageInfo appPermission = packs_permission.get(i);
+                    //If the App has NULL permissions then skip it
+                    if (appPermission.requestedPermissions == null){
+                        continue;
                     }
-                }
+
+                    //Check if App has Internet Permission
+                    for (String permission : appPermission.requestedPermissions) {
+                        //Checking for Internet permission
+                        if (TextUtils.equals(permission, android.Manifest.permission.INTERNET)) {
+                            //Actual Data collection
+                            packageNames.add(pinfo.packageName);
+                            String appName = pinfo.applicationInfo.loadLabel(getPackageManager()).toString();
+                            Drawable icon = pinfo.applicationInfo.loadIcon(getPackageManager());
+                            break;
+                        }
+                    }
 
             //}
         }
@@ -101,6 +102,7 @@ public class SelectHistoryAppsActivity extends BaseActivity {
         return packageNames;
     }
 
+    // TODO delete
 //    private boolean isSystemPackage(PackageInfo pkgInfo) {
 //        return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) ? true : false;
 //    }
