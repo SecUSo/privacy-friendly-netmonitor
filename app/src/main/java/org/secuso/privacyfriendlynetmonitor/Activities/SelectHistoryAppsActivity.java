@@ -89,7 +89,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.sortlist_menu, menu);
+        getMenuInflater().inflate(R.menu.applistseletion_menu, menu);
         return true;
     }
 
@@ -103,16 +103,20 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_sort_alphabetical_asc) {
+            item.setChecked(true);
             sortAlphabetic_asc();
         } else if(id == R.id.action_sort_alphabetical_desc){
+            item.setChecked(true);
             sortAlphabetic_desc();
         } else if (id == R.id.action_sort_installdate_asc) {
+            item.setChecked(true);
             try {
                 sortInstalledDate_asc();
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
         } else if(id == R.id.action_sort_installdate_desc){
+            item.setChecked(true);
             try {
                 sortInstalledDate_desc();
             } catch (PackageManager.NameNotFoundException e) {
