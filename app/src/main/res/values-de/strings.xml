@@ -132,5 +132,9 @@
     <!--HISTORY-->
     <string name="title_activity_history">Historie</string>
     <string name="title_activity_select_history_apps">App Auswahl für Historie</string>
+    <string name="sort_alpha_asc">Alphabetisch aufsteigend</string>
+    <string name="sort_alpha_desc">Alphabetisch absteigend</string>
+    <string name="sort_install_asc">Installationsdatum aufsteigend </string>
+    <string name="sort_install_desc">Installationsdatum absteigend </string>
 
 </resources>

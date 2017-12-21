@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_sort_alphabetical_asc"
+        android:orderInCategory="1"
+        android:title="@string/sort_alpha_asc"
+        android:checkable="true"
+        />
+
+    <item
+        android:id="@+id/action_sort_alphabetical_desc"
+        android:orderInCategory="2"
+        android:title="@string/sort_alpha_desc"
+        android:checkable="true"
+        />
+
+    <item
+        android:id="@+id/action_sort_installdate_asc"
+        android:orderInCategory="3"
+        android:title="@string/sort_install_asc"
+        android:checkable="true"
+        />
+
+    <item
+        android:id="@+id/action_sort_installdate_desc"
+        android:orderInCategory="4"
+        android:title="@string/sort_install_desc"
+        android:checkable="true"
+        />
+
+</menu>

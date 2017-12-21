@@ -106,6 +106,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         Collector.addAppToExcludeFromScan("app.android.unknown");
         Collector.addAppToExcludeFromScan("app.unknown");
         Collector.addAppToExcludeFromScan("unknown");
+        //This is an App that is used as an example for the History. In the first start only this is
+        //APP is shown in the list, then selection are possible
         Collector.addAppToIncludeInScan("org.secuso.privacyfriendlynetmonitor");
 
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){

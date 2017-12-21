@@ -97,12 +97,12 @@
         <activity
             android:name=".Activities.SelectHistoryAppsActivity"
             android:label="@string/title_activity_select_history_apps"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName=".Activities.HistoryDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity" />
         </activity>
     </application>
 

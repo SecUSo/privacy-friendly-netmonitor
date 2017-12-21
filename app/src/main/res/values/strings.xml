@@ -141,5 +141,9 @@
 
     <!--SELECT HISTORY APPS-->
     <string name="title_activity_select_history_apps">App Selection for History</string>
+    <string name="sort_alpha_asc">alphabetical ASC</string>
+    <string name="sort_alpha_desc">alphabetical DESC</string>
+    <string name="sort_install_asc">install date ASC </string>
+    <string name="sort_install_desc">install date DESC </string>
 
 </resources>
