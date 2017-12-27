@@ -99,11 +99,16 @@
             android:label="@string/title_activity_select_history_apps"
             android:parentActivityName=".Activities.HistoryDetailActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme">
+            <!--android:launchMode="singleTask" -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity" />
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity"
+                android:resource="@xml/searchable"/>
         </activity>
     </application>
+
 
 </manifest>

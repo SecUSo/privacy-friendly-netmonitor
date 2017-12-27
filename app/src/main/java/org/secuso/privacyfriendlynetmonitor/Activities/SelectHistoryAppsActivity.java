@@ -3,8 +3,10 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +28,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
     private ListView userInstalledAppsView;
     private List<String> app_list_name;
 
-    //Variables to sort alphabetic
+    //Variables to sort alphabetic and accodring to installed date
     //the displayed app names are in the keys of the map, the value is the long Name
     private Map<String, String> sortMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
@@ -42,6 +44,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
         show_APP_list();
     }
 
+    //method to load all the Apps in the listeview, sorted alphabetic form the start
     private void show_APP_list(){
         userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
         app_list_name = provideAppList();
@@ -49,9 +52,12 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
         userInstalledAppsView.setAdapter(appAdapter);
     }
 
+    //method to check for internet permission
+    // 1. returns a list with Strings --> goes into the app_list_name
+    // 2. fills the Map sort_map
     private List<String> provideAppList() {
 
-        ArrayList<String> packageNames = new ArrayList<String>();
+        ArrayList<String> packageNames = new ArrayList<>();
         PackageManager p = this.getPackageManager();
         final List<PackageInfo> packs = p.getInstalledPackages(0);
         List<PackageInfo> packs_permission = p.getInstalledPackages(PackageManager.GET_PERMISSIONS);
@@ -86,13 +92,43 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
         return packageNames;
     }
 
+    //enables the menue and provides the search method
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.applistseletion_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        //search method
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String searchText) {
+                app_list_name.clear();
+
+                for(Map.Entry<String,String> entry : sortMap.entrySet()) {
+                    if(entry.getKey().toLowerCase().contains(searchText.toLowerCase())) {
+                        app_list_name.add(entry.getValue().toString());
+                    }
+                }
+
+                userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
+                AppListAdapter appAdapter = new AppListAdapter(SelectHistoryAppsActivity.this, app_list_name);
+                userInstalledAppsView.setAdapter(appAdapter);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+        });
+
         return true;
     }
 
+    //inspection for sort selection
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -110,18 +146,10 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
             sortAlphabetic_desc();
         } else if (id == R.id.action_sort_installdate_asc) {
             item.setChecked(true);
-            try {
                 sortInstalledDate_asc();
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
         } else if(id == R.id.action_sort_installdate_desc){
             item.setChecked(true);
-            try {
                 sortInstalledDate_desc();
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
         }
         userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
         AppListAdapter appAdapter = new AppListAdapter(this, app_list_name);
@@ -154,11 +182,16 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
         }
     }
 
-    private void sortInstalledDate_asc() throws PackageManager.NameNotFoundException {
+    private void sortInstalledDate_asc(){
         Map<Long, String> appdates = new TreeMap<>();
         PackageManager packageManager = this.getPackageManager();
         for(int i = 0; i<app_list_name.size();i++){
-            PackageInfo packageInfo = packageManager.getPackageInfo(app_list_name.get(i), 0);
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = packageManager.getPackageInfo(app_list_name.get(i), 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             long installTimeInMilliseconds = packageInfo.firstInstallTime;
             appdates.put(installTimeInMilliseconds, app_list_name.get(i));
         }
@@ -173,12 +206,16 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
         }
     }
 
-
-    private void sortInstalledDate_desc() throws PackageManager.NameNotFoundException {
+    private void sortInstalledDate_desc(){
         Map<Long, String> appdates = new TreeMap<>();
         PackageManager packageManager = this.getPackageManager();
         for(int i = 0; i<app_list_name.size();i++){
-            PackageInfo packageInfo = packageManager.getPackageInfo(app_list_name.get(i), 0);
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = packageManager.getPackageInfo(app_list_name.get(i), 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             long installTimeInMilliseconds = packageInfo.firstInstallTime;
             appdates.put(installTimeInMilliseconds, app_list_name.get(i));
         }
@@ -192,7 +229,6 @@ public class SelectHistoryAppsActivity extends AppCompatActivity{
             app_list_name.add(entry.getValue().toString());
         }
     }
-
 
     class AscComparator implements Comparator {
         Map map;

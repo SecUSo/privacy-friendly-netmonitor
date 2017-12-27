@@ -6,7 +6,8 @@
             android:orderInCategory="1"
             android:title="@string/sort_alpha_asc"
             android:icon="@drawable/ic_search_white_24dp"
-            app:showAsAction="always"/>
+            app:showAsAction="always|collapseActionView"
+            app:actionViewClass="android.support.v7.widget.SearchView"/>
 
         <item
             android:id="@+id/action_sort"
