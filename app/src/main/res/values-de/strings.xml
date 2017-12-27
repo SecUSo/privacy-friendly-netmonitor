@@ -98,6 +98,13 @@
         Die Datenschutzerklärung von SSL-Labs sagt aus, dass keine der erhaltenen IP Addressen oder Hostnamen
         an Dritte weitergegeben werden. </string>
 
+    <string name="help_un_encrypted_ports">Was ist die Bedeutung von nicht-/ verschlüsselten Ports in
+        der Detailansicht?</string>
+    <string name="help_un_encrypted_ports_answer"> Tatsächlich sind nicht die Ports verschlüsselt.
+        Sondern der Service der an den Port gebunden ist, kommuniziert entweder über ein sicheres
+        Protokoll oder über ein unsicheres Protokoll. Man spricht von einem "sicherem Port", wenn
+        wenn der Service ein sicheres Protkoll verwendet (für unverschlüsselte Ports gilt das Gleiche).</string>
+
     <!-- SETTINGS -->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_advanced_switch">Detaillierter Modus</string>

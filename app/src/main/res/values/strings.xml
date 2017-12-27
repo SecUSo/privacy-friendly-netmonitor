@@ -105,7 +105,10 @@
     terms state, that it does not share submitted IP addresses or hostnames with any third party. </string>
 
     <string name="help_un_encrypted_ports">What are the meanings of unencrypted and encrypted ports in the detail view?</string>
-    <string name="help_un_encrypted_ports_answer">The meaning.................</string>
+    <string name="help_un_encrypted_ports_answer">In fact the ports are not unencrypted or encrypted.
+    But a port is handling all the traffic of one service. This services communicates over a
+    unencrypted ot encrypted protocol. If an "port is encrypted" it means that the service, that communicates
+    over that port, is using a encfryoted protocol (vise versa for unencrypted).</string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
