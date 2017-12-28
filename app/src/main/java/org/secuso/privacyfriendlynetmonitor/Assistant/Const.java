@@ -85,5 +85,6 @@ public interface Const {
     String IS_LOG = "IS_LOG";
     String IS_CERTVAL = "IS_CERTVAL";
     String PREF_NAME = "PREF_NAME";
+    String IS_HIGHLIGHTED = "IS_HIGHLIGHTED";
 
 }

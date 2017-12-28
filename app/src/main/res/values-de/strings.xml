@@ -113,6 +113,8 @@
     <string name="pref_log_switch_summary">Behält Verbindungen.</string>
     <string name="pref_certval_switch">Zertifikats-Überprüfung</string>
     <string name="pref_certval_switch_summary">Serveranalyse mit SSL Labs API.</string>
+    <string name="pref_connection_highlighting">Verbidungen färben</string>
+    <string name="pref_connection_highlighting_summary">Färbt die Verbindungen grün und rot.</string>
 
     <!-- TOOLBAR -->
     <string name="action_refresh_title">Aktualisieren</string>

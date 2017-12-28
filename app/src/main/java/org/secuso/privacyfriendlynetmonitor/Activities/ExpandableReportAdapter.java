@@ -49,7 +49,9 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,9 +145,11 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         textView = (TextView) convertView.findViewById(R.id.report_item_2_val);
         textView.setText(item2_value);
 
-        //Set warning colour
-        textView.setTextColor(context.getResources().getColor(getWarningColor(item2_value)));
-
+        //Set warning colour if settings are set
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if(mSharedPreferences.getBoolean(Const.IS_HIGHLIGHTED, false)) {
+            textView.setTextColor(context.getResources().getColor(getWarningColor(item2_value)));
+        }
 
         return convertView;
     }

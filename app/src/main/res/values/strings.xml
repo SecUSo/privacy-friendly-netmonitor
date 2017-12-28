@@ -118,6 +118,8 @@
     <string name="pref_log_switch_summary">Keep detected information.</string>
     <string name="pref_certval_switch">Server Validation</string>
     <string name="pref_certval_switch_summary">Perform analysis with SSL Labs API.</string>
+    <string name="pref_connection_highlighting">Connection Higlighting</string>
+    <string name="pref_connection_highlighting_summary">Highlights the connections in green and red.</string>
 
     <!-- TOOLBAR -->
     <string name="action_refresh_title">Refresh</string>
