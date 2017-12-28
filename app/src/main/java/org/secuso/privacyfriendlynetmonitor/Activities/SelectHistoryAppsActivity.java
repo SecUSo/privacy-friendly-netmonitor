@@ -70,6 +70,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * Activity for the list of all installed apps with internet permission.
+ * The list can be sorted alphabeic and after installed date.
+ * A search function for the list is implemented.
+ */
 
 public class SelectHistoryAppsActivity extends AppCompatActivity{
 

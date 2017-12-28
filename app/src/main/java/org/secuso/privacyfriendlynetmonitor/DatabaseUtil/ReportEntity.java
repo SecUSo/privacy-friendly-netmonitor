@@ -56,6 +56,7 @@ import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Created by m4rc0 on 08.11.2017.
+ * Handling one entity of a report.
  */
 
 @Entity(

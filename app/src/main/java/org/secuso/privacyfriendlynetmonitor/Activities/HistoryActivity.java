@@ -66,6 +66,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Acitivity for handling the history. All the selected Apps are tracked and shown as a history
+ */
+
 public class HistoryActivity extends BaseActivity {
 
     private ExpandableListView expListView;

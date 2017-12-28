@@ -68,6 +68,7 @@ import java.util.List;
 
 /**
  * Created by m4rc0 on 06.12.2017.
+ * This actitivty takes care of the details of on history segment.
  */
 
 public class HistoryDetailActivity extends BaseActivity {
@@ -106,6 +107,11 @@ public class HistoryDetailActivity extends BaseActivity {
         listview.addHeaderView(view_header);
     }
 
+    /**
+     *
+     * @param unpreparedDetails
+     * @return
+     */
     public List<String[]> prepareData(List<String> unpreparedDetails){
 
 
@@ -203,7 +209,6 @@ public class HistoryDetailActivity extends BaseActivity {
 
         return detailsList;
     }
-
 
     public class DetailAdapter extends ArrayAdapter<String[]> {
 

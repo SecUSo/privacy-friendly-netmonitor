@@ -73,6 +73,7 @@ import java.util.List;
 
 /**
  * Created by m4rc0 on 04.12.2017.
+ * Adapter to display the Apps in the history
  */
 
 public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {

@@ -60,6 +60,7 @@ import java.util.List;
 
 /**
  * Created by m4rc0 on 12.11.2017.
+ * DB class to store all apps and track the connections of the app.
  */
 
 public class DBApp extends Application {

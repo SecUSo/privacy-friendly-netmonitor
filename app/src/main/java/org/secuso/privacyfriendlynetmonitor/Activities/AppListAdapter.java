@@ -66,6 +66,7 @@ import java.util.List;
 
 /**
  * Created by tobias on 08.12.17.
+ * Adapter displays the content of the App List for the History
  */
 
 public class AppListAdapter extends BaseAdapter {
@@ -150,22 +151,14 @@ public class AppListAdapter extends BaseAdapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked )
                 {
-                    //System.out.println("True" + holder.appName); //TODO delete
                     Collector.addAppToIncludeInScan(holder.appName);
                 }
                 else
                 {
-                    //System.out.println("False"); //TODO delete
                     Collector.deleteAppFromIncludeInScan(holder.appName);
                 }
             }
         });
     }
 
-
-//    static class ViewHolder{
-//
-//        TextView textInListView;
-//        ImageView imageInListView;
-//    }
 }
