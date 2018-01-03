@@ -50,6 +50,7 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -77,8 +78,10 @@ import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.secuso.privacyfriendlynetmonitor.R.string.url;
 
@@ -103,12 +106,20 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
         reportEntityDao = daoSession.getReportEntityDao();
+
+        // Load apps to include in scan
+        SharedPreferences selectedAppsPreferences = getSharedPreferences("SELECTEDAPPS", 0);
+        Map<String, String> selectedAppsMap = (Map<String, String>) selectedAppsPreferences.getAll();
+        Collection<String> selectedAppsList = selectedAppsMap.values();
+        for(String appName : selectedAppsList){
+            Collector.addAppToIncludeInScan(appName);
+        }
+
         Collector.addAppToExcludeFromScan("app.android.unknown");
         Collector.addAppToExcludeFromScan("app.unknown");
         Collector.addAppToExcludeFromScan("unknown");
         //This is an App that is used as an example for the History. In the first start only this is
         //APP is shown in the list, then selection are possible
-        Collector.addAppToIncludeInScan("org.secuso.privacyfriendlynetmonitor");
 
         if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
             activateMainView();

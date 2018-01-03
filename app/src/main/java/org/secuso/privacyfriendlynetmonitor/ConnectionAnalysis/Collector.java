@@ -66,6 +66,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -194,6 +195,11 @@ public class Collector {
             fillCertRequests();
         }
 
+        // Remove duplicates
+        appsToIncludeInScan = new ArrayList<String>(new LinkedHashSet<String>(appsToIncludeInScan));
+        appsToExcludeFromScan = new ArrayList<String>(new LinkedHashSet<String>(appsToExcludeFromScan));
+
+        // add reports to db
         if (!sReportList.isEmpty()) {
             for (Report report : sReportList) {
 
@@ -201,85 +207,89 @@ public class Collector {
 
                 String appName = getPackage(report.uid);
 
+                // check for apps to append to db
                 if (!appsToExcludeFromScan.contains(appName)) {
-//                    if (appsToIncludeInScan.contains(appName)) {
+                    if (appsToIncludeInScan.contains(appName)) {
 
-                    if (appName != null) {
-                        reportEntity.setAppName(appName);
-                    } else {
-                        reportEntity.setAppName("Unknown");
+                        System.out.println(appName);
+                        System.out.println(appsToIncludeInScan);
+
+                        if (appName != null) {
+                            reportEntity.setAppName(appName);
+                        } else {
+                            reportEntity.setAppName("Unknown");
+                        }
+
+                        String userID = "" + report.uid;
+                        reportEntity.setUserID(userID);
+
+                        PackageInfo info;
+                        try {
+                            info = sCachePackage.get(report.uid).get(0);
+                        } catch (NullPointerException e) {
+                            info = new PackageInfo();
+                        }
+
+                        String appVersion = "" + info.versionName;
+                        reportEntity.setAppVersion(appVersion);
+
+                        String installedOn = "";
+                        if (report.uid > 10000) {
+                            installedOn = new Date(info.firstInstallTime).toString();
+                        } else {
+                            installedOn = "System App";
+                        }
+                        reportEntity.setInstalledOn(installedOn);
+
+
+                        String remoteAddr = "";
+                        if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                            remoteAddr = report.remoteAdd.getHostAddress() + " (IPv6)";
+                        } else {
+                            remoteAddr = report.remoteAdd.getHostAddress();
+                        }
+                        reportEntity.setRemoteAddress(remoteAddr);
+
+                        String remoteHex = ToolBox.printHexBinary(report.remoteAddHex);
+                        reportEntity.setRemoteHex(remoteHex);
+
+                        String remoteHost = "";
+                        if (hasHostName(report.remoteAdd.getHostAddress())) {
+                            remoteHost = getDnsHostName(report.remoteAdd.getHostAddress());
+                        } else {
+                            remoteHost = "name not resolved";
+                        }
+                        reportEntity.setRemoteHost(remoteHost);
+
+                        String localAddress = "";
+                        if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
+                            localAddress = report.localAdd.getHostAddress() + " (IPv6)";
+                        } else {
+                            localAddress = report.localAdd.getHostAddress();
+                        }
+                        reportEntity.setLocalAddress(localAddress);
+
+                        String localHex = ToolBox.printHexBinary(report.localAddHex);
+                        reportEntity.setLocalHex(localHex);
+
+                        String servicePort = "" + report.remotePort;
+                        reportEntity.setServicePoint(servicePort);
+                        String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
+                        reportEntity.setPayloadProtocol(payloadProt);
+                        String transportProtocol = "" + report.type;
+                        reportEntity.setTransportProtocol(transportProtocol);
+                        String lastSeen = report.timestamp.toString();
+                        reportEntity.setLastSeen(lastSeen);
+                        String localPort = "" + report.localPort;
+                        reportEntity.setLocalPort(localPort);
+                        String lastSocketState = getTransportState(report.state);
+                        reportEntity.setLastSocketState(lastSocketState);
+                        String connectionInfo = getMetric(report.remoteAdd.getHostAddress());
+                        reportEntity.setConnectionInfo(connectionInfo);
+
+                        reportEntityDao.insertOrReplace(reportEntity);
                     }
-
-                    String userID = "" + report.uid;
-                    reportEntity.setUserID(userID);
-
-                    PackageInfo info;
-                    try {
-                        info = sCachePackage.get(report.uid).get(0);
-                    } catch (NullPointerException e) {
-                        info = new PackageInfo();
-                    }
-
-                    String appVersion = "" + info.versionName;
-                    reportEntity.setAppVersion(appVersion);
-
-                    String installedOn = "";
-                    if (report.uid > 10000) {
-                        installedOn = new Date(info.firstInstallTime).toString();
-                    } else {
-                        installedOn = "System App";
-                    }
-                    reportEntity.setInstalledOn(installedOn);
-
-
-                    String remoteAddr = "";
-                    if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                        remoteAddr = report.remoteAdd.getHostAddress() + " (IPv6)";
-                    } else {
-                        remoteAddr = report.remoteAdd.getHostAddress();
-                    }
-                    reportEntity.setRemoteAddress(remoteAddr);
-
-                    String remoteHex = ToolBox.printHexBinary(report.remoteAddHex);
-                    reportEntity.setRemoteHex(remoteHex);
-
-                    String remoteHost = "";
-                    if (hasHostName(report.remoteAdd.getHostAddress())) {
-                        remoteHost = getDnsHostName(report.remoteAdd.getHostAddress());
-                    } else {
-                        remoteHost = "name not resolved";
-                    }
-                    reportEntity.setRemoteHost(remoteHost);
-
-                    String localAddress = "";
-                    if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
-                        localAddress = report.localAdd.getHostAddress() + " (IPv6)";
-                    } else {
-                        localAddress = report.localAdd.getHostAddress();
-                    }
-                    reportEntity.setLocalAddress(localAddress);
-
-                    String localHex = ToolBox.printHexBinary(report.localAddHex);
-                    reportEntity.setLocalHex(localHex);
-
-                    String servicePort = "" + report.remotePort;
-                    reportEntity.setServicePoint(servicePort);
-                    String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
-                    reportEntity.setPayloadProtocol(payloadProt);
-                    String transportProtocol = "" + report.type;
-                    reportEntity.setTransportProtocol(transportProtocol);
-                    String lastSeen = report.timestamp.toString();
-                    reportEntity.setLastSeen(lastSeen);
-                    String localPort = "" + report.localPort;
-                    reportEntity.setLocalPort(localPort);
-                    String lastSocketState = getTransportState(report.state);
-                    reportEntity.setLastSocketState(lastSocketState);
-                    String connectionInfo = getMetric(report.remoteAdd.getHostAddress());
-                    reportEntity.setConnectionInfo(connectionInfo);
-
-                    reportEntityDao.insertOrReplace(reportEntity);
                 }
-//                }
             }
         }
     }
@@ -797,5 +807,9 @@ public class Collector {
 
     public static void addAppToExcludeFromScan(String appToExclude) {
         Collector.appsToExcludeFromScan.add(appToExclude);
+    }
+
+    public static void deleteAppToExcludeFromScan(String appToExclude) {
+        Collector.appsToExcludeFromScan.remove(appToExclude);
     }
 }

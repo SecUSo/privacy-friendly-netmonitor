@@ -49,6 +49,7 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -74,6 +75,8 @@ public class AppListAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private List<String> listStorage;
     private Context context;
+    private SharedPreferences selectedAppsPreferences;
+    private SharedPreferences.Editor editor;
 
     static class ViewHolder {
         SwitchCompat s;
@@ -84,6 +87,9 @@ public class AppListAdapter extends BaseAdapter {
         layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listStorage = customizedListView;
         this.context = context;
+
+        selectedAppsPreferences = context.getSharedPreferences("SELECTEDAPPS", 0);
+        editor = selectedAppsPreferences.edit();
     }
 
     @Override
@@ -149,13 +155,21 @@ public class AppListAdapter extends BaseAdapter {
         holder.s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked )
+                if (isChecked)
                 {
-                    Collector.addAppToIncludeInScan(holder.appName);
+                    if(!Collector.getAppsToIncludeInScan().contains(holder.appName)){
+                        Collector.addAppToIncludeInScan(holder.appName);
+                        editor.putString(holder.appName, holder.appName);
+                        editor.commit();
+                    }
                 }
                 else
                 {
-                    Collector.deleteAppFromIncludeInScan(holder.appName);
+                    if(Collector.getAppsToIncludeInScan().contains(holder.appName)){
+                        Collector.deleteAppFromIncludeInScan(holder.appName);
+                        editor.remove(holder.appName);
+                        editor.commit();
+                    }
                 }
             }
         });
