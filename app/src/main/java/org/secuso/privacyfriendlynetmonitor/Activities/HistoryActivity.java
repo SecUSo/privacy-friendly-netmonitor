@@ -48,6 +48,7 @@
  */
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -128,7 +129,7 @@ public class HistoryActivity extends BaseActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // TODO fill with stuff
+                startActivity(new Intent(HistoryActivity.this, AppReport_Detail.class));
 
                 return false;
             }

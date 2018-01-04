@@ -96,19 +96,32 @@
         </activity>
         <activity
             android:name=".Activities.SelectHistoryAppsActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_select_history_apps"
             android:parentActivityName=".Activities.HistoryDetailActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme">
-            <!--android:launchMode="singleTask" -->
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden">
+
+            <!-- android:launchMode="singleTask" -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.AppReport_Detail"
+            android:label="@string/title_activity_app_report__detail"
+            android:configChanges="orientation"
+            android:parentActivityName=".Activities.HistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+
+            <!-- android:launchMode="singleTask" -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity" />
         </activity>
     </application>
-
 
 </manifest>

@@ -147,4 +147,7 @@
     <string name="sort_install_asc">Installationsdatum aufsteigend </string>
     <string name="sort_install_desc">Installationsdatum absteigend </string>
 
+    <!--APP REPORT DETAIL-->
+    <string name="title_activity_app_report__detail">App-Report Details</string>
+
 </resources>
