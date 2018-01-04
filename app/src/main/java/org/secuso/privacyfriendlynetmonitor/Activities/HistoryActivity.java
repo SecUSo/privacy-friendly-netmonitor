@@ -54,6 +54,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
@@ -119,6 +120,16 @@ public class HistoryActivity extends BaseActivity {
                 Intent intent = new Intent(getBaseContext(), HistoryDetailActivity.class);
                 intent.putExtra("Details", (ArrayList) detailsList);
                 startActivity(intent);
+                return false;
+            }
+        });
+
+        expListView.setOnItemLongClickListener(new ExpandableListView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // TODO fill with stuff
+
                 return false;
             }
         });
