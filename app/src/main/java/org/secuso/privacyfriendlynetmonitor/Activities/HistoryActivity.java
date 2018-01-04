@@ -49,12 +49,14 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ExpandableListView;
 
+import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
@@ -64,6 +66,7 @@ import org.secuso.privacyfriendlynetmonitor.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 /**
@@ -188,6 +191,7 @@ public class HistoryActivity extends BaseActivity {
     private HashMap<String, List<ReportEntity>> provideHistoryReports(){
 
         historyReportMap = new HashMap<String, List<ReportEntity>>();
+        List<String> appendedApps = new ArrayList<String>();
 
         List<String> userIDs = new ArrayList<String>();
         List<ReportEntity> allReportEntities = reportEntityDao.loadAll();
@@ -199,6 +203,11 @@ public class HistoryActivity extends BaseActivity {
                 userIDs.add(userID);
                 List<ReportEntity> tempReportList = new ArrayList<ReportEntity>();
                 tempReportList.add(reportEntity);
+
+                if(!appendedApps.contains(reportEntity.getAppName())){
+                    appendedApps.add(reportEntity.getAppName());
+                }
+
                 historyReportMap.put(userID, tempReportList);
             } else {
                 historyReportMap.get(userID).add(reportEntity);
@@ -211,7 +220,29 @@ public class HistoryActivity extends BaseActivity {
             Collections.reverse(historyReportMap.get(key));
         }
 
+        List<String> appsToInclude = Collector.getAppsToIncludeInScan();
+        if(!appsToInclude.isEmpty()){
+            appsToInclude = new ArrayList<String>(new LinkedHashSet<String>(appsToInclude));
+            appsToInclude.removeAll(appendedApps);
+            if(!appsToInclude.isEmpty()){
+                for(String appName : appsToInclude){
+                    try {
+                        int uid = getPackageManager().getApplicationInfo(appName, PackageManager.GET_META_DATA).uid;
+                        historyReportMap.put((new String()).valueOf(uid), new ArrayList<ReportEntity>());
+                    } catch (PackageManager.NameNotFoundException e) {
+                    }
+                }
+                appsToInclude.clear();
+            }
+        }
+
         return historyReportMap;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        activateHistoryView();
     }
 
     protected int getNavigationDrawerID() { return R.id.nav_history; }

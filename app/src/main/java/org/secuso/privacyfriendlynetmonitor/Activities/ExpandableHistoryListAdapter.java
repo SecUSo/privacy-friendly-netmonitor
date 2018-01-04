@@ -142,7 +142,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
         TextView history_item_2_val = (TextView) convertView.findViewById(R.id.history_item_2_val);
         history_item_2_val.setText(reportEntity.getLastSeen());
 
-
         return convertView;
     }
 
@@ -200,13 +199,18 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
         if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.history_list_group, null);
+            String appName = "";
+            PackageManager packageManager = context.getPackageManager();
 
-            String appName = reportListDetail.get(uidList.get(groupPosition)).get(0).getAppName();
+            try{
+                appName = reportListDetail.get(uidList.get(groupPosition)).get(0).getAppName();
+            } catch(IndexOutOfBoundsException e){
+                appName = packageManager.getNameForUid((new Integer(uidList.get(groupPosition))));
+            }
 
             TextView historyGroupTitle = (TextView) convertView.findViewById(R.id.historyGroupTitle);
             TextView historyGroupSubtitle = (TextView) convertView.findViewById(R.id.historyGroupSubtitle);
 
-            PackageManager packageManager = context.getPackageManager();
 
             try {
                 historyGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)));

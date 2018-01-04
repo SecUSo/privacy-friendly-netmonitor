@@ -161,6 +161,7 @@ public class AppListAdapter extends BaseAdapter {
                         Collector.addAppToIncludeInScan(holder.appName);
                         editor.putString(holder.appName, holder.appName);
                         editor.commit();
+                        holder.s.setChecked(true);
                     }
                 }
                 else
@@ -169,6 +170,7 @@ public class AppListAdapter extends BaseAdapter {
                         Collector.deleteAppFromIncludeInScan(holder.appName);
                         editor.remove(holder.appName);
                         editor.commit();
+                        holder.s.setChecked(false);
                     }
                 }
             }

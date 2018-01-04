@@ -89,7 +89,7 @@ import static org.secuso.privacyfriendlynetmonitor.R.string.url;
 /**
  * Activity providing main service controls and reports inspection
  */
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ExpandableListView expListView;
@@ -111,8 +111,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         SharedPreferences selectedAppsPreferences = getSharedPreferences("SELECTEDAPPS", 0);
         Map<String, String> selectedAppsMap = (Map<String, String>) selectedAppsPreferences.getAll();
         Collection<String> selectedAppsList = selectedAppsMap.values();
-        for(String appName : selectedAppsList){
-            Collector.addAppToIncludeInScan(appName);
+        for (String appName : selectedAppsList) {
+            if (!Collector.getAppsToIncludeInScan().contains(appName)) {
+                Collector.addAppToIncludeInScan(appName);
+            }
         }
 
         Collector.addAppToExcludeFromScan("app.android.unknown");

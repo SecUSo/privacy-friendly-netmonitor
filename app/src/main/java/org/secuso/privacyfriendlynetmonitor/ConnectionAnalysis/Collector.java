@@ -211,8 +211,8 @@ public class Collector {
                 if (!appsToExcludeFromScan.contains(appName)) {
                     if (appsToIncludeInScan.contains(appName)) {
 
-                        System.out.println(appName);
-                        System.out.println(appsToIncludeInScan);
+//                        System.out.println(appName);
+//                        System.out.println(appsToIncludeInScan);
 
                         if (appName != null) {
                             reportEntity.setAppName(appName);
