@@ -239,7 +239,11 @@ public class HistoryActivity extends BaseActivity {
             if(!appsToInclude.isEmpty()){
                 for(String appName : appsToInclude){
                     try {
-                        int uid = getPackageManager().getApplicationInfo(appName, PackageManager.GET_META_DATA).uid;
+                        System.out.println(appName);
+                        int uid = getPackageManager().getApplicationInfo(appName, 0).uid;
+                        if(!Collector.getKnownUIDs().containsKey(uid)){
+                            Collector.addKnownUIDs((new String()).valueOf(uid), appName);
+                        }
                         historyReportMap.put((new String()).valueOf(uid), new ArrayList<ReportEntity>());
                     } catch (PackageManager.NameNotFoundException e) {
                     }

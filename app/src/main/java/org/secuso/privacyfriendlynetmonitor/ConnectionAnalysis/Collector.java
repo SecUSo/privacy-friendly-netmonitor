@@ -102,6 +102,9 @@ public class Collector {
     private static List<String> appsToIncludeInScan = new ArrayList<String>();
     private static List<String> appsToExcludeFromScan = new ArrayList<String>();
 
+    //UID Table
+    private static HashMap<String, String> knownUIDs = new HashMap<>();
+
     //Pushed the newest available information as deep copy.
     public static HashMap<Integer, List<Report>> provideSimpleReports(ReportEntityDao reportEntityDao) {
         updateReports(reportEntityDao);
@@ -811,5 +814,13 @@ public class Collector {
 
     public static void deleteAppToExcludeFromScan(String appToExclude) {
         Collector.appsToExcludeFromScan.remove(appToExclude);
+    }
+
+    public static HashMap<String, String> getKnownUIDs() {
+        return knownUIDs;
+    }
+
+    public static void addKnownUIDs(String key, String value) {
+        Collector.knownUIDs.put(key, value);
     }
 }

@@ -205,12 +205,15 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
             try{
                 appName = reportListDetail.get(uidList.get(groupPosition)).get(0).getAppName();
             } catch(IndexOutOfBoundsException e){
-                appName = packageManager.getNameForUid((new Integer(uidList.get(groupPosition))));
+                if(Collector.getKnownUIDs().containsKey(uidList.get(groupPosition))){
+                    appName = Collector.getKnownUIDs().get(uidList.get(groupPosition));
+                } else {
+                    appName = packageManager.getNameForUid((new Integer(uidList.get(groupPosition))));
+                }
             }
 
             TextView historyGroupTitle = (TextView) convertView.findViewById(R.id.historyGroupTitle);
             TextView historyGroupSubtitle = (TextView) convertView.findViewById(R.id.historyGroupSubtitle);
-
 
             try {
                 historyGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)));
