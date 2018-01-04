@@ -10,12 +10,26 @@
     <TextView
         android:id="@+id/appGroupTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="32dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/appGroupIcon"
         android:paddingLeft="@dimen/nav_header_vertical_spacing"
-        android:text="App Name" />
+        android:text="App Name"
+        android:textStyle="bold"
+        android:gravity="center_vertical"
+        />
+
+    <TextView
+        android:id="@+id/appInstalledOn"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/appGroupTitle"
+        android:layout_toEndOf="@+id/appGroupIcon"
+        android:paddingLeft="@dimen/nav_header_vertical_spacing"
+        android:text="Date"
+        android:gravity="center_vertical"
+        />
 
 
     <ImageView

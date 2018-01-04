@@ -63,6 +63,8 @@ import android.widget.TextView;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.R;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -130,6 +132,7 @@ public class AppListAdapter extends BaseAdapter {
         }
 
         TextView appGroupTitle = (TextView) convertView.findViewById(R.id.appGroupTitle);
+        TextView appInstalledOn = (TextView) convertView.findViewById(R.id.appInstalledOn);
 
         PackageManager packageManager = context.getPackageManager();
 
@@ -137,6 +140,14 @@ public class AppListAdapter extends BaseAdapter {
             appGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)));
         } catch (PackageManager.NameNotFoundException e) {
             appGroupTitle.setText(appName);
+        }
+
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd. MMM yyyy, HH:mm");
+            Date date = new Date(packageManager.getPackageInfo(appName, 0).firstInstallTime);
+            appInstalledOn.setText("Installed:  " +  simpleDateFormat.format(date));
+        } catch (PackageManager.NameNotFoundException e) {
+            appInstalledOn.setText("");
         }
 
         ImageView imgView = (ImageView) convertView.findViewById(R.id.appGroupIcon);
