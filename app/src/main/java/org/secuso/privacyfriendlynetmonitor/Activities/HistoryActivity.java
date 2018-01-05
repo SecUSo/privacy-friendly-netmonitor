@@ -48,7 +48,6 @@
  */
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -119,13 +118,13 @@ public class HistoryActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 reportEntityDao.deleteAll();
-                Collector.getAppsToIncludeInScan().clear();
-                editor.clear();
-                editor.commit();
+//                Collector.getAppsToIncludeInScan().clear();
+//                editor.clear();
+//                editor.commit();
                 activateHistoryView();
             }
         });
-        
+
         activateHistoryView();
     }
 

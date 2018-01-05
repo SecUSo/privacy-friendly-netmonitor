@@ -51,6 +51,7 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
@@ -65,6 +67,7 @@ import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,15 +83,20 @@ public class AppListAdapter extends BaseAdapter {
     private SharedPreferences selectedAppsPreferences;
     private SharedPreferences.Editor editor;
 
+    private List<Integer> appsToDelete;
+
     static class ViewHolder {
         SwitchCompat s;
         String appName;
     }
 
     public AppListAdapter(Context context, List<String> customizedListView) {
-        layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listStorage = customizedListView;
         this.context = context;
+        appsToDelete = new ArrayList<Integer>();
+
+        this.appsToDelete = appsToDelete;
 
         selectedAppsPreferences = context.getSharedPreferences("SELECTEDAPPS", 0);
         editor = selectedAppsPreferences.edit();
@@ -101,7 +109,7 @@ public class AppListAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return position;
+        return listStorage.get(position);
     }
 
     @Override
@@ -110,12 +118,39 @@ public class AppListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
-        if(convertView == null) {
+        if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.app_list_group, null);
         }
+
+        final View finalConvertView = convertView;
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (appsToDelete.contains(position)) {
+                    appsToDelete.remove(appsToDelete.indexOf(position));
+                    RelativeLayout relativeLayout = (RelativeLayout) finalConvertView.findViewById(R.id.selectionApp);
+                    relativeLayout.setBackgroundColor(Color.WHITE);
+                }
+            }
+        });
+
+        final View finalConvertView1 = convertView;
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!appsToDelete.contains(position)) {
+                    appsToDelete.add(position);
+                    RelativeLayout relativeLayout = (RelativeLayout) finalConvertView1.findViewById(R.id.selectionApp);
+                    relativeLayout.setBackgroundColor(Color.CYAN);
+                }
+
+                return true;
+            }
+        });
 
         final org.secuso.privacyfriendlynetmonitor.Activities.AppListAdapter.ViewHolder holder = new ViewHolder();
         holder.s = (SwitchCompat) convertView.findViewById(R.id.switchAppOnOffHistory);
@@ -125,9 +160,9 @@ public class AppListAdapter extends BaseAdapter {
         String appName = listStorage.get(position);
         holder.appName = appName;
 
-        if(Collector.getAppsToIncludeInScan().contains(appName)){
+        if (Collector.getAppsToIncludeInScan().contains(appName)) {
             holder.s.setChecked(true);
-        }else{
+        } else {
             holder.s.setChecked(false);
         }
 
@@ -145,7 +180,7 @@ public class AppListAdapter extends BaseAdapter {
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd. MMM yyyy, HH:mm");
             Date date = new Date(packageManager.getPackageInfo(appName, 0).firstInstallTime);
-            appInstalledOn.setText("Installed:  " +  simpleDateFormat.format(date));
+            appInstalledOn.setText("Installed:  " + simpleDateFormat.format(date));
         } catch (PackageManager.NameNotFoundException e) {
             appInstalledOn.setText("");
         }
@@ -154,30 +189,28 @@ public class AppListAdapter extends BaseAdapter {
 
         try {
             imgView.setImageDrawable(packageManager.getApplicationIcon(appName));
-        } catch (PackageManager.NameNotFoundException e) {}
+        } catch (PackageManager.NameNotFoundException e) {
+        }
 
         selectionHandling(holder);
 
         return convertView;
     }
 
-    private void selectionHandling(final ViewHolder holder){
+    private void selectionHandling(final ViewHolder holder) {
 
         holder.s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-                {
-                    if(!Collector.getAppsToIncludeInScan().contains(holder.appName)){
+                if (isChecked) {
+                    if (!Collector.getAppsToIncludeInScan().contains(holder.appName)) {
                         Collector.addAppToIncludeInScan(holder.appName);
                         editor.putString(holder.appName, holder.appName);
                         editor.commit();
                         holder.s.setChecked(true);
                     }
-                }
-                else
-                {
-                    if(Collector.getAppsToIncludeInScan().contains(holder.appName)){
+                } else {
+                    if (Collector.getAppsToIncludeInScan().contains(holder.appName)) {
                         Collector.deleteAppFromIncludeInScan(holder.appName);
                         editor.remove(holder.appName);
                         editor.commit();
@@ -186,6 +219,10 @@ public class AppListAdapter extends BaseAdapter {
                 }
             }
         });
+    }
+
+    public List<Integer> getAppsToDelete() {
+        return appsToDelete;
     }
 
 }
