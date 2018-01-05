@@ -3,6 +3,14 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <TextView
+        android:id="@+id/noData"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/nodata"
+        android:visibility="invisible"/>
+
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_layout_history"
         android:layout_width="match_parent"

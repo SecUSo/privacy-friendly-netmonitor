@@ -50,12 +50,14 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -81,16 +83,27 @@ public class HistoryActivity extends BaseActivity {
     private ExpandableListView expListView;
     private ExpandableHistoryListAdapter historyReportAdapter;
 
-    private static ReportEntityDao reportEntityDao;
+    private ReportEntityDao reportEntityDao;
     private HashMap<String, List<ReportEntity>> historyReportMap;
     private List<String> keys;
+
+    private SharedPreferences selectedAppsPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // load DB
+        DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
+        reportEntityDao = daoSession.getReportEntityDao();
+
+        selectedAppsPreferences = getSharedPreferences("SELECTEDAPPS", 0);
+        editor = selectedAppsPreferences.edit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -100,18 +113,40 @@ public class HistoryActivity extends BaseActivity {
             }
         });
 
-        // load DB
-        DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
-        reportEntityDao = daoSession.getReportEntityDao();
-
+        // delete DB
+        Button deleteDB = (Button) findViewById(R.id.deleteDB);
+        deleteDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportEntityDao.deleteAll();
+                Collector.getAppsToIncludeInScan().clear();
+                editor.clear();
+                editor.commit();
+                activateHistoryView();
+            }
+        });
+        
         activateHistoryView();
     }
 
-    private void activateHistoryView(){
+    private void activateHistoryView() {
         expListView = (ExpandableListView) findViewById(R.id.list_history);
         final HashMap<String, List<ReportEntity>> historyReports = provideHistoryReports();
 
+        TextView textView = (TextView) findViewById(R.id.noData);
+        if (historyReports.isEmpty()) {
+            if (textView.getVisibility() == View.INVISIBLE) {
+                textView.setVisibility(View.VISIBLE);
+            }
+        } else {
+
+            if (textView.getVisibility() == View.VISIBLE) {
+                textView.setVisibility(View.INVISIBLE);
+            }
+        }
+
         historyReportAdapter = new ExpandableHistoryListAdapter(this, new ArrayList<>(historyReports.keySet()), historyReports);
+
         expListView.setAdapter(historyReportAdapter);
 
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -144,10 +179,11 @@ public class HistoryActivity extends BaseActivity {
 
     /**
      * Get details from db entities an save in List
+     *
      * @param reportEntity
      * @return details list
      */
-    private List<String> prepareData(ReportEntity reportEntity){
+    private List<String> prepareData(ReportEntity reportEntity) {
         String details = "";
         List<String> detailsList = new ArrayList<String>();
 
@@ -203,10 +239,9 @@ public class HistoryActivity extends BaseActivity {
     }
 
     /**
-     *
      * @return HashMap with saved Reports
      */
-    private HashMap<String, List<ReportEntity>> provideHistoryReports(){
+    private HashMap<String, List<ReportEntity>> provideHistoryReports() {
 
         historyReportMap = new HashMap<String, List<ReportEntity>>();
         List<String> appendedApps = new ArrayList<String>();
@@ -215,14 +250,14 @@ public class HistoryActivity extends BaseActivity {
         List<ReportEntity> allReportEntities = reportEntityDao.loadAll();
         List<List<ReportEntity>> sortedAllReportEntities = new ArrayList<List<ReportEntity>>();
 
-        for(ReportEntity reportEntity : allReportEntities){
+        for (ReportEntity reportEntity : allReportEntities) {
             String userID = reportEntity.getUserID();
-            if(!userIDs.contains(userID)){
+            if (!userIDs.contains(userID)) {
                 userIDs.add(userID);
                 List<ReportEntity> tempReportList = new ArrayList<ReportEntity>();
                 tempReportList.add(reportEntity);
 
-                if(!appendedApps.contains(reportEntity.getAppName())){
+                if (!appendedApps.contains(reportEntity.getAppName())) {
                     appendedApps.add(reportEntity.getAppName());
                 }
 
@@ -234,20 +269,20 @@ public class HistoryActivity extends BaseActivity {
 
         keys = new ArrayList<>(historyReportMap.keySet());
 
-        for(String key : keys){
+        for (String key : keys) {
             Collections.reverse(historyReportMap.get(key));
         }
 
         List<String> appsToInclude = Collector.getAppsToIncludeInScan();
-        if(!appsToInclude.isEmpty()){
+        if (!appsToInclude.isEmpty()) {
             appsToInclude = new ArrayList<String>(new LinkedHashSet<String>(appsToInclude));
             appsToInclude.removeAll(appendedApps);
-            if(!appsToInclude.isEmpty()){
-                for(String appName : appsToInclude){
+            if (!appsToInclude.isEmpty()) {
+                for (String appName : appsToInclude) {
                     try {
                         System.out.println(appName);
                         int uid = getPackageManager().getApplicationInfo(appName, 0).uid;
-                        if(!Collector.getKnownUIDs().containsKey(uid)){
+                        if (!Collector.getKnownUIDs().containsKey(uid)) {
                             Collector.addKnownUIDs((new String()).valueOf(uid), appName);
                         }
                         historyReportMap.put((new String()).valueOf(uid), new ArrayList<ReportEntity>());
@@ -267,6 +302,8 @@ public class HistoryActivity extends BaseActivity {
         activateHistoryView();
     }
 
-    protected int getNavigationDrawerID() { return R.id.nav_history; }
+    protected int getNavigationDrawerID() {
+        return R.id.nav_history;
+    }
 
 }
