@@ -14,6 +14,7 @@ public class AppReport_Detail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(getIntent().getStringExtra("AppName"));
         setContentView(R.layout.app_report_detail_layout);
 
 

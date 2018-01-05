@@ -57,6 +57,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
@@ -129,7 +130,12 @@ public class HistoryActivity extends BaseActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(new Intent(HistoryActivity.this, AppReport_Detail.class));
+                TextView tx = (TextView) view.findViewById(R.id.historyGroupTitle);
+                String s = tx.getText().toString();
+
+                Intent myIntent = new Intent(HistoryActivity.this, AppReport_Detail.class);
+                myIntent.putExtra("AppName", s);
+                startActivity(myIntent);
 
                 return false;
             }
