@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--TODO put text=Month into strings -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"

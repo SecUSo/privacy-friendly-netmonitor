@@ -14,4 +14,9 @@
     <dimen name="desc_padding">40dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="cardview_default_margin">8dp</dimen>
+
+
+
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

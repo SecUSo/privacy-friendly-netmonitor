@@ -163,12 +163,10 @@ public class HistoryActivity extends BaseActivity {
         expListView.setOnItemLongClickListener(new ExpandableListView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
                 TextView tx = (TextView) view.findViewById(R.id.historyGroupTitle);
-                String s = tx.getText().toString();
-
+                String appName = tx.getText().toString();
                 Intent myIntent = new Intent(HistoryActivity.this, AppReport_Detail.class);
-                myIntent.putExtra("AppName", s);
+                myIntent.putExtra("AppName", appName);
                 startActivity(myIntent);
 
                 return false;
