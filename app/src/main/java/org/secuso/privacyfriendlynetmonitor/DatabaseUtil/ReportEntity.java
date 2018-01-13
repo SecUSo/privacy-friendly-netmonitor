@@ -227,22 +227,8 @@ public class ReportEntity {
                 ", connectionInfo='" + connectionInfo + '\'' +
                 '}';
     }
-    
+
     public String toStringWithoutTimestamp() {
-        return "ReportEntity{" +
-                "id=" + id +
-                ", appName='" + appName + '\'' +
-                ", userID='" + userID + '\'' +
-                ", timeStamp='" + timeStamp + '\'' +
-                ", remoteAddress='" + remoteAddress + '\'' +
-                ", remoteHex='" + remoteHex + '\'' +
-                ", remoteHost='" + remoteHost + '\'' +
-                ", localAddress='" + localAddress + '\'' +
-                ", localHex='" + localHex + '\'' +
-                ", servicePort='" + servicePort + '\'' +
-                ", payloadProtocol='" + payloadProtocol + '\'' +
-                ", transportProtocol='" + transportProtocol + '\'' +
-                ", localPort='" + localPort + '\'' +
-                '}';
+        return "" + id + appName + userID + remoteAddress + remoteHex + remoteHost + localAddress + localHex + servicePort + payloadProtocol + transportProtocol + localPort + connectionInfo;
     }
 }
