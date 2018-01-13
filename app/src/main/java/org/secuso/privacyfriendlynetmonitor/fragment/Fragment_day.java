@@ -24,7 +24,11 @@ import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,26 +36,28 @@ import java.util.List;
  * https://github.com/PhilJay/MPAndroidChart/wiki/Setting-Data
  */
 
+//        String someDate = "2018-01-06 13:39:33.888";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+//        Date date = null;
+//        try {
+//            date = sdf.parse(someDate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(date.getTime());
+
 public class Fragment_day extends Fragment {
 
     // ReportEntity Table and ReportEntities List
     private static ReportEntityDao reportEntityDao;
-    List<ReportEntity> reportEntities;
+    private static List<ReportEntity> reportEntities;
+    private static List<ReportEntity> filtered_Entities = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate(R.layout.fragment_day_layout, container, false);
-        fillChart(view);
-
-        // load DB
-        DaoSession daoSession = ((DBApp) getActivity().getApplication()).getDaoSession();
-        reportEntityDao = daoSession.getReportEntityDao();
-        reportEntities = reportEntityDao.loadAll();
-//        for(ReportEntity reportEntity : reportEntities){
-//            System.out.println(reportEntity);
-//        }
 
         //Fill Icon, AppGroupTitle, AppName
         TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
@@ -75,18 +81,76 @@ public class Fragment_day extends Fragment {
         }
         //END Fill Icon, AppGroupTitle, AppName
 
+        loadFilteredList(appName);
+        fillChart(view);
+
         return view;
+    }
+
+    private void loadFilteredList(String appName) {
+        filtered_Entities.clear();
+
+        // load DB
+        DaoSession daoSession = ((DBApp) getActivity().getApplication()).getDaoSession();
+        reportEntityDao = daoSession.getReportEntityDao();
+        reportEntities = reportEntityDao.loadAll();
+
+        for (ReportEntity reportEntity : reportEntities) {
+            //Only entities from the AppName
+            if (reportEntity.getAppName().equals(appName)) {
+                //Only entities 24 hours ago
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                try {
+                    Date currentTime = dateFormat.parse(dateFormat.format(new Date()));
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(currentTime);
+                    cal.add(Calendar.DATE, -1);
+                    //This is the date one day ago == 24 hours ago
+                    Date dateBefore1Days = cal.getTime();
+
+                    String string_date = reportEntity.getTimeStamp();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                    Date entity_date = null;
+                    try {
+                        entity_date = sdf.parse(string_date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (entity_date.after(dateBefore1Days)) {
+                        filtered_Entities.add(reportEntity); // add only that report from that app and 24hours ago
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
     private void fillChart(View view) {
         BarChart chart = (BarChart) view.findViewById(R.id.chart);
-
         List<BarEntry> entries = new ArrayList<BarEntry>();
-        entries.add(new BarEntry(0f, 30f));
-        entries.add(new BarEntry(1f, 50f));
-        //entries.add(new BarEntry(2f,100f));
-        entries.add(new BarEntry(3f, 80f));
-        entries.add(new BarEntry(4f, 10f));
+
+        int[] last24hours = new int[23];
+
+        for (ReportEntity reportEntity : filtered_Entities) {
+            String string_timestamp = reportEntity.getTimeStamp();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            Date entity_date = null;
+            try {
+                entity_date = sdf.parse(string_timestamp);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int hourEntity = entity_date.getHours();
+            last24hours[hourEntity-1] = last24hours[hourEntity-1] + 1;
+        }
+
+        for (int i = 0; i < last24hours.length;i++){
+            entries.add(new BarEntry(i, last24hours[i]));
+        }
+
 
         BarDataSet barset = new BarDataSet(entries, "Hours"); //TODO put in in german as well
         barset.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
@@ -103,7 +167,7 @@ public class Fragment_day extends Fragment {
         yAxis_right.setAxisMinimum(0f);
 
         BarData barData = new BarData(barset);
-        barData.setBarWidth(0.9f);
+        barData.setBarWidth(0.2f);
         chart.setData(barData);
         chart.setFitBars(true);
         //Sets the desc label at the bottom to " "
@@ -113,5 +177,6 @@ public class Fragment_day extends Fragment {
         chart.invalidate();
 
     }
+
 
 }
