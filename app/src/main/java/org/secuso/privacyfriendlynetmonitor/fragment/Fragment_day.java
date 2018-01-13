@@ -18,6 +18,10 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.util.ArrayList;
@@ -30,6 +34,10 @@ import java.util.List;
 
 public class Fragment_day extends Fragment {
 
+    // ReportEntity Table and ReportEntities List
+    private static ReportEntityDao reportEntityDao;
+    List<ReportEntity> reportEntities;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,40 +45,48 @@ public class Fragment_day extends Fragment {
         View view = inflater.inflate(R.layout.fragment_day_layout, container, false);
         fillChart(view);
 
+        // load DB
+        DaoSession daoSession = ((DBApp) getActivity().getApplication()).getDaoSession();
+        reportEntityDao = daoSession.getReportEntityDao();
+        reportEntities = reportEntityDao.loadAll();
+//        for(ReportEntity reportEntity : reportEntities){
+//            System.out.println(reportEntity);
+//        }
+
         //Fill Icon, AppGroupTitle, AppName
-            TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
-            String appName = getArguments().getString("AppName");
-            tx_appName.setText(appName);
+        TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
+        String appName = getArguments().getString("AppName");
+        tx_appName.setText(appName);
 
-            PackageManager packageManager = getActivity().getPackageManager();
-            try {
-                String appGroupTitle = (String) packageManager.getApplicationLabel(
-                        packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA));
-                TextView tx_appGroupTitle = view.findViewById(R.id.historyGroupTitle);
-                tx_appGroupTitle.setText(appGroupTitle);
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
+        PackageManager packageManager = getActivity().getPackageManager();
+        try {
+            String appGroupTitle = (String) packageManager.getApplicationLabel(
+                    packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA));
+            TextView tx_appGroupTitle = view.findViewById(R.id.historyGroupTitle);
+            tx_appGroupTitle.setText(appGroupTitle);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            ImageView appIcon = (ImageView) view.findViewById(R.id.historyGroupIcon);
-            try {
-                appIcon.setImageDrawable(packageManager.getApplicationIcon(appName));
-            } catch (PackageManager.NameNotFoundException e) {
-            }
+        ImageView appIcon = (ImageView) view.findViewById(R.id.historyGroupIcon);
+        try {
+            appIcon.setImageDrawable(packageManager.getApplicationIcon(appName));
+        } catch (PackageManager.NameNotFoundException e) {
+        }
         //END Fill Icon, AppGroupTitle, AppName
 
         return view;
     }
 
-    private void fillChart(View view){
+    private void fillChart(View view) {
         BarChart chart = (BarChart) view.findViewById(R.id.chart);
 
         List<BarEntry> entries = new ArrayList<BarEntry>();
-        entries.add(new BarEntry(0f,30f));
-        entries.add(new BarEntry(1f,50f));
+        entries.add(new BarEntry(0f, 30f));
+        entries.add(new BarEntry(1f, 50f));
         //entries.add(new BarEntry(2f,100f));
-        entries.add(new BarEntry(3f,80f));
-        entries.add(new BarEntry(4f,10f));
+        entries.add(new BarEntry(3f, 80f));
+        entries.add(new BarEntry(4f, 10f));
 
         BarDataSet barset = new BarDataSet(entries, "Hours"); //TODO put in in german as well
         barset.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
@@ -91,9 +107,9 @@ public class Fragment_day extends Fragment {
         chart.setData(barData);
         chart.setFitBars(true);
         //Sets the desc label at the bottom to " "
-            Description description = new Description();
-            description.setText("");
-            chart.setDescription(description);
+        Description description = new Description();
+        description.setText("");
+        chart.setDescription(description);
         chart.invalidate();
 
     }

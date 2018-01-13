@@ -208,6 +208,23 @@ public class ReportEntity {
         this.connectionInfo = connectionInfo;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "ReportEntity{" +
+                "id=" + id +
+                ", appName='" + appName + '\'' +
+                ", userID='" + userID + '\'' +
+                ", timeStamp='" + timeStamp + '\'' +
+                ", remoteAddress='" + remoteAddress + '\'' +
+                ", remoteHex='" + remoteHex + '\'' +
+                ", remoteHost='" + remoteHost + '\'' +
+                ", localAddress='" + localAddress + '\'' +
+                ", localHex='" + localHex + '\'' +
+                ", servicePort='" + servicePort + '\'' +
+                ", payloadProtocol='" + payloadProtocol + '\'' +
+                ", transportProtocol='" + transportProtocol + '\'' +
+                ", localPort='" + localPort + '\'' +
+                ", connectionInfo='" + connectionInfo + '\'' +
+                '}';
+    }
 }
