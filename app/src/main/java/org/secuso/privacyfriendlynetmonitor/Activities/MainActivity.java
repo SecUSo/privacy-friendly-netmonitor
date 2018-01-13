@@ -153,10 +153,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         });
     }
 
-    @Override
-    public void onBackPressed(){
-        startStopTrigger();
-    }
+//    @Override
+//    public void onBackPressed(){
+//        startStopTrigger();
+//    }
 
 
     //Trigger switches between activity, based service running indicator
@@ -190,19 +190,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         getNavigationDrawerID();
     }
 
-    // TODO Delete
-//    //Activate the main layout
-//    private void activateMainView() {
-//        setContentView(R.layout.activity_main);
-//        super.setToolbar();
-//
-//        final Button startStop = (Button) findViewById(R.id.main_button);
-//        startStop.setText(R.string.main_button_text_off);
-//        TextView textView = (TextView) findViewById(R.id.main_text_startstop);
-//        textView.setText(R.string.main_text_stopped);
-//        setButtonListener();
-//        getNavigationDrawerID();
-//    }
 
     //activate the report layout
     private void activateReportView(){
@@ -261,8 +248,15 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     return false;
                 }
             }
+        });
 
-
+        FloatingActionButton fab = findViewById(R.id.reportFAB);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collector.saveReports(reportEntityDao);
+                startStopTrigger();
+            }
         });
     }
 

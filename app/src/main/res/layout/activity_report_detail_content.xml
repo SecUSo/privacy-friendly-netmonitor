@@ -12,54 +12,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.MainActivity">
 
-    <!--TODO Löschen
-    /*
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/reportDetailTitle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/reportDetailIcon"
-            android:paddingStart="@dimen/nav_header_vertical_spacing"
-            android:paddingTop="12dp"
-            android:text="App Name"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/reportDetailSubtitle"
-            android:layout_width="fill_parent"
-            android:layout_height="26dip"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/reportDetailTitle"
-            android:layout_toEndOf="@+id/reportDetailIcon"
-            android:ellipsize="marquee"
-            android:paddingStart="@dimen/nav_header_vertical_spacing"
-            android:text="full.package.name"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/reportDetailIcon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:adjustViewBounds="true"
-            android:cropToPadding="false"
-            android:foregroundGravity="center_vertical"
-            android:paddingBottom="8dp"
-            android:paddingStart="@dimen/activity_vertical_margin"
-            android:paddingTop="8dp"
-            android:src="@mipmap/ic_launcher" />
-
-    </RelativeLayout>
-
-        */
-     Ende Löschen -->
-
     <TextView
         android:id="@+id/report_detail_ssllabs_result"
         android:layout_width="match_parent"

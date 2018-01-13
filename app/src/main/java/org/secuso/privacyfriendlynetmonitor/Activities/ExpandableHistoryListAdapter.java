@@ -189,7 +189,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-        if(convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.history_list_group, null);
             String appName = "";
@@ -221,8 +220,8 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
             try {
                 imgView.setImageDrawable(packageManager.getApplicationIcon(appName));
             } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
             }
-        }
 
         return convertView;
     }

@@ -57,15 +57,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.Inflater;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
@@ -73,10 +68,13 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Report Detail Panel. List all reports of a connection, invoked by Report Panel (ReportActivity)
  */
-public class ReportDetailActivity extends BaseActivity{
+public class ReportDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,18 +91,7 @@ public class ReportDetailActivity extends BaseActivity{
         View view_header = getLayoutInflater().inflate(R.layout.report_list_group_header, null);
         listview.addHeaderView(view_header);
 
-    //TODO Löschen
-        /*
-        // Fill headings
-        final Report r = Collector.sDetailReport;
-        ImageView icon = (ImageView) findViewById(R.id.reportDetailIcon);
-        icon.setImageDrawable(Collector.getIcon(r.uid));
-        TextView label = (TextView) findViewById(R.id.reportDetailTitle);
-        label.setText(Collector.getLabel(r.uid));
-        TextView pkg = (TextView) findViewById(R.id.reportDetailSubtitle);
-        pkg.setText(Collector.getPackage(r.uid));
-        */
-    //Ende Löschen
+        //Ende Löschen
         final Report report = Collector.sDetailReport;
         ImageView icon_header = (ImageView) view_header.findViewById(R.id.reportGroupIcon_header);
         icon_header.setImageDrawable(Collector.getIcon(report.uid));
@@ -114,8 +101,8 @@ public class ReportDetailActivity extends BaseActivity{
         pkg_header.setText(Collector.getPackage(report.uid));
 
         //Add certificate information - open link to ssl labs
-        if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) && Collector.hasHostName(report.remoteAdd.getHostAddress()) &&
-                Collector.hasGrade(Collector.getDnsHostName(report.remoteAdd.getHostAddress()))){
+        if (mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) && Collector.hasHostName(report.remoteAdd.getHostAddress()) &&
+                Collector.hasGrade(Collector.getDnsHostName(report.remoteAdd.getHostAddress()))) {
             TextView ssllabs = (TextView) findViewById(R.id.report_detail_ssllabs_result);
             ssllabs.setVisibility(View.VISIBLE);
             ssllabs.setOnClickListener(new View.OnClickListener() {
@@ -130,11 +117,10 @@ public class ReportDetailActivity extends BaseActivity{
 
         }
 
-
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
     }
 
@@ -173,11 +159,5 @@ public class ReportDetailActivity extends BaseActivity{
             return v;
         }
     }
-
-    @Override
-    protected int getNavigationDrawerID() {
-        return 0;
-    }
-
 }
 

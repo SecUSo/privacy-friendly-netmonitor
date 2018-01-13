@@ -182,22 +182,7 @@ public class Collector {
         Collector.isCertVal = prefs.getBoolean(Const.IS_CERTVAL, false);
     }
 
-    //Sequence to collect reports from detector
-    private static void updateReports(ReportEntityDao reportEntityDao) {
-
-        //update reports
-        pull();
-        //process reports (passive mode)
-        fillPackageInformation();
-        //resolve remote hosts (in cache or permission.INTERNET required)
-        new AsyncDNS().execute("");
-        //sorting
-        sortReportsToMap();
-        //Generate ssl analyze requests
-        if (isCertVal) {
-            fillCertRequests();
-        }
-
+    public static void saveReports(ReportEntityDao reportEntityDao){
         // Remove duplicates
         appsToIncludeInScan = new ArrayList<String>(new LinkedHashSet<String>(appsToIncludeInScan));
         appsToExcludeFromScan = new ArrayList<String>(new LinkedHashSet<String>(appsToExcludeFromScan));
@@ -222,13 +207,6 @@ public class Collector {
 
                         String userID = "" + report.uid;
                         reportEntity.setUserID(userID);
-
-                        PackageInfo info;
-                        try {
-                            info = sCachePackage.get(report.uid).get(0);
-                        } catch (NullPointerException e) {
-                            info = new PackageInfo();
-                        }
 
                         String remoteAddr = "";
                         if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
@@ -280,6 +258,25 @@ public class Collector {
                 }
             }
         }
+    }
+
+    //Sequence to collect reports from detector
+    public static void updateReports(ReportEntityDao reportEntityDao) {
+
+        //update reports
+        pull();
+        //process reports (passive mode)
+        fillPackageInformation();
+        //resolve remote hosts (in cache or permission.INTERNET required)
+        new AsyncDNS().execute("");
+        //sorting
+        sortReportsToMap();
+        //Generate ssl analyze requests
+        if (isCertVal) {
+            fillCertRequests();
+        }
+
+        saveReports(reportEntityDao);
     }
 
     //Search for resolved hostnames and add them to the resolved list

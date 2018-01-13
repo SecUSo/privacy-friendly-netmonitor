@@ -18,17 +18,6 @@
         android:gravity="center"
         android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
-        <!--<Button-->
-            <!--android:id="@+id/main_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingStart="@dimen/activity_horizontal_margin"-->
-            <!--android:paddingEnd="@dimen/activity_horizontal_margin"-->
-            <!--android:layout_gravity="center|bottom"-->
-            <!--android:text="@string/main_button_text_off"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:background="@drawable/button_fullwidth" />-->
-
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -36,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_action_name"
+        android:src="@drawable/ic_play_arrow"
         app:layout_anchor="@+id/main_content"
         app:layout_anchorGravity="bottom|end"
         />
