@@ -49,13 +49,12 @@
 package org.secuso.privacyfriendlynetmonitor.DatabaseUtil;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.greenrobot.greendao.database.Database;
-import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -70,11 +69,19 @@ public class DBApp extends Application {
     private static DaoSession daoSession;
     private static DBApp mContext;
 
+    private static final String dbVersion = "1";
+
+    private static SharedPreferences selectedAppsPreferences;
+    private static SharedPreferences.Editor editor;
+
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = this;
         new DBAppAsyncTask().execute("");
+
+        selectedAppsPreferences = getSharedPreferences("DBINFO", 0);
+        editor = selectedAppsPreferences.edit();
     }
 
     public DaoSession getDaoSession(){
@@ -88,6 +95,21 @@ public class DBApp extends Application {
             System.out.println("Starting Database Async Task");
             DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(mContext, ENCRYPTED ? "reports-db-encrypted" : "reports-db");
             Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+
+            Map map = selectedAppsPreferences.getAll();
+            if(!map.isEmpty() && map.get("Version") != null && !map.get("Version").equals("")){
+                if(!map.get("Version").equals(dbVersion) && Integer.parseInt((String) map.get("Version")) < Integer.parseInt(dbVersion)){
+                    helper.onUpgrade(db, Integer.parseInt((String) map.get("Version")), Integer.parseInt(dbVersion));
+                    editor.putString("Version", dbVersion);
+                    editor.commit();
+                }
+            } else {
+                helper.onUpgrade(db, 0, Integer.parseInt(dbVersion));
+                editor.putString("Version", dbVersion);
+                editor.commit();
+            }
+
+
             daoSession = new DaoMaster(db).newSession();
             return "";
         }

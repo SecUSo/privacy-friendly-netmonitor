@@ -50,7 +50,6 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,16 +57,10 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.secuso.privacyfriendlynetmonitor.Assistant.KnownPorts;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
-import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.R;
-import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -140,7 +133,7 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
         history_item_2_type.setText("Time Stamp: ");
 
         TextView history_item_2_val = (TextView) convertView.findViewById(R.id.history_item_2_val);
-        history_item_2_val.setText(reportEntity.getLastSeen());
+        history_item_2_val.setText(reportEntity.getTimeStamp());
 
         return convertView;
     }

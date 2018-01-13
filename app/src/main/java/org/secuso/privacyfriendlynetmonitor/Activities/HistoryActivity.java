@@ -50,6 +50,7 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -67,6 +68,7 @@ import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -181,19 +183,30 @@ public class HistoryActivity extends BaseActivity {
      * @return details list
      */
     private List<String> prepareData(ReportEntity reportEntity) {
+
+        PackageManager packageManager = getPackageManager();
+
         String details = "";
         List<String> detailsList = new ArrayList<String>();
 
-        details = reportEntity.getAppName();
+        String appName = reportEntity.getAppName();
+        detailsList.add(appName);
+
+        String uid = reportEntity.getUserID();
+        detailsList.add(uid);
+
+        PackageInfo packageInfo = null;
+
+        try {
+            packageInfo = packageManager.getPackageInfo(appName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            System.out.println("Could not find package info for " + appName + ".");
+        }
+
+        details = packageInfo.versionName;
         detailsList.add(details);
 
-        details = reportEntity.getUserID();
-        detailsList.add(details);
-
-        details = reportEntity.getAppVersion();
-        detailsList.add(details);
-
-        details = reportEntity.getInstalledOn();
+        details = new Date(packageInfo.firstInstallTime).toString();
         detailsList.add(details);
 
         details = reportEntity.getRemoteAddress();
@@ -211,7 +224,7 @@ public class HistoryActivity extends BaseActivity {
         details = reportEntity.getLocalHex();
         detailsList.add(details);
 
-        details = reportEntity.getServicePoint();
+        details = reportEntity.getServicePort();
         detailsList.add(details);
 
         details = reportEntity.getPayloadProtocol();
@@ -220,13 +233,10 @@ public class HistoryActivity extends BaseActivity {
         details = reportEntity.getTransportProtocol();
         detailsList.add(details);
 
-        details = reportEntity.getLastSeen();
-        detailsList.add(details);
-
         details = reportEntity.getLocalPort();
         detailsList.add(details);
 
-        details = reportEntity.getLastSocketState();
+        details = reportEntity.getTimeStamp();
         detailsList.add(details);
 
         details = reportEntity.getConnectionInfo();
@@ -245,7 +255,6 @@ public class HistoryActivity extends BaseActivity {
 
         List<String> userIDs = new ArrayList<String>();
         List<ReportEntity> allReportEntities = reportEntityDao.loadAll();
-        List<List<ReportEntity>> sortedAllReportEntities = new ArrayList<List<ReportEntity>>();
 
         for (ReportEntity reportEntity : allReportEntities) {
             String userID = reportEntity.getUserID();
@@ -277,7 +286,6 @@ public class HistoryActivity extends BaseActivity {
             if (!appsToInclude.isEmpty()) {
                 for (String appName : appsToInclude) {
                     try {
-                        System.out.println(appName);
                         int uid = getPackageManager().getApplicationInfo(appName, 0).uid;
                         if (!Collector.getKnownUIDs().containsKey(uid)) {
                             Collector.addKnownUIDs((new String()).valueOf(uid), appName);

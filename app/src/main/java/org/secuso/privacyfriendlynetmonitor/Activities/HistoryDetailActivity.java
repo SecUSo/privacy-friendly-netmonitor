@@ -118,7 +118,7 @@ public class HistoryDetailActivity extends BaseActivity {
         List<String[]> detailsList = new ArrayList<String[]>();
 
         String[] details = new String[2];
-        details[0] = "USER ID";
+        details[0] = "UID";
         details[1] = unpreparedDetails.get(1);
         detailsList.add(details);
 
@@ -183,7 +183,7 @@ public class HistoryDetailActivity extends BaseActivity {
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "LAST SEEN";
+        details[0] = "LOCAL PORT";
         details[1] = unpreparedDetails.get(12);
         detailsList.add(details);
 
@@ -193,18 +193,13 @@ public class HistoryDetailActivity extends BaseActivity {
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "LOCAL PORT";
+        details[0] = "TIMESTAMP";
         details[1] = unpreparedDetails.get(13);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "LAST SOCKET STATE";
+        details[0] = "CONNECTION INFO";
         details[1] = unpreparedDetails.get(14);
-        detailsList.add(details);
-
-        details = new String[2];
-        details[0] = "CONNECTION INFO\n(OUTDATED)";
-        details[1] = unpreparedDetails.get(15);
         detailsList.add(details);
 
         return detailsList;

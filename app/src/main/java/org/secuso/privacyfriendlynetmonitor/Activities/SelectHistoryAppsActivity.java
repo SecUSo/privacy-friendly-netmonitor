@@ -372,11 +372,9 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
             List<Integer> appsToDelete = appAdapter.getAppsToDelete();
             for (int i : appsToDelete) {
                 String appName = (String) appAdapter.getItem(i);
-                System.out.println(appName);
                 ((RelativeLayout) userInstalledAppsView.getChildAt(i)).setBackgroundColor(Color.WHITE);
             }
             appAdapter.getAppsToDelete().clear();
-//            System.out.println(appAdapter.getAppsToDelete());
         } else {
             super.onBackPressed();
         }

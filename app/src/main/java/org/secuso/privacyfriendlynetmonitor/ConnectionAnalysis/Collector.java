@@ -214,9 +214,6 @@ public class Collector {
                 if (!appsToExcludeFromScan.contains(appName)) {
                     if (appsToIncludeInScan.contains(appName)) {
 
-//                        System.out.println(appName);
-//                        System.out.println(appsToIncludeInScan);
-
                         if (appName != null) {
                             reportEntity.setAppName(appName);
                         } else {
@@ -232,18 +229,6 @@ public class Collector {
                         } catch (NullPointerException e) {
                             info = new PackageInfo();
                         }
-
-                        String appVersion = "" + info.versionName;
-                        reportEntity.setAppVersion(appVersion);
-
-                        String installedOn = "";
-                        if (report.uid > 10000) {
-                            installedOn = new Date(info.firstInstallTime).toString();
-                        } else {
-                            installedOn = "System App";
-                        }
-                        reportEntity.setInstalledOn(installedOn);
-
 
                         String remoteAddr = "";
                         if (report.type == TLType.tcp6 || report.type == TLType.udp6) {
@@ -276,21 +261,21 @@ public class Collector {
                         reportEntity.setLocalHex(localHex);
 
                         String servicePort = "" + report.remotePort;
-                        reportEntity.setServicePoint(servicePort);
+                        reportEntity.setServicePort(servicePort);
                         String payloadProt = "" + KnownPorts.resolvePort(report.remotePort);
                         reportEntity.setPayloadProtocol(payloadProt);
                         String transportProtocol = "" + report.type;
                         reportEntity.setTransportProtocol(transportProtocol);
                         String lastSeen = report.timestamp.toString();
-                        reportEntity.setLastSeen(lastSeen);
+                        reportEntity.setTimeStamp(lastSeen);
                         String localPort = "" + report.localPort;
                         reportEntity.setLocalPort(localPort);
-                        String lastSocketState = getTransportState(report.state);
-                        reportEntity.setLastSocketState(lastSocketState);
-                        String connectionInfo = getMetric(report.remoteAdd.getHostAddress());
+
+                        String connectionInfo = KnownPorts.CompileConnectionInfo(report.remotePort, report.type);
                         reportEntity.setConnectionInfo(connectionInfo);
 
                         reportEntityDao.insertOrReplace(reportEntity);
+
                     }
                 }
             }
