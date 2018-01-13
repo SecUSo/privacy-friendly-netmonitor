@@ -52,6 +52,7 @@ public class Fragment_day extends Fragment {
     private static ReportEntityDao reportEntityDao;
     private static List<ReportEntity> reportEntities;
     private static List<ReportEntity> filtered_Entities = new ArrayList<>();
+    private static List<String> entitiesString = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,41 +90,53 @@ public class Fragment_day extends Fragment {
 
     private void loadFilteredList(String appName) {
         filtered_Entities.clear();
+        entitiesString.clear();
 
         // load DB
         DaoSession daoSession = ((DBApp) getActivity().getApplication()).getDaoSession();
         reportEntityDao = daoSession.getReportEntityDao();
         reportEntities = reportEntityDao.loadAll();
 
+        boolean isIncluded = false;
+
         for (ReportEntity reportEntity : reportEntities) {
             //Only entities from the AppName
             if (reportEntity.getAppName().equals(appName)) {
-                //Only entities 24 hours ago
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                try {
-                    Date currentTime = dateFormat.parse(dateFormat.format(new Date()));
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(currentTime);
-                    cal.add(Calendar.DATE, -1);
-                    //This is the date one day ago == 24 hours ago
-                    Date dateBefore1Days = cal.getTime();
-
-                    String string_date = reportEntity.getTimeStamp();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                    Date entity_date = null;
+                String stringWithoutTimeStamp = reportEntity.toStringWithoutTimestamp();
+                for (String s : entitiesString){
+                    if(s.equals(stringWithoutTimeStamp)){
+                        isIncluded = true;
+                    }
+                }
+                if (isIncluded == false) {
+                    //Only entities 24 hours ago
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                     try {
-                        entity_date = sdf.parse(string_date);
+                        Date currentTime = dateFormat.parse(dateFormat.format(new Date()));
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(currentTime);
+                        cal.add(Calendar.DATE, -1);
+                        //This is the date one day ago == 24 hours ago
+                        Date dateBefore1Days = cal.getTime();
+
+                        String string_date = reportEntity.getTimeStamp();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                        Date entity_date = null;
+                        try {
+                            entity_date = sdf.parse(string_date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (entity_date.after(dateBefore1Days)) {
+                            filtered_Entities.add(reportEntity); // add only that report from that app and 24hours ago
+                            entitiesString.add(stringWithoutTimeStamp);
+                        }
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if (entity_date.after(dateBefore1Days)) {
-                        filtered_Entities.add(reportEntity); // add only that report from that app and 24hours ago
-                    }
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-
+                isIncluded = false;
             }
         }
     }
