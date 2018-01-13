@@ -73,6 +73,7 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.GenerateReportEntities;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
@@ -106,6 +107,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
         reportEntityDao = daoSession.getReportEntityDao();
+
+        // Uncomment to generate Dummy Database Entries
+//        GenerateReportEntities.generateReportEntities(this, reportEntityDao);
 
         // Load apps to include in scan
         SharedPreferences selectedAppsPreferences = getSharedPreferences("SELECTEDAPPS", 0);

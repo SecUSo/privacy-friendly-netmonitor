@@ -280,12 +280,6 @@ public class HistoryActivity extends BaseActivity {
             }
         }
 
-        keys = new ArrayList<>(historyReportMap.keySet());
-
-        for (String key : keys) {
-            Collections.reverse(historyReportMap.get(key));
-        }
-
         List<String> appsToInclude = Collector.getAppsToIncludeInScan();
         if (!appsToInclude.isEmpty()) {
             appsToInclude = new ArrayList<String>(new LinkedHashSet<String>(appsToInclude));
@@ -303,6 +297,12 @@ public class HistoryActivity extends BaseActivity {
                 }
                 appsToInclude.clear();
             }
+        }
+
+        keys = new ArrayList<>(historyReportMap.keySet());
+
+        for (String key : keys) {
+            Collections.reverse(historyReportMap.get(key));
         }
 
         return historyReportMap;
