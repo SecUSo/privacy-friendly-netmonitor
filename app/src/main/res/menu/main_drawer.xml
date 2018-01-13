@@ -11,6 +11,10 @@
             android:id="@+id/nav_history"
             android:icon="@drawable/ic_history"
             android:title="@string/drawer_history" />
+        <item
+            android:id="@+id/nav_tutorial"
+            android:icon="@drawable/ic_tutorial"
+            android:title="@string/drawer_tutorial"/>
     </group>
 
     <group android:id="@+id/nav_group_add"
@@ -23,10 +27,6 @@
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_help"
             android:title="@string/drawer_help" />
-        <item
-            android:id="@+id/nav_tutorial"
-            android:icon="@drawable/ic_tutorial"
-            android:title="@string/drawer_tutorial"/>
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_info"

@@ -1,5 +1,7 @@
 package org.secuso.privacyfriendlynetmonitor.Activities.Adapter;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,10 +14,13 @@ import org.secuso.privacyfriendlynetmonitor.fragment.*;
 
 public class PagerAdapter extends FragmentStatePagerAdapter{
     int mNumOfTabs;
+    Bundle data;
 
-    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public PagerAdapter(FragmentManager fm, int NumOfTabs, String appSubName) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
+        data = new Bundle();
+        data.putString("AppName", appSubName);
     }
 
     @Override
@@ -23,6 +28,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
         switch (position) {
             case 0:
                 Fragment_day tab_day = new Fragment_day();
+                tab_day.setArguments(data);
                 return tab_day;
             case 1:
                 Fragment_week tab_week = new Fragment_week();

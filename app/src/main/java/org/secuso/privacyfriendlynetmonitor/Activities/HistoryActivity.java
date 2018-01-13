@@ -52,6 +52,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -59,6 +62,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
@@ -165,10 +169,13 @@ public class HistoryActivity extends BaseActivity {
         expListView.setOnItemLongClickListener(new ExpandableListView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView tx = (TextView) view.findViewById(R.id.historyGroupTitle);
-                String appName = tx.getText().toString();
+                TextView tx1 = (TextView) view.findViewById(R.id.historyGroupTitle);
+                String appName = tx1.getText().toString();
+                TextView tx2 = (TextView) view.findViewById(R.id.historyGroupSubtitle);
+                String appSubName = tx2.getText().toString();
                 Intent myIntent = new Intent(HistoryActivity.this, AppReport_Detail.class);
                 myIntent.putExtra("AppName", appName);
+                myIntent.putExtra("AppSubName", appSubName);
                 startActivity(myIntent);
 
                 return false;

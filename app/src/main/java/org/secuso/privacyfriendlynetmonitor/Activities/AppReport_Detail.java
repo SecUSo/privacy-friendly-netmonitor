@@ -14,9 +14,13 @@ public class AppReport_Detail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(getIntent().getStringExtra("AppName"));
-        setContentView(R.layout.app_report_detail_layout);
 
+        String appName = getIntent().getStringExtra(("AppName"));
+        setTitle(appName);
+        String appSubName = getIntent().getStringExtra(("AppSubName"));
+
+
+        setContentView(R.layout.app_report_detail_layout);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Day"));
@@ -25,7 +29,8 @@ public class AppReport_Detail extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),
+                appSubName);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
