@@ -4,44 +4,64 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/cardview_default_margin"
-        android:layout_marginLeft="@dimen/cardview_default_margin"
-        android:layout_marginRight="@dimen/cardview_default_margin"
-        card_view:cardCornerRadius="4dp">
+    <RelativeLayout
+        android:id="@+id/holderLayouit1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/cardview_default_margin"
+            android:layout_marginLeft="@dimen/cardview_default_margin"
+            android:layout_marginRight="@dimen/cardview_default_margin"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/period"
+                        style="@style/CardViewPrimaryTitle" />
+
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/include"
+                    layout="@layout/history_list_group" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginBottom="24dp" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/holderLayouit1"
+        android:background="@drawable/background_border">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/period"
-                    style="@style/CardViewPrimaryTitle" />
-
-            </RelativeLayout>
-
-            <include
-                android:id="@+id/include"
-                layout="@layout/history_list_group" />
-
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/chart"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginBottom="24dp"/>
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+            android:scrollbars="vertical" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

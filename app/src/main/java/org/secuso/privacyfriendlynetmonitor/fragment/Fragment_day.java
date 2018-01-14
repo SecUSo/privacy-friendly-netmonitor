@@ -4,6 +4,8 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
+import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.FragmentDayListAdapter;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
@@ -54,6 +57,10 @@ public class Fragment_day extends Fragment {
     private static List<ReportEntity> filtered_Entities = new ArrayList<>();
     private static List<String> entitiesString = new ArrayList<>();
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +91,8 @@ public class Fragment_day extends Fragment {
 
         loadFilteredList(appName);
         fillChart(view);
+
+        fillRecyclerList(view);
 
         return view;
     }
@@ -145,7 +154,7 @@ public class Fragment_day extends Fragment {
         BarChart chart = (BarChart) view.findViewById(R.id.chart);
         List<BarEntry> entries = new ArrayList<BarEntry>();
 
-        int[] last24hours = new int[23];
+        int[] last24hours = new int[24];
 
         for (ReportEntity reportEntity : filtered_Entities) {
             String string_timestamp = reportEntity.getTimeStamp();
@@ -157,6 +166,10 @@ public class Fragment_day extends Fragment {
                 e.printStackTrace();
             }
             int hourEntity = entity_date.getHours();
+
+            if(hourEntity == 0){
+                hourEntity=24;
+            }
             last24hours[hourEntity-1] = last24hours[hourEntity-1] + 1;
         }
 
@@ -191,5 +204,13 @@ public class Fragment_day extends Fragment {
 
     }
 
+    private void fillRecyclerList(View view) {
 
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new FragmentDayListAdapter(filtered_Entities, getContext());
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }
