@@ -19,6 +19,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.FragmentDayListAdapter;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
@@ -65,11 +68,11 @@ public class Fragment_day extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_day_layout, container, false);
+        final View view = inflater.inflate(R.layout.fragment_day_layout, container, false);
 
         //Fill Icon, AppGroupTitle, AppName
         TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
-        String appName = getArguments().getString("AppName");
+        final String appName = getArguments().getString("AppName");
         tx_appName.setText(appName);
 
         PackageManager packageManager = getActivity().getPackageManager();
@@ -89,10 +92,32 @@ public class Fragment_day extends Fragment {
         }
         //END Fill Icon, AppGroupTitle, AppName
 
+        final BarChart chart = (BarChart) view.findViewById(R.id.chart);
         loadFilteredList(appName);
-        fillChart(view);
+        fillChart(view, chart);
 
-        fillRecyclerList(view);
+        fillRecyclerList(view, filtered_Entities);
+
+        chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                List<ReportEntity> cacheList = new ArrayList<ReportEntity>();
+                if(e.getY() != 0){
+                    for (ReportEntity cacheEntity : filtered_Entities){
+                        int cacheEntityHour = getEntityHour(cacheEntity);
+                        if(cacheEntityHour == e.getX()){
+                            cacheList.add(cacheEntity);
+                        }
+                    }
+                    fillRecyclerList(view, cacheList);
+                }
+            }
+
+            @Override
+            public void onNothingSelected() {
+                fillRecyclerList(view, filtered_Entities);
+            }
+        });
 
         return view;
     }
@@ -150,22 +175,15 @@ public class Fragment_day extends Fragment {
         }
     }
 
-    private void fillChart(View view) {
-        BarChart chart = (BarChart) view.findViewById(R.id.chart);
+    private void fillChart(View view, BarChart chart) {
+
         List<BarEntry> entries = new ArrayList<BarEntry>();
 
         int[] last24hours = new int[24];
 
         for (ReportEntity reportEntity : filtered_Entities) {
-            String string_timestamp = reportEntity.getTimeStamp();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-            Date entity_date = null;
-            try {
-                entity_date = sdf.parse(string_timestamp);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            int hourEntity = entity_date.getHours();
+
+            int hourEntity = getEntityHour(reportEntity);
 
             if(hourEntity == 0){
                 hourEntity=24;
@@ -174,7 +192,7 @@ public class Fragment_day extends Fragment {
         }
 
         for (int i = 0; i < last24hours.length;i++){
-            entries.add(new BarEntry(i, last24hours[i]));
+            entries.add(new BarEntry(i+1, last24hours[i]));
         }
 
 
@@ -193,7 +211,7 @@ public class Fragment_day extends Fragment {
         yAxis_right.setAxisMinimum(0f);
 
         BarData barData = new BarData(barset);
-        barData.setBarWidth(0.2f);
+        barData.setBarWidth(0.5f);
         chart.setData(barData);
         chart.setFitBars(true);
         //Sets the desc label at the bottom to " "
@@ -204,13 +222,26 @@ public class Fragment_day extends Fragment {
 
     }
 
-    private void fillRecyclerList(View view) {
+    private void fillRecyclerList(View view, List<ReportEntity> reportEntityList) {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new FragmentDayListAdapter(filtered_Entities, getContext());
+        mAdapter = new FragmentDayListAdapter(reportEntityList, getContext());
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private int getEntityHour(ReportEntity reportEntity){
+        String string_timestamp = reportEntity.getTimeStamp();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date entity_date = null;
+        try {
+            entity_date = sdf.parse(string_timestamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return entity_date.getHours();
     }
 }
