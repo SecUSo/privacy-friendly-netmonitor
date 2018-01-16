@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
@@ -42,16 +44,6 @@ import java.util.List;
  * https://github.com/PhilJay/MPAndroidChart/wiki/Setting-Data
  */
 
-//        String someDate = "2018-01-06 13:39:33.888";
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-//        Date date = null;
-//        try {
-//            date = sdf.parse(someDate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(date.getTime());
-
 public class Fragment_day extends Fragment {
 
     // ReportEntity Table and ReportEntities List
@@ -71,45 +63,55 @@ public class Fragment_day extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_day_layout, container, false);
 
         //Fill Icon, AppGroupTitle, AppName
-        TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
-        final String appName = getArguments().getString("AppName");
-        tx_appName.setText(appName);
+            PackageManager packageManager = getActivity().getPackageManager();
 
-        PackageManager packageManager = getActivity().getPackageManager();
-        try {
-            String appGroupTitle = (String) packageManager.getApplicationLabel(
-                    packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA));
-            TextView tx_appGroupTitle = view.findViewById(R.id.historyGroupTitle);
-            tx_appGroupTitle.setText(appGroupTitle);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+            TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
+            final String appName = getArguments().getString("AppName");
+            tx_appName.setText(appName);
 
-        ImageView appIcon = (ImageView) view.findViewById(R.id.historyGroupIcon);
-        try {
-            appIcon.setImageDrawable(packageManager.getApplicationIcon(appName));
-        } catch (PackageManager.NameNotFoundException e) {
-        }
+            try {
+                ImageView appIcon = (ImageView) view.findViewById(R.id.historyGroupIcon);
+                String appGroupTitle = (String) packageManager.getApplicationLabel(
+                        packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA));
+                TextView tx_appGroupTitle = view.findViewById(R.id.historyGroupTitle);
+                tx_appGroupTitle.setText(appGroupTitle);
+                appIcon.setImageDrawable(packageManager.getApplicationIcon(appName));
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         //END Fill Icon, AppGroupTitle, AppName
 
+        //Build the Barchart
         final BarChart chart = (BarChart) view.findViewById(R.id.chart);
-        loadFilteredList(appName);
-        fillChart(view, chart);
+        loadFilteredList(appName); //method to get all connection from the app "appName"
+        fillChart(view, chart); //method to fill the chart with the filteredList
+        fillRecyclerList(view, filtered_Entities); //method to show all connection
 
-        fillRecyclerList(view, filtered_Entities);
-
+        //Listener for Value Selection
         chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
+                //Handling the current time in Hour
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                    Date currentTime=null;
+                    try {
+                        currentTime = dateFormat.parse(dateFormat.format(new Date()));
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                //End current time handling
+                int currentHour = currentTime.getHours();
+                int shift = 23-currentHour; //the shift that is needed to get the correct connections
+                //extra cacheList to only show the reports to the selected value in the chart
                 List<ReportEntity> cacheList = new ArrayList<ReportEntity>();
                 if(e.getY() != 0){
                     for (ReportEntity cacheEntity : filtered_Entities){
-                        int cacheEntityHour = getEntityHour(cacheEntity);
+                        int cacheEntityHour = (getEntityHour(cacheEntity)+shift)%24;
                         if(cacheEntityHour == e.getX()){
                             cacheList.add(cacheEntity);
                         }
                     }
-                    fillRecyclerList(view, cacheList);
+                    fillRecyclerList(view, cacheList); //method to show conn. according to the value
                 }
             }
 
@@ -129,19 +131,21 @@ public class Fragment_day extends Fragment {
         // load DB
         DaoSession daoSession = ((DBApp) getActivity().getApplication()).getDaoSession();
         reportEntityDao = daoSession.getReportEntityDao();
-        reportEntities = reportEntityDao.loadAll();
+        reportEntities = reportEntityDao.loadAll(); //END load DB
 
-        boolean isIncluded = false;
+        boolean isIncluded = false; //variable to check if conn. is already included
 
         for (ReportEntity reportEntity : reportEntities) {
             //Only entities from the AppName
             if (reportEntity.getAppName().equals(appName)) {
                 String stringWithoutTimeStamp = reportEntity.toStringWithoutTimestamp();
+                //search if it is included allready
                 for (String s : entitiesString){
                     if(s.equals(stringWithoutTimeStamp)){
                         isIncluded = true;
                     }
                 }
+                //if it is NOT included do....
                 if (isIncluded == false) {
                     //Only entities 24 hours ago
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -150,58 +154,88 @@ public class Fragment_day extends Fragment {
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(currentTime);
                         cal.add(Calendar.DATE, -1);
+
                         //This is the date one day ago == 24 hours ago
                         Date dateBefore1Days = cal.getTime();
 
                         String string_date = reportEntity.getTimeStamp();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                        Date entity_date = null;
-                        try {
-                            entity_date = sdf.parse(string_date);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if (entity_date.after(dateBefore1Days)) {
+
+                        // sdf.parse(string_date) --> this is the Entity date
+                        if (sdf.parse(string_date).after(dateBefore1Days)) {
                             filtered_Entities.add(reportEntity); // add only that report from that app and 24hours ago
                             entitiesString.add(stringWithoutTimeStamp);
                         }
-
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                isIncluded = false;
+                isIncluded = false; //reset to false
             }
         }
     }
 
     private void fillChart(View view, BarChart chart) {
+        //Handling the current time in Hour
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            Date currentTime=null;
+            try {
+                currentTime = dateFormat.parse(dateFormat.format(new Date()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int currentHour = currentTime.getHours();
 
+        //Putting reportEntitites into a array for chart
+        //hour 10 --> Array [9] ...
         List<BarEntry> entries = new ArrayList<BarEntry>();
 
         int[] last24hours = new int[24];
 
         for (ReportEntity reportEntity : filtered_Entities) {
-
             int hourEntity = getEntityHour(reportEntity);
-
-            if(hourEntity == 0){
-                hourEntity=24;
-            }
-            last24hours[hourEntity-1] = last24hours[hourEntity-1] + 1;
+            if(hourEntity == 24){ hourEntity=0; }
+            //Increase the field of the array of the entityHour
+            last24hours[hourEntity] = last24hours[hourEntity] + 1;
         }
-
+        //adding data to chart
+        int slide = 23-currentHour;
+        int[] cache24hours = new int[24];
         for (int i = 0; i < last24hours.length;i++){
-            entries.add(new BarEntry(i+1, last24hours[i]));
+            int xValueCache = (i+slide)%24;
+            cache24hours[xValueCache] = last24hours[i];
         }
-
+            //extra "for-loop" beause the chart has to be filled from "0" to...value
+        for(int i = 0; i < cache24hours.length;i++){
+            entries.add(new BarEntry(i , cache24hours[i]));
+        }
 
         BarDataSet barset = new BarDataSet(entries, "Hours"); //TODO put in in german as well
         barset.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
 
         //X Achse Formatter--------------------------------------------------------
+
+        // the labels that should be drawn on the XAxis
+            final String[] hours = new String[last24hours.length];
+
+                for(int i = 0; i<hours.length; i++){
+                    if(i == hours.length-1){
+                        hours[i] = currentHour+ " o'clock"; //TODO add to german lang
+                    }else {
+                        hours[i] = "- " + Integer.toString(23 - i) + "hr"; //TODO add to german lang
+                    }
+                }
+
+            IAxisValueFormatter formatter = new IAxisValueFormatter() {
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return hours[(int) value];
+                }
+            };
+
         XAxis xAxis = chart.getXAxis();
         xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         //Y Achse Formatter----------------------------------------------------------
