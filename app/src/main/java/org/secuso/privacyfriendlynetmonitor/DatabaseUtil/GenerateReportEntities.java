@@ -43,7 +43,7 @@ public class GenerateReportEntities {
         long before = System.currentTimeMillis();
         for (int i = 0; i < 1; i++) {
 
-            for (int year = 2018; year <= 2018; year++) {
+            for (int year = 2017; year <= 2017; year++) {
 
                 System.out.println("New year: " + year);
 

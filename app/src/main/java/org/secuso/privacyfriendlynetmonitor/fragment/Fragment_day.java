@@ -1,6 +1,7 @@
 package org.secuso.privacyfriendlynetmonitor.fragment;
 
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -124,6 +125,88 @@ public class Fragment_day extends Fragment {
         return view;
     }
 
+    private void fillChart(View view, BarChart chart) {
+        //Handling the current time in Hour
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date currentTime=null;
+        try {
+            currentTime = dateFormat.parse(dateFormat.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int currentHour = currentTime.getHours();
+
+        //Putting reportEntitites into a array for chart
+        //hour 10 --> Array [9] ...
+        List<BarEntry> entries = new ArrayList<BarEntry>();
+
+        int[] last24hours = new int[24];
+
+        for (ReportEntity reportEntity : filtered_Entities) {
+            int hourEntity = getEntityHour(reportEntity);
+            if(hourEntity == 24){ hourEntity=0; }
+            //Increase the field of the array of the entityHour
+            last24hours[hourEntity] = last24hours[hourEntity] + 1;
+        }
+        //adding data to chart
+        int slide = 23-currentHour;
+        int[] cache24hours = new int[24];
+        for (int i = 0; i < last24hours.length;i++){
+            int xValueCache = (i+slide)%24;
+            cache24hours[xValueCache] = last24hours[i];
+        }
+        //extra "for-loop" beause the chart has to be filled from "0" to...value
+        for(int i = 0; i < cache24hours.length;i++){
+            entries.add(new BarEntry(i , new float[] {cache24hours[i],10}));
+        }
+
+        BarDataSet barset = new BarDataSet(entries, "Hours"); //TODO put in in german as well
+        barset.setStackLabels(new String[]{"Births", "Divorces"});
+        barset.setColors(new int[] {ContextCompat.getColor(getContext(), R.color.colorPrimary), Color.GREEN});
+
+        //X Achse Formatter--------------------------------------------------------
+
+        // the labels that should be drawn on the XAxis
+        final String[] hours = new String[last24hours.length];
+
+        for(int i = 0; i<hours.length; i++){
+            if(i == hours.length-1){
+                hours[i] = currentHour+ " o'clock"; //TODO add to german lang
+            }else {
+                hours[i] = "- " + Integer.toString(23 - i) + "hr"; //TODO add to german lang
+            }
+        }
+
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return hours[(int) value];
+            }
+        };
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        //Y Achse Formatter----------------------------------------------------------
+        YAxis yAxis_left = chart.getAxisLeft();
+        yAxis_left.setAxisMinimum(0f);
+        YAxis yAxis_right = chart.getAxisRight();
+        yAxis_right.setAxisMinimum(0f);
+
+        BarData barData = new BarData(barset);
+        barData.setBarWidth(0.5f);
+        chart.setData(barData);
+        chart.setFitBars(true);
+        //Sets the desc label at the bottom to " "
+        Description description = new Description();
+        description.setText("");
+        chart.setDescription(description);
+        chart.invalidate();
+
+    }
+
     private void loadFilteredList(String appName) {
         filtered_Entities.clear();
         entitiesString.clear();
@@ -162,7 +245,9 @@ public class Fragment_day extends Fragment {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
                         // sdf.parse(string_date) --> this is the Entity date
-                        if (sdf.parse(string_date).after(dateBefore1Days)) {
+                        if (!sdf.parse(string_date).after(dateBefore1Days)) {
+
+                        }else{
                             filtered_Entities.add(reportEntity); // add only that report from that app and 24hours ago
                             entitiesString.add(stringWithoutTimeStamp);
                         }
@@ -173,87 +258,6 @@ public class Fragment_day extends Fragment {
                 isIncluded = false; //reset to false
             }
         }
-    }
-
-    private void fillChart(View view, BarChart chart) {
-        //Handling the current time in Hour
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-            Date currentTime=null;
-            try {
-                currentTime = dateFormat.parse(dateFormat.format(new Date()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            int currentHour = currentTime.getHours();
-
-        //Putting reportEntitites into a array for chart
-        //hour 10 --> Array [9] ...
-        List<BarEntry> entries = new ArrayList<BarEntry>();
-
-        int[] last24hours = new int[24];
-
-        for (ReportEntity reportEntity : filtered_Entities) {
-            int hourEntity = getEntityHour(reportEntity);
-            if(hourEntity == 24){ hourEntity=0; }
-            //Increase the field of the array of the entityHour
-            last24hours[hourEntity] = last24hours[hourEntity] + 1;
-        }
-        //adding data to chart
-        int slide = 23-currentHour;
-        int[] cache24hours = new int[24];
-        for (int i = 0; i < last24hours.length;i++){
-            int xValueCache = (i+slide)%24;
-            cache24hours[xValueCache] = last24hours[i];
-        }
-            //extra "for-loop" beause the chart has to be filled from "0" to...value
-        for(int i = 0; i < cache24hours.length;i++){
-            entries.add(new BarEntry(i , cache24hours[i]));
-        }
-
-        BarDataSet barset = new BarDataSet(entries, "Hours"); //TODO put in in german as well
-        barset.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-
-        //X Achse Formatter--------------------------------------------------------
-
-        // the labels that should be drawn on the XAxis
-            final String[] hours = new String[last24hours.length];
-
-                for(int i = 0; i<hours.length; i++){
-                    if(i == hours.length-1){
-                        hours[i] = currentHour+ " o'clock"; //TODO add to german lang
-                    }else {
-                        hours[i] = "- " + Integer.toString(23 - i) + "hr"; //TODO add to german lang
-                    }
-                }
-
-            IAxisValueFormatter formatter = new IAxisValueFormatter() {
-                @Override
-                public String getFormattedValue(float value, AxisBase axis) {
-                    return hours[(int) value];
-                }
-            };
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
-        xAxis.setValueFormatter(formatter);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        //Y Achse Formatter----------------------------------------------------------
-        YAxis yAxis_left = chart.getAxisLeft();
-        yAxis_left.setAxisMinimum(0f);
-        YAxis yAxis_right = chart.getAxisRight();
-        yAxis_right.setAxisMinimum(0f);
-
-        BarData barData = new BarData(barset);
-        barData.setBarWidth(0.5f);
-        chart.setData(barData);
-        chart.setFitBars(true);
-        //Sets the desc label at the bottom to " "
-        Description description = new Description();
-        description.setText("");
-        chart.setDescription(description);
-        chart.invalidate();
-
     }
 
     private void fillRecyclerList(View view, List<ReportEntity> reportEntityList) {
