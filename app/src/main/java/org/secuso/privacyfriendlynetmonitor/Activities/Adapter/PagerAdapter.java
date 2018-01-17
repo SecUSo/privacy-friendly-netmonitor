@@ -32,6 +32,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
                 return tab_day;
             case 1:
                 Fragment_week tab_week = new Fragment_week();
+                tab_week.setArguments(data);
                 return tab_week;
             case 2:
                 Fragment_month tab_month = new Fragment_month();

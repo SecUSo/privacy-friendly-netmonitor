@@ -1,7 +1,6 @@
 package org.secuso.privacyfriendlynetmonitor.fragment;
 
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -145,7 +144,6 @@ public class Fragment_day extends Fragment {
         int currentHour = currentTime.getHours();
 
         //Putting reportEntitites into a array for chart
-        //hour 10 --> Array [9] ...
         List<BarEntry> entry = new ArrayList<BarEntry>();
 
         int[] last24hours_encrypted = new int[24];
