@@ -293,7 +293,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
     }
 
     private void sortInstalledDate_asc() {
-        Map<Long, String> appdates = new TreeMap<>();
+        Map<Long, List<String>> appdates = new TreeMap<>();
         PackageManager packageManager = this.getPackageManager();
         for (int i = 0; i < app_list_name.size(); i++) {
             PackageInfo packageInfo = null;
@@ -303,21 +303,29 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             long installTimeInMilliseconds = packageInfo.firstInstallTime;
-            appdates.put(installTimeInMilliseconds, app_list_name.get(i));
+            if (appdates.containsKey(installTimeInMilliseconds)) {
+                appdates.get(installTimeInMilliseconds).add(app_list_name.get(i));
+            } else {
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add(app_list_name.get(i));
+                appdates.put(installTimeInMilliseconds, temp);
+            }
         }
         AscComparator comp = new AscComparator(appdates);
-        Map<Long, String> newMap = new TreeMap(comp);
+        Map<Long, List<String>> newMap = new TreeMap(comp);
         newMap.putAll(appdates);
         appdates = newMap;
         app_list_name.clear();
 
-        for (Map.Entry<Long, String> entry : appdates.entrySet()) {
-            app_list_name.add(entry.getValue().toString());
+        for (Long key : appdates.keySet()) {
+            for(String s : appdates.get(key)){
+                app_list_name.add(s);
+            }
         }
     }
 
     private void sortInstalledDate_desc() {
-        Map<Long, String> appdates = new TreeMap<>();
+        Map<Long, List<String>> appdates = new TreeMap<>();
         PackageManager packageManager = this.getPackageManager();
         for (int i = 0; i < app_list_name.size(); i++) {
             PackageInfo packageInfo = null;
@@ -327,16 +335,24 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             long installTimeInMilliseconds = packageInfo.firstInstallTime;
-            appdates.put(installTimeInMilliseconds, app_list_name.get(i));
+            if (appdates.containsKey(installTimeInMilliseconds)) {
+                appdates.get(installTimeInMilliseconds).add(app_list_name.get(i));
+            } else {
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add(app_list_name.get(i));
+                appdates.put(installTimeInMilliseconds, temp);
+            }
         }
         DescComparator comp = new DescComparator(appdates);
-        Map<Long, String> newMap = new TreeMap(comp);
+        Map<Long, List<String>> newMap = new TreeMap(comp);
         newMap.putAll(appdates);
         appdates = newMap;
         app_list_name.clear();
 
-        for (Map.Entry<Long, String> entry : appdates.entrySet()) {
-            app_list_name.add(entry.getValue().toString());
+        for (Long key : appdates.keySet()) {
+            for(String s : appdates.get(key)){
+                app_list_name.add(s);
+            }
         }
     }
 
