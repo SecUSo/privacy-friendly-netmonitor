@@ -156,5 +156,9 @@
     <string name="title_activity_app_report__detail">App report details</string>
     <string name="nodata">No reports available.\nPlease select some apps you\n want to monitor via the button\n in the right bottom corner.</string>
     <string name="deleteButton">Delete History of selected Apps</string>
+    <string name="dialogTitle">Delete all reports?</string>
+    <string name="dialogMessage">Report Deletion</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

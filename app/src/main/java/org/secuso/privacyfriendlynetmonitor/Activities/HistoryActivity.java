@@ -48,6 +48,8 @@
  */
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -64,6 +66,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
@@ -123,11 +126,7 @@ public class HistoryActivity extends BaseActivity {
         deleteDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reportEntityDao.deleteAll();
-//                Collector.getAppsToIncludeInScan().clear();
-//                editor.clear();
-//                editor.commit();
-                activateHistoryView();
+                deleteConfirmation();
             }
         });
 
@@ -318,4 +317,30 @@ public class HistoryActivity extends BaseActivity {
         return R.id.nav_history;
     }
 
+
+    private void deleteConfirmation() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialogTitle).setTitle(R.string.dialogMessage);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                reportEntityDao.deleteAll();
+                activateHistoryView();
+                Toast.makeText(getApplicationContext(), "All reports have been deleted.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Deletion canceled.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        System.out.println("Building complete");
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 }
