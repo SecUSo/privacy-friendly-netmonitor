@@ -45,6 +45,7 @@ import java.util.List;
 
 public class Fragment_week extends Fragment {
 
+
     // ReportEntity Table and ReportEntities List
     private static ReportEntityDao reportEntityDao;
     private static List<ReportEntity> reportEntities;
