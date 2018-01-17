@@ -321,7 +321,7 @@ public class HistoryActivity extends BaseActivity {
     private void deleteConfirmation() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.dialogTitle).setTitle(R.string.dialogMessage);
+        builder.setTitle(R.string.dialogTitle);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
