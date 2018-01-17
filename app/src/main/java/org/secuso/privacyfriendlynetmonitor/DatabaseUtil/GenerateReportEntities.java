@@ -79,7 +79,14 @@ public class GenerateReportEntities {
                                 reportEntity.setPayloadProtocol(getRandomString());
                                 reportEntity.setTransportProtocol(getRandomString());
                                 reportEntity.setLocalPort(getRandomString());
-                                reportEntity.setConnectionInfo(getRandomString());
+                                //reportEntity.setConnectionInfo(getRandomString());
+
+                                double random = Math.random();
+                                if(random < 0.5) {
+                                    reportEntity.setConnectionInfo("Encrypted()");
+                                } else {
+                                    reportEntity.setConnectionInfo("Unencrypted()");
+                                }
 
                                 String monthString = "";
                                 if (month < 10) {

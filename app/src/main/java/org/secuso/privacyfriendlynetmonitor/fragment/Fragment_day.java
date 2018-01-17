@@ -109,7 +109,15 @@ public class Fragment_day extends Fragment {
                     for (ReportEntity cacheEntity : filtered_Entities){
                         int cacheEntityHour = (getEntityHour(cacheEntity)+shift)%24;
                         if(cacheEntityHour == e.getX()){
-                            cacheList.add(cacheEntity);
+                            if(h.getStackIndex()==0 && cacheEntity.getConnectionInfo().contains("Unknown")){
+                                    cacheList.add(cacheEntity);
+                            }
+                            if(h.getStackIndex()==1 && cacheEntity.getConnectionInfo().contains("Encrypted")){
+                                    cacheList.add(cacheEntity);
+                            }
+                            if(h.getStackIndex()==2 && cacheEntity.getConnectionInfo().contains("Unencrypted")){
+                                    cacheList.add(cacheEntity);
+                            }
                         }
                     }
                     fillRecyclerList(view, cacheList); //method to show conn. according to the value
@@ -138,36 +146,52 @@ public class Fragment_day extends Fragment {
 
         //Putting reportEntitites into a array for chart
         //hour 10 --> Array [9] ...
-        List<BarEntry> entries = new ArrayList<BarEntry>();
+        List<BarEntry> entry = new ArrayList<BarEntry>();
 
-        int[] last24hours = new int[24];
+        int[] last24hours_encrypted = new int[24];
+        int[] last24hours_unencrypted = new int[24];
+        int[] last24hours_unknown = new int[24];
 
         for (ReportEntity reportEntity : filtered_Entities) {
             int hourEntity = getEntityHour(reportEntity);
             if(hourEntity == 24){ hourEntity=0; }
             //Increase the field of the array of the entityHour
-            last24hours[hourEntity] = last24hours[hourEntity] + 1;
+            if(reportEntity.getConnectionInfo().contains("Encrypted")){
+                last24hours_encrypted[hourEntity] = last24hours_encrypted[hourEntity] + 1;
+            }else if(reportEntity.getConnectionInfo().contains("Unencrypted")){
+                last24hours_unencrypted[hourEntity] = last24hours_unencrypted[hourEntity] + 1;
+            }else if(reportEntity.getConnectionInfo().contains("Unknown")){
+                last24hours_unknown[hourEntity] = last24hours_unknown[hourEntity] + 1;
+            }
+
         }
         //adding data to chart
         int slide = 23-currentHour;
-        int[] cache24hours = new int[24];
-        for (int i = 0; i < last24hours.length;i++){
+        int[] cache24hours_encrypted = new int[24];
+        int[] cache24hours_unencrypted = new int[24];
+        int[] cache24hours_unknown = new int[24];
+        for (int i = 0; i < last24hours_encrypted.length;i++){
             int xValueCache = (i+slide)%24;
-            cache24hours[xValueCache] = last24hours[i];
+            cache24hours_encrypted[xValueCache] = last24hours_encrypted[i];
+            cache24hours_unencrypted[xValueCache] = last24hours_unencrypted[i];
+            cache24hours_unknown[xValueCache] = last24hours_unknown[i];
         }
         //extra "for-loop" beause the chart has to be filled from "0" to...value
-        for(int i = 0; i < cache24hours.length;i++){
-            entries.add(new BarEntry(i , new float[] {cache24hours[i],10}));
+        for(int i = 0; i < cache24hours_encrypted.length;i++){
+            entry.add(new BarEntry(i , new float[] {cache24hours_unknown[i],
+                    cache24hours_encrypted[i],cache24hours_unencrypted[i]}));
         }
 
-        BarDataSet barset = new BarDataSet(entries, "Hours"); //TODO put in in german as well
-        barset.setStackLabels(new String[]{"Births", "Divorces"});
-        barset.setColors(new int[] {ContextCompat.getColor(getContext(), R.color.colorPrimary), Color.GREEN});
+        BarDataSet barset = new BarDataSet(entry, "Hours"); //TODO put in in german as well
+        barset.setStackLabels(new String[]{"Unknown", "Encrypted", "Unencrypted"}); //TODO put in in german as well
+        barset.setColors(new int[] {ContextCompat.getColor(getContext(), R.color.text_dark),
+                ContextCompat.getColor(getContext(), R.color.green),
+                ContextCompat.getColor(getContext(), R.color.red)});
 
         //X Achse Formatter--------------------------------------------------------
 
         // the labels that should be drawn on the XAxis
-        final String[] hours = new String[last24hours.length];
+        final String[] hours = new String[last24hours_encrypted.length];
 
         for(int i = 0; i<hours.length; i++){
             if(i == hours.length-1){
