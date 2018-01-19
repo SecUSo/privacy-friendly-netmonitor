@@ -45,12 +45,13 @@ import java.util.List;
 
 public class Fragment_week extends Fragment {
 
-
     // ReportEntity Table and ReportEntities List
     private static ReportEntityDao reportEntityDao;
     private static List<ReportEntity> reportEntities;
     private static List<ReportEntity> filtered_Entities = new ArrayList<>();
     private static List<String> entitiesString = new ArrayList<>();
+    private static Date dateBefore1week = null;
+    private static Date currentDate = null;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -81,6 +82,20 @@ public class Fragment_week extends Fragment {
         }
         //END Fill Icon, AppGroupTitle, AppName
 
+        //calc dateBefore1week
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        try {
+            currentDate = dateFormat.parse(dateFormat.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.add(Calendar.DATE, -6);
+
+        //This is the date 7 days ago == 1 week
+        dateBefore1week = cal.getTime();
+
         //Build the Barchart
         final BarChart chart = (BarChart) view.findViewById(R.id.chart);
         loadFilteredList(appName); //method to get all connection from the app "appName"
@@ -92,22 +107,14 @@ public class Fragment_week extends Fragment {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
                 //Handling the current time in Hour
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                Date currentDate=null;
-                try {
-                    currentDate = dateFormat.parse(dateFormat.format(new Date()));
-                } catch (ParseException ex) {
-                    ex.printStackTrace();
-                }
-                //End current time handling
                 int currentDay = currentDate.getDate();
                 int shift = currentDay-6; //the shift that is needed to get the correct connections
                 //extra cacheList to only show the reports to the selected value in the chart
                 List<ReportEntity> cacheList = new ArrayList<ReportEntity>();
                 if(e.getY() != 0){
                     for (ReportEntity cacheEntity : filtered_Entities){
-                        int cacheEntityDay = (getEntityDay(cacheEntity))-shift;
-                        if(cacheEntityDay == e.getX()){
+                        int daysBetween = getDaysBetween(dateBefore1week, getEntityDate(cacheEntity));
+                        if(daysBetween == e.getX()){
                             if(h.getStackIndex()==0 && cacheEntity.getConnectionInfo().contains("Unknown")){
                                 cacheList.add(cacheEntity);
                             }
@@ -133,14 +140,6 @@ public class Fragment_week extends Fragment {
     }
 
     private void fillChart(View view, BarChart chart) {
-        //Handling the current time in Day
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        Date currentDate=null;
-        try {
-            currentDate = dateFormat.parse(dateFormat.format(new Date()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         int currentDay = currentDate.getDate();
 
         //Putting reportEntitites into a array for chart
@@ -150,17 +149,15 @@ public class Fragment_week extends Fragment {
         int[] lastWeek_unencrypted = new int[7];
         int[] lastWeek_unknown = new int[7];
 
-        int shift = currentDay -6;
         for (ReportEntity reportEntity : filtered_Entities) {
-            int dayEntity = getEntityDay(reportEntity) - shift;
-            //if(dayEntity == 7){ dayEntity=0; }
-            //Increase the field of the array of the entityHour
+            int daysBetween = getDaysBetween(dateBefore1week, getEntityDate(reportEntity));
+            //Increase the field of the array of the entityDay
             if(reportEntity.getConnectionInfo().contains("Encrypted")){
-                lastWeek_encrypted[dayEntity] = lastWeek_encrypted[dayEntity] + 1;
+                lastWeek_encrypted[daysBetween] = lastWeek_encrypted[daysBetween] + 1;
             }else if(reportEntity.getConnectionInfo().contains("Unencrypted")){
-                lastWeek_unencrypted[dayEntity] = lastWeek_unencrypted[dayEntity] + 1;
+                lastWeek_unencrypted[daysBetween] = lastWeek_unencrypted[daysBetween] + 1;
             }else if(reportEntity.getConnectionInfo().contains("Unknown")){
-                lastWeek_unknown[dayEntity] = lastWeek_unknown[dayEntity] + 1;
+                lastWeek_unknown[daysBetween] = lastWeek_unknown[daysBetween] + 1;
             }
 
         }
@@ -243,20 +240,12 @@ public class Fragment_week extends Fragment {
                 //if it is NOT included do....
                 if (isIncluded == false) {
                     //Only entities 24 hours ago
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                    try {
-                        Date currentDay = dateFormat.parse(dateFormat.format(new Date()));
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(currentDay);
-                        cal.add(Calendar.DATE, -6);
-
-                        //This is the date 7 days ago == 1 week
-                        Date dateBefore1week = cal.getTime();
 
                         String string_date = reportEntity.getTimeStamp();
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
                         // sdf.parse(string_date) --> this is the Entity date
+                    try {
                         if (!sdf.parse(string_date).after(dateBefore1week)) {
 
                         }else{
@@ -282,7 +271,7 @@ public class Fragment_week extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private int getEntityDay(ReportEntity reportEntity){
+    private Date getEntityDate(ReportEntity reportEntity){
         String string_timestamp = reportEntity.getTimeStamp();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date entity_date = null;
@@ -292,7 +281,13 @@ public class Fragment_week extends Fragment {
             e.printStackTrace();
         }
 
-        return entity_date.getDate();
+        return entity_date;
+    }
+
+    //https://www.java-forum.org/thema/datum-differenz-in-tagen-berechen.41934/
+    static final long ONE_HOUR = 60 * 60 * 1000L;
+    public int getDaysBetween(Date d1, Date d2){
+        return (int) ( (d2.getTime() - d1.getTime() + ONE_HOUR) / (ONE_HOUR * 24));
     }
 
 }
