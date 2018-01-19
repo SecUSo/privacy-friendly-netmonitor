@@ -46,7 +46,7 @@
     https://bitbucket.org/schillef/tlsmetric/overview.
 
  */
-package org.secuso.privacyfriendlynetmonitor.Activities;
+package org.secuso.privacyfriendlynetmonitor.Activities.Adapter;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -75,8 +75,8 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     private List<String> uidList;
     private HashMap<String, List<ReportEntity>> reportListDetail;
 
-    ExpandableHistoryListAdapter(Context context, List<String> uidList,
-                                 HashMap<String, List<ReportEntity>> reportListDetail){
+    public ExpandableHistoryListAdapter(Context context, List<String> uidList,
+                                        HashMap<String, List<ReportEntity>> reportListDetail){
         this.context = context;
         this.uidList = uidList;
         this.reportListDetail = reportListDetail;

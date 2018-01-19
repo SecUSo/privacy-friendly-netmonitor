@@ -46,7 +46,7 @@
     https://bitbucket.org/schillef/tlsmetric/overview.
 
  */
-package org.secuso.privacyfriendlynetmonitor.Activities;
+package org.secuso.privacyfriendlynetmonitor.Activities.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -152,7 +152,7 @@ public class AppListAdapter extends BaseAdapter {
             }
         });
 
-        final org.secuso.privacyfriendlynetmonitor.Activities.AppListAdapter.ViewHolder holder = new ViewHolder();
+        final AppListAdapter.ViewHolder holder = new ViewHolder();
         holder.s = (SwitchCompat) convertView.findViewById(R.id.switchAppOnOffHistory);
         holder.s.setTag(position);
         holder.s.setOnCheckedChangeListener(null);

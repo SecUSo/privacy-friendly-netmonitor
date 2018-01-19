@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.secuso.privacyfriendlynetmonitor.R;
 import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.PagerAdapter;
 
-public class AppReport_Detail extends AppCompatActivity {
+public class AppConnections_Chart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

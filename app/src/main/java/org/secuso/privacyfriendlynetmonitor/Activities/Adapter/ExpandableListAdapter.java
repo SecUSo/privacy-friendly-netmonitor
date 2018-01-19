@@ -46,7 +46,7 @@
     https://bitbucket.org/schillef/tlsmetric/overview.
 
  */
-package org.secuso.privacyfriendlynetmonitor.Activities;
+package org.secuso.privacyfriendlynetmonitor.Activities.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;

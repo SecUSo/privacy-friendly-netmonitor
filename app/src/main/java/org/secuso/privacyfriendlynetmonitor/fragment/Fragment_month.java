@@ -61,7 +61,7 @@ public class Fragment_month extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final View view = inflater.inflate(R.layout.fragment_day_layout, container, false);
+        final View view = inflater.inflate(R.layout.fragment_charts, container, false);
 
         //Fill Icon, AppGroupTitle, AppName
         PackageManager packageManager = getActivity().getPackageManager();

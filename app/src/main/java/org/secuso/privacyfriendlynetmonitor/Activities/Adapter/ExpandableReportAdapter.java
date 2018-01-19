@@ -46,7 +46,7 @@
     https://bitbucket.org/schillef/tlsmetric/overview.
 
  */
-package org.secuso.privacyfriendlynetmonitor.Activities;
+package org.secuso.privacyfriendlynetmonitor.Activities.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -71,14 +71,14 @@ import java.util.List;
 /**
  * Adapter displaying information in the ReportActivity
  */
-class ExpandableReportAdapter extends BaseExpandableListAdapter {
+public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<Integer> uidList;
     private HashMap<Integer, List<Report>> reportListDetail;
 
-    ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
-                            HashMap<Integer, List<Report>> expandableListDetail) {
+    public ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
+                                   HashMap<Integer, List<Report>> expandableListDetail) {
         this.context = context;
         this.uidList = expandableListTitle;
         this.reportListDetail = expandableListDetail;

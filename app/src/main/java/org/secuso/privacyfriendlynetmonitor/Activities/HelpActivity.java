@@ -47,6 +47,7 @@
 
  */
 package org.secuso.privacyfriendlynetmonitor.Activities;
+import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.ExpandableListAdapter;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.R;
 

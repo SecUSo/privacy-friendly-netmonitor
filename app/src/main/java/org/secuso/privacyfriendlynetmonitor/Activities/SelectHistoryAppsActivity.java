@@ -64,6 +64,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.AppListAdapter;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;

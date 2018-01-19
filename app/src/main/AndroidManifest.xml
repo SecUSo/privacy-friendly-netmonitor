@@ -110,7 +110,7 @@
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity" />
         </activity>
         <activity
-            android:name=".Activities.AppReport_Detail"
+            android:name=".Activities.AppConnections_Chart"
             android:label="@string/title_activity_app_report__detail"
             android:configChanges="orientation"
             android:parentActivityName=".Activities.HistoryDetailActivity"

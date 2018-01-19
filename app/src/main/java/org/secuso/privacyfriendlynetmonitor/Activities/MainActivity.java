@@ -59,22 +59,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.ExpandableReportAdapter;
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
-import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
-import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.GenerateReportEntities;
-import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
@@ -83,8 +79,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.secuso.privacyfriendlynetmonitor.R.string.url;
 
 
 /**
