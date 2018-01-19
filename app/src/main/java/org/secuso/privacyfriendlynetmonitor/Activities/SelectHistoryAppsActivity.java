@@ -91,7 +91,6 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
     private ListView userInstalledAppsView;
     private List<String> app_list_name;
     private ReportEntityDao reportEntityDao;
-    private List<String> appsToDelete;
     private AppListAdapter appAdapter;
     private SharedPreferences selectedAppsPreferences;
     private SharedPreferences.Editor editor;
@@ -118,6 +117,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
         editor = selectedAppsPreferences.edit();
 
         show_APP_list();
+
     }
 
     //method to load all the Apps in the listeview, sorted alphabetic form the start
@@ -396,4 +396,32 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+//    private void deleteConfirmation() {
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle(R.string.dialogTitle);
+//        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//
+//                //...
+//                //insert unselect function
+//                //...
+//
+//                Toast.makeText(getApplicationContext(), "All Apps have been unselected.", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(getApplicationContext(), "Deletion canceled.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        System.out.println("Building complete");
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//
+//    }
 }

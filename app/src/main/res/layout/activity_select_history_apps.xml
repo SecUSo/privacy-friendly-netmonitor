@@ -12,4 +12,5 @@
             android:id="@+id/include"
             layout="@layout/content_select_history_apps" />
 
+
     </android.support.design.widget.CoordinatorLayout>
