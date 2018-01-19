@@ -152,4 +152,14 @@
     <string name="nodata">Falls keine Apps angezeigt werden\neditieren sie bitte die Liste der Apps\nwelche sie überwachen wollen,\nüber den Button in der linken unteren Ecke.</string>
     <string name="deleteButton">Delete History of selected Apps</string>
 
+    <!-- History Chart Fragments-->
+    <string name="hours">Stunden</string>
+    <string name="encrypted">verschlüsselt</string>
+    <string name="unencrypted">unverschlüsselt</string>
+    <string name="unknown">unbekannt</string>
+    <string name="oclock"> Uhr</string>
+    <string name="hr">Std</string>
+    <string name="days">Tage</string>
+    <string name="d">t</string>
+
 </resources>
