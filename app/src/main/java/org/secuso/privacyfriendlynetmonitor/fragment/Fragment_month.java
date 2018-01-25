@@ -90,6 +90,7 @@ import java.util.List;
 
 /**
  * Created by tobias on 04.01.18.
+ * Fragment which represent one month.
  */
 
 public class Fragment_month extends Fragment {

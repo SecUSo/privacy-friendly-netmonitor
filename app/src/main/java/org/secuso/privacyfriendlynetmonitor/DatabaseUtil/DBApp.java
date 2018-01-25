@@ -59,7 +59,7 @@ import java.util.Map;
 
 /**
  * Created by m4rc0 on 12.11.2017.
- * DB class to store all apps and track the connections of the app.
+ * DB class to store all apps and track the connections of the app. Implemented with greenDao.
  */
 
 public class DBApp extends Application {
@@ -108,7 +108,6 @@ public class DBApp extends Application {
                 editor.putString("Version", dbVersion);
                 editor.commit();
             }
-
 
             daoSession = new DaoMaster(db).newSession();
             return "";

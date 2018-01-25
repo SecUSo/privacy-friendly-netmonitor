@@ -75,6 +75,12 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     private List<String> uidList;
     private HashMap<String, List<ReportEntity>> reportListDetail;
 
+    /**
+     *
+     * @param context
+     * @param uidList
+     * @param reportListDetail
+     */
     public ExpandableHistoryListAdapter(Context context, List<String> uidList,
                                         HashMap<String, List<ReportEntity>> reportListDetail) {
         this.context = context;

@@ -182,6 +182,7 @@ public class Collector {
         Collector.isCertVal = prefs.getBoolean(Const.IS_CERTVAL, false);
     }
 
+    // save reports to db
     public static void saveReports(ReportEntityDao reportEntityDao) {
         // Remove duplicates
         appsToIncludeInScan = new ArrayList<String>(new LinkedHashSet<String>(appsToIncludeInScan));
@@ -313,6 +314,7 @@ public class Collector {
         }
     }
 
+    // true if default
     public static boolean hasGrade(String hostname) {
         String grade = getMetric(hostname);
         switch (grade) {
@@ -475,6 +477,7 @@ public class Collector {
         }
     }
 
+    // get default icon
     private static Drawable getDefaultIcon() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return getIconNew(android.R.drawable.sym_def_app_icon);
@@ -712,13 +715,6 @@ public class Collector {
             }
             l.add(new String[]{"", ""});
 
-        /*CertVal information - needs shortening
-        if(isCertVal && mCertValMap.containsKey(getDnsHostName(r.remoteAdd.getHostAddress()))){
-            l.add(new String[]{"SSL Labs Report", ""});
-            l.add(new String[]{"", ConsoleUtilities.mapToConsoleOutput(
-                    mCertValMap.get(getDnsHostName(r.remoteAdd.getHostAddress())))});
-        }*/
-
             sDetailReportList = l;
         } catch (NullPointerException e) {
 
@@ -774,34 +770,42 @@ public class Collector {
         return status;
     }
 
+    // get scan whitelist
     public static List<String> getAppsToIncludeInScan() {
         return appsToIncludeInScan;
     }
 
+    // add apps to scan whitelist
     public static void addAppToIncludeInScan(String appToInclude) {
         Collector.appsToIncludeInScan.add(appToInclude);
     }
 
+    // delete an app from scan whitelist
     public static void deleteAppFromIncludeInScan(String appName) {
         Collector.appsToIncludeInScan.remove(appName);
     }
 
+    // get scan blacklist
     public static List<String> getAppsToExcludeFromScan() {
         return appsToExcludeFromScan;
     }
 
+    // add app to scan blacklist
     public static void addAppToExcludeFromScan(String appToExclude) {
         Collector.appsToExcludeFromScan.add(appToExclude);
     }
 
+    // delete app from scan blacklist
     public static void deleteAppToExcludeFromScan(String appToExclude) {
         Collector.appsToExcludeFromScan.remove(appToExclude);
     }
 
+    // get known uids
     public static HashMap<String, String> getKnownUIDs() {
         return knownUIDs;
     }
 
+    // add know uids
     public static void addKnownUIDs(String key, String value) {
         Collector.knownUIDs.put(key, value);
     }

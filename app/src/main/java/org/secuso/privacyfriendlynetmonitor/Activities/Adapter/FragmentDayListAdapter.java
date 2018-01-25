@@ -70,18 +70,26 @@ import java.util.List;
 
 /**
  * Created by m4rc0 on 14.01.2018.
+ * Adapter adds reports to day, week and month fragments.
  */
-
 public class FragmentDayListAdapter extends RecyclerView.Adapter<FragmentDayListAdapter.ViewHolder> {
 
     List<ReportEntity> reportEntities;
     Context context;
 
+    /**
+     *
+     * @param reportEntities
+     * @param context
+     */
     public FragmentDayListAdapter(List<ReportEntity> reportEntities, Context context) {
         this.reportEntities = reportEntities;
         this.context = context;
     }
 
+    /**
+     * View Holder for items.
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public RelativeLayout relativeLayout;
@@ -92,6 +100,12 @@ public class FragmentDayListAdapter extends RecyclerView.Adapter<FragmentDayList
         }
     }
 
+    /**
+     *
+     * @param parent
+     * @param viewType
+     * @return ViewHolder
+     */
     @Override
     public FragmentDayListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_list_item, parent, false);
@@ -100,6 +114,11 @@ public class FragmentDayListAdapter extends RecyclerView.Adapter<FragmentDayList
         return vh;
     }
 
+    /**
+     *
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(FragmentDayListAdapter.ViewHolder holder, int position) {
 
@@ -125,12 +144,20 @@ public class FragmentDayListAdapter extends RecyclerView.Adapter<FragmentDayList
         });
     }
 
+    /**
+     *
+     * @return item count
+     */
     @Override
     public int getItemCount() {
         return reportEntities.size();
     }
 
-
+    /**
+     *
+     * @param reportEntity
+     * @return list with prepared data
+     */
     private List<String> prepareData(ReportEntity reportEntity) {
 
         PackageManager packageManager = context.getPackageManager();

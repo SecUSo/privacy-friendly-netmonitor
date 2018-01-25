@@ -73,6 +73,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> expandableListTitle;
     private HashMap<String, List<String>> expandableListDetail;
 
+    /**
+     *
+     * @param context
+     * @param expandableListTitle
+     * @param expandableListDetail
+     */
     public ExpandableListAdapter(Context context, List<String> expandableListTitle,
                                  HashMap<String, List<String>> expandableListDetail) {
         this.context = context;
@@ -80,17 +86,38 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         this.expandableListDetail = expandableListDetail;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return child
+     */
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
                 .get(expandedListPosition);
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return child id
+     */
     @Override
     public long getChildId(int listPosition, int expandedListPosition) {
         return expandedListPosition;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @param isLastChild
+     * @param convertView
+     * @param parent
+     * @return child view
+     */
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
@@ -106,27 +133,54 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @return children count
+     */
     @Override
     public int getChildrenCount(int listPosition) {
         return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
                 .size();
     }
 
+    /**
+     *
+     * @param listPosition
+     * @return group
+     */
     @Override
     public Object getGroup(int listPosition) {
         return this.expandableListTitle.get(listPosition);
     }
 
+    /**
+     * group count
+     * @return
+     */
     @Override
     public int getGroupCount() {
         return this.expandableListTitle.size();
     }
 
+    /**
+     *
+     * @param listPosition
+     * @return group id
+     */
     @Override
     public long getGroupId(int listPosition) {
         return listPosition;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param isExpanded
+     * @param convertView
+     * @param parent
+     * @return group view
+     */
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
@@ -143,11 +197,21 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     *
+     * @return false
+     */
     @Override
     public boolean hasStableIds() {
         return false;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return true
+     */
     @Override
     public boolean isChildSelectable(int listPosition, int expandedListPosition) {
         return true;

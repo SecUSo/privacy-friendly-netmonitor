@@ -201,40 +201,40 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
             }
         });
 
-        MenuItem deleteItem = menu.findItem(R.id.deleteButton);
-        deleteItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                List<Integer> appsToDelete = appAdapter.getAppsToDelete();
-                Toast toast;
-
-                List<ReportEntity> reportEntities = reportEntityDao.loadAll();
-
-                if (!appsToDelete.isEmpty()) {
-
-                    for (Integer i : appsToDelete) {
-                        String appName = (String) appAdapter.getItem(i);
-                        for (ReportEntity reportEntity : reportEntities) {
-                            if (reportEntity.getAppName().equals(appName)) {
-                                reportEntityDao.delete(reportEntity);
-                                editor.remove(appName);
-                                editor.commit();
-                            }
-                        }
-                        Collector.deleteAppFromIncludeInScan(appName);
-                    }
-
-                    toast = Toast.makeText(getApplicationContext(), "Reports have been deleted", Toast.LENGTH_SHORT);
-                    toast.show();
-                } else {
-                    toast = Toast.makeText(getApplicationContext(), "No reports available to delete.", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-
-                return false;
-            }
-        });
+//        MenuItem deleteItem = menu.findItem(R.id.deleteButton);
+//        deleteItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//
+//                List<Integer> appsToDelete = appAdapter.getAppsToDelete();
+//                Toast toast;
+//
+//                List<ReportEntity> reportEntities = reportEntityDao.loadAll();
+//
+//                if (!appsToDelete.isEmpty()) {
+//
+//                    for (Integer i : appsToDelete) {
+//                        String appName = (String) appAdapter.getItem(i);
+//                        for (ReportEntity reportEntity : reportEntities) {
+//                            if (reportEntity.getAppName().equals(appName)) {
+//                                reportEntityDao.delete(reportEntity);
+//                                editor.remove(appName);
+//                                editor.commit();
+//                            }
+//                        }
+//                        Collector.deleteAppFromIncludeInScan(appName);
+//                    }
+//
+//                    toast = Toast.makeText(getApplicationContext(), "Reports have been deleted", Toast.LENGTH_SHORT);
+//                    toast.show();
+//                } else {
+//                    toast = Toast.makeText(getApplicationContext(), "No reports available to delete.", Toast.LENGTH_SHORT);
+//                    toast.show();
+//                }
+//
+//                return false;
+//            }
+//        });
 
         return true;
     }

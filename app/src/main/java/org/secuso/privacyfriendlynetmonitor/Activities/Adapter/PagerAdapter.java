@@ -60,12 +60,18 @@ import org.secuso.privacyfriendlynetmonitor.fragment.Fragment_week;
 
 /**
  * Created by tobias on 04.01.18.
+ * Adapter for fragment pager.
  */
-
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Bundle data;
 
+    /**
+     *
+     * @param fm
+     * @param NumOfTabs
+     * @param appSubName
+     */
     public PagerAdapter(FragmentManager fm, int NumOfTabs, String appSubName) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
@@ -73,6 +79,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         data.putString("AppName", appSubName);
     }
 
+    /**
+     *
+     * @param position
+     * @return item
+     */
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -93,6 +104,10 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    /**
+     *
+     * @return number of tabs
+     */
     @Override
     public int getCount() {
         return mNumOfTabs;

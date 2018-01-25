@@ -77,6 +77,12 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
     private List<Integer> uidList;
     private HashMap<Integer, List<Report>> reportListDetail;
 
+    /**
+     *
+     * @param context
+     * @param expandableListTitle
+     * @param expandableListDetail
+     */
     public ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
                                    HashMap<Integer, List<Report>> expandableListDetail) {
         this.context = context;
@@ -84,17 +90,38 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         this.reportListDetail = expandableListDetail;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return child
+     */
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
         return this.reportListDetail.get(this.uidList.get(listPosition))
                 .get(expandedListPosition);
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return child id
+     */
     @Override
     public long getChildId(int listPosition, int expandedListPosition) {
         return expandedListPosition;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @param isLastChild
+     * @param convertView
+     * @param parent
+     * @return child view
+     */
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
@@ -154,6 +181,11 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     * Get the warning color of a connection.
+     * @param value
+     * @return warning color as int
+     */
     private int getWarningColor(String value) {
         if (value.contains(Const.STATUS_TLS) || value.substring(0, 1).equals("A")) {
             return (R.color.green);
@@ -168,28 +200,54 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         }
     }
 
-
+    /**
+     *
+     * @param listPosition
+     * @return children count
+     */
     @Override
     public int getChildrenCount(int listPosition) {
         return this.reportListDetail.get(this.uidList.get(listPosition))
                 .size();
     }
 
+    /**
+     *
+     * @param listPosition
+     * @return group
+     */
     @Override
     public Object getGroup(int listPosition) {
         return this.uidList.get(listPosition);
     }
 
+    /**
+     *
+     * @return group count
+     */
     @Override
     public int getGroupCount() {
         return this.uidList.size();
     }
 
+    /**
+     *
+     * @param listPosition
+     * @return group id
+     */
     @Override
     public long getGroupId(int listPosition) {
         return listPosition;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param isExpanded
+     * @param convertView
+     * @param parent
+     * @return group view
+     */
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
@@ -218,11 +276,21 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     *
+     * @return false
+     */
     @Override
     public boolean hasStableIds() {
         return false;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return true
+     */
     @Override
     public boolean isChildSelectable(int listPosition, int expandedListPosition) {
         return true;

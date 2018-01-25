@@ -43,11 +43,11 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/deleteButton"
-        android:icon="@drawable/ic_delete"
-        android:orderInCategory="3"
-        android:title="@string/deleteButton"
-        app:showAsAction="always|collapseActionView"/>
+    <!--<item-->
+        <!--android:id="@+id/deleteButton"-->
+        <!--android:icon="@drawable/ic_delete"-->
+        <!--android:orderInCategory="3"-->
+        <!--android:title="@string/deleteButton"-->
+        <!--app:showAsAction="always|collapseActionView"/>-->
 
 </menu>

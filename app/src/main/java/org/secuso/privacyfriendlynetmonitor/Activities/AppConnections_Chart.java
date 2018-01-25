@@ -57,7 +57,12 @@ import android.support.v7.app.AppCompatActivity;
 import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.PagerAdapter;
 import org.secuso.privacyfriendlynetmonitor.R;
 
+/**
+ * Created by tobias on 04.01.18.
+ * App Connection chart class to visualize reports in different time intervals.
+ */
 public class AppConnections_Chart extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +86,7 @@ public class AppConnections_Chart extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());

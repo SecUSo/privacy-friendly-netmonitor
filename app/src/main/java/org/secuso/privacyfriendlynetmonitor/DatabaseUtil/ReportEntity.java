@@ -56,7 +56,7 @@ import org.greenrobot.greendao.annotation.NotNull;
 
 /**
  * Created by m4rc0 on 08.11.2017.
- * Handling one entity of a report.
+ * Report entity to safe in database. Similar to regular report. Implemented with greenDao.
  */
 
 @Entity(

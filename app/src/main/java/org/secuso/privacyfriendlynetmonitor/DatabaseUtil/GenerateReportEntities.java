@@ -61,6 +61,9 @@ import java.util.Set;
 
 /**
  * Created by m4rc0 on 13.01.2018.
+ * Class to generate dummy test values for the database. Can be started with the following call:
+ * GenerateReportEntities.generateReportEntities(this, reportEntityDao);
+ * e.g. in MainActivity.onCreate()
  */
 
 public class GenerateReportEntities {
@@ -128,7 +131,6 @@ public class GenerateReportEntities {
                                 reportEntity.setPayloadProtocol(getRandomString());
                                 reportEntity.setTransportProtocol(getRandomString());
                                 reportEntity.setLocalPort(getRandomString());
-                                //reportEntity.setConnectionInfo(getRandomString());
 
                                 double random = Math.random();
                                 if (random < 0.5) {

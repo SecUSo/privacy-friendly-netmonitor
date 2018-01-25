@@ -91,6 +91,7 @@ import java.util.List;
 /**
  * Created by tobias on 04.01.18.
  * https://github.com/PhilJay/MPAndroidChart/wiki/Setting-Data
+ * Fragment which represent one day.
  */
 
 public class Fragment_day extends Fragment {

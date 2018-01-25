@@ -315,6 +315,9 @@ public class HistoryActivity extends BaseActivity {
     }
 
 
+    /**
+     * show confirmation after deletion.
+     */
     private void deleteConfirmation() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

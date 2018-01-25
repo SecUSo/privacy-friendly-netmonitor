@@ -65,6 +65,10 @@ import org.secuso.privacyfriendlynetmonitor.R;
  */
 public class AboutActivity extends AppCompatActivity {
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);

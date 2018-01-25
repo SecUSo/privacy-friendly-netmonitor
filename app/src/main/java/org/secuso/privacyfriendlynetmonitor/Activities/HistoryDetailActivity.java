@@ -68,7 +68,7 @@ import java.util.List;
 
 /**
  * Created by m4rc0 on 06.12.2017.
- * This actitivty takes care of the details of on history segment.
+ * This actitivty shows the details of on history report.
  */
 
 public class HistoryDetailActivity extends BaseActivity {
@@ -109,7 +109,7 @@ public class HistoryDetailActivity extends BaseActivity {
 
     /**
      * @param unpreparedDetails
-     * @return
+     * @return prepared data as list.
      */
     public List<String[]> prepareData(List<String> unpreparedDetails) {
 
@@ -204,6 +204,9 @@ public class HistoryDetailActivity extends BaseActivity {
         return detailsList;
     }
 
+    /**
+     * Detail Adapter sets relevant information.
+     */
     public class DetailAdapter extends ArrayAdapter<String[]> {
 
         DetailAdapter(Context context, int resource, List<String[]> detailList) {

@@ -90,6 +90,7 @@ import java.util.List;
 
 /**
  * Created by tobias on 04.01.18.
+ * Fragment which represent one week.
  */
 
 public class Fragment_week extends Fragment {

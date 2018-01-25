@@ -74,7 +74,6 @@ import java.util.List;
  * Created by tobias on 08.12.17.
  * Adapter displays the content of the App List for the History
  */
-
 public class AppListAdapter extends BaseAdapter {
 
     private LayoutInflater layoutInflater;
@@ -85,11 +84,20 @@ public class AppListAdapter extends BaseAdapter {
 
     private List<Integer> appsToDelete;
 
+    /**
+     * ViewHolder class holds SwitchCompat and the full name of the app
+     */
     static class ViewHolder {
         SwitchCompat s;
         String appName;
     }
 
+    /**
+     *  Constructor to fill the view of the list of apps for the history selection.
+     *
+     * @param context of the app
+     * @param customizedListView the list of apps to add
+     */
     public AppListAdapter(Context context, List<String> customizedListView) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listStorage = customizedListView;
@@ -102,21 +110,43 @@ public class AppListAdapter extends BaseAdapter {
         editor = selectedAppsPreferences.edit();
     }
 
+    /**
+     *
+     * @return count of apps in the list storage
+     */
     @Override
     public int getCount() {
         return listStorage.size();
     }
 
+    /**
+     *
+     * @param position of the item
+     * @return the item on the position in listStorage
+     */
     @Override
     public Object getItem(int position) {
         return listStorage.get(position);
     }
 
+    /**
+     *
+     * @param position
+     * @return the id of the item on the position in listStorage
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     *  Returns the related view on the position and sets the depending listeners.
+     *
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return related view
+     */
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
@@ -197,6 +227,11 @@ public class AppListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    /**
+     * sets OnChckedListener for the ViewHolder and adds or deletes apps from the shared preferences list.
+     *
+     * @param holder
+     */
     private void selectionHandling(final ViewHolder holder) {
 
         holder.s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -221,6 +256,10 @@ public class AppListAdapter extends BaseAdapter {
         });
     }
 
+    /**
+     *
+     * @return all apps to delete
+     */
     public List<Integer> getAppsToDelete() {
         return appsToDelete;
     }
