@@ -46,7 +46,7 @@ Privacy Friendly Net Monitor is a non-root variant of TLSMetric android app (htt
 App Icon:</br>
 Markus Hau
 
-Developer:</br>
+Developers:</br>
 Felix Tsala Schiller</br>
 Tobias Burger</br>
 Marco Egermaier
