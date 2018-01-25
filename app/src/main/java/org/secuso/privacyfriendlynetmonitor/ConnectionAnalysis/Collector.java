@@ -182,7 +182,7 @@ public class Collector {
         Collector.isCertVal = prefs.getBoolean(Const.IS_CERTVAL, false);
     }
 
-    public static void saveReports(ReportEntityDao reportEntityDao){
+    public static void saveReports(ReportEntityDao reportEntityDao) {
         // Remove duplicates
         appsToIncludeInScan = new ArrayList<String>(new LinkedHashSet<String>(appsToIncludeInScan));
         appsToExcludeFromScan = new ArrayList<String>(new LinkedHashSet<String>(appsToExcludeFromScan));

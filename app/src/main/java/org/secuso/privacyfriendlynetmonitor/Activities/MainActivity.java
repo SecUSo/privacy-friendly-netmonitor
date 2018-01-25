@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         //This is an App that is used as an example for the History. In the first start only this is
         //APP is shown in the list, then selection are possible
 
-        if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
+        if (!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
             activateMainView();
         } else {
             activateReportView();
@@ -190,7 +190,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
     //activate the report layout
-    private void activateReportView(){
+    private void activateReportView() {
         setContentView(R.layout.activity_report);
         super.setToolbar();
         getNavigationDrawerID();
@@ -218,9 +218,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, final int i1, final long l) {
                 expListView = (ExpandableListView) findViewById(R.id.list);
                 ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getExpandableListAdapter();
-                final Report r = (Report) adapter.getChild(i,i1);
+                final Report r = (Report) adapter.getChild(i, i1);
 
-                if(mSharedPreferences.getBoolean(Const.IS_DETAIL_MODE, false)) {
+                if (mSharedPreferences.getBoolean(Const.IS_DETAIL_MODE, false)) {
                     view.animate().setDuration(500).alpha((float) 0.5)
                             .withEndAction(new Runnable() {
                                 @Override
@@ -233,7 +233,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                             });
                     return true;
                     // if no detail mode and server analysis is complete, goto SSL Labs
-                } else if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) &&
+                } else if (mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) &&
                         Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
                         Collector.hasGrade(Collector.getDnsHostName(r.remoteAdd.getHostAddress()))) {
                     String url = Const.SSLLABS_URL +
@@ -265,12 +265,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
     }
 
     //refresh the adapter-list
-    public void refreshAdapter(){
+    public void refreshAdapter() {
         swipeRefreshLayout.setRefreshing(true);
 
         reportMap = Collector.provideSimpleReports(reportEntityDao);
@@ -286,7 +286,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void setSwipeInfo(boolean b) {
         final ImageView icon = (ImageView) findViewById(R.id.report_empty_icon);
         final TextView text = (TextView) findViewById(R.id.report_empty_text);
-        if(b){
+        if (b) {
             icon.setVisibility(View.GONE);
             text.setVisibility(View.GONE);
         } else {
@@ -297,7 +297,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     //Refresh the adapter when swipe triggers
     @Override
-    public void onRefresh(){
+    public void onRefresh() {
         refreshAdapter();
     }
 
@@ -310,7 +310,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_refresh:
                 refreshAdapter();
                 break;
@@ -324,9 +324,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     //refresh menu on layout change
-    public boolean onPrepareOptionsMenu (Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        if(RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
+        if (RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
             getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         }
         return super.onPrepareOptionsMenu(menu);

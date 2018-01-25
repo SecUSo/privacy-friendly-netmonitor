@@ -60,19 +60,22 @@ import de.bjoernr.ssllabs.ConsoleUtilities;
 
 /**
  * Class for performing asynchronous requests of JSON Objects via SSL-Labs API
- *
+ * <p>
  * Qualis SSL Labs API: https://www.ssllabs.com/projects/ssllabs-apis
  * Java-SSLLabs-API Björn Roland and Qualis SSL Labs: https://github.com/bjoernr-de
  */
 
-public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
+public class AsyncCertVal extends AsyncTask<Void, Void, Void> {
 
     private Api mSSLLabsApi;
-    public AsyncCertVal() { mSSLLabsApi = new Api(); }
+
+    public AsyncCertVal() {
+        mSSLLabsApi = new Api();
+    }
 
     @Override
     public Void doInBackground(Void... voids) {
-        if(Collector.sCertValList.size() > 0) {
+        if (Collector.sCertValList.size() > 0) {
             fetchHostInfo(Collector.sCertValList);
         }
         return null;
@@ -84,24 +87,29 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
         JSONObject hostInfo;
         String host;
         ArrayList<String> pendingList = new ArrayList<>();
-        while(count > 0 && urls.size() > 0){
+        while (count > 0 && urls.size() > 0) {
             host = urls.get(0);
             hostInfo = mSSLLabsApi.fetchHostInformationCached(host, null, false, false);
 
             // add to map if not empty
             Map<String, Object> map = null;
-            try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore){}
-            if(map != null && map.size() > 0){
+            try {
+                map = ConsoleUtilities.jsonToMap(hostInfo);
+            } catch (JSONException ignore) {
+            }
+            if (map != null && map.size() > 0) {
                 Collector.mCertValMap.put(host, map);
             }
             //continue to resolve if request not ready
-            if(map != null && map.size() > 0 && !Collector.analyseReady(map)){
+            if (map != null && map.size() > 0 && !Collector.analyseReady(map)) {
                 pendingList.add(host);
             }
             urls.remove(0);
             count--;
 
-            if(Const.IS_DEBUG){Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));}
+            if (Const.IS_DEBUG) {
+                Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+            }
         }
         // manage pending lists
         Collector.sCertValList.addAll(pendingList);
@@ -114,8 +122,13 @@ public class AsyncCertVal extends AsyncTask<Void, Void, Void>{
         JSONObject hostInfo = mSSLLabsApi.fetchApiInfo();
 
         Map<String, Object> map = null;
-        try { map = ConsoleUtilities.jsonToMap(hostInfo); } catch (JSONException ignore) {}
-        if(Const.IS_DEBUG){Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));}
+        try {
+            map = ConsoleUtilities.jsonToMap(hostInfo);
+        } catch (JSONException ignore) {
+        }
+        if (Const.IS_DEBUG) {
+            Log.d(Const.LOG_TAG, ConsoleUtilities.mapToConsoleOutput(map));
+        }
         if (map.containsKey(max)) {
             return (Integer) map.get(max);
         } else {

@@ -131,7 +131,7 @@ public class GenerateReportEntities {
                                 //reportEntity.setConnectionInfo(getRandomString());
 
                                 double random = Math.random();
-                                if(random < 0.5) {
+                                if (random < 0.5) {
                                     reportEntity.setConnectionInfo("Encrypted()");
                                 } else {
                                     reportEntity.setConnectionInfo("Unencrypted()");
@@ -174,7 +174,7 @@ public class GenerateReportEntities {
 
         }
         long after = System.currentTimeMillis();
-        System.out.println("Generation needed " + (after-before)/1000 + " seconds, for the generation of " + (count-1) + " reports");
+        System.out.println("Generation needed " + (after - before) / 1000 + " seconds, for the generation of " + (count - 1) + " reports");
     }
 
     private static String getRandomString() {

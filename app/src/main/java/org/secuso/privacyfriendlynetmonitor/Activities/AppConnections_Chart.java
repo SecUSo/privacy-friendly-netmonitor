@@ -50,14 +50,12 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.os.Bundle;
-
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-
-import org.secuso.privacyfriendlynetmonitor.R;
 import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.PagerAdapter;
+import org.secuso.privacyfriendlynetmonitor.R;
 
 public class AppConnections_Chart extends AppCompatActivity {
     @Override

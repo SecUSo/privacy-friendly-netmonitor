@@ -106,14 +106,14 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         final String item2_value;
 
         //Set hostname if resolved by AsyncDNS class
-        if(Collector.hasHostName(r.remoteAdd.getHostAddress())){
+        if (Collector.hasHostName(r.remoteAdd.getHostAddress())) {
             item1 = Collector.getDnsHostName(r.remoteAdd.getHostAddress());
         } else {
             item1 = "" + r.remoteAdd.getHostAddress();
         }
         //Set connection info or server rating
-        if (Collector.isCertVal && KnownPorts.isTlsPort(r.remotePort) && Collector.hasHostName(r.remoteAdd.getHostAddress())){
-            if(item1.equals(Collector.getCertHost(item1))) {
+        if (Collector.isCertVal && KnownPorts.isTlsPort(r.remotePort) && Collector.hasHostName(r.remoteAdd.getHostAddress())) {
+            if (item1.equals(Collector.getCertHost(item1))) {
                 item2_type = "SSL Server Rating:";
                 item2_value = Collector.getMetric(item1);
             } else {
@@ -147,7 +147,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         //Set warning colour if settings are set
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if(mSharedPreferences.getBoolean(Const.IS_HIGHLIGHTED, false)) {
+        if (mSharedPreferences.getBoolean(Const.IS_HIGHLIGHTED, false)) {
             textView.setTextColor(context.getResources().getColor(getWarningColor(item2_value)));
         }
 
@@ -155,13 +155,13 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
     }
 
     private int getWarningColor(String value) {
-        if (value.contains(Const.STATUS_TLS) || value.substring(0,1).equals("A")) {
+        if (value.contains(Const.STATUS_TLS) || value.substring(0, 1).equals("A")) {
             return (R.color.green);
-        } else if (value.contains(Const.STATUS_INCONCLUSIVE) || value.substring(0,1).equals("B") || value.substring(0,1).equals("C")){
+        } else if (value.contains(Const.STATUS_INCONCLUSIVE) || value.substring(0, 1).equals("B") || value.substring(0, 1).equals("C")) {
             return (R.color.orange);
-        } else if (value.contains(Const.STATUS_UNSECURE) || value.substring(0,1).equals("T") ||
-                value.substring(0,1).equals("F") || value.substring(0,1).equals("D") ||
-                value.substring(0,1).equals("E")){
+        } else if (value.contains(Const.STATUS_UNSECURE) || value.substring(0, 1).equals("T") ||
+                value.substring(0, 1).equals("F") || value.substring(0, 1).equals("D") ||
+                value.substring(0, 1).equals("E")) {
             return R.color.red;
         } else {
             return R.color.text_dark;
@@ -205,7 +205,7 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
         ImageView imgView = (ImageView) convertView.findViewById(R.id.reportGroupIcon);
 
         //add system app tag
-        if(uid <= 10000){
+        if (uid <= 10000) {
             textViewTitle.setText(Collector.getLabel(uid) +
                     " (" + reportListDetail.get(uid).size() + ")" + " [System]");
         } else {

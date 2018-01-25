@@ -73,38 +73,39 @@ public class ReportEntity {
     private String appName;
 
     @NotNull
-    private  String userID;
+    private String userID;
 
     @NotNull
-    private  String timeStamp;
+    private String timeStamp;
     @NotNull
-    private  String remoteAddress;
+    private String remoteAddress;
     @NotNull
-    private  String remoteHex;
+    private String remoteHex;
     @NotNull
-    private  String remoteHost;
+    private String remoteHost;
     @NotNull
-    private  String localAddress;
+    private String localAddress;
 
     @NotNull
-    private  String localHex;
+    private String localHex;
     @NotNull
-    private  String servicePort;
+    private String servicePort;
     @NotNull
-    private  String payloadProtocol;
+    private String payloadProtocol;
     @NotNull
-    private  String transportProtocol;
+    private String transportProtocol;
     @NotNull
     private String localPort;
     @NotNull
     private String connectionInfo;
+
     @Generated(hash = 15093572)
     public ReportEntity(Long id, @NotNull String appName, @NotNull String userID,
-            @NotNull String timeStamp, @NotNull String remoteAddress, @NotNull String remoteHex,
-            @NotNull String remoteHost, @NotNull String localAddress, @NotNull String localHex,
-            @NotNull String servicePort, @NotNull String payloadProtocol,
-            @NotNull String transportProtocol, @NotNull String localPort,
-            @NotNull String connectionInfo) {
+                        @NotNull String timeStamp, @NotNull String remoteAddress, @NotNull String remoteHex,
+                        @NotNull String remoteHost, @NotNull String localAddress, @NotNull String localHex,
+                        @NotNull String servicePort, @NotNull String payloadProtocol,
+                        @NotNull String transportProtocol, @NotNull String localPort,
+                        @NotNull String connectionInfo) {
         this.id = id;
         this.appName = appName;
         this.userID = userID;
@@ -120,90 +121,119 @@ public class ReportEntity {
         this.localPort = localPort;
         this.connectionInfo = connectionInfo;
     }
+
     @Generated(hash = 683167796)
     public ReportEntity() {
     }
+
     public Long getId() {
         return this.id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getAppName() {
         return this.appName;
     }
+
     public void setAppName(String appName) {
         this.appName = appName;
     }
+
     public String getUserID() {
         return this.userID;
     }
+
     public void setUserID(String userID) {
         this.userID = userID;
     }
+
     public String getTimeStamp() {
         return this.timeStamp;
     }
+
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
+
     public String getRemoteAddress() {
         return this.remoteAddress;
     }
+
     public void setRemoteAddress(String remoteAddress) {
         this.remoteAddress = remoteAddress;
     }
+
     public String getRemoteHex() {
         return this.remoteHex;
     }
+
     public void setRemoteHex(String remoteHex) {
         this.remoteHex = remoteHex;
     }
+
     public String getRemoteHost() {
         return this.remoteHost;
     }
+
     public void setRemoteHost(String remoteHost) {
         this.remoteHost = remoteHost;
     }
+
     public String getLocalAddress() {
         return this.localAddress;
     }
+
     public void setLocalAddress(String localAddress) {
         this.localAddress = localAddress;
     }
+
     public String getLocalHex() {
         return this.localHex;
     }
+
     public void setLocalHex(String localHex) {
         this.localHex = localHex;
     }
+
     public String getServicePort() {
         return this.servicePort;
     }
+
     public void setServicePort(String servicePort) {
         this.servicePort = servicePort;
     }
+
     public String getPayloadProtocol() {
         return this.payloadProtocol;
     }
+
     public void setPayloadProtocol(String payloadProtocol) {
         this.payloadProtocol = payloadProtocol;
     }
+
     public String getTransportProtocol() {
         return this.transportProtocol;
     }
+
     public void setTransportProtocol(String transportProtocol) {
         this.transportProtocol = transportProtocol;
     }
+
     public String getLocalPort() {
         return this.localPort;
     }
+
     public void setLocalPort(String localPort) {
         this.localPort = localPort;
     }
+
     public String getConnectionInfo() {
         return this.connectionInfo;
     }
+
     public void setConnectionInfo(String connectionInfo) {
         this.connectionInfo = connectionInfo;
     }

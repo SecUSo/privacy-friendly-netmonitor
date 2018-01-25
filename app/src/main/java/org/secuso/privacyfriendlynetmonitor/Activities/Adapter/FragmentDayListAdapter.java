@@ -77,7 +77,7 @@ public class FragmentDayListAdapter extends RecyclerView.Adapter<FragmentDayList
     List<ReportEntity> reportEntities;
     Context context;
 
-    public FragmentDayListAdapter(List<ReportEntity> reportEntities, Context context){
+    public FragmentDayListAdapter(List<ReportEntity> reportEntities, Context context) {
         this.reportEntities = reportEntities;
         this.context = context;
     }
@@ -85,6 +85,7 @@ public class FragmentDayListAdapter extends RecyclerView.Adapter<FragmentDayList
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public RelativeLayout relativeLayout;
+
         public ViewHolder(RelativeLayout itemView) {
             super(itemView);
             relativeLayout = itemView;

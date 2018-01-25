@@ -75,6 +75,7 @@ public class ServiceHandler {
         }
         return false;
     }
+
     private ServiceConnection mPassiveServiceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             // This is called when the connection with the service has been
@@ -82,7 +83,7 @@ public class ServiceHandler {
             // interact with the service.  Because we have bound to a explicit
             // service that we know is running in our own process, we can
             // cast its IBinder to a concrete class and directly access it.
-            mPassiveService = ((PassiveService.AnalyzerBinder)service).getService();
+            mPassiveService = ((PassiveService.AnalyzerBinder) service).getService();
             Toast.makeText(RunStore.getContext(), R.string.passive_service_start,
                     Toast.LENGTH_SHORT).show();
         }
@@ -114,7 +115,7 @@ public class ServiceHandler {
 
     //Bind the passive service to the assigned context
     public void bindPassiveService(Context context) {
-        Intent intent = new Intent(RunStore.getAppContext(),PassiveService.class);
+        Intent intent = new Intent(RunStore.getAppContext(), PassiveService.class);
         context.bindService(intent, mPassiveServiceConnection, Context.BIND_AUTO_CREATE);
         mIsBound = true;
     }

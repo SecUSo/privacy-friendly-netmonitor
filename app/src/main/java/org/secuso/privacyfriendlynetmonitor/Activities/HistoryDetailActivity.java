@@ -108,11 +108,10 @@ public class HistoryDetailActivity extends BaseActivity {
     }
 
     /**
-     *
      * @param unpreparedDetails
      * @return
      */
-    public List<String[]> prepareData(List<String> unpreparedDetails){
+    public List<String[]> prepareData(List<String> unpreparedDetails) {
 
 
         List<String[]> detailsList = new ArrayList<String[]>();

@@ -50,8 +50,8 @@
 package org.secuso.privacyfriendlynetmonitor.fragment;
 
 import android.content.pm.PackageManager;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -152,22 +152,22 @@ public class Fragment_month extends Fragment {
         fillRecyclerList(view, filtered_Entities); //method to show all connection
 
         //Listener for Value Selection
-        chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
+        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
                 //extra cacheList to only show the reports to the selected value in the chart
                 List<ReportEntity> cacheList = new ArrayList<ReportEntity>();
-                if(e.getY() != 0){
-                    for (ReportEntity cacheEntity : filtered_Entities){
+                if (e.getY() != 0) {
+                    for (ReportEntity cacheEntity : filtered_Entities) {
                         int daysBetween = getDaysBetween(dateBefore1month, getEntityDate(cacheEntity));
-                        if(daysBetween == e.getX()){
-                            if(h.getStackIndex()==0 && cacheEntity.getConnectionInfo().contains("Unknown")){
+                        if (daysBetween == e.getX()) {
+                            if (h.getStackIndex() == 0 && cacheEntity.getConnectionInfo().contains("Unknown")) {
                                 cacheList.add(cacheEntity);
                             }
-                            if(h.getStackIndex()==1 && cacheEntity.getConnectionInfo().contains("Encrypted")){
+                            if (h.getStackIndex() == 1 && cacheEntity.getConnectionInfo().contains("Encrypted")) {
                                 cacheList.add(cacheEntity);
                             }
-                            if(h.getStackIndex()==2 && cacheEntity.getConnectionInfo().contains("Unencrypted")){
+                            if (h.getStackIndex() == 2 && cacheEntity.getConnectionInfo().contains("Unencrypted")) {
                                 cacheList.add(cacheEntity);
                             }
                         }
@@ -198,24 +198,24 @@ public class Fragment_month extends Fragment {
         for (ReportEntity reportEntity : filtered_Entities) {
             int daysBetween = getDaysBetween(dateBefore1month, getEntityDate(reportEntity));
             //Increase the field of the array of the entityDay
-            if(reportEntity.getConnectionInfo().contains("Encrypted")){
+            if (reportEntity.getConnectionInfo().contains("Encrypted")) {
                 lastMonth_encrypted[daysBetween] = lastMonth_encrypted[daysBetween] + 1;
-            }else if(reportEntity.getConnectionInfo().contains("Unencrypted")){
+            } else if (reportEntity.getConnectionInfo().contains("Unencrypted")) {
                 lastMonth_unencrypted[daysBetween] = lastMonth_unencrypted[daysBetween] + 1;
-            }else if(reportEntity.getConnectionInfo().contains("Unknown")){
+            } else if (reportEntity.getConnectionInfo().contains("Unknown")) {
                 lastMonth_unknown[daysBetween] = lastMonth_unknown[daysBetween] + 1;
             }
 
         }
         //adding data to chart
-        for (int i = 0; i < lastMonth_encrypted.length;i++){
-            entry.add(new BarEntry(i , new float[] {lastMonth_unknown[i],
-                    lastMonth_encrypted[i],lastMonth_unencrypted[i]}));
+        for (int i = 0; i < lastMonth_encrypted.length; i++) {
+            entry.add(new BarEntry(i, new float[]{lastMonth_unknown[i],
+                    lastMonth_encrypted[i], lastMonth_unencrypted[i]}));
         }
 
         BarDataSet barset = new BarDataSet(entry, Fragment_month.this.getResources().getString(R.string.days));
         barset.setStackLabels(new String[]{Fragment_month.this.getResources().getString(R.string.unknown), Fragment_month.this.getResources().getString(R.string.encrypted), Fragment_month.this.getResources().getString(R.string.unencrypted)});
-        barset.setColors(new int[] {ContextCompat.getColor(getContext(), R.color.text_dark),
+        barset.setColors(new int[]{ContextCompat.getColor(getContext(), R.color.text_dark),
                 ContextCompat.getColor(getContext(), R.color.green),
                 ContextCompat.getColor(getContext(), R.color.red)});
 
@@ -224,10 +224,10 @@ public class Fragment_month extends Fragment {
         // the labels that should be drawn on the XAxis
         final String[] days = new String[lastMonth_encrypted.length];
 
-        for(int i = 0; i<days.length; i++){
-            if(i == days.length-1){
-                days[i] = currentDay+ " .";
-            }else {
+        for (int i = 0; i < days.length; i++) {
+            if (i == days.length - 1) {
+                days[i] = currentDay + " .";
+            } else {
                 days[i] = "- " + Integer.toString(29 - i) + Fragment_month.this.getResources().getString(R.string.d);
             }
         }
@@ -278,8 +278,8 @@ public class Fragment_month extends Fragment {
             if (reportEntity.getAppName().equals(appName)) {
                 String stringWithoutTimeStamp = reportEntity.toStringWithoutTimestamp();
                 //search if it is included allready
-                for (String s : entitiesString){
-                    if(s.equals(stringWithoutTimeStamp)){
+                for (String s : entitiesString) {
+                    if (s.equals(stringWithoutTimeStamp)) {
                         isIncluded = true;
                     }
                 }
@@ -294,7 +294,7 @@ public class Fragment_month extends Fragment {
                     try {
                         if (!sdf.parse(string_date).after(dateBefore1month)) {
 
-                        }else{
+                        } else {
                             filtered_Entities.add(reportEntity); // add only that report from that app and 24hours ago
                             entitiesString.add(stringWithoutTimeStamp);
                         }
@@ -317,7 +317,7 @@ public class Fragment_month extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private Date getEntityDate(ReportEntity reportEntity){
+    private Date getEntityDate(ReportEntity reportEntity) {
         String string_timestamp = reportEntity.getTimeStamp();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date entity_date = null;
@@ -332,7 +332,8 @@ public class Fragment_month extends Fragment {
 
     //https://www.java-forum.org/thema/datum-differenz-in-tagen-berechen.41934/
     static final long ONE_HOUR = 60 * 60 * 1000L;
-    public int getDaysBetween(Date d1, Date d2){
-        return (int) ( (d2.getTime() - d1.getTime() + ONE_HOUR) / (ONE_HOUR * 24));
+
+    public int getDaysBetween(Date d1, Date d2) {
+        return (int) ((d2.getTime() - d1.getTime() + ONE_HOUR) / (ONE_HOUR * 24));
     }
 }

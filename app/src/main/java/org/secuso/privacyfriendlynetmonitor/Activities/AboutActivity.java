@@ -71,7 +71,7 @@ public class AboutActivity extends AppCompatActivity {
         RunStore.setContext(this);
 
         ActionBar ab = getSupportActionBar();
-        if(ab != null) {
+        if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -83,10 +83,10 @@ public class AboutActivity extends AppCompatActivity {
 
         overridePendingTransition(0, 0);
 
-        ((TextView)findViewById(R.id.javaAPIURL)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView)findViewById(R.id.APIURL)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView)findViewById(R.id.secusoWebsite)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView)findViewById(R.id.githubURL)).setMovementMethod(LinkMovementMethod.getInstance());
-        ((TextView)findViewById(R.id.textFieldVersionName)).setText(BuildConfig.VERSION_NAME);
+        ((TextView) findViewById(R.id.javaAPIURL)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) findViewById(R.id.APIURL)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) findViewById(R.id.secusoWebsite)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) findViewById(R.id.githubURL)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) findViewById(R.id.textFieldVersionName)).setText(BuildConfig.VERSION_NAME);
     }
 }

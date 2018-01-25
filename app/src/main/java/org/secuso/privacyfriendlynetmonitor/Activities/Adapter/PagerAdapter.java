@@ -54,13 +54,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import org.secuso.privacyfriendlynetmonitor.fragment.*;
+import org.secuso.privacyfriendlynetmonitor.fragment.Fragment_day;
+import org.secuso.privacyfriendlynetmonitor.fragment.Fragment_month;
+import org.secuso.privacyfriendlynetmonitor.fragment.Fragment_week;
 
 /**
  * Created by tobias on 04.01.18.
  */
 
-public class PagerAdapter extends FragmentStatePagerAdapter{
+public class PagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Bundle data;
 
@@ -92,7 +94,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
     }
 
     @Override
-    public int getCount(){
+    public int getCount() {
         return mNumOfTabs;
     }
 }

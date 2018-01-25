@@ -76,7 +76,7 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     private HashMap<String, List<ReportEntity>> reportListDetail;
 
     public ExpandableHistoryListAdapter(Context context, List<String> uidList,
-                                        HashMap<String, List<ReportEntity>> reportListDetail){
+                                        HashMap<String, List<ReportEntity>> reportListDetail) {
         this.context = context;
         this.uidList = uidList;
         this.reportListDetail = reportListDetail;
@@ -84,7 +84,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition
      * @param childPosititon
      * @return child
@@ -96,7 +95,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition
      * @param childPosition
      * @return child id
@@ -107,7 +105,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition
      * @param childPosition
      * @param isLastChild
@@ -121,7 +118,7 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
         ReportEntity reportEntity = ((ReportEntity) getChild(groupPosition, childPosition));
         final String dnsHostName = reportEntity.getRemoteHost();
 
-        if(convertView == null){
+        if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.history_list_item, null);
         }
@@ -139,7 +136,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition
      * @return children count
      */
@@ -149,7 +145,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition
      * @return group
      */
@@ -160,7 +155,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
 
 
     /**
-     *
      * @return group count
      */
     @Override
@@ -169,7 +163,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition
      * @return group Position as ID
      */
@@ -179,7 +172,6 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     }
 
     /**
-     *
      * @param groupPosition
      * @param isExpanded
      * @param convertView
@@ -189,39 +181,39 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.history_list_group, null);
-            String appName = "";
-            PackageManager packageManager = context.getPackageManager();
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = layoutInflater.inflate(R.layout.history_list_group, null);
+        String appName = "";
+        PackageManager packageManager = context.getPackageManager();
 
-            try{
-                appName = reportListDetail.get(uidList.get(groupPosition)).get(0).getAppName();
-            } catch(IndexOutOfBoundsException e){
-                if(Collector.getKnownUIDs().containsKey(uidList.get(groupPosition))){
-                    appName = Collector.getKnownUIDs().get(uidList.get(groupPosition));
-                } else {
-                    appName = packageManager.getNameForUid((new Integer(uidList.get(groupPosition))));
-                }
+        try {
+            appName = reportListDetail.get(uidList.get(groupPosition)).get(0).getAppName();
+        } catch (IndexOutOfBoundsException e) {
+            if (Collector.getKnownUIDs().containsKey(uidList.get(groupPosition))) {
+                appName = Collector.getKnownUIDs().get(uidList.get(groupPosition));
+            } else {
+                appName = packageManager.getNameForUid((new Integer(uidList.get(groupPosition))));
             }
+        }
 
-            TextView historyGroupTitle = (TextView) convertView.findViewById(R.id.historyGroupTitle);
-            TextView historyGroupSubtitle = (TextView) convertView.findViewById(R.id.historyGroupSubtitle);
+        TextView historyGroupTitle = (TextView) convertView.findViewById(R.id.historyGroupTitle);
+        TextView historyGroupSubtitle = (TextView) convertView.findViewById(R.id.historyGroupSubtitle);
 
-            try {
-                historyGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)));
-            } catch (PackageManager.NameNotFoundException e) {
-                historyGroupTitle.setText(appName);
-            }
+        try {
+            historyGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)));
+        } catch (PackageManager.NameNotFoundException e) {
+            historyGroupTitle.setText(appName);
+        }
 
-            historyGroupSubtitle.setText(appName);
+        historyGroupSubtitle.setText(appName);
 
-            ImageView imgView = (ImageView) convertView.findViewById(R.id.historyGroupIcon);
+        ImageView imgView = (ImageView) convertView.findViewById(R.id.historyGroupIcon);
 
-            try {
-                imgView.setImageDrawable(packageManager.getApplicationIcon(appName));
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
+        try {
+            imgView.setImageDrawable(packageManager.getApplicationIcon(appName));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         return convertView;
     }

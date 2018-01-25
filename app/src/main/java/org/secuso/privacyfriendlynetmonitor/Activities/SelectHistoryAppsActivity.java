@@ -319,7 +319,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
         app_list_name.clear();
 
         for (Long key : appdates.keySet()) {
-            for(String s : appdates.get(key)){
+            for (String s : appdates.get(key)) {
                 app_list_name.add(s);
             }
         }
@@ -351,7 +351,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
         app_list_name.clear();
 
         for (Long key : appdates.keySet()) {
-            for(String s : appdates.get(key)){
+            for (String s : appdates.get(key)) {
                 app_list_name.add(s);
             }
         }

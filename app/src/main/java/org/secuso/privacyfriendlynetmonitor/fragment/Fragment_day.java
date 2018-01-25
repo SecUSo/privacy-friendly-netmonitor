@@ -49,10 +49,9 @@
 
 package org.secuso.privacyfriendlynetmonitor.fragment;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -113,22 +112,22 @@ public class Fragment_day extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_charts, container, false);
 
         //Fill Icon, AppGroupTitle, AppName
-            PackageManager packageManager = getActivity().getPackageManager();
+        PackageManager packageManager = getActivity().getPackageManager();
 
-            TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
-            final String appName = getArguments().getString("AppName");
-            tx_appName.setText(appName);
+        TextView tx_appName = view.findViewById(R.id.historyGroupSubtitle);
+        final String appName = getArguments().getString("AppName");
+        tx_appName.setText(appName);
 
-            try {
-                ImageView appIcon = (ImageView) view.findViewById(R.id.historyGroupIcon);
-                String appGroupTitle = (String) packageManager.getApplicationLabel(
-                        packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA));
-                TextView tx_appGroupTitle = view.findViewById(R.id.historyGroupTitle);
-                tx_appGroupTitle.setText(appGroupTitle);
-                appIcon.setImageDrawable(packageManager.getApplicationIcon(appName));
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
+        try {
+            ImageView appIcon = (ImageView) view.findViewById(R.id.historyGroupIcon);
+            String appGroupTitle = (String) packageManager.getApplicationLabel(
+                    packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA));
+            TextView tx_appGroupTitle = view.findViewById(R.id.historyGroupTitle);
+            tx_appGroupTitle.setText(appGroupTitle);
+            appIcon.setImageDrawable(packageManager.getApplicationIcon(appName));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         //END Fill Icon, AppGroupTitle, AppName
 
         //Build the Barchart
@@ -138,34 +137,34 @@ public class Fragment_day extends Fragment {
         fillRecyclerList(view, filtered_Entities); //method to show all connection
 
         //Listener for Value Selection
-        chart.setOnChartValueSelectedListener( new OnChartValueSelectedListener() {
+        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
                 //Handling the current time in Hour
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-                    Date currentTime=null;
-                    try {
-                        currentTime = dateFormat.parse(dateFormat.format(new Date()));
-                    } catch (ParseException ex) {
-                        ex.printStackTrace();
-                    }
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                Date currentTime = null;
+                try {
+                    currentTime = dateFormat.parse(dateFormat.format(new Date()));
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
                 //End current time handling
                 int currentHour = currentTime.getHours();
-                int shift = 23-currentHour; //the shift that is needed to get the correct connections
+                int shift = 23 - currentHour; //the shift that is needed to get the correct connections
                 //extra cacheList to only show the reports to the selected value in the chart
                 List<ReportEntity> cacheList = new ArrayList<ReportEntity>();
-                if(e.getY() != 0){
-                    for (ReportEntity cacheEntity : filtered_Entities){
-                        int cacheEntityHour = (getEntityHour(cacheEntity)+shift)%24;
-                        if(cacheEntityHour == e.getX()){
-                            if(h.getStackIndex()==0 && cacheEntity.getConnectionInfo().contains("Unknown")){
-                                    cacheList.add(cacheEntity);
+                if (e.getY() != 0) {
+                    for (ReportEntity cacheEntity : filtered_Entities) {
+                        int cacheEntityHour = (getEntityHour(cacheEntity) + shift) % 24;
+                        if (cacheEntityHour == e.getX()) {
+                            if (h.getStackIndex() == 0 && cacheEntity.getConnectionInfo().contains("Unknown")) {
+                                cacheList.add(cacheEntity);
                             }
-                            if(h.getStackIndex()==1 && cacheEntity.getConnectionInfo().contains("Encrypted")){
-                                    cacheList.add(cacheEntity);
+                            if (h.getStackIndex() == 1 && cacheEntity.getConnectionInfo().contains("Encrypted")) {
+                                cacheList.add(cacheEntity);
                             }
-                            if(h.getStackIndex()==2 && cacheEntity.getConnectionInfo().contains("Unencrypted")){
-                                    cacheList.add(cacheEntity);
+                            if (h.getStackIndex() == 2 && cacheEntity.getConnectionInfo().contains("Unencrypted")) {
+                                cacheList.add(cacheEntity);
                             }
                         }
                     }
@@ -186,7 +185,7 @@ public class Fragment_day extends Fragment {
 
         //Handling the current time in Hour
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        Date currentTime=null;
+        Date currentTime = null;
         try {
             currentTime = dateFormat.parse(dateFormat.format(new Date()));
         } catch (ParseException e) {
@@ -203,37 +202,39 @@ public class Fragment_day extends Fragment {
 
         for (ReportEntity reportEntity : filtered_Entities) {
             int hourEntity = getEntityHour(reportEntity);
-            if(hourEntity == 24){ hourEntity=0; }
+            if (hourEntity == 24) {
+                hourEntity = 0;
+            }
             //Increase the field of the array of the entityHour
-            if(reportEntity.getConnectionInfo().contains("Encrypted")){
+            if (reportEntity.getConnectionInfo().contains("Encrypted")) {
                 last24hours_encrypted[hourEntity] = last24hours_encrypted[hourEntity] + 1;
-            }else if(reportEntity.getConnectionInfo().contains("Unencrypted")){
+            } else if (reportEntity.getConnectionInfo().contains("Unencrypted")) {
                 last24hours_unencrypted[hourEntity] = last24hours_unencrypted[hourEntity] + 1;
-            }else if(reportEntity.getConnectionInfo().contains("Unknown")){
+            } else if (reportEntity.getConnectionInfo().contains("Unknown")) {
                 last24hours_unknown[hourEntity] = last24hours_unknown[hourEntity] + 1;
             }
 
         }
         //adding data to chart
-        int slide = 23-currentHour;
+        int slide = 23 - currentHour;
         int[] cache24hours_encrypted = new int[24];
         int[] cache24hours_unencrypted = new int[24];
         int[] cache24hours_unknown = new int[24];
-        for (int i = 0; i < last24hours_encrypted.length;i++){
-            int xValueCache = (i+slide)%24;
+        for (int i = 0; i < last24hours_encrypted.length; i++) {
+            int xValueCache = (i + slide) % 24;
             cache24hours_encrypted[xValueCache] = last24hours_encrypted[i];
             cache24hours_unencrypted[xValueCache] = last24hours_unencrypted[i];
             cache24hours_unknown[xValueCache] = last24hours_unknown[i];
         }
         //extra "for-loop" beause the chart has to be filled from "0" to...value
-        for(int i = 0; i < cache24hours_encrypted.length;i++){
-            entry.add(new BarEntry(i , new float[] {cache24hours_unknown[i],
-                    cache24hours_encrypted[i],cache24hours_unencrypted[i]}));
+        for (int i = 0; i < cache24hours_encrypted.length; i++) {
+            entry.add(new BarEntry(i, new float[]{cache24hours_unknown[i],
+                    cache24hours_encrypted[i], cache24hours_unencrypted[i]}));
         }
 
         BarDataSet barset = new BarDataSet(entry, Fragment_day.this.getResources().getString(R.string.hours));
         barset.setStackLabels(new String[]{Fragment_day.this.getResources().getString(R.string.unknown), Fragment_day.this.getResources().getString(R.string.encrypted), Fragment_day.this.getResources().getString(R.string.unencrypted)});
-        barset.setColors(new int[] {ContextCompat.getColor(getContext(), R.color.text_dark),
+        barset.setColors(new int[]{ContextCompat.getColor(getContext(), R.color.text_dark),
                 ContextCompat.getColor(getContext(), R.color.green),
                 ContextCompat.getColor(getContext(), R.color.red)});
 
@@ -242,10 +243,10 @@ public class Fragment_day extends Fragment {
         // the labels that should be drawn on the XAxis
         final String[] hours = new String[last24hours_encrypted.length];
 
-        for(int i = 0; i<hours.length; i++){
-            if(i == hours.length-1){
-                hours[i] = currentHour+ Fragment_day.this.getResources().getString(R.string.oclock);
-            }else {
+        for (int i = 0; i < hours.length; i++) {
+            if (i == hours.length - 1) {
+                hours[i] = currentHour + Fragment_day.this.getResources().getString(R.string.oclock);
+            } else {
                 hours[i] = "- " + Integer.toString(23 - i) + Fragment_day.this.getResources().getString(R.string.hr);
             }
         }
@@ -296,8 +297,8 @@ public class Fragment_day extends Fragment {
             if (reportEntity.getAppName().equals(appName)) {
                 String stringWithoutTimeStamp = reportEntity.toStringWithoutTimestamp();
                 //search if it is included allready
-                for (String s : entitiesString){
-                    if(s.equals(stringWithoutTimeStamp)){
+                for (String s : entitiesString) {
+                    if (s.equals(stringWithoutTimeStamp)) {
                         isIncluded = true;
                     }
                 }
@@ -320,7 +321,7 @@ public class Fragment_day extends Fragment {
                         // sdf.parse(string_date) --> this is the Entity date
                         if (!sdf.parse(string_date).after(dateBefore1Days)) {
 
-                        }else{
+                        } else {
                             filtered_Entities.add(reportEntity); // add only that report from that app and 24hours ago
                             entitiesString.add(stringWithoutTimeStamp);
                         }
@@ -343,7 +344,7 @@ public class Fragment_day extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private int getEntityHour(ReportEntity reportEntity){
+    private int getEntityHour(ReportEntity reportEntity) {
         String string_timestamp = reportEntity.getTimeStamp();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         Date entity_date = null;

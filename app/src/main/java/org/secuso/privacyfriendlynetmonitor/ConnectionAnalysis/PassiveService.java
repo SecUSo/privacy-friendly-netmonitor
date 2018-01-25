@@ -60,7 +60,6 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-
 import org.secuso.privacyfriendlynetmonitor.Activities.MainActivity;
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
 import org.secuso.privacyfriendlynetmonitor.Assistant.KnownPorts;
@@ -73,7 +72,6 @@ import static java.lang.Thread.sleep;
 /**
  * Report Analyzer Service. Identifies active connections on the device and invokes data
  * gathering and report compilation procedures.
- *
  */
 public class PassiveService extends Service {
 
@@ -89,8 +87,8 @@ public class PassiveService extends Service {
                     .setContentTitle(getVersionString(R.string.app_name))
                     .setContentText(getVersionString(R.string.bg_desc));
 
-    private String getVersionString(int id){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    private String getVersionString(int id) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return getStringNew(id);
         } else {
             return getStringOld(id);
@@ -101,6 +99,7 @@ public class PassiveService extends Service {
     private static String getStringNew(int id) {
         return RunStore.getContext().getResources().getString(id);
     }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private static String getStringOld(int id) {
         return RunStore.getContext().getString(id);
@@ -138,14 +137,16 @@ public class PassiveService extends Service {
                         Detector.updateReportMap();
                         //check certificate validation state when feature is active
                         Collector.updateSettings();
-                        if(Collector.isCertVal){Collector.updateCertVal();}
+                        if (Collector.isCertVal) {
+                            Collector.updateCertVal();
+                        }
                         //sleep
                         sleep(1000);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(mInterrupt)mThread.interrupt();
+                if (mInterrupt) mThread.interrupt();
                 stopSelf();
             }
         }, "AnalyzerThreadRunnable");
@@ -155,7 +156,7 @@ public class PassiveService extends Service {
     }
 
     //Call to stop service and notification
-    private void interrupt(){
+    private void interrupt() {
         mInterrupt = true;
         stopSelf();
     }
@@ -211,10 +212,10 @@ public class PassiveService extends Service {
     }*/
 
     //BG notification. Standard Android version.
-    private void showAppNotification(){
+    private void showAppNotification() {
         mBuilder.setSmallIcon(R.drawable.ic_notification);
         mBuilder.setLargeIcon(mIcon);
-            Intent resultIntent = new Intent(this, MainActivity.class);
+        Intent resultIntent = new Intent(this, MainActivity.class);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -235,7 +236,7 @@ public class PassiveService extends Service {
     }
 
     //Computes the need and severity of a notification. Currently unused.
-    private void showWarningNotification(){
+    private void showWarningNotification() {
         //Set corresponding icon
         //if(Evidence.getMaxSeverity() > 2){
         //    mBuilder.setSmallIcon(R.mipmap.icon_warn_red);

@@ -84,7 +84,7 @@ public class DBApp extends Application {
         editor = selectedAppsPreferences.edit();
     }
 
-    public DaoSession getDaoSession(){
+    public DaoSession getDaoSession() {
         return daoSession;
     }
 
@@ -97,8 +97,8 @@ public class DBApp extends Application {
             Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
 
             Map map = selectedAppsPreferences.getAll();
-            if(!map.isEmpty() && map.get("Version") != null && !map.get("Version").equals("")){
-                if(!map.get("Version").equals(dbVersion) && Integer.parseInt((String) map.get("Version")) < Integer.parseInt(dbVersion)){
+            if (!map.isEmpty() && map.get("Version") != null && !map.get("Version").equals("")) {
+                if (!map.get("Version").equals(dbVersion) && Integer.parseInt((String) map.get("Version")) < Integer.parseInt(dbVersion)) {
                     helper.onUpgrade(db, Integer.parseInt((String) map.get("Version")), Integer.parseInt(dbVersion));
                     editor.putString("Version", dbVersion);
                     editor.commit();

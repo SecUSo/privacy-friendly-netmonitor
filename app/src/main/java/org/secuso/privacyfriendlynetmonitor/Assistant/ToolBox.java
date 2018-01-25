@@ -63,7 +63,7 @@ import java.util.Enumeration;
 /**
  * Class for all the litte helpers, used by more than one layer
  */
-public class ToolBox{
+public class ToolBox {
 
     private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
 
@@ -100,11 +100,11 @@ public class ToolBox{
     }
 
     //Returns active network interfaces
-    public String getIfs(Context context){
+    public String getIfs(Context context) {
         //read from command: netcfg | grep UP
 
         String filePath = context.getFilesDir().getAbsolutePath() + File.separator + Const.FILE_IF_LIST;
-        if(Const.IS_DEBUG)Log.d(Const.LOG_TAG, "Try to get active interfaces to" + filePath);
+        if (Const.IS_DEBUG) Log.d(Const.LOG_TAG, "Try to get active interfaces to" + filePath);
         ExecCom.user("rm " + filePath);
         ExecCom.user("netcfg | grep UP -> " + filePath);
         String result = ExecCom.userForResult("cat " + filePath);
@@ -120,12 +120,12 @@ public class ToolBox{
     }
 
     //Lookup local IP address
-    public static InetAddress getLocalAddress(){
+    public static InetAddress getLocalAddress() {
         try {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-                 en.hasMoreElements();) {
+                 en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress()) {
                         return inetAddress;
@@ -183,8 +183,9 @@ public class ToolBox{
             Log.d(Const.LOG_TAG, ToolBox.printHexBinary(searchedFor) + " found at position " + idx);
         return idx;
     }
+
     //Convert a Java long to a four byte array
-    public static byte[] longToFourBytes(long l){
+    public static byte[] longToFourBytes(long l) {
         ByteBuffer bb = ByteBuffer.allocate(8);
         byte[] b = new byte[4];
         bb.putLong(l);
@@ -195,7 +196,7 @@ public class ToolBox{
     }
 
     //Convert a Java int to a two byte array
-    public static byte[] intToTwoBytes(int i){
+    public static byte[] intToTwoBytes(int i) {
         ByteBuffer bb = ByteBuffer.allocate(4);
         byte[] b = new byte[2];
         bb.putInt(i);
@@ -205,7 +206,7 @@ public class ToolBox{
     }
 
     //Convert four bytes to a Java Long
-    public static long fourBytesToLong(byte[] b){
+    public static long fourBytesToLong(byte[] b) {
         ByteBuffer bb = ByteBuffer.allocate(8);
         bb.position(4);
         bb.put(b);
@@ -214,7 +215,7 @@ public class ToolBox{
     }
 
     //Convert two bytes to a Java int
-    public static int twoBytesToInt(byte[] b){
+    public static int twoBytesToInt(byte[] b) {
         ByteBuffer bb = ByteBuffer.allocate(4);
         bb.position(2);
         bb.put(b);
@@ -223,10 +224,10 @@ public class ToolBox{
     }
 
     //Reverse the order in a Byte array
-    public static byte[] reverseByteArray(byte[] b){
+    public static byte[] reverseByteArray(byte[] b) {
         byte[] b0 = new byte[b.length];
         int j = 0;
-        for(int i=b.length-1; i >= 0; i--){
+        for (int i = b.length - 1; i >= 0; i--) {
             b0[j] = b[i];
             j++;
         }
@@ -235,21 +236,22 @@ public class ToolBox{
 
     //ipv6 Hex to address String calculator
     //e.g.: B80D01200000000067452301EFCDAB89 -> 2001:0db8:0000:0000:0123:4567:89ab:cdef
-    public static String hexToIp6(String hexaIP){
+    public static String hexToIp6(String hexaIP) {
         StringBuilder result = new StringBuilder();
-        for(int i=0;i<hexaIP.length();i=i+8){
-            String word = hexaIP.substring(i,i+8);
+        for (int i = 0; i < hexaIP.length(); i = i + 8) {
+            String word = hexaIP.substring(i, i + 8);
             for (int j = word.length() - 1; j >= 0; j = j - 2) {
                 result.append(word.substring(j - 1, j + 1));
-                result.append((j==5)?":":"");//in the middle
+                result.append((j == 5) ? ":" : "");//in the middle
             }
             result.append(":");
         }
-        return result.substring(0,result.length()-1).toString();
+        return result.substring(0, result.length() - 1).toString();
     }
+
     //ipv4 Hex to address String calculator
     //e.g.: 0100A8C0 -> 192.168.0.1*/
-    public static String hexToIp4 (String hexa) {
+    public static String hexToIp4(String hexa) {
         StringBuilder result = new StringBuilder();
         //reverse Little to Big
         for (int i = hexa.length() - 1; i >= 0; i = i - 2) {
@@ -258,6 +260,6 @@ public class ToolBox{
             result.append(".");
         }
         //remove last ".";
-        return result.substring(0,result.length()-1).toString();
+        return result.substring(0, result.length() - 1).toString();
     }
 }

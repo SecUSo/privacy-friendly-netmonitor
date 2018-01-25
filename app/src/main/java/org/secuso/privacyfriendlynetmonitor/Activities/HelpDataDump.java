@@ -59,7 +59,7 @@ import java.util.List;
 
 /**
  * Activity for displaying help content.
- *
+ * <p>
  * Class structure taken from tutorial at http://www.journaldev.com/9942/android-expandablelistview-example-tutorial
  * last access 27th October 2016
  */
