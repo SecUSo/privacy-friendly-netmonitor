@@ -47,8 +47,8 @@ App Icon:</br>
 Markus Hau
 
 Developer:</br>
-Felix Tsala Schiller
-Tobias Burger
+Felix Tsala Schiller</br>
+Tobias Burger</br>
 Marco Egermaier
 
 Contributors (Github):</br>
