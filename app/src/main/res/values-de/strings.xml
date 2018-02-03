@@ -140,6 +140,8 @@
 
     <!--HISTORY-->
     <string name="title_activity_history">Historie</string>
+
+    <!--SELECT HISTORY APPS-->
     <string name="title_activity_select_history_apps">App Auswahl für Historie</string>
     <string name="sort_alpha_asc">Alphabetisch aufsteigend</string>
     <string name="action_search">action Search</string>
