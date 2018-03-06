@@ -61,6 +61,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,6 +95,7 @@ public class HistoryActivity extends BaseActivity {
 
     private SharedPreferences selectedAppsPreferences;
     private SharedPreferences.Editor editor;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,9 @@ public class HistoryActivity extends BaseActivity {
         setContentView(R.layout.activity_history);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        progressBar = findViewById(R.id.selectHistoryProgressBar);
+        progressBar.setVisibility(View.GONE);
 
         // load DB
         DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
@@ -114,6 +119,7 @@ public class HistoryActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 startActivity(new Intent(HistoryActivity.this, SelectHistoryAppsActivity.class));
             }
         });
@@ -128,6 +134,12 @@ public class HistoryActivity extends BaseActivity {
         });
 
         activateHistoryView();
+    }
+
+    @Override
+    public void onPostResume() {
+        super.onPostResume();
+        progressBar.setVisibility(View.GONE);
     }
 
     private void activateHistoryView() {
