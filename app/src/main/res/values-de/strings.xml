@@ -151,7 +151,7 @@
 
     <!--APP REPORT DETAIL-->
     <string name="title_activity_app_report__detail">App-Report Details</string>
-    <string name="nodata">Falls keine Apps angezeigt werden\neditieren sie bitte die Liste der Apps\nwelche sie überwachen wollen,\nüber den Button in der linken unteren Ecke.</string>
+    <string name="nodata">Falls keine Apps angezeigt werden\neditieren Sie bitte die Liste der Apps\nwelche Sie überwachen wollen,\nüber den Button in der linken unteren Ecke.</string>
     <string name="deleteButton">Delete History of selected Apps</string>
 
     <!-- History Chart Fragments-->
