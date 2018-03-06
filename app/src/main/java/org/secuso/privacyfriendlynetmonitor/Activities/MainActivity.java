@@ -61,6 +61,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.ExpandableReportAdapter;
@@ -136,6 +137,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressBar progressBar = findViewById(R.id.mainProgressBar);
+                progressBar.setVisibility(View.VISIBLE);
+
                 startStopTrigger();
             }
         });
