@@ -229,8 +229,21 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                     return false;
-
                 } else {
+                    try{
+                        view.animate().setDuration(500).alpha((float) 0.5)
+                                .withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Collector.provideDetail(r.uid, r.remoteAddHex);
+                                        Intent intent = new Intent(getApplicationContext(), ReportDetailActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                    } catch (Exception e){
+                        return false;
+                    }
                     return false;
                 }
             }
