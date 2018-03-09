@@ -7,16 +7,6 @@
     android:layout_height="fill_parent"
     tools:context=".Activities.MainActivity">
 
-        <!--
-        <ListView
-            android:id="@+id/list_selection_app"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:divider="@android:color/darker_gray"
-            android:dividerHeight="0.5dp"
-            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
-            />
-        -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_selection_app_recycler"
             android:layout_width="match_parent"

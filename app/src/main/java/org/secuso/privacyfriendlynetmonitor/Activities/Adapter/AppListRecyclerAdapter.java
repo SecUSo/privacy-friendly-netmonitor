@@ -29,7 +29,6 @@ public class AppListRecyclerAdapter extends RecyclerView.Adapter<AppListRecycler
 
     private Context context;
 
-    private List<Integer> appsToDelete;
 
     private SharedPreferences selectedAppsPreferences;
     private SharedPreferences.Editor editor;
@@ -118,13 +117,8 @@ public class AppListRecyclerAdapter extends RecyclerView.Adapter<AppListRecycler
                         holder.appSwitch.setChecked(false);
                     }
                 }
-
-
             }
-
-
         });
-
 
     }
 
@@ -133,38 +127,6 @@ public class AppListRecyclerAdapter extends RecyclerView.Adapter<AppListRecycler
         return app_list_name.size();
     }
 
-    /**
-     *
-     * @return all apps to delete
-     */
-    public List<Integer> getAppsToDelete() {
-        return appsToDelete;
-    }
-
-    private void selectionHandling(final AppListRecyclerAdapter.ViewHolder holder) {
-
-        holder.appSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                String appName = holder.appGroupTitle.getText().toString();
-                if (isChecked) {
-                    if (!Collector.getAppsToIncludeInScan().contains(appName)) {
-                        Collector.addAppToIncludeInScan(appName);
-                        editor.putString(appName, appName);
-                        editor.commit();
-                        holder.appSwitch.setChecked(true);
-                    }
-                } else {
-                    if (Collector.getAppsToIncludeInScan().contains(appName)) {
-                        Collector.deleteAppFromIncludeInScan(appName);
-                        editor.remove(appName);
-                        editor.commit();
-                        holder.appSwitch.setChecked(false);
-                    }
-                }
-            }
-        });
-    }
 
 }
 

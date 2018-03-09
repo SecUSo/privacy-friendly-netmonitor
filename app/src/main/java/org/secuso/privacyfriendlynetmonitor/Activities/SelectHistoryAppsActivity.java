@@ -51,7 +51,6 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -63,10 +62,7 @@ import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
-import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.AppListAdapter;
 import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.AppListRecyclerAdapter;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
@@ -91,10 +87,8 @@ import static org.secuso.privacyfriendlynetmonitor.Assistant.RunStore.getContext
 
 public class SelectHistoryAppsActivity extends AppCompatActivity {
 
-    private ListView userInstalledAppsView;
     private List<String> app_list_name;
     private ReportEntityDao reportEntityDao;
-    private AppListAdapter appAdapter;
     private SharedPreferences selectedAppsPreferences;
     private SharedPreferences.Editor editor;
 
@@ -130,10 +124,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
 
     //method to load all the Apps in the listeview, sorted alphabetic form the start
     private void show_APP_list() {
-        //userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
         app_list_name = provideAppList();
-        //appAdapter = new AppListAdapter(this, app_list_name);
-        //userInstalledAppsView.setAdapter(appAdapter);
 
         appListRecyclerView = (RecyclerView) findViewById(R.id.list_selection_app_recycler);
         recyclerLayoutManager = new LinearLayoutManager(this);
@@ -205,10 +196,6 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
                         app_list_name.add(entry.getValue().toString());
                     }
                 }
-
-                //userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
-                //appAdapter = new AppListAdapter(SelectHistoryAppsActivity.this, app_list_name);
-                //userInstalledAppsView.setAdapter(appAdapter);
 
                 appListRecyclerView = (RecyclerView) findViewById(R.id.list_selection_app_recycler);
                 recyclerLayoutManager = new LinearLayoutManager(getContext());
@@ -289,9 +276,6 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
             item.setChecked(true);
             sortInstalledDate_desc();
         }
-        //userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
-        //appAdapter = new AppListAdapter(this, app_list_name);
-        //userInstalledAppsView.setAdapter(appAdapter);
 
         appListRecyclerView = (RecyclerView) findViewById(R.id.list_selection_app_recycler);
         recyclerLayoutManager = new LinearLayoutManager(getContext());
