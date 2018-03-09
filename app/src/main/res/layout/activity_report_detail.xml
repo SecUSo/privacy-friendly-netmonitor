@@ -16,6 +16,8 @@
         android:fitsSystemWindows="true"
         tools:context=".Activities.MainActivity">
 
+        <include layout="@layout/toolbar" />
+
         <include layout="@layout/activity_report_detail_content" />
 
     </android.support.design.widget.CoordinatorLayout>
