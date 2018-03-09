@@ -136,9 +136,18 @@ public class TutorialActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeScreen();
+                // checking for last page
+                // if last page home screen will be launched
+                int current = getItem(+1);
+                if (current < layouts.length) {
+                    launchHomeScreen();
+                } else {
+                    launchHelp();
+                }
             }
         });
+
+
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +197,14 @@ public class TutorialActivity extends AppCompatActivity {
         finish();
     }
 
+    private void launchHelp() {
+        prefManager.setFirstTimeLaunch(false);
+        Intent intent = new Intent(this, HelpActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
     //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
@@ -199,10 +216,12 @@ public class TutorialActivity extends AppCompatActivity {
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
                 btnNext.setText(getString(R.string.okay));
-                btnSkip.setVisibility(View.GONE);
+                //btnSkip.setVisibility(View.GONE);
+                btnSkip.setText(getString(R.string.help_button));
             } else {
                 // still pages are left
                 btnNext.setText(getString(R.string.next));
+                btnSkip.setText(getString(R.string.skip));
                 btnSkip.setVisibility(View.VISIBLE);
             }
         }
