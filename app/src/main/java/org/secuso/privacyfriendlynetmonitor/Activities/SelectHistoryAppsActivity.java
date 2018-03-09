@@ -56,19 +56,20 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.AppListAdapter;
-import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
+import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.AppListRecyclerAdapter;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
-import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntity;
 import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
@@ -79,6 +80,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import static org.secuso.privacyfriendlynetmonitor.Assistant.RunStore.getContext;
 
 /**
  * Activity for the list of all installed apps with internet permission.
@@ -94,6 +97,11 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
     private AppListAdapter appAdapter;
     private SharedPreferences selectedAppsPreferences;
     private SharedPreferences.Editor editor;
+
+    private RecyclerView appListRecyclerView;
+    private RecyclerView.Adapter appListRecyclerAdapter;
+    private RecyclerView.LayoutManager recyclerLayoutManager;
+
 
     //Variables to sort alphabetic and accodring to installed date
     //the displayed app names are in the keys of the map, the value is the long Name
@@ -122,10 +130,20 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
 
     //method to load all the Apps in the listeview, sorted alphabetic form the start
     private void show_APP_list() {
-        userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
+        //userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
         app_list_name = provideAppList();
-        appAdapter = new AppListAdapter(this, app_list_name);
-        userInstalledAppsView.setAdapter(appAdapter);
+        //appAdapter = new AppListAdapter(this, app_list_name);
+        //userInstalledAppsView.setAdapter(appAdapter);
+
+        appListRecyclerView = (RecyclerView) findViewById(R.id.list_selection_app_recycler);
+        recyclerLayoutManager = new LinearLayoutManager(this);
+        appListRecyclerView.setLayoutManager(recyclerLayoutManager);
+
+        // specify an adapter
+        appListRecyclerAdapter = new AppListRecyclerAdapter(app_list_name, this);
+        appListRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        appListRecyclerView.setAdapter(appListRecyclerAdapter);
+
     }
 
     //method to check for internet permission
@@ -188,9 +206,18 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
                     }
                 }
 
-                userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
-                appAdapter = new AppListAdapter(SelectHistoryAppsActivity.this, app_list_name);
-                userInstalledAppsView.setAdapter(appAdapter);
+                //userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
+                //appAdapter = new AppListAdapter(SelectHistoryAppsActivity.this, app_list_name);
+                //userInstalledAppsView.setAdapter(appAdapter);
+
+                appListRecyclerView = (RecyclerView) findViewById(R.id.list_selection_app_recycler);
+                recyclerLayoutManager = new LinearLayoutManager(getContext());
+                appListRecyclerView.setLayoutManager(recyclerLayoutManager);
+
+                // specify an adapter
+                appListRecyclerAdapter = new AppListRecyclerAdapter(app_list_name, SelectHistoryAppsActivity.this);
+                appListRecyclerView.addItemDecoration(new DividerItemDecoration(SelectHistoryAppsActivity.this, LinearLayoutManager.VERTICAL));
+                appListRecyclerView.setAdapter(appListRecyclerAdapter);
 
                 return false;
             }
@@ -262,9 +289,18 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
             item.setChecked(true);
             sortInstalledDate_desc();
         }
-        userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
-        appAdapter = new AppListAdapter(this, app_list_name);
-        userInstalledAppsView.setAdapter(appAdapter);
+        //userInstalledAppsView = (ListView) findViewById(R.id.list_selection_app);
+        //appAdapter = new AppListAdapter(this, app_list_name);
+        //userInstalledAppsView.setAdapter(appAdapter);
+
+        appListRecyclerView = (RecyclerView) findViewById(R.id.list_selection_app_recycler);
+        recyclerLayoutManager = new LinearLayoutManager(getContext());
+        appListRecyclerView.setLayoutManager(recyclerLayoutManager);
+
+        // specify an adapter
+        appListRecyclerAdapter = new AppListRecyclerAdapter(app_list_name, SelectHistoryAppsActivity.this);
+        appListRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        appListRecyclerView.setAdapter(appListRecyclerAdapter);
 
         return super.onOptionsItemSelected(item);
     }
@@ -385,6 +421,7 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        /*
         if (appAdapter.getAppsToDelete() != null && !appAdapter.getAppsToDelete().isEmpty()) {
             List<Integer> appsToDelete = appAdapter.getAppsToDelete();
             for (int i : appsToDelete) {
@@ -395,6 +432,8 @@ public class SelectHistoryAppsActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+        */
+        super.onBackPressed();
     }
 
 //    private void deleteConfirmation() {
