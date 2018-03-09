@@ -59,6 +59,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -111,6 +112,8 @@ public class Fragment_day extends Fragment {
         super.onCreate(savedInstanceState);
 
         final View view = inflater.inflate(R.layout.fragment_charts, container, false);
+        ScrollView scrollview = view.findViewById(R.id.scrollViewChart);
+        scrollview.setSmoothScrollingEnabled(true);
 
         //Fill Icon, AppGroupTitle, AppName
         PackageManager packageManager = getActivity().getPackageManager();
@@ -338,6 +341,8 @@ public class Fragment_day extends Fragment {
     private void fillRecyclerList(View view, List<ReportEntity> reportEntityList) {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        mRecyclerView.setFocusable(false);
+        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);

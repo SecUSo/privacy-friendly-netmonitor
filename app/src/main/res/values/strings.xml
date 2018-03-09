@@ -134,6 +134,7 @@
     <string name="okay">Okay</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
+    <string name="help_button">Help</string>
     <string name="bg_desc">Connection monitoring is active</string>
 
     <string name="title_activity_tutorial__monitor">Tutorial_Monitor</string>

@@ -133,6 +133,7 @@
     <string name="okay">Okay</string>
     <string name="next">Weiter</string>
     <string name="skip">Skip</string>
+    <string name="help_button">Hilfe</string>
 
     <!-- NOTIFICATION -->
     <string name="bg_desc">Verbindungen werden überwacht</string>

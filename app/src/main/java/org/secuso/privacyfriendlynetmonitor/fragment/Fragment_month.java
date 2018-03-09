@@ -311,6 +311,8 @@ public class Fragment_month extends Fragment {
     private void fillRecyclerList(View view, List<ReportEntity> reportEntityList) {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        mRecyclerView.setFocusable(false);
+        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
