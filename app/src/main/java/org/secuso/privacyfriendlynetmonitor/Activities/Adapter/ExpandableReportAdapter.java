@@ -174,8 +174,9 @@ public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
         //Set warning colour if settings are set
         SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        if (mSharedPreferences.getBoolean(Const.IS_HIGHLIGHTED, false)) {
-            textView.setTextColor(context.getResources().getColor(getWarningColor(item2_value)));
+        textView.setTextColor(context.getResources().getColor(getWarningColor(item2_value)));
+        if (!mSharedPreferences.getBoolean(Const.IS_HIGHLIGHTED, true)) {
+            textView.setTextColor((int) R.color.text_dark);
         }
 
         return convertView;
