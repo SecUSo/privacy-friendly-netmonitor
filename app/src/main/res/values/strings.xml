@@ -144,6 +144,7 @@
     <!--HISTORY-->
     <string name="title_activity_history">History</string>
     <string name="title_activity_history_detail">History Detail View</string>
+    <string name="history_no_data_collected">(No data collected)</string>
 
     <!--SELECT HISTORY APPS-->
     <string name="title_activity_select_history_apps">App Selection for History</string>

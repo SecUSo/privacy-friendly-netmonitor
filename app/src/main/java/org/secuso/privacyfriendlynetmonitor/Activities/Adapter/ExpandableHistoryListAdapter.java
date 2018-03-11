@@ -206,7 +206,12 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
         TextView historyGroupSubtitle = (TextView) convertView.findViewById(R.id.historyGroupSubtitle);
 
         try {
-            historyGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)));
+//            if(reportListDetail == null || reportListDetail.isEmpty() || reportListDetail.get(appName) == null || reportListDetail.get(appName).isEmpty()){
+            if(getChildrenCount(groupPosition) != 0){
+                historyGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)));
+            } else {
+                historyGroupTitle.setText((String) packageManager.getApplicationLabel(packageManager.getApplicationInfo(appName, PackageManager.GET_META_DATA)) + " " + context.getString(R.string.history_no_data_collected));
+            }
         } catch (PackageManager.NameNotFoundException e) {
             historyGroupTitle.setText(appName);
         }
