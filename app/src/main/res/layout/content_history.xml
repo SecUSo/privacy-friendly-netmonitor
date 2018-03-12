@@ -11,11 +11,6 @@
         android:text="@string/nodata"
         android:visibility="invisible"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipe_refresh_layout_history"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <ExpandableListView
             android:id="@+id/list_history"
             android:divider="@android:color/darker_gray"
@@ -25,8 +20,6 @@
             android:layout_height="wrap_content"
             android:paddingTop="64dp"
             />
-
-    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/selectHistoryProgressBar"
