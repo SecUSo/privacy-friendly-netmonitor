@@ -6,7 +6,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId 'org.secuso.privacyfriendlynetmonitor'
-        minSdkVersion 22
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 8
         versionName "2.0"
@@ -29,7 +29,7 @@ android {
     }
 }
 
-//added by TB (needed for Stduios 3.0.0) and for the charts
+//added by TB (needed for Studio 3.0.0) and for the charts
 allprojects {
     repositories {
         jcenter()
