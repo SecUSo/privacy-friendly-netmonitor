@@ -23,7 +23,7 @@
         <ImageView
             android:layout_width="@dimen/img_width_height"
             android:layout_height="@dimen/img_width_height"
-            android:background="@drawable/ic_tutorial_inverted"
+            android:background="@mipmap/splash_icon"
             />
 
         <TextView
