@@ -95,14 +95,14 @@ public class TutorialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Checking for first time launch - before calling setContentView()
-        prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
-            if (tutorial_click == false) {
-                launchHomeScreen();
-                finish();
-            }
-        }
-        tutorial_click = false;
+        //prefManager = new PrefManager(this);
+        //if (!prefManager.isFirstTimeLaunch()) {
+         //   if (tutorial_click == false) {
+         //       launchHomeScreen();
+         //       finish();
+         //   }
+        //}
+        //tutorial_click = false;
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -111,10 +111,10 @@ public class TutorialActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_tutorial);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        viewPager = findViewById(R.id.view_pager);
+        dotsLayout = findViewById(R.id.layoutDots);
+        btnSkip = findViewById(R.id.btn_skip);
+        btnNext = findViewById(R.id.btn_next);
 
 
         // layouts of all welcome sliders
@@ -190,17 +190,17 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        prefManager.setFirstTimeLaunch(false);
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        prefManager.setFirstTimeLaunch(false);
         startActivity(intent);
         finish();
     }
 
     private void launchHelp() {
-        prefManager.setFirstTimeLaunch(false);
         Intent intent = new Intent(this, HelpActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        prefManager.setFirstTimeLaunch(false);
         startActivity(intent);
         finish();
     }

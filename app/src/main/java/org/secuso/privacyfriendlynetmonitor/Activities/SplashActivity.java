@@ -18,6 +18,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
+
 /**
  * @author Karola Marky
  * @version 20161022
@@ -29,7 +31,19 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent mainIntent = new Intent(SplashActivity.this, TutorialActivity.class);
+        Intent mainIntent = null;
+
+        PrefManager prefManager = new PrefManager(this);
+
+        if(prefManager.isFirstTimeLaunch()) {
+            mainIntent = new Intent(this, TutorialActivity.class);
+            prefManager.setFirstTimeLaunch(false);
+        } else {
+            mainIntent = new Intent(this, MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+
+        //Intent mainIntent = new Intent(SplashActivity.this, TutorialActivity.class);
         SplashActivity.this.startActivity(mainIntent);
         SplashActivity.this.finish();
 
