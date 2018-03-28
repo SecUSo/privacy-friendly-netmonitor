@@ -6,11 +6,12 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId 'org.secuso.privacyfriendlynetmonitor'
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 8
         versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
