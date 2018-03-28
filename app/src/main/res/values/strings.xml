@@ -131,6 +131,10 @@
     <string name="slide2_heading">Connection Information</string>
     <string name="slide2_text">Currently active connections and encryption info is listed by app. \n Logging, detailed technical info, and server validation features can be activated in settings.</string>
 
+    <string name="slide3_heading">History</string>
+    <string name="slide3_text">Privacy Friendly Net Monitor can store a connection history of chosen apps.
+    The connection history is displayed as a list and as a graph.</string>
+
     <string name="okay">Okay</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>

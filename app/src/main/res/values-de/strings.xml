@@ -100,20 +100,20 @@
 
     <string name="help_un_encrypted_ports">Was ist die Bedeutung von nicht-/ verschlüsselten Ports in
         der Detailansicht?</string>
-    <string name="help_un_encrypted_ports_answer"> Tatsächlich sind nicht die Ports verschlüsselt,
-        sondern der Service der an den Port gebunden ist, kommuniziert entweder über ein sicheres
+    <string name="help_un_encrypted_ports_answer"> Tatsächlich sind nicht die Ports selbst verschlüsselt,
+        sondern der Service, der an den Port gebunden ist, kommuniziert entweder über ein sicheres
         Protokoll oder über ein unsicheres Protokoll. Man spricht von einem "sicherem Port",
-        wenn der Service ein sicheres Protkoll verwendet (für unverschlüsselte Ports gilt das Gleiche).</string>
+        wenn der Service ein sicheres Protkoll verwendet (dies gilt ebenfalls für unverschlüsselte Ports).</string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_advanced_switch">Detaillierter Modus</string>
     <string name="pref_advanced_switch_summary">Zeigt zusätzliche technische Informationen der Verbindung.</string>
     <string name="pref_log_switch">Verbindungen aufzeichnen</string>
-    <string name="pref_log_switch_summary">Behält Verbindungen.</string>
+    <string name="pref_log_switch_summary">Verbindungen speichern</string>
     <string name="pref_certval_switch">Zertifikats-Überprüfung</string>
     <string name="pref_certval_switch_summary">Serveranalyse mit SSL Labs API.</string>
-    <string name="pref_connection_highlighting">Verbidungen färben</string>
+    <string name="pref_connection_highlighting">Verbindungen färben</string>
     <string name="pref_connection_highlighting_summary">Färbt die Verbindungen grün und rot.</string>
 
     <!-- TOOLBAR -->
@@ -129,6 +129,10 @@
     <string name="slide2_text">Die App listet Informationen zu aktiven Netzwerkverbindungen und zeigt an,
         ob diese verschlüsselt sind. Zusätzlich können detaillierte, technische Informationen
         und eine Zertifikatsprüfung des Zielservers in den Einstellungen aktiviert werden.</string>
+
+    <string name="slide3_heading">Historie</string>
+    <string name="slide3_text">In der Historie können Sie zunächst Apps festlegen, deren Internetverbindungen gespeichert werden.
+    Die gespeicherten Verbindungen der App können Sie in einer grafischen Darstellung sowie einer Verbindungsliste einsehen.</string>
 
     <string name="okay">Okay</string>
     <string name="next">Weiter</string>
