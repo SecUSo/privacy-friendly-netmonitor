@@ -132,7 +132,7 @@
 
     <string name="slide3_heading">Historie</string>
     <string name="slide3_text">In der Historie können Sie zunächst Apps festlegen, deren Internetverbindungen gespeichert werden.
-    Die gespeicherten Verbindungen der App können Sie in einer grafischen Darstellung sowie einer Verbindungsliste einsehen.</string>
+    Die gespeicherten Verbindungen der App können Sie in einer grafischen Darstellung (durch langes Drücken) sowie einer Verbindungsliste einsehen.</string>
 
     <string name="okay">Okay</string>
     <string name="next">Weiter</string>

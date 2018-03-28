@@ -133,7 +133,7 @@
 
     <string name="slide3_heading">History</string>
     <string name="slide3_text">Privacy Friendly Net Monitor can store a connection history of chosen apps.
-    The connection history is displayed as a list and as a graph.</string>
+    The connection history is displayed as a list and as a graph (via a long press).</string>
 
     <string name="okay">Okay</string>
     <string name="next">Next</string>
