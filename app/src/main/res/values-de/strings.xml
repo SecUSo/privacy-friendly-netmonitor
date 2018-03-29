@@ -25,6 +25,8 @@
     <string name="drawer_settings">Einstellungen</string>
     <string name="drawer_help">Hilfe</string>
     <string name="drawer_about">Über</string>
+    <string name="drawer_tutorial">Anleitung</string>
+    <string name="drawer_history">Historie</string>
     <string name="navigation_drawer_open">Öffnen</string>
     <string name="navigation_drawer_close">Schließen</string>
 
@@ -96,14 +98,23 @@
         Die Datenschutzerklärung von SSL-Labs sagt aus, dass keine der erhaltenen IP Addressen oder Hostnamen
         an Dritte weitergegeben werden. </string>
 
+    <string name="help_un_encrypted_ports">Was ist die Bedeutung von nicht-/ verschlüsselten Ports in
+        der Detailansicht?</string>
+    <string name="help_un_encrypted_ports_answer"> Tatsächlich sind nicht die Ports selbst verschlüsselt,
+        sondern der Service, der an den Port gebunden ist, kommuniziert entweder über ein sicheres
+        Protokoll oder über ein unsicheres Protokoll. Man spricht von einem "sicherem Port",
+        wenn der Service ein sicheres Protkoll verwendet (dies gilt ebenfalls für unverschlüsselte Ports).</string>
+
     <!-- SETTINGS -->
     <string name="title_activity_settings">Einstellungen</string>
     <string name="pref_advanced_switch">Detaillierter Modus</string>
     <string name="pref_advanced_switch_summary">Zeigt zusätzliche technische Informationen der Verbindung.</string>
     <string name="pref_log_switch">Verbindungen aufzeichnen</string>
-    <string name="pref_log_switch_summary">Behält Verbindungen.</string>
+    <string name="pref_log_switch_summary">Verbindungen speichern</string>
     <string name="pref_certval_switch">Zertifikats-Überprüfung</string>
     <string name="pref_certval_switch_summary">Serveranalyse mit SSL Labs API.</string>
+    <string name="pref_connection_highlighting">Verbindungen färben</string>
+    <string name="pref_connection_highlighting_summary">Färbt die Verbindungen grün und rot.</string>
 
     <!-- TOOLBAR -->
     <string name="action_refresh_title">Aktualisieren</string>
@@ -119,11 +130,43 @@
         ob diese verschlüsselt sind. Zusätzlich können detaillierte, technische Informationen
         und eine Zertifikatsprüfung des Zielservers in den Einstellungen aktiviert werden.</string>
 
+    <string name="slide3_heading">Historie</string>
+    <string name="slide3_text">In der Historie können Sie zunächst Apps festlegen, deren Internetverbindungen gespeichert werden.
+    Die gespeicherten Verbindungen der App können Sie in einer grafischen Darstellung (durch langes Drücken) sowie einer Verbindungsliste einsehen.</string>
+
     <string name="okay">Okay</string>
     <string name="next">Weiter</string>
-    <string name="skip">Überspringen</string>
+    <string name="skip">Skip</string>
+    <string name="help_button">Hilfe</string>
 
     <!-- NOTIFICATION -->
     <string name="bg_desc">Verbindungen werden überwacht</string>
+    <string name="title_activity_history_detail">Historie Detailansicht</string>
+
+    <!--HISTORY-->
+    <string name="title_activity_history">Historie</string>
+
+    <!--SELECT HISTORY APPS-->
+    <string name="title_activity_select_history_apps">App Auswahl für Historie</string>
+    <string name="sort_alpha_asc">Alphabetisch aufsteigend</string>
+    <string name="action_search">action Search</string>
+    <string name="sort_alpha_desc">Alphabetisch absteigend</string>
+    <string name="sort_install_asc">Installationsdatum aufsteigend </string>
+    <string name="sort_install_desc">Installationsdatum absteigend </string>
+
+    <!--APP REPORT DETAIL-->
+    <string name="title_activity_app_report__detail">App-Report Details</string>
+    <string name="nodata">Falls keine Apps angezeigt werden\neditieren Sie bitte die Liste der Apps\nwelche Sie überwachen wollen,\nüber den Button in der linken unteren Ecke.</string>
+    <string name="deleteButton">Delete History of selected Apps</string>
+
+    <!-- History Chart Fragments-->
+    <string name="hours">Stunden</string>
+    <string name="encrypted">verschlüsselt</string>
+    <string name="unencrypted">unverschlüsselt</string>
+    <string name="unknown">unbekannt</string>
+    <string name="oclock"> Uhr</string>
+    <string name="hr">Std</string>
+    <string name="days">Tage</string>
+    <string name="d">t</string>
 
 </resources>

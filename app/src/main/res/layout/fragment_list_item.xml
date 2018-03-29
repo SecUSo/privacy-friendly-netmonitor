@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_border"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/fragment_appname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:text="example.hostname.net"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/fragment_timestamp_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_appname"
+        android:paddingEnd="@dimen/activity_vertical_margin"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:text="TIMESTAMP "
+        android:textSize="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/fragment_timestamp_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_appname"
+        android:layout_toEndOf="@+id/fragment_timestamp_title"
+        android:text="-status-"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/fragment_conncection_info_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_timestamp_title"
+        android:paddingEnd="@dimen/activity_vertical_margin"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:text="CONNECTION"
+        android:textSize="10dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/fragment_conncection_info_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_timestamp_value"
+        android:layout_toEndOf="@+id/fragment_conncection_info_title"
+        android:text="-status-"
+        android:textSize="10dp" />
+
+
+</RelativeLayout>

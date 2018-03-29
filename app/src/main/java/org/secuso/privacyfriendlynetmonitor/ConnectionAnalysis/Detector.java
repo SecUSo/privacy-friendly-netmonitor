@@ -79,43 +79,45 @@ class Detector {
     static HashMap<Integer, Report> sReportMap = new HashMap<>();
 
     //Update the report HashMap with currently scanned connections
-    static void updateReportMap(){
+    static void updateReportMap() {
         updateOrAdd(getCurrentConnections());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(RunStore.getAppContext());
         boolean isLog = prefs.getBoolean(Const.IS_LOG, false);
         boolean isCertVal = prefs.getBoolean(Const.IS_CERTVAL, false);
-        if (!isLog && !isCertVal){ removeOldReports(); }
+        if (!isLog && !isCertVal) {
+            removeOldReports();
+        }
     }
 
     //Update existing or add new reports
-    private static void updateOrAdd(ArrayList<Report> reportList){
+    private static void updateOrAdd(ArrayList<Report> reportList) {
         for (int i = 0; i < reportList.size(); i++) {
             //Key = source-Port
             int key = reportList.get(i).localPort;
-            if(sReportMap.containsKey(key)){
+            if (sReportMap.containsKey(key)) {
                 Report r = sReportMap.get(key);
                 r.touch();
                 r.state = reportList.get(i).state;
-            } else{
-                sReportMap.put(key,reportList.get(i));
+            } else {
+                sReportMap.put(key, reportList.get(i));
             }
         }
     }
 
     //Remove timed-out connection-reports
     private static void removeOldReports() {
-        Timestamp thresh = new Timestamp(System.currentTimeMillis() - Const.REPORT_TTL_DEFAULT) ;
+        Timestamp thresh = new Timestamp(System.currentTimeMillis() - Const.REPORT_TTL_DEFAULT);
 
         HashSet<Integer> keySet = new HashSet<>(sReportMap.keySet());
-        for (int key:keySet) {
-            if(sReportMap.get(key).timestamp.compareTo(thresh) < 0){
+        for (int key : keySet) {
+            if (sReportMap.get(key).timestamp.compareTo(thresh) < 0) {
                 sReportMap.remove(key);
             }
         }
     }
 
     // read the current connections off the designated files
-    private static ArrayList<Report> getCurrentConnections(){
+    private static ArrayList<Report> getCurrentConnections() {
         ArrayList<Report> fullReportList = new ArrayList<>();
 
         //generate full report of all tcp/udp connections
@@ -135,20 +137,20 @@ class Detector {
         splitLines = readIn.split("\\n");
         for (int i = 1; i < splitLines.length; i++) {
             splitLines[i] = splitLines[i].trim();
-           reportList.add(initReport(splitLines[i], type));
+            reportList.add(initReport(splitLines[i], type));
         }
         return reportList;
     }
 
     //Initiate a reports from a read in line
-    private static Report initReport(String splitLine, TLType type){
+    private static Report initReport(String splitLine, TLType type) {
         String splitTabs[];
         while (splitLine.contains("  ")) {
             splitLine = splitLine.replace("  ", " ");
         }
         splitTabs = splitLine.split("\\s");
 
-        if (type == TLType.tcp || type == TLType.udp ){
+        if (type == TLType.tcp || type == TLType.udp) {
             //Init IPv4 values
             return initReport4(splitTabs, type);
         } else {
@@ -158,7 +160,7 @@ class Detector {
     }
 
     //Init parsed data to IPv4 connection report
-    private static Report initReport4(String[] splitTabs, TLType type){
+    private static Report initReport4(String[] splitTabs, TLType type) {
         int pos;
         pos = 0;
         //Allocating buffer for 4 Bytes add and 2 bytes port each + 4 bytes UID
@@ -171,7 +173,7 @@ class Detector {
 
         //local port
         pos = splitTabs[1].indexOf(":");
-        hexStr = splitTabs[1].substring(pos +1, pos + 5);
+        hexStr = splitTabs[1].substring(pos + 1, pos + 5);
         bb.put(ToolBox.hexStringToByteArray(hexStr));
 
         //remote address
@@ -181,7 +183,7 @@ class Detector {
 
         //local port
         pos = splitTabs[2].indexOf(":");
-        hexStr = splitTabs[2].substring(pos +1, pos + 5);
+        hexStr = splitTabs[2].substring(pos + 1, pos + 5);
         bb.put(ToolBox.hexStringToByteArray(hexStr));
 
         //UID
@@ -194,7 +196,7 @@ class Detector {
     }
 
     //Init parsed data to IPv6 connection report
-    private static Report initReport6(String[] splitTabs, TLType type){
+    private static Report initReport6(String[] splitTabs, TLType type) {
         int pos;
         pos = 0;
         //Allocating buffer for 16 Bytes add and 2 bytes port each + 4 bytes UID
@@ -207,7 +209,7 @@ class Detector {
 
         //local port
         pos = splitTabs[1].indexOf(":");
-        hexStr = splitTabs[1].substring(pos +1, pos + 5);
+        hexStr = splitTabs[1].substring(pos + 1, pos + 5);
         bb.put(ToolBox.hexStringToByteArray(hexStr));
 
         //remote address
@@ -217,7 +219,7 @@ class Detector {
 
         //local port
         pos = splitTabs[2].indexOf(":");
-        hexStr = splitTabs[2].substring(pos +1, pos + 5);
+        hexStr = splitTabs[2].substring(pos + 1, pos + 5);
         bb.put(ToolBox.hexStringToByteArray(hexStr));
 
         //UID

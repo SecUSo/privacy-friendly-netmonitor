@@ -65,10 +65,15 @@ public class KnownPorts {
 
     public static String CompileConnectionInfo(int remotePort, TLType type) {
         String info;
-        if (isTlsPort(remotePort)){ info = Const.STATUS_TLS; }
-        else if (isUnsecurePort(remotePort)){ info = Const.STATUS_UNSECURE; }
-        else if (isInconclusivePort(remotePort)){ info = Const.STATUS_INCONCLUSIVE; }
-        else { info = Const.STATUS_UNKNOWN; }
+        if (isTlsPort(remotePort)) {
+            info = Const.STATUS_TLS;
+        } else if (isUnsecurePort(remotePort)) {
+            info = Const.STATUS_UNSECURE;
+        } else if (isInconclusivePort(remotePort)) {
+            info = Const.STATUS_INCONCLUSIVE;
+        } else {
+            info = Const.STATUS_UNKNOWN;
+        }
 
         return info + " (" + resolvePort(remotePort) + ", " + type + ")";
     }
@@ -79,10 +84,14 @@ public class KnownPorts {
     }
 
     //Test if port number is inconclusive (e.g. STARTTLS)
-    public static boolean isInconclusivePort(int i) { return Const.INCONCUSIVE_PORTS.contains(i); }
+    public static boolean isInconclusivePort(int i) {
+        return Const.INCONCUSIVE_PORTS.contains(i);
+    }
 
     //Test if port number is well known for unencrypted connection
-    public static boolean isUnsecurePort(int i) { return Const.UNSECURE_PORTS.contains(i); }
+    public static boolean isUnsecurePort(int i) {
+        return Const.UNSECURE_PORTS.contains(i);
+    }
 
 
     //init hash map with reserved ports (1-1024) and protocol identifiers
@@ -780,7 +789,6 @@ public class KnownPorts {
         m.put(1021, "exp1");
         m.put(1022, "exp2");
     }
-
 
 
 }

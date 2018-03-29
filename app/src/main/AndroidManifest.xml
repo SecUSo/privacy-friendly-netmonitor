@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.secuso.privacyfriendlynetmonitor" >
+    package="org.secuso.privacyfriendlynetmonitor">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".DatabaseUtil.DBApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name="org.secuso.privacyfriendlynetmonitor.Activities.SplashActivity"
+            android:name=".Activities.SplashActivity"
             android:label="@string/app_name"
-            android:theme="@style/SplashTheme" >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="org.secuso.privacyfriendlynetmonitor.Activities.ReportDetailActivity"
+            android:name=".Activities.ReportDetailActivity"
             android:label="@string/headline_report_detail"
-            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
+            android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlynetmonitor.Activities.AboutActivity"
+            android:name=".Activities.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
+            android:parentActivityName=".Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
@@ -44,9 +45,9 @@
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlynetmonitor.Activities.HelpActivity"
+            android:name=".Activities.HelpActivity"
             android:label="@string/help"
-            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
+            android:parentActivityName=".Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -54,9 +55,9 @@
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlynetmonitor.Activities.SettingsActivity"
+            android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity"
+            android:parentActivityName=".Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -64,17 +65,67 @@
                 android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlynetmonitor.Activities.TutorialActivity"
+            android:name=".Activities.TutorialActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
         </activity>
 
-      <service
-            android:name="org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService"
-            android:label=".NetMonitorPassiveService"
+        <service
+            android:name=".ConnectionAnalysis.PassiveService"
             android:enabled="true"
-            android:permission="android.permission.BIND_SERVICE" >
-        </service>
+            android:label="org.secuso.privacyfriendlynetmonitor.NetMonitorPassiveService"
+            android:permission="android.permission.BIND_SERVICE" />
 
+        <activity
+            android:name=".Activities.HistoryActivity"
+            android:label="@string/title_activity_history"
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.HistoryDetailActivity"
+            android:label="@string/title_activity_history_detail"
+            android:parentActivityName=".Activities.HistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.SelectHistoryAppsActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_select_history_apps"
+            android:parentActivityName=".Activities.HistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden">
+
+            <!-- android:launchMode="singleTask" -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:resource="@xml/searchable"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.AppConnections_Chart"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_app_report__detail"
+            android:parentActivityName=".Activities.HistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+
+            <!-- android:launchMode="singleTask" -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.secuso.privacyfriendlynetmonitor.Activities.HistoryDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

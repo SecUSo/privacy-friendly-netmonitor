@@ -7,6 +7,14 @@
             android:id="@+id/nav_main"
             android:icon="@drawable/ic_notification"
             android:title="@string/drawer_main" />
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history"
+            android:title="@string/drawer_history" />
+        <item
+            android:id="@+id/nav_tutorial"
+            android:icon="@drawable/ic_tutorial"
+            android:title="@string/drawer_tutorial"/>
     </group>
 
     <group android:id="@+id/nav_group_add"

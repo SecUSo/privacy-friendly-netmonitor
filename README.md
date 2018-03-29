@@ -2,7 +2,7 @@
  
  [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/org.secuso.privacyfriendlynetmonitor)<a href="https://play.google.com/store/apps/details?id=org.secuso.privacyfriendlynetmonitorapp"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="60"></a>
 
-This app monitors active network sockets and provides information on the scanned connections and apps. The invoking app is identified and listed with it's name, package and icon. The Connection's local and remote socket information (ip/port) is displayed along with a resolved hostname information and protocol evaluation based on well-known ports. Known un-/encrypted protocols are automatically marked. Additional features can be activated in the settings tab. This includes a panel for detailed technical information on connections, a logging functionality to keep scan results, and a remote analysis of TLS-Servers via SSL-Labs API.
+This app monitors active network sockets and provides information on the scanned connections and apps. The invoking app is identified and listed with it's name, package and icon. The Connection's local and remote socket information (ip/port) is displayed along with a resolved hostname information and protocol evaluation based on well-known ports. Known un-/encrypted protocols are automatically marked. Additional features can be activated in the settings tab. This includes a panel for detailed technical information on connections, a logging functionality to keep scan results, a remote analysis of TLS-Servers via SSL-Labs API, a database connection to save selected reports in a history and charts to visualize the reports in different time intervals.
 
 This app is optimized regarding the user’s privacy. It doesn’t use any tracking mechanisms, neither it displays any advertisement. It belongs to the Privacy Friendly Apps group developed by the SECUSO research group at Technische Universität Darmstadt, Germany.
 
@@ -12,10 +12,10 @@ This application has been developed to raise user awareness for the constant and
 ## Building ##
 
 ### API Reference ###
-Mininum SDK: 17 Target SDK: 23 
+Mininum SDK: 22 Target SDK: 26 
 
 ### Setup ###
-* Android Studio 2.2.2
+* Android Studio 3.0.1
 
 ### Future Enhancements ###
 possible additional features
@@ -46,8 +46,10 @@ Privacy Friendly Net Monitor is a non-root variant of TLSMetric android app (htt
 App Icon:</br>
 Markus Hau
 
-Developer:</br>
-Felix Tsala Schiller
+Developers:</br>
+Felix Tsala Schiller</br>
+Tobias Burger</br>
+Marco Egermaier
 
 Contributors (Github):</br>
 Yonjuni </br>

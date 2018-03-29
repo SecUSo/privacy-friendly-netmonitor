@@ -50,42 +50,48 @@ package org.secuso.privacyfriendlynetmonitor.Activities;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.ExpandableReportAdapter;
 import org.secuso.privacyfriendlynetmonitor.Assistant.Const;
-import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
 import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.PassiveService;
 import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Report;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DBApp;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.DaoSession;
+import org.secuso.privacyfriendlynetmonitor.DatabaseUtil.ReportEntityDao;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
-import static org.secuso.privacyfriendlynetmonitor.R.string.url;
+import java.util.Map;
 
 
 /**
  * Activity providing main service controls and reports inspection
  */
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ExpandableListView expListView;
     private HashMap<Integer, List<Report>> reportMap;
+
+    private static ReportEntityDao reportEntityDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,30 +99,47 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         RunStore.setContext(this);
         RunStore.setAppContext(getApplicationContext());
         //Save context state
-        if(!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)){
+
+        DaoSession daoSession = ((DBApp) getApplication()).getDaoSession();
+        reportEntityDao = daoSession.getReportEntityDao();
+
+        // Uncomment to generate Dummy Database Entries
+//        GenerateReportEntities.generateReportEntities(this, reportEntityDao);
+
+        // Load apps to include in scan
+        SharedPreferences selectedAppsPreferences = getSharedPreferences("SELECTEDAPPS", 0);
+        Map<String, String> selectedAppsMap = (Map<String, String>) selectedAppsPreferences.getAll();
+        Collection<String> selectedAppsList = selectedAppsMap.values();
+        for (String appName : selectedAppsList) {
+            if (!Collector.getAppsToIncludeInScan().contains(appName)) {
+                Collector.addAppToIncludeInScan(appName);
+            }
+        }
+
+        Collector.addAppToExcludeFromScan("app.android.unknown");
+        Collector.addAppToExcludeFromScan("app.unknown");
+        Collector.addAppToExcludeFromScan("unknown");
+        //This is an App that is used as an example for the History. In the first start only this is
+        //APP is shown in the list, then selection are possible
+
+        if (!RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
             activateMainView();
         } else {
             activateReportView();
         }
-        //Show welcome dialog on first start
-//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        boolean isFirstStart = sharedPrefs.getBoolean(Const.IS_FIRST_START, true);
-//        if(isFirstStart){
-//            Intent intent = new Intent(MainActivity.this, TutorialActivity.class);
-//            startActivity(intent);
-//            SharedPreferences.Editor edit = sharedPrefs.edit();
-//            edit.putBoolean("IS_FIRST_START", false);
-//            edit.apply();
-//        }
+
         overridePendingTransition(0, 0);
     }
 
     // On start button press activate second view (report)
     private void setButtonListener() {
-        final Button startStop = (Button) findViewById(R.id.main_button);
+        final FloatingActionButton startStop = findViewById(R.id.mainFAB);
         startStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ProgressBar progressBar = findViewById(R.id.mainProgressBar);
+                progressBar.setVisibility(View.VISIBLE);
+
                 startStopTrigger();
             }
         });
@@ -146,23 +169,23 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setContentView(R.layout.activity_main);
         super.setToolbar();
 
-        final Button startStop = (Button) findViewById(R.id.main_button);
-        startStop.setText(R.string.main_button_text_off);
+        final FloatingActionButton startStop = findViewById(R.id.mainFAB);
         TextView textView = (TextView) findViewById(R.id.main_text_startstop);
         textView.setText(R.string.main_text_stopped);
         setButtonListener();
         getNavigationDrawerID();
     }
 
+
     //activate the report layout
-    private void activateReportView(){
+    private void activateReportView() {
         setContentView(R.layout.activity_report);
         super.setToolbar();
         getNavigationDrawerID();
 
         //Initiate ListView functionality
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        reportMap = Collector.provideSimpleReports();
+        reportMap = Collector.provideSimpleReports(reportEntityDao);
         expListView = (ExpandableListView) findViewById(R.id.list);
         final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
@@ -183,9 +206,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public boolean onChildClick(ExpandableListView expandableListView, View view, final int i, final int i1, final long l) {
                 expListView = (ExpandableListView) findViewById(R.id.list);
                 ExpandableReportAdapter adapter = (ExpandableReportAdapter) expListView.getExpandableListAdapter();
-                final Report r = (Report) adapter.getChild(i,i1);
+                final Report r = (Report) adapter.getChild(i, i1);
 
-                if(mSharedPreferences.getBoolean(Const.IS_DETAIL_MODE, false)) {
+                if (mSharedPreferences.getBoolean(Const.IS_DETAIL_MODE, false)) {
                     view.animate().setDuration(500).alpha((float) 0.5)
                             .withEndAction(new Runnable() {
                                 @Override
@@ -198,7 +221,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                             });
                     return true;
                     // if no detail mode and server analysis is complete, goto SSL Labs
-                } else if(mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) &&
+                } else if (mSharedPreferences.getBoolean(Const.IS_CERTVAL, false) &&
                         Collector.hasHostName(r.remoteAdd.getHostAddress()) &&
                         Collector.hasGrade(Collector.getDnsHostName(r.remoteAdd.getHostAddress()))) {
                     String url = Const.SSLLABS_URL +
@@ -206,13 +229,33 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                     return false;
-
                 } else {
+                    try{
+                        view.animate().setDuration(500).alpha((float) 0.5)
+                                .withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Collector.provideDetail(r.uid, r.remoteAddHex);
+                                        Intent intent = new Intent(getApplicationContext(), ReportDetailActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                    } catch (Exception e){
+                        return false;
+                    }
                     return false;
                 }
             }
+        });
 
-
+        FloatingActionButton fab = findViewById(R.id.reportFAB);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collector.saveReports(reportEntityDao);
+                startStopTrigger();
+            }
         });
     }
 
@@ -223,15 +266,15 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
     }
 
     //refresh the adapter-list
-    public void refreshAdapter(){
+    public void refreshAdapter() {
         swipeRefreshLayout.setRefreshing(true);
 
-        reportMap = Collector.provideSimpleReports();
+        reportMap = Collector.provideSimpleReports(reportEntityDao);
         final ExpandableReportAdapter reportAdapter = new ExpandableReportAdapter(this, new ArrayList<>(reportMap.keySet()), reportMap);
         expListView.setAdapter(reportAdapter);
 
@@ -244,7 +287,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void setSwipeInfo(boolean b) {
         final ImageView icon = (ImageView) findViewById(R.id.report_empty_icon);
         final TextView text = (TextView) findViewById(R.id.report_empty_text);
-        if(b){
+        if (b) {
             icon.setVisibility(View.GONE);
             text.setVisibility(View.GONE);
         } else {
@@ -255,7 +298,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     //Refresh the adapter when swipe triggers
     @Override
-    public void onRefresh(){
+    public void onRefresh() {
         refreshAdapter();
     }
 
@@ -268,12 +311,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_refresh:
                 refreshAdapter();
-                break;
-            case R.id.action_startstop:
-                startStopTrigger();
                 break;
             default:
                 break;
@@ -282,9 +322,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     //refresh menu on layout change
-    public boolean onPrepareOptionsMenu (Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
-        if(RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
+        if (RunStore.getServiceHandler().isServiceRunning(PassiveService.class)) {
             getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         }
         return super.onPrepareOptionsMenu(menu);

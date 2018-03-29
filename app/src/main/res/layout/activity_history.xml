@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".Activities.MainActivity">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            xmlns:android="http://schemas.android.com/apk/res/android" >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="History"
+                        android:gravity="center_vertical"
+                        android:textSize="22dp"
+                        android:textColor="@color/white"
+                        android:paddingTop="@dimen/padding_small"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/deleteDB"
+                        android:textSize="12sp"
+                        android:background="@null"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="Delete\nDatabase"
+                        android:clickable="true"/>
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.Toolbar>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/content_history" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:layout_anchor="@+id/include"
+            app:layout_anchorGravity="right|bottom"
+            android:src="@drawable/ic_edit_list" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/main_nav_header"
+        app:menu="@menu/main_drawer" />
+
+</android.support.v4.widget.DrawerLayout>

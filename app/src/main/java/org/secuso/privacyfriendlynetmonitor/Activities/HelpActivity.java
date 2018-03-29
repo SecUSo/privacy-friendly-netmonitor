@@ -47,11 +47,14 @@
 
  */
 package org.secuso.privacyfriendlynetmonitor.Activities;
-import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
-import org.secuso.privacyfriendlynetmonitor.R;
 
 import android.os.Bundle;
 import android.widget.ExpandableListView;
+
+import org.secuso.privacyfriendlynetmonitor.Activities.Adapter.ExpandableListAdapter;
+import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
+import org.secuso.privacyfriendlynetmonitor.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +85,8 @@ public class HelpActivity extends BaseActivity {
         overridePendingTransition(0, 0);
     }
 
-    protected int getNavigationDrawerID() { return R.id.nav_help; }
+    protected int getNavigationDrawerID() {
+        return R.id.nav_help;
+    }
 
 }

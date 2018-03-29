@@ -46,10 +46,12 @@
     https://bitbucket.org/schillef/tlsmetric/overview.
 
  */
-package org.secuso.privacyfriendlynetmonitor.Activities;
+package org.secuso.privacyfriendlynetmonitor.Activities.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,30 +71,57 @@ import java.util.List;
 /**
  * Adapter displaying information in the ReportActivity
  */
-class ExpandableReportAdapter extends BaseExpandableListAdapter {
+public class ExpandableReportAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private List<Integer> uidList;
     private HashMap<Integer, List<Report>> reportListDetail;
 
-    ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
-                            HashMap<Integer, List<Report>> expandableListDetail) {
+    /**
+     *
+     * @param context
+     * @param expandableListTitle
+     * @param expandableListDetail
+     */
+    public ExpandableReportAdapter(Context context, List<Integer> expandableListTitle,
+                                   HashMap<Integer, List<Report>> expandableListDetail) {
         this.context = context;
         this.uidList = expandableListTitle;
         this.reportListDetail = expandableListDetail;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return child
+     */
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
         return this.reportListDetail.get(this.uidList.get(listPosition))
                 .get(expandedListPosition);
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return child id
+     */
     @Override
     public long getChildId(int listPosition, int expandedListPosition) {
         return expandedListPosition;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @param isLastChild
+     * @param convertView
+     * @param parent
+     * @return child view
+     */
     @Override
     public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
@@ -104,14 +133,14 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         final String item2_value;
 
         //Set hostname if resolved by AsyncDNS class
-        if(Collector.hasHostName(r.remoteAdd.getHostAddress())){
+        if (Collector.hasHostName(r.remoteAdd.getHostAddress())) {
             item1 = Collector.getDnsHostName(r.remoteAdd.getHostAddress());
         } else {
             item1 = "" + r.remoteAdd.getHostAddress();
         }
         //Set connection info or server rating
-        if (Collector.isCertVal && KnownPorts.isTlsPort(r.remotePort) && Collector.hasHostName(r.remoteAdd.getHostAddress())){
-            if(item1.equals(Collector.getCertHost(item1))) {
+        if (Collector.isCertVal && KnownPorts.isTlsPort(r.remotePort) && Collector.hasHostName(r.remoteAdd.getHostAddress())) {
+            if (item1.equals(Collector.getCertHost(item1))) {
                 item2_type = "SSL Server Rating:";
                 item2_value = Collector.getMetric(item1);
             } else {
@@ -143,49 +172,83 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         textView = (TextView) convertView.findViewById(R.id.report_item_2_val);
         textView.setText(item2_value);
 
-        //Set warning colour
+        //Set warning colour if settings are set
+        SharedPreferences mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         textView.setTextColor(context.getResources().getColor(getWarningColor(item2_value)));
-
+        if (!mSharedPreferences.getBoolean(Const.IS_HIGHLIGHTED, true)) {
+            textView.setTextColor((int) R.color.text_dark);
+        }
 
         return convertView;
     }
 
+    /**
+     * Get the warning color of a connection.
+     * @param value
+     * @return warning color as int
+     */
     private int getWarningColor(String value) {
-        if (value.contains(Const.STATUS_TLS) || value.substring(0,1).equals("A")) {
+        if (value.contains(Const.STATUS_TLS) || value.substring(0, 1).equals("A")) {
             return (R.color.green);
-        } else if (value.contains(Const.STATUS_INCONCLUSIVE) || value.substring(0,1).equals("B") || value.substring(0,1).equals("C")){
+        } else if (value.contains(Const.STATUS_INCONCLUSIVE) || value.substring(0, 1).equals("B") || value.substring(0, 1).equals("C")) {
             return (R.color.orange);
-        } else if (value.contains(Const.STATUS_UNSECURE) || value.substring(0,1).equals("T") ||
-                value.substring(0,1).equals("F") || value.substring(0,1).equals("D") ||
-                value.substring(0,1).equals("E")){
+        } else if (value.contains(Const.STATUS_UNSECURE) || value.substring(0, 1).equals("T") ||
+                value.substring(0, 1).equals("F") || value.substring(0, 1).equals("D") ||
+                value.substring(0, 1).equals("E")) {
             return R.color.red;
         } else {
             return R.color.text_dark;
         }
     }
 
-
+    /**
+     *
+     * @param listPosition
+     * @return children count
+     */
     @Override
     public int getChildrenCount(int listPosition) {
         return this.reportListDetail.get(this.uidList.get(listPosition))
                 .size();
     }
 
+    /**
+     *
+     * @param listPosition
+     * @return group
+     */
     @Override
     public Object getGroup(int listPosition) {
         return this.uidList.get(listPosition);
     }
 
+    /**
+     *
+     * @return group count
+     */
     @Override
     public int getGroupCount() {
         return this.uidList.size();
     }
 
+    /**
+     *
+     * @param listPosition
+     * @return group id
+     */
     @Override
     public long getGroupId(int listPosition) {
         return listPosition;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param isExpanded
+     * @param convertView
+     * @param parent
+     * @return group view
+     */
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
@@ -201,7 +264,7 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         ImageView imgView = (ImageView) convertView.findViewById(R.id.reportGroupIcon);
 
         //add system app tag
-        if(uid <= 10000){
+        if (uid <= 10000) {
             textViewTitle.setText(Collector.getLabel(uid) +
                     " (" + reportListDetail.get(uid).size() + ")" + " [System]");
         } else {
@@ -214,11 +277,21 @@ class ExpandableReportAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    /**
+     *
+     * @return false
+     */
     @Override
     public boolean hasStableIds() {
         return false;
     }
 
+    /**
+     *
+     * @param listPosition
+     * @param expandedListPosition
+     * @return true
+     */
     @Override
     public boolean isChildSelectable(int listPosition, int expandedListPosition) {
         return true;

@@ -53,10 +53,10 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.Collector;
  */
 public class AsyncDNS extends AsyncTask<String, Void, String> {
 
-        //execute reverse hostname resolving in Collector class
-        @Override
-        protected String doInBackground(String... params) {
-                Collector.resolveHosts();
+    //execute reverse hostname resolving in Collector class
+    @Override
+    protected String doInBackground(String... params) {
+        Collector.resolveHosts();
         return "Executed!";
-        }
- }
+    }
+}

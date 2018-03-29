@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/history_item_1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingTop="10dp"
+        android:textStyle="bold"
+        android:text="example.hostname.net"/>
+
+    <TextView
+        android:id="@+id/history_item_2_type"
+        android:layout_below="@+id/history_item_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingEnd="@dimen/activity_vertical_margin"
+        android:paddingTop="5dp"
+        android:textStyle="bold"
+        android:text="connection info:"
+        />
+
+    <TextView
+        android:layout_below="@+id/history_item_1"
+        android:layout_toEndOf="@+id/history_item_2_type"
+        android:id="@+id/history_item_2_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="-status-"/>
+
+
+</RelativeLayout>

@@ -12,5 +12,13 @@
     <dimen name="slide_title">26dp</dimen>
     <dimen name="slide_desc">16dp</dimen>
     <dimen name="desc_padding">40dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="cardview_default_margin">8dp</dimen>
+
+
+
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="large">400</dimen>
 </resources>

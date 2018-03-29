@@ -59,7 +59,7 @@ import java.util.List;
 
 /**
  * Activity for displaying help content.
- *
+ * <p>
  * Class structure taken from tutorial at http://www.journaldev.com/9942/android-expandablelistview-example-tutorial
  * last access 27th October 2016
  */
@@ -110,6 +110,10 @@ class HelpDataDump {
         List<String> sysuser = new ArrayList<>();
         sysuser.add(context.getResources().getString(R.string.help_sysuser_answer));
         expandableListDetail.put(context.getResources().getString(R.string.help_sysuser), sysuser);
+
+        List<String> un_encrypted_ports = new ArrayList<>();
+        un_encrypted_ports.add(context.getResources().getString(R.string.help_un_encrypted_ports_answer));
+        expandableListDetail.put(context.getResources().getString(R.string.help_un_encrypted_ports), un_encrypted_ports);
 
         return expandableListDetail;
     }

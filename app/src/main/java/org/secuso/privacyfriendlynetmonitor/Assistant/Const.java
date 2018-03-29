@@ -65,11 +65,11 @@ public interface Const {
 
     //Detector constants
     long REPORT_TTL_DEFAULT = 10000;
-    Integer[] TLS_PORT_VALUES = new Integer[] { 993, 443, 995, 995, 614, 465, 587, 22 };
+    Integer[] TLS_PORT_VALUES = new Integer[]{993, 443, 995, 995, 614, 465, 587, 22};
     Set<Integer> TLS_PORTS = new HashSet<>(Arrays.asList(TLS_PORT_VALUES));
-    Integer[] INCONCLUSIVE_PORT_VALUES = new Integer[] { 25, 110, 143 };
+    Integer[] INCONCLUSIVE_PORT_VALUES = new Integer[]{25, 110, 143};
     Set<Integer> INCONCUSIVE_PORTS = new HashSet<>(Arrays.asList(INCONCLUSIVE_PORT_VALUES));
-    Integer[] UNSECURE_PORT_VALUES = new Integer[] { 21, 23, 80, 109, 137, 138 ,139, 161, 992 };
+    Integer[] UNSECURE_PORT_VALUES = new Integer[]{21, 23, 80, 109, 137, 138, 139, 161, 992};
     Set<Integer> UNSECURE_PORTS = new HashSet<>(Arrays.asList(UNSECURE_PORT_VALUES));
 
     //String Builder Constants
@@ -85,5 +85,6 @@ public interface Const {
     String IS_LOG = "IS_LOG";
     String IS_CERTVAL = "IS_CERTVAL";
     String PREF_NAME = "PREF_NAME";
+    String IS_HIGHLIGHTED = "IS_HIGHLIGHTED";
 
 }

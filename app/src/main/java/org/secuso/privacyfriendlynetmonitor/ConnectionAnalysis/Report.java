@@ -77,7 +77,7 @@ public class Report implements Serializable {
 
         //Init InetAddresses
         try {
-            if (type == TLType.tcp ||type == TLType.udp){
+            if (type == TLType.tcp || type == TLType.udp) {
                 localAdd = InetAddress.getByName(
                         ToolBox.hexToIp4(ToolBox.printHexBinary(localAddHex)));
                 remoteAdd = InetAddress.getByName(

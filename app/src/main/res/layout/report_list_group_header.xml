@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    >
+
+    <TextView
+        android:id="@+id/reportGroupTitle_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/nav_header_vertical_spacing"
+        android:textColor="@android:color/black"
+        android:layout_toEndOf="@+id/reportGroupIcon_header"
+        android:text="App Name"
+        android:paddingTop="12dp"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/reportGroupSubtitle_header"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:ellipsize="marquee"
+        android:text="full.package.name"
+        android:textSize="12sp"
+        android:paddingLeft="@dimen/nav_header_vertical_spacing"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/reportGroupIcon_header"
+        android:layout_below="@+id/reportGroupTitle_header" />
+
+    <ImageView
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:id="@+id/reportGroupIcon_header"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:foregroundGravity="center_vertical"
+        android:paddingTop="8dp"
+        android:paddingStart="@dimen/activity_vertical_margin"
+        android:paddingBottom="8dp"
+        android:src="@mipmap/ic_launcher"/>
+
+</RelativeLayout>

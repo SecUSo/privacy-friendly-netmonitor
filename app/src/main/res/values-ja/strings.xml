@@ -110,6 +110,10 @@
     <string name="slide2_heading">接続情報</string>
     <string name="slide2_text">現在、アクティブな接続と暗号化情報は、アプリによってリストされています。 \n ログ、詳細な技術情報、およびサーバーの検証機能は設定で有効にすることができます。</string>
 
+    <string name="slide3_heading">History</string>
+    <string name="slide3_text">Privacy Friendly Net Monitor can store a connection history of chosen apps.
+    The connection history is displayed as a list and as a graph (via a long press).</string>
+
     <string name="okay">OK</string>
     <string name="next">次へ</string>
     <string name="skip">スキップ</string>

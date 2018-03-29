@@ -60,7 +60,7 @@ public class RunStore {
     private static Context gAppContext;
     private static ServiceHandler gService;
 
-    public static void setContext( Activity activity) {
+    public static void setContext(Activity activity) {
         gContext = activity;
     }
 
@@ -70,12 +70,14 @@ public class RunStore {
 
     public static ServiceHandler getServiceHandler() {
         if (gService == null) {
-        gService = new ServiceHandler();
+            gService = new ServiceHandler();
         }
         return gService;
     }
 
-    public static void setAppContext(Context appContext) { RunStore.gAppContext = appContext; }
+    public static void setAppContext(Context appContext) {
+        RunStore.gAppContext = appContext;
+    }
 
     public static Context getAppContext() {
         return gAppContext;

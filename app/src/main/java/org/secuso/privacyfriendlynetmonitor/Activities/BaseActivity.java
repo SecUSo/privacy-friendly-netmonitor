@@ -66,7 +66,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 import org.secuso.privacyfriendlynetmonitor.R;
 
 /**
@@ -129,7 +128,7 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
 
     protected boolean goToNavigationItem(final int itemId) {
 
-        if(itemId == getNavigationDrawerID()) {
+        if (itemId == getNavigationDrawerID()) {
             // just close drawer because we are already in this activity
             mDrawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -157,7 +156,7 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
 
     // set active navigation item
     void selectNavigationItem(int itemId) {
-        for(int i = 0 ; i < mNavigationView.getMenu().size(); i++) {
+        for (int i = 0; i < mNavigationView.getMenu().size(); i++) {
             boolean b = itemId == mNavigationView.getMenu().getItem(i).getItemId();
             mNavigationView.getMenu().getItem(i).setChecked(b);
         }
@@ -166,6 +165,7 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
     /**
      * Enables back navigation for activities that are launched from the NavBar. See
      * {@code AndroidManifest.xml} to find out the parent activity names for each activity.
+     *
      * @param intent
      */
     private void createBackStack(Intent intent) {
@@ -183,11 +183,15 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
 
         Intent intent;
 
-        switch(itemId) {
+        switch (itemId) {
             case R.id.nav_main:
                 intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                break;
+            case R.id.nav_history:
+                intent = new Intent(this, HistoryActivity.class);
+                createBackStack(intent);
                 break;
             case R.id.nav_about:
                 intent = new Intent(this, AboutActivity.class);
@@ -199,8 +203,13 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
                 break;
             case R.id.nav_settings:
                 intent = new Intent(this, SettingsActivity.class);
-                intent.putExtra( PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName() );
-                intent.putExtra( PreferenceActivity.EXTRA_NO_HEADERS, true );
+                intent.putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, SettingsActivity.GeneralPreferenceFragment.class.getName());
+                intent.putExtra(PreferenceActivity.EXTRA_NO_HEADERS, true);
+                createBackStack(intent);
+                break;
+            case R.id.nav_tutorial:
+                TutorialActivity.setTutorial_click(true);
+                intent = new Intent(this, TutorialActivity.class);
                 createBackStack(intent);
                 break;
             default:
@@ -213,9 +222,9 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
         setToolbar();
     }
 
-    public void setToolbar(){
+    public void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(getSupportActionBar() == null) {
+        if (getSupportActionBar() == null) {
             setSupportActionBar(toolbar);
         }
 

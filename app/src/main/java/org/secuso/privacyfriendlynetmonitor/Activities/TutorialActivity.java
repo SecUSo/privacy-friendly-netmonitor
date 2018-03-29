@@ -72,6 +72,7 @@ import org.secuso.privacyfriendlynetmonitor.R;
 /**
  * Welcome tutorial for basic understanding of app features
  * Class structure taken from tutorial at http://www.androidhive.info/2016/05/android-build-intro-slider-app/
+ * The tutorial is accessible from the navigation drawer
  */
 
 public class TutorialActivity extends AppCompatActivity {
@@ -83,17 +84,25 @@ public class TutorialActivity extends AppCompatActivity {
     private int[] layouts;
     private Button btnSkip, btnNext;
     private PrefManager prefManager;
+    private static boolean tutorial_click = false;
+
+    public static void setTutorial_click(boolean tutorial_click) {
+        TutorialActivity.tutorial_click = tutorial_click;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Checking for first time launch - before calling setContentView()
-        prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
-            launchHomeScreen();
-            finish();
-        }
+        //prefManager = new PrefManager(this);
+        //if (!prefManager.isFirstTimeLaunch()) {
+         //   if (tutorial_click == false) {
+         //       launchHomeScreen();
+         //       finish();
+         //   }
+        //}
+        //tutorial_click = false;
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -102,17 +111,18 @@ public class TutorialActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_tutorial);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        viewPager = findViewById(R.id.view_pager);
+        dotsLayout = findViewById(R.id.layoutDots);
+        btnSkip = findViewById(R.id.btn_skip);
+        btnNext = findViewById(R.id.btn_next);
 
 
         // layouts of all welcome sliders
         // add few more layouts if you want
         layouts = new int[]{
                 R.layout.tutorial_slide1,
-                R.layout.tutorial_slide2,};
+                R.layout.tutorial_slide2,
+                R.layout.tutorial_slide3,};
 
         // adding bottom dots
         addBottomDots(0);
@@ -127,9 +137,18 @@ public class TutorialActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeScreen();
+                // checking for last page
+                // if last page home screen will be launched
+                int current = getItem(+1);
+                if (current < layouts.length) {
+                    launchHomeScreen();
+                } else {
+                    launchHelp();
+                }
             }
         });
+
+
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +165,7 @@ public class TutorialActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
@@ -171,9 +191,17 @@ public class TutorialActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        prefManager.setFirstTimeLaunch(false);
         Intent intent = new Intent(this, MainActivity.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        prefManager.setFirstTimeLaunch(false);
+        startActivity(intent);
+        finish();
+    }
+
+    private void launchHelp() {
+        Intent intent = new Intent(this, HelpActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        prefManager.setFirstTimeLaunch(false);
         startActivity(intent);
         finish();
     }
@@ -189,10 +217,12 @@ public class TutorialActivity extends AppCompatActivity {
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
                 btnNext.setText(getString(R.string.okay));
-                btnSkip.setVisibility(View.GONE);
+                //btnSkip.setVisibility(View.GONE);
+                btnSkip.setText(getString(R.string.help_button));
             } else {
                 // still pages are left
                 btnNext.setText(getString(R.string.next));
+                btnSkip.setText(getString(R.string.skip));
                 btnSkip.setVisibility(View.VISIBLE);
             }
         }

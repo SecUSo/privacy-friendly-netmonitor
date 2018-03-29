@@ -1,5 +1,10 @@
 # Changelog #
 
+## Version 2.0 (2017-03-29) ##
+- Bug fixing
+- History function
+- Redesign
+
 ## Version 1.2 (2017-10-12) ##
 - Bug fixing
 - Icon updates
