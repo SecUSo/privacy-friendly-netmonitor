@@ -75,9 +75,9 @@ public class AppConnections_Chart extends AppCompatActivity {
         setContentView(R.layout.app_report_detail_layout);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Day"));
-        tabLayout.addTab(tabLayout.newTab().setText("Week"));
-        tabLayout.addTab(tabLayout.newTab().setText("Month"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.app_connections_chart_day));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.app_connections_chart_week));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.app_connections_chart_month));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
