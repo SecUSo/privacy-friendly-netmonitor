@@ -177,6 +177,11 @@
     <string name="days">days</string>
     <string name="d">d></string>
 
+    <!-- AppConnections_Chart.java -->
+    <string name="app_connections_chart_day">Day</string>
+    <string name="app_connections_chart_week">Week</string>
+    <string name="app_connections_chart_month">Month</string>
+
     <!-- Expandable History List Adapter.java -->
     <string name="expandable_history_list_adapter_time_stamp">Time Stamp: </string>
 
