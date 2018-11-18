@@ -22,7 +22,7 @@
         android:layout_below="@+id/fragment_appname"
         android:paddingEnd="@dimen/activity_vertical_margin"
         android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:text="TIMESTAMP "
+        android:text="@string/layout_fragment_list_item_timestamp"
         android:textSize="10dp"
         android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragment_appname"
         android:layout_toEndOf="@+id/fragment_timestamp_title"
-        android:text="-status-"
+        android:text="@string/layout_fragment_list_item_status"
         android:textSize="10dp" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_below="@+id/fragment_timestamp_title"
         android:paddingEnd="@dimen/activity_vertical_margin"
         android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:text="CONNECTION"
+        android:text="@string/layout_fragment_list_item_connection"
         android:textSize="10dp"
         android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragment_timestamp_value"
         android:layout_toEndOf="@+id/fragment_conncection_info_title"
-        android:text="-status-"
+        android:text="@string/layout_fragment_list_item_status"
         android:textSize="10dp" />
 
 
