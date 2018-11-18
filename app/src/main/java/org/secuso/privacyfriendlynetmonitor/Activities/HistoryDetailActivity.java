@@ -117,17 +117,17 @@ public class HistoryDetailActivity extends BaseActivity {
         List<String[]> detailsList = new ArrayList<String[]>();
 
         String[] details = new String[2];
-        details[0] = "UID";
+        details[0] = (getString(R.string.history_detail_activity_uid));
         details[1] = unpreparedDetails.get(1);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "APP VERSION";
+        details[0] = (getString(R.string.history_detail_activity_app_version));
         details[1] = unpreparedDetails.get(2);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "INSTALLED ON";
+        details[0] = (getString(R.string.history_detail_activity_installed_on));
         details[1] = unpreparedDetails.get(3);
         detailsList.add(details);
 
@@ -137,27 +137,27 @@ public class HistoryDetailActivity extends BaseActivity {
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "REMOTE ADDRESS";
+        details[0] = (getString(R.string.history_detail_activity_remote_address));
         details[1] = unpreparedDetails.get(4);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "REMOTE HEX";
+        details[0] = (getString(R.string.history_detail_activity_remote_hex));
         details[1] = unpreparedDetails.get(5);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "REMOTE HOST";
+        details[0] = (getString(R.string.history_detail_activity_remote_host));
         details[1] = unpreparedDetails.get(6);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "LOCAL ADDRESS";
+        details[0] = (getString(R.string.history_detail_activity_local_address));
         details[1] = unpreparedDetails.get(7);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "LOCAL HEX";
+        details[0] = (getString(R.string.history_detail_activity_local_hex));
         details[1] = unpreparedDetails.get(8);
         detailsList.add(details);
 
@@ -167,22 +167,22 @@ public class HistoryDetailActivity extends BaseActivity {
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "SERVICE PORT";
+        details[0] = (getString(R.string.history_detail_activity_service_port));
         details[1] = unpreparedDetails.get(9);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "PAYLOAD PROTOCOL";
+        details[0] = (getString(R.string.history_detail_activity_payload_protocol));
         details[1] = unpreparedDetails.get(10);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "TRANSPORT PROTOCOL";
+        details[0] = (getString(R.string.history_detail_activity_transport_protocol));
         details[1] = unpreparedDetails.get(11);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "LOCAL PORT";
+        details[0] = (getString(R.string.history_detail_activity_local_port));
         details[1] = unpreparedDetails.get(12);
         detailsList.add(details);
 
@@ -192,12 +192,12 @@ public class HistoryDetailActivity extends BaseActivity {
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "TIMESTAMP";
+        details[0] = (getString(R.string.history_detail_activity_timestamp));
         details[1] = unpreparedDetails.get(13);
         detailsList.add(details);
 
         details = new String[2];
-        details[0] = "CONNECTION INFO";
+        details[0] = (getString(R.string.history_detail_activity_connection_info));
         details[1] = unpreparedDetails.get(14);
         detailsList.add(details);
 
