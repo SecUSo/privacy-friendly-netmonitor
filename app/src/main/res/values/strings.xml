@@ -193,5 +193,9 @@
     <string name="history_detail_activity_timestamp">TIMESTAMP</string>
     <string name="history_detail_activity_connection_info">CONNECTION INFO</string>
 
+    <!-- layout_activity_history.xml -->
+    <string name="layout_activity_history_history">History</string>
+    <string name="layout_activity_history_delete_database">Delete\nDatabase</string>
+
 
 </resources>
