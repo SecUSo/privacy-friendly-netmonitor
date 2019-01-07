@@ -1,0 +1,147 @@
+<resources>
+    <!-- APP GLOBAL -->
+
+    <!-- MAIN -->
+    <string name="main_button_text_off">Запуск Net Monitor</string>
+    <string name="main_text_normalbutton_desc">Коснувшись кнопки запуска, Net Monitor запускает пассивную службу, которая обнаруживает все активные сетевые подключения. Фоновое уведомление проинформирует вас о текущем мониторинге.</string>
+    <string name="main_text_stopped">Net Monitor неактивен</string>
+
+    <!-- SERVICE HANDLER -->
+    <string name="passive_service_start">Сервис Net Monitor запущен в пассивном режиме.</string>
+    <string name="passive_service_stop">Служба Net Monitor была остановлена. Был в пассивном режиме.</string>
+
+    <!-- REPORT -->
+    <string name="unknown_app">Неизвестное приложение</string>
+    <string name="unknown_package">app.android.unknown</string>
+    <string name="report_swipe_refresh">Проведите пальцем вниз, чтобы обновить.</string>
+    <string name="report_detail_ssllabs"><u >Результаты тестирования Open SSL Labs Server</u></string>
+
+    <!-- REPORT DETAIL -->
+    <string name="headline_report_detail">Показ деталей</string>
+    <string name="report_detail_heading">Подробная техническая информация</string>
+
+    <!-- MENU DRAWER -->
+    <string name="drawer_main">Главный</string>
+    <string name="drawer_settings">Настройки</string>
+    <string name="drawer_help">Помощь</string>
+    <string name="drawer_about">О программе</string>
+    <string name="drawer_tutorial">Мануал</string>
+    <string name="drawer_history">История</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+
+    <!-- ABOUT -->
+    <string name="about">О программе</string>
+    <string name="version_number">Версия</string>
+    <string name="about_author">Автор</string>
+    <string name="about_author_contributors">и вкладчики.</string>
+    <string name="about_affiliation">В связи с</string>
+    <string name="privacy_friendly">Это приложение относится к группе приложений, обеспечивающих конфиденциальность, разработанных Техническим университетом Дармштадта. Исходный код лицензирован под GPLv3. Изображения Copyright Technische Universität Darmstadt и Google Inc.</string>
+    <string name="more_info">Более подробную информацию можно найти на:</string>
+    <string name="about_API">Это приложение использует Java-SSLLabs-API от Björn Roland и Qualys SSL Labs.</string>
+
+    <!-- HELP -->
+    <string name="help">Помощь</string>
+
+    <string name="help_whatis">Что такое Net Monitor?</string>
+    <string name="help_whatis_answer">Net Monitor отслеживает сетевой трафик от установленных приложений. Он сканирует активные сетевые подключения с помощью фоновой службы, а также отображает дополнительную информацию о шифровании сети.</string>
+
+    <string name="help_feature_one">Как работает мониторинг соединения?</string>
+    <string name="help_feature_one_answer">Net Monitor развертывает фоновую службу, которая каждую секунду проверяет наличие активных соединений. Приложения, вызывающие обнаруженные соединения, идентифицируются и перечисляются с удаленными адресами, с которыми они общаются.</string>
+
+    <string name="help_feature_two">Что такое протокол и обнаружение шифрования?</string>
+    <string name="help_feature_two_answer">На основе удаленного порта соединения транспортный протокол можно определить по таблицам «Известный порт». На основании известных портов выдается предупреждение, если известно, что соединение не зашифровано. Обратите внимание, что это не означает, что соединение использует этот протокол, поскольку назначение номеров портов системой не обеспечивается.</string>
+
+    <string name="help_feature_three">Что такое разрешение имени хоста?</string>
+    <string name="help_feature_three_answer">Имя удаленного хоста запрашивается путем обратного разрешения имени. Это делается асинхронно в фоновом режиме и может занять несколько секунд. Примечание. Разрешенное имя хоста не может быть фактическим именем домена, запрошенным, например, приложением браузера.</string>
+
+    <string name="help_feature_four">Какие подробные отчеты?</string>
+    <string name="help_feature_four_answer">Подробный режим можно включить в настройках. После активации дополнительная техническая информация о проверенных соединениях отображается после касания соединения в обзоре.</string>
+
+    <string name="help_feature_five">Что такое проверка сертификата?</string>
+    <string name="help_feature_five_answer">В настройках можно активировать автоматический анализ реализации TLS удаленных серверов. Когда он активен, удаленные серверы с разрешенным именем хоста проверяются автоматически, если известно, что протокол соединения использует шифрование TLS. Анализ выполняется с помощью API SSL Labs и связанной службы. Качество реализации удаленного сервера отображается в классах от A + (лучший) до F (худший) или отображается как T (проблемы доверия). Для получения дополнительной информации о SSL Lab API см. О нас</string>
+
+    <string name="help_privacy">Что делает приложение конфиденциальным?</string>
+    <string name="help_privacy_answer">Net Monitor не содержит никаких механизмов отслеживания или рекламы и предоставляется бесплатно. Он публикуется по лицензии GPLv3 и распространяется бесплатно. Информация о сетевых подключениях не сохраняется.</string>
+
+    <string name="help_permission">Какие разрешения требует приложение?</string>
+    <string name="help_permission_answer">Net Monitor не требует никаких разрешений для сканирования активных соединений. Функция проверки сертификата требует разрешения Интернета для запроса результатов тестирования сервера в Qualys SSL Labs.</string>
+
+    <string name="help_sysuser">Что означает тег [System]?</string>
+    <string name="help_sysuser_answer">Тег [System] определяет приложение, предварительно установленное в системе Android оригинальным производителем оборудования (OEM). Если приложение называется «System [System]», компонент системы Android сам вызвал соединение (root-user).</string>
+
+    <string name="help_ssllabs">Что такое SSL-Labs</string>
+    <string name="help_ssllabs_answer">API SSL-Labs от Qualys выполняет глубокий анализ веб-сервера SSL / TLS. Net Monitor запрашивает результаты анализа по запросу из SSL Labs. Условия конфиденциальности SSL-Labs гласят, что он не передает предоставленные IP-адреса или имена хостов третьим лицам.</string>
+
+    <string name="help_un_encrypted_ports">Каковы значения незашифрованных и зашифрованных портов в подробном представлении?</string>
+    <string name="help_un_encrypted_ports_answer">На самом деле порты не зашифрованы и не зашифрованы. Но порт обрабатывает весь трафик одной службы. Эта служба связывается по незашифрованному или зашифрованному протоколу. Если «порт зашифрован», это означает, что служба, которая обменивается данными через этот порт, использует зашифрованный протокол (наоборот, для незашифрованного).</string>
+
+    <!-- SETTINGS -->
+    <string name="title_activity_settings">Настройки</string>
+    <string name="pref_advanced_switch">Детальный режим</string>
+    <string name="pref_advanced_switch_summary">Показать вкладку информации при прикосновении к соединению.</string>
+    <string name="pref_log_switch">Журнал подключений</string>
+    <string name="pref_log_switch_summary">Хранить обнаруженную информацию.</string>
+    <string name="pref_certval_switch">Проверка сервера</string>
+    <string name="pref_certval_switch_summary">Выполните анализ с API SSL Labs.</string>
+    <string name="pref_connection_highlighting">Подсветка подключения</string>
+    <string name="pref_connection_highlighting_summary">Подсвечивает соединения зеленым и красным.</string>
+
+    <!-- TOOLBAR -->
+    <string name="action_refresh_title">Обновить</string>
+    <string name="action_startstop_start">Старт</string>
+
+    <!-- TUTORIAL -->
+    <string name="slide1_heading">Добро пожаловать!</string>
+    <string name="slide1_text">Net Monitor показывает сетевую активность установленных приложений. Используйте его для проверки всех подключений вашего устройства.</string>
+    <string name="slide2_heading">Информация о соединении</string>
+    <string name="slide2_text">В настоящее время активные соединения и информация о шифровании перечислены приложением. В настройках можно включить ведение журнала, подробную техническую информацию и функции проверки сервера.</string>
+
+    <string name="slide3_heading">История</string>
+    <string name="slide3_text">Net Monitor может хранить историю подключений выбранных приложений. История подключений отображается в виде списка и графика (при длительном нажатии).</string>
+
+    <string name="okay">Хорошо</string>
+    <string name="next">Следующий</string>
+    <string name="skip">Пропустить</string>
+    <string name="help_button">Помощь</string>
+    <string name="bg_desc">Мониторинг соединения активен</string>
+
+    <string name="title_activity_tutorial__monitor">Tutorial_Monitor</string>
+    <string name="dummy_button">Фиктивная кнопка</string>
+    <string name="dummy_content">Фиктивный контент</string>
+
+    <!--HISTORY-->
+    <string name="title_activity_history">История</string>
+    <string name="title_activity_history_detail">Детальный просмотр истории</string>
+    <string name="history_no_data_collected">(Данные не собраны)</string>
+
+    <!--SELECT HISTORY APPS-->
+    <string name="title_activity_select_history_apps">Выбор приложения для истории</string>
+    <string name="sort_alpha_asc">алфавитный ASC</string>
+    <string name="action_search">Поиск действий</string>
+    <string name="sort_alpha_desc">алфавитный DESC</string>
+    <string name="sort_install_asc">дата установки ASC</string>
+    <string name="sort_install_desc">дата установки DESC</string>
+
+    <!--APP REPORT DETAIL-->
+    <string name="title_activity_app_report__detail">Детали отчета о приложении</string>
+    <string name="nodata">Нет доступных отчетов. Пожалуйста, выберите несколько приложений, которые вы хотите отслеживать, нажав кнопку в правом нижнем углу.</string>
+    <string name="deleteButton">Удалить историю выбранных приложений</string>
+    <string name="dialogTitle">Удалить все отчеты?</string>
+    <string name="dialogMessage">Удаление отчета</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+    <!-- History Chart Fragments-->
+    <string name="hours">Часа</string>
+    <string name="encrypted">Зашифровано</string>
+    <string name="unencrypted">расшифровано</string>
+    <string name="unknown">неизвестно</string>
+    <string name="oclock">Час</string>
+    <string name="hr">час</string>
+    <string name="days">Дня</string>
+    <string name="d">d></string>
+
+
+
+</resources>
