@@ -64,8 +64,6 @@ import java.util.Map;
 
 public class DBApp extends Application {
 
-    public static final boolean ENCRYPTED = false;
-
     private static DaoSession daoSession;
     private static DBApp mContext;
 
@@ -93,8 +91,8 @@ public class DBApp extends Application {
         @Override
         protected Object doInBackground(Object[] objects) {
             System.out.println("Starting Database Async Task");
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(mContext, ENCRYPTED ? "reports-db-encrypted" : "reports-db");
-            Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(mContext, "reports-db");
+            Database db = helper.getWritableDb();
 
             Map map = selectedAppsPreferences.getAll();
             if (!map.isEmpty() && map.get("Version") != null && !map.get("Version").equals("")) {
