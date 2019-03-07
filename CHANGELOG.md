@@ -1,6 +1,6 @@
 # Changelog #
 
-## Version 2.0 (2017-03-29) ##
+## Version 2.0 (2018-03-29) ##
 - Bug fixing
 - History function
 - Redesign
