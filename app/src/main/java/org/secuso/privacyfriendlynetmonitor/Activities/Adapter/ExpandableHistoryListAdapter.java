@@ -133,7 +133,7 @@ public class ExpandableHistoryListAdapter extends BaseExpandableListAdapter {
         txtListChild.setText(dnsHostName);
 
         TextView history_item_2_type = (TextView) convertView.findViewById(R.id.history_item_2_type);
-        history_item_2_type.setText("Time Stamp: ");
+        history_item_2_type.setText(R.string.expandable_history_list_adapter_time_stamp);
 
         TextView history_item_2_val = (TextView) convertView.findViewById(R.id.history_item_2_val);
         history_item_2_val.setText(reportEntity.getTimeStamp());

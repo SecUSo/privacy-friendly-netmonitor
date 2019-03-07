@@ -38,7 +38,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="History"
+                        android:text="@string/layout_activity_history_history"
                         android:gravity="center_vertical"
                         android:textSize="22dp"
                         android:textColor="@color/white"
@@ -54,7 +54,7 @@
                         android:layout_alignParentRight="true"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:text="Delete\nDatabase"
+                        android:text="@string/layout_activity_history_delete_database"
                         android:clickable="true"/>
 
                 </RelativeLayout>

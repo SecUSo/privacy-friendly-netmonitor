@@ -41,11 +41,11 @@
     <string name="about_affiliation">In affiliation with</string>
     <string name="privacy_friendly">This app belongs to the group of Privacy Friendly Apps developed by Technische Universität Darmstadt. Sourcecode licensed under GPLv3. Images Copyright Technische Universität Darmstadt und Google Inc.</string>
     <string name="more_info">More information can be found on:</string>
-    <string name="github" translatable="false"><a href="https://github.com/SecUSo/privacy-friendly-netmonitor/">Github-Repo</a></string>
-    <string name="url" translatable="false"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
+    <string name="github"><a href="https://github.com/SecUSo/privacy-friendly-netmonitor/">Github-Repo</a></string>
+    <string name="url"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
     <string name="about_API">This app uses Java-SSLLabs-API by Björn Roland and Qualys SSL Labs.</string>
-    <string name="url_API" translatable="false"><a href="https://github.com/bjoernr-de">Java-SSL Labs-API</a></string>
-    <string name="url_SSLLabs" translatable="false"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualys SSL Labs API</a></string>
+    <string name="url_API"><a href="https://github.com/bjoernr-de">Java-SSL Labs-API</a></string>
+    <string name="url_SSLLabs"><a href="https://www.ssllabs.com/projects/ssllabs-apis">Qualys SSL Labs API</a></string>
 
     <!-- HELP -->
     <string name="help">Help</string>
@@ -177,6 +177,38 @@
     <string name="days">days</string>
     <string name="d">d></string>
 
+    <!-- AppConnections_Chart.java -->
+    <string name="app_connections_chart_day">Day</string>
+    <string name="app_connections_chart_week">Week</string>
+    <string name="app_connections_chart_month">Month</string>
+
+    <!-- Expandable History List Adapter.java -->
+    <string name="expandable_history_list_adapter_time_stamp">Time Stamp: </string>
+
+    <!-- History Detail Activity.java -->
+    <string name="history_detail_activity_uid">UID</string>
+    <string name="history_detail_activity_app_version">APP VERSION</string>
+    <string name="history_detail_activity_installed_on">INSTALLED ON</string>
+    <string name="history_detail_activity_remote_address">REMOTE ADDRESS</string>
+    <string name="history_detail_activity_remote_hex">REMOTE HEX</string>
+    <string name="history_detail_activity_remote_host">REMOTE HOST</string>
+    <string name="history_detail_activity_local_address">LOCAL ADDRESS</string>
+    <string name="history_detail_activity_local_hex">LOCAL HEX</string>
+    <string name="history_detail_activity_service_port">SERVICE PORT</string>
+    <string name="history_detail_activity_payload_protocol">PAYLOAD PROTOCOL</string>
+    <string name="history_detail_activity_transport_protocol">TRANSPORT PROTOCOL</string>
+    <string name="history_detail_activity_local_port">LOCAL PORT</string>
+    <string name="history_detail_activity_timestamp">TIMESTAMP</string>
+    <string name="history_detail_activity_connection_info">CONNECTION INFO</string>
+
+    <!-- fragment_list_item.xml -->
+    <string name="layout_fragment_list_item_timestamp">TIMESTAMP </string>
+    <string name="layout_fragment_list_item_status">-status-</string>
+    <string name="layout_fragment_list_item_connection">CONNECTION</string>
+
+    <!-- layout_activity_history.xml -->
+    <string name="layout_activity_history_history">History</string>
+    <string name="layout_activity_history_delete_database">Delete\nDatabase</string>
 
 
 </resources>
