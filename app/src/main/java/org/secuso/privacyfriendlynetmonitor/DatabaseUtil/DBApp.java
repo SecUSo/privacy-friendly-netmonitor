@@ -53,6 +53,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.greenrobot.greendao.database.Database;
+import org.secuso.privacyfriendlynetmonitor.Assistant.RunStore;
 
 import java.util.Map;
 
@@ -79,6 +80,8 @@ public class DBApp extends Application {
         super.onCreate();
         mContext = this;
         new DBAppAsyncTask().execute("");
+
+        RunStore.setAppContext(getApplicationContext());
 
         selectedAppsPreferences = getSharedPreferences("DBINFO", 0);
         editor = selectedAppsPreferences.edit();

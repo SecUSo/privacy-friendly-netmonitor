@@ -53,7 +53,6 @@ import org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis.ServiceHandler;
 /**
  * Singleton-Like implementation which holds App-Context information and ServiceHandlers
  */
-
 public class RunStore {
 
     private static Activity gContext;
@@ -65,6 +64,7 @@ public class RunStore {
     }
 
     public static Context getContext() {
+        if(gContext == null) return gAppContext;
         return gContext;
     }
 
