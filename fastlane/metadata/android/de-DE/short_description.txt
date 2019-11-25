@@ -1,0 +1,1 @@
+Privacy Friendly Net Monitor zeigt den Netzwerkverkehr der auf dem Gerät installierten Apps an. 
