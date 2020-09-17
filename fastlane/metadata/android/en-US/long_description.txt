@@ -1,3 +1,5 @@
+NOTICE: Due to changes in the respective Android APIs from Android 9 to Android 10, this app does not work in Android 10 or newer.
+
 Privacy Friendly Net Monitor shows active network activity of installed apps. It belongs to the Privacy Friendly Apps group developed by the research group SECUSO at Technische Universität Darmstadt. More information can be found an secuso.org/pfa
 
 The connection information includes local and remote socket information along with resolved hostnames and a protocol evaluation based on well-known ports. Known unencrypted and encrypted protocols are automatically marked. A detailed mode offers additional technical information of the connections.
