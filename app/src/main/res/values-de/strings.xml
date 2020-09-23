@@ -168,5 +168,6 @@
     <string name="hr">Std</string>
     <string name="days">Tage</string>
     <string name="d">t</string>
+    <string name="not_compatible_info">Wegen Systemänderungen in Android funktioniert diese App ab Android 10 nicht mehr.</string>
 
 </resources>

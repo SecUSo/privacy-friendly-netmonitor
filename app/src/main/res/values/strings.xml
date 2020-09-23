@@ -209,6 +209,7 @@
     <!-- layout_activity_history.xml -->
     <string name="layout_activity_history_history">History</string>
     <string name="layout_activity_history_delete_database">Delete\nDatabase</string>
+    <string name="not_compatible_info">Due to changes in the Android system, this app cannot function on Android 10 or later.</string>
 
 
 </resources>

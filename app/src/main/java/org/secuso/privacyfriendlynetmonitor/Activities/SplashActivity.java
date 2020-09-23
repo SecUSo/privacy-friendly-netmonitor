@@ -15,10 +15,15 @@
 package org.secuso.privacyfriendlynetmonitor.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import org.secuso.privacyfriendlynetmonitor.Assistant.PrefManager;
+import org.secuso.privacyfriendlynetmonitor.R;
+import org.w3c.dom.Text;
 
 /**
  * @author Karola Marky
@@ -32,9 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent mainIntent = null;
-
         PrefManager prefManager = new PrefManager(this);
-
         if(prefManager.isFirstTimeLaunch()) {
             mainIntent = new Intent(this, TutorialActivity.class);
             prefManager.setFirstTimeLaunch(false);
@@ -43,9 +46,21 @@ public class SplashActivity extends AppCompatActivity {
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         }
 
-        //Intent mainIntent = new Intent(SplashActivity.this, TutorialActivity.class);
-        SplashActivity.this.startActivity(mainIntent);
-        SplashActivity.this.finish();
+
+        setContentView(R.layout.activity_splash);
+        TextView compatibilityInfo = findViewById(R.id.compatibility_text);
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
+            compatibilityInfo.setVisibility(View.VISIBLE);
+        } else {
+            compatibilityInfo.setVisibility(View.INVISIBLE);
+
+            //Intent mainIntent = new Intent(SplashActivity.this, TutorialActivity.class);
+            SplashActivity.this.startActivity(mainIntent);
+            SplashActivity.this.finish();
+        }
+
+
 
     }
 
