@@ -31,7 +31,7 @@
         android:layout_below="@+id/report_empty_icon"
         android:layout_centerHorizontal="true" />
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -45,9 +45,9 @@
             android:layout_height="wrap_content"
             android:paddingBottom="28dp" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/reportFAB"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
