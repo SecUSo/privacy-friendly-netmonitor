@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
+    <uses-sdk
+        android:maxSdkVersion="28" />
+
     <application
         android:name=".DatabaseUtil.DBApp"
         android:allowBackup="true"
