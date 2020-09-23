@@ -46,6 +46,7 @@
 package org.secuso.privacyfriendlynetmonitor.ConnectionAnalysis;
 
 import android.annotation.TargetApi;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -81,8 +82,10 @@ public class PassiveService extends Service {
     private Thread mThread;
     private final IBinder mBinder = new AnalyzerBinder();
     private Bitmap mIcon;
+    private static final String ID =  "Netmonitoring";
+
     NotificationCompat.Builder mBuilder =
-            new NotificationCompat.Builder(this)
+            new NotificationCompat.Builder(this, ID)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle(getVersionString(R.string.app_name))
                     .setContentText(getVersionString(R.string.bg_desc));
@@ -105,6 +108,17 @@ public class PassiveService extends Service {
         return RunStore.getContext().getString(id);
     }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    ID,
+                    "Service Notification Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -230,6 +244,8 @@ public class PassiveService extends Service {
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        createNotificationChannel();
         mBuilder.setContentIntent(resultPendingIntent);
 
         startForeground(SERVICE_IDENTIFIER, mBuilder.build());
@@ -259,6 +275,8 @@ public class PassiveService extends Service {
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        createNotificationChannel();
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
