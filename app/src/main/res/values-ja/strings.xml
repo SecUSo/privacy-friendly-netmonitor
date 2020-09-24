@@ -34,7 +34,7 @@
     <string name="about_author">作者</string>
     <string name="about_author_contributors">と貢献者。</string>
     <string name="about_affiliation">提携</string>
-    <string name="privacy_friendly">このアプリケーションは、ダルムシュタット工科大学 (Technische Universität Darmstadt, Germany)が開発したプライバシーフレンドリーアプリの１つです。ソースコードは GPLv3 の下でライセンス管理されています。画像の著作権は Technische Universität Darmstadt および Google Inc.に帰属します。</string>
+    <string name="privacy_friendly">このアプリは研究グループSECUSOが開発したPrivacy Friendly Appsのカテゴリに属しています。ソースコードはGPLv3でライセンスされています。画像の著作権はSECUSO und Google Inc.</string>
     <string name="more_info">さらに詳しい情報は以下でご覧ください:</string>
     <string name="about_API">このアプリは Java-SSLLabs-API by Björn Roland と Qualis SSL Labs を使用しています。</string>
 
@@ -79,7 +79,8 @@
     <string name="help_permission">アプリが必要とするアクセス許可は?</string>
     <string name="help_permission_answer">プライバシーフレンドリー Net Monitor は、
         アクティブな接続をスキャンするためにアクセス許可を必要としません。 証明書検証機能は、
-        Qualys SSL Labs のサーバーテスト結果を要求するためのインターネットアクセス許可が必要です。</string>
+        Qualys SSL Labs のサーバーテスト結果を要求するためのインターネットアクセス許可が必要です。
+        フォアグラウンドでサービスを実行するには、Android 9 フォワードからの許可も必要です。</string>
 
     <string name="help_sysuser">[システム] タグの意味は?</string>
     <string name="help_sysuser_answer">[システム]タグは、OEM (相手先ブランド名製造) によって Android

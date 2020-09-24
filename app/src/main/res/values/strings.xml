@@ -39,7 +39,7 @@
     <string name="about_author">Author</string>
     <string name="about_author_contributors">and contributors.</string>
     <string name="about_affiliation">In affiliation with</string>
-    <string name="privacy_friendly">This app belongs to the group of Privacy Friendly Apps developed by Technische Universität Darmstadt. Sourcecode licensed under GPLv3. Images Copyright Technische Universität Darmstadt und Google Inc.</string>
+    <string name="privacy_friendly">This app belongs to the group of Privacy Friendly Apps developed by the research group SECUSO. Sourcecode licensed under GPLv3. Images Copyright SECUSO und Google Inc.</string>
     <string name="more_info">More information can be found on:</string>
     <string name="github"><a href="https://github.com/SecUSo/privacy-friendly-netmonitor/">Github-Repo</a></string>
     <string name="url"><a href="https://www.secuso.org/pfa">SECUSO-Website</a></string>
@@ -92,7 +92,8 @@
     <string name="help_permission">Which permissions requires the app?</string>
     <string name="help_permission_answer">Privacy Friendly Net Monitor does not require any permission
         for scanning active connections. The Certificate Validation feature requires
-        the Internet permission to request server test results from Qualys SSL Labs.</string>
+        the Internet permission to request server test results from Qualys SSL Labs.
+        Running a service in the foreground also requires a permission from Android 9 forward.</string>
 
     <string name="help_sysuser">What does the [System] tag mean?</string>
     <string name="help_sysuser_answer">The [System] tag identifies an app pre-installed on the
