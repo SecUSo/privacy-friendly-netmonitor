@@ -1,0 +1,1 @@
+Mostra as conexões de rede das apps instaladas
