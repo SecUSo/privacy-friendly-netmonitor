@@ -1,1 +1,1 @@
-Shows active network activity of installed apps
+(SECUSO) Shows active network activity of installed apps
