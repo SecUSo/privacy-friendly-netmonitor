@@ -4,9 +4,15 @@
 [Mastodon]: https://xn--baw-joa.social/@SECUSO_Research
 [Twitter]: https://twitter.com/SECUSOResearch
 
+<img src="https://github.com/SecUSo/privacy-friendly-netmonitor/raw/master/fastlane/metadata/android/en-US/images/icon.png"
+     alt="Privacy Friendly Netmonitor Icon"
+     width="120px"
+     align="right"
+     style="float: right; margin-right: 10px;" />
 # Privacy Friendly Net Monitor #
- 
- [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="60">](https://f-droid.org/app/org.secuso.privacyfriendlynetmonitor)<a href="https://play.google.com/store/apps/details?id=org.secuso.privacyfriendlynetmonitorapp"><img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="60"></a>
+
+> :warning: :warning: :warning: **Please note:** This project is no longer officially maintained. In an attempt to focus our maintenance efforts, we have decided to stop the maintenance of some projects, including this one. This means that there will be no further feature updates or bugfixes planned for this app (exceptions only in cases of severe security or privacy issues). Consequently, the app has also been removed from the stores.
+If someone is interested in taking over the maintenance of this app, please do not hesitate to contact us: pfa@secuso.org
 
 This app monitors active network sockets and provides information on the scanned connections and apps. The invoking app is identified and listed with it's name, package and icon. The Connection's local and remote socket information (ip/port) is displayed along with a resolved hostname information and protocol evaluation based on well-known ports. Known un-/encrypted protocols are automatically marked. Additional features can be activated in the settings tab. This includes a panel for detailed technical information on connections, a logging functionality to keep scan results, a remote analysis of TLS-Servers via SSL-Labs API, a database connection to save selected reports in a history and charts to visualize the reports in different time intervals.
 
