@@ -114,9 +114,9 @@ public class BaseActivity extends AppCompatActivity implements OnNavigationItemS
         }
     }
 
-    protected int getNavigationDrawerID() {
-        return 0;
-    }
+    protected static int getNavigationDrawerID() {
+		return 0;
+	}
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
