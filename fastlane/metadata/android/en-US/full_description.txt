@@ -1,5 +1,18 @@
 
 
+How does Privacy Friendly Net Monitor differ from other applications?
+
+1. Minimal Permissions
+Privacy Friendly Net Monitor does not require any permission for scanning active connections. The Certificate Validation feature requires the Internet permission to request server test results from Qualys SSL Labs API. In case you do not want a connection to Qualys SSL Labs, please deactivate server validation in the settings.
+
+2. No rooted device required
+Most of apps with a similar functionality require a so called "rooted" device. This means that extended user rights are activated on the device. This activation results in a loss of warranty. Privacy Friendly Net Monitor does not require a rooted device.
+
+3. No advertisement and no tracking
+Privacy Friendly Net Monitor does not include any tracking mechanisms or advertisement and comes free of charge.
+
+
+Feel free to contact us via:
 Twitter - @SECUSOResearch https://twitter.com/secusoresearch
-Mastodon - @SECUSO_Research@baw  .social https://xn--baw-joa.social/@SECUSO_Research/
+Mastodon - @SECUSO_Research@bawü.social https://xn--baw-joa.social/@SECUSO_Research/
 Job opening - https://secuso.aifb.kit.edu/english/Job_Offers_1557.php
