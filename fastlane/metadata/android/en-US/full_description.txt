@@ -17,3 +17,9 @@ Most of apps with a similar functionality require a so called "rooted" device. T
 
 3. No advertisement and no tracking
 Privacy Friendly Net Monitor does not include any tracking mechanisms or advertisement and comes free of charge.
+
+
+Feel free to contact us via:
+Twitter - @SECUSOResearch https://twitter.com/secusoresearch
+Mastodon - @SECUSO_Research@bawü.social https://xn--baw-joa.social/@SECUSO_Research/
+Job opening - https://secuso.aifb.kit.edu/english/Job_Offers_1557.php
