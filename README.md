@@ -16,7 +16,7 @@ If someone is interested in taking over the maintenance of this app, please do n
 
 This app monitors active network sockets and provides information on the scanned connections and apps. The invoking app is identified and listed with it's name, package and icon. The Connection's local and remote socket information (ip/port) is displayed along with a resolved hostname information and protocol evaluation based on well-known ports. Known un-/encrypted protocols are automatically marked. Additional features can be activated in the settings tab. This includes a panel for detailed technical information on connections, a logging functionality to keep scan results, a remote analysis of TLS-Servers via SSL-Labs API, a database connection to save selected reports in a history and charts to visualize the reports in different time intervals.
 
-This app is optimized regarding the user’s privacy. It doesn’t use any tracking mechanisms, neither it displays any advertisement. It belongs to the Privacy Friendly Apps group developed by the SECUSO research group at Technische Universität Darmstadt, Germany.
+This app is optimized regarding the user’s privacy. It doesn’t use any tracking mechanisms, neither it displays any advertisement. It belongs to the Privacy Friendly Apps group developed by the SECUSO research group at Karlsruhe Institute of Technology, Germany.
 
 ## Motivation ##
 This application has been developed to raise user awareness for the constant and unobserved communication behaviour of mobil device application. Additionally a coarse, technical analysis of the connections can help to identify unsecure, privacy-violating or malicious communicating behaviour of installed applications.
@@ -47,7 +47,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
-The icons used in the nagivation drawer are licensed under the CC BY 2.5. In addition to them the app uses icons from Google Design Material Icons licensed under Apache License Version 2.0. All other images (the logo of Privacy Friendly Apps, the SECUSO logo, the app logos and the spash screen icon) copyright Technische Universtität Darmstadt (2016-2018).
+The icons used in the nagivation drawer are licensed under the CC BY 2.5. In addition to them the app uses icons from Google Design Material Icons licensed under Apache License Version 2.0. All other images (the logo of Privacy Friendly Apps, the SECUSO logo, the app logos and the spash screen icon) copyright [SECUSO](www.secuso.org) (2019).
 
 This application uses SSL Labs APIs v1.24.4 by Qualys SSL Labs (Terms of use: https://www.ssllabs.com/downloads/Qualys_SSL_Labs_Terms_of_Use.pdf) and  Java SSL Labs API by Björn Roland GLicense: GPLv3, https://github.com/bjoernr-de/java-ssllabs-api)
 

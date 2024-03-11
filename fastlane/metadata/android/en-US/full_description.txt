@@ -1,3 +1,4 @@
+
 NOTICE: Due to changes in the respective Android APIs from Android 9 to Android 10, this app does not work in Android 10 or newer.
 
 Privacy Friendly Net Monitor shows active network activity of installed apps. It belongs to the Privacy Friendly Apps group developed by the research group SECUSO at Karlsruhe Institut of Technology. More information can be found an secuso.org/pfa
@@ -5,7 +6,6 @@ Privacy Friendly Net Monitor shows active network activity of installed apps. It
 The connection information includes local and remote socket information along with resolved hostnames and a protocol evaluation based on well-known ports. Known unencrypted and encrypted protocols are automatically marked. A detailed mode offers additional technical information of the connections.
 
 Server validation is an automatic analysis of the remote servers TLS implementation. Remote servers with a resolved hostname are tested automatically when the connection protocol is known for using TLS encryption. The analysis is performed by SSL Labs API (more info: https://www.ssllabs.com/projects/ssllabs-apis/) and the associated service. The remote server's implementation quality is shown in grades A+ (best) to F (worst), or is displayed as T (trust issues). To perform the validation Net Monitor connects to Qualys SSL Labs via the Internet. If you do not want this connection, please deactivate server validation in the settings.
-
 
 How does Privacy Friendly Net Monitor differ from other applications?
 
@@ -17,3 +17,9 @@ Most of apps with a similar functionality require a so called "rooted" device. T
 
 3. No advertisement and no tracking
 Privacy Friendly Net Monitor does not include any tracking mechanisms or advertisement and comes free of charge.
+
+
+Feel free to contact us via:
+Twitter - @SECUSOResearch https://twitter.com/secusoresearch
+Mastodon - @SECUSO_Research@bawü.social https://xn--baw-joa.social/@SECUSO_Research/
+Job opening - https://secuso.aifb.kit.edu/english/Job_Offers_1557.php
