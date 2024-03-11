@@ -1,4 +1,10 @@
+HINWEIS: Aufgrund von Änderungen der Android APIs von Android 9 auf Android 10, funktioniert diese App nicht in Android 10 oder neuer.
 
+Privacy Friendly Net Monitor zeigt den Netzwerkverkehr der auf dem Gerät installierten Apps an.
+
+Die Eigenschaften der aufgebauten Verbindungen können in einem detaillierten Modus eingesehen werden. Dabei werden aufgelöste Hostnamen und Protokolle (basierend auf bekannten Portnummern) angezeigt. Abhängig vom Port wird die Verbindung als verschlüsselt oder unverschlüsselt markiert.
+
+Durch Zertifikats-Überprüfung wird eine automatische Analyse der TLS-Implementierung des Zielservers durchgeführt. Server mit aufgelöstem Hostnamen und bekanntem TLS-Port werden automatisch analysiert. Die Analyse wird über SSL Labs Schnittstelle (weitere Infos: https://www.ssllabs.com/projects/ssllabs-apis/) und dem zugehörigen Dienst durchgeführt. Die Qualität der TLS-Implementierung wird von A+ (am Besten) bis F (am Schlechtesten) oder mit T (Vertrauensprobleme) angegeben. Um diese Überprüfung durchzuführen, muss Net Monitor eine Verbindung über das Internet zu Qualys SSL Labs aufbauen. Falls dies nicht gewünscht ist, kann die Zertifikatsüberprüfung in den Einstellungen ausgeschaltet werden.
 
 Wie unterscheidet sich Privacy FriendlyNet Monitor von anderen Apps?
 
