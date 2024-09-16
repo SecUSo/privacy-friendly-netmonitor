@@ -65,7 +65,7 @@ public interface Const {
 
     //Detector constants
     long REPORT_TTL_DEFAULT = 10000;
-    Integer[] TLS_PORT_VALUES = new Integer[]{993, 443, 995, 995, 614, 465, 587, 22};
+    Integer[] TLS_PORT_VALUES = new Integer[]{993, 443, 853, 995, 614, 465, 587, 22};
     Set<Integer> TLS_PORTS = new HashSet<>(Arrays.asList(TLS_PORT_VALUES));
     Integer[] INCONCLUSIVE_PORT_VALUES = new Integer[]{25, 110, 143};
     Set<Integer> INCONCUSIVE_PORTS = new HashSet<>(Arrays.asList(INCONCLUSIVE_PORT_VALUES));
